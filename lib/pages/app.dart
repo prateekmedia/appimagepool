@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AppPage extends StatelessWidget {
   AppPage({required this.app});
@@ -27,11 +26,17 @@ class AppPage extends StatelessWidget {
             (app['links'] as List).firstWhere((e) => e['type'] == 'GitHub',
                 orElse: () => {'url': ''})['url']
         : '';
+
+    double iconSize = context.width > 500
+        ? 100
+        : context.width > 400
+            ? 60
+            : 50;
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (c, b) => [
-          aibAppBar(forceElevated: b),
+          aibAppBar(context, forceElevated: b),
         ],
         body: ListView(
           children: [
@@ -46,22 +51,26 @@ class AppPage extends StatelessWidget {
                         : "",
                     child: GestureDetector(
                       onTap: (app['links'] != null && proUrl.length > 0)
-                          ? (() async => await canLaunch(proUrl)
-                              ? await launch(proUrl)
-                              : throw 'Could not launch $proUrl')
+                          ? proUrl.launchIt
                           : null,
                       child: Container(
-                          width: 100,
-                          height: 100,
+                          width: iconSize,
+                          height: iconSize,
                           child: app['icons'] != null
                               ? app['icons'][0].endsWith('.svg')
                                   ? SvgPicture.network(
-                                      PREFIX_URL + app['icons'][0])
+                                      PREFIX_URL + app['icons'][0],
+                                    )
                                   : Image.network(
                                       PREFIX_URL + app['icons'][0],
                                       fit: BoxFit.cover,
                                     )
-                              : SvgPicture.network(brokenImageUrl)),
+                              : SvgPicture.network(
+                                  brokenImageUrl,
+                                  color: context.isDark
+                                      ? Colors.white
+                                      : Colors.black,
+                                )),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -84,10 +93,7 @@ class AppPage extends StatelessWidget {
                     Tooltip(
                       message: url,
                       child: ElevatedButton(
-                          onPressed: () async => await canLaunch(url)
-                              ? await launch(url)
-                              : throw 'Could not launch $url',
-                          child: Text("Download")),
+                          onPressed: url.launchIt, child: Text("Download")),
                     )
                 ],
               ),

@@ -7,15 +7,27 @@ import '../widgets/widgets.dart';
 class CategoryPage extends StatelessWidget {
   final List items;
   final String category;
+  final ValueNotifier<ThemeMode> theme;
 
-  CategoryPage({required this.category, required this.items});
+  CategoryPage(
+      {required this.theme, required this.category, required this.items});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
-        headerSliverBuilder: (c, b) =>
-            [aibAppBar(forceElevated: b, title: category)],
+        headerSliverBuilder: (c, b) => [
+          aibAppBar(context, forceElevated: b, title: category, trailing: [
+            IconButton(
+              icon: Icon(Icons.nightlight_round),
+              tooltip: "Switch Theme",
+              onPressed: () => {
+                theme.value =
+                    theme.value.index == 2 ? ThemeMode.light : ThemeMode.dark
+              },
+            ),
+          ])
+        ],
         body: GridView.count(
           padding: EdgeInsets.all(10),
           crossAxisCount: context.width > 1300
@@ -57,7 +69,12 @@ class CategoryPage extends StatelessWidget {
                                       logoUrl,
                                       fit: BoxFit.cover,
                                     ))
-                              : SvgPicture.network(brokenImageUrl),
+                              : SvgPicture.network(
+                                  brokenImageUrl,
+                                  color: context.isDark
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
                         ),
                       ),
                     ),
