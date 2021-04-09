@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../utils/utils.dart';
 
-Widget twoRowContainer(BuildContext context,
-    {String primaryT = "", String secondaryT = ""}) {
+Widget twoRowContainer(
+  BuildContext context, {
+  String primaryT = "",
+  String secondaryT = "",
+}) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
     child: Row(

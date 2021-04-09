@@ -1,6 +1,7 @@
 import 'package:appimagebrowser/pages/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 
@@ -14,21 +15,22 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (c, b) => [
-          aibAppBar(context, forceElevated: b, title: category, trailing: [
-            IconButton(
-              icon: Icon(Icons.nightlight_round),
-              tooltip: "Switch Theme",
-              onPressed: () => {
-                theme.value =
-                    theme.value.index == 2 ? ThemeMode.light : ThemeMode.dark
-              },
-            ),
-          ])
-        ],
-        body: GridView.count(
+        body: aibAppBar(
+      context,
+      title: category,
+      trailing: [
+        FloatingSearchBarAction.searchToClear(
+          color: context.isDark ? Colors.white : Colors.black,
+        ),
+        FloatingSearchBarAction.icon(
+            icon: Icon(Icons.nightlight_round),
+            onTap: () => {
+                  theme.value =
+                      theme.value.index == 2 ? ThemeMode.light : ThemeMode.dark
+                }),
+      ],
+      body: Scrollbar(
+        child: GridView.count(
           padding: EdgeInsets.all(10),
           crossAxisCount: context.width > 1300
               ? 8
@@ -47,6 +49,11 @@ class CategoryPage extends StatelessWidget {
                 item['icons'] != null ? PREFIX_URL + item['icons'][0] : "";
 
             if (name.length > 12) name = name.substring(0, 12) + "...";
+            Widget brokenImageWidget = SvgPicture.network(
+              brokenImageUrl,
+              color: context.isDark ? Colors.white : Colors.black,
+            );
+
             return Tooltip(
               message: desc,
               child: GestureDetector(
@@ -59,23 +66,17 @@ class CategoryPage extends StatelessWidget {
                     Expanded(
                       child: Center(
                         child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: item['icons'] != null
-                              ? (logoUrl.endsWith('.svg')
-                                  ? SvgPicture.network(logoUrl)
-                                  : Image.network(
-                                      logoUrl,
-                                      fit: BoxFit.cover,
-                                    ))
-                              : SvgPicture.network(
-                                  brokenImageUrl,
-                                  color: context.isDark
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                        ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: item['icons'] != null
+                                ? (!logoUrl.endsWith('.svg'))
+                                    ? Image.network(
+                                        logoUrl,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : SvgPicture.network(logoUrl)
+                                : brokenImageWidget),
                       ),
                     ),
                     Container(
@@ -93,6 +94,6 @@ class CategoryPage extends StatelessWidget {
           }).toList(),
         ),
       ),
-    );
+    ));
   }
 }

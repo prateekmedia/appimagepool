@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'utils/utils.dart';
 import 'pages/category.dart';
+import 'widgets/aibappbar.dart';
 
 void main() {
   var theme = ValueNotifier(ThemeMode.dark);
@@ -47,12 +48,33 @@ class _HomePageState extends State<HomePage> {
     List i = response['items'];
     // i.retainWhere((element) => i.indexOf(element) < 40);
     setState(() {
-      categories = i.groupBy(
-          (m) => m['categories'] != null ? m['categories'][0] : "Unknown");
+      categories = i.groupBy((m) {
+        List categori = m['categories'];
+        List newList = [];
+        categori.forEach((category) {
+          if (category != null) {
+            if (category.contains('Audio', 0) ||
+                category.contains('Music', 0)) {
+              newList.add('Audio');
+            } else if (category.contains('Video', 0)) {
+              newList.add('Video');
+            } else if (category.contains('Photo', 0)) {
+              newList.add('Graphics');
+            } else if (category.contains('KDE', 0)) {
+              newList.add('Qt');
+            } else if (category.contains('Chat', 0)) {
+              newList.add('Communication');
+            } else {
+              newList.add(category);
+            }
+          } else
+            newList.add("Unknown");
+        });
+        return newList;
+      });
     });
-    // print(categories);
     i.retainWhere((element) => i.indexOf(element) < 400);
-    print(JsonEncoder.withIndent('  ').convert(i));
+    print(JsonEncoder.withIndent('  ').convert(categories));
   }
 
   Map? categories;
@@ -65,14 +87,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FloatingSearchAppBar(
-        title: Text('AppImageBrowser'),
-        transitionDuration: const Duration(milliseconds: 800),
-        colorOnScroll: context.isDark
-            ? Colors.grey[800]!.withOpacity(0.6)
-            : Colors.grey[200],
-        color: context.isDark ? Colors.grey[800] : Colors.grey[100],
-        actions: [
+      body: aibAppBar(
+        context,
+        title: "AppImageBrowser",
+        trailing: [
           FloatingSearchBarAction.searchToClear(
             color: context.isDark ? Colors.white : Colors.black,
           ),
@@ -86,84 +104,95 @@ class _HomePageState extends State<HomePage> {
         ],
         body: categories == null
             ? Center(child: CircularProgressIndicator())
-            : GridView.count(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                childAspectRatio: 16 / 12,
-                crossAxisCount: context.width > 1000
-                    ? 5
-                    : context.width > 600
-                        ? 4
-                        : context.width > 500
-                            ? 3
-                            : 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                children: categories!.entries.map((item) {
-                  return GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => CategoryPage(
-                            theme: widget.theme,
-                            category: item.key,
-                            items: item.value))),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: [
-                          Colors.blue,
-                          Colors.indigo,
-                          Colors.amber,
-                          Colors.brown,
-                          Colors.cyan,
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                          Colors.lightGreen,
-                          Colors.red,
-                          Colors.orange,
-                          Colors.green,
-                          Colors.grey,
-                          Colors.pink,
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.deepOrange,
-                          Colors.teal,
-                          Colors.yellow,
-                          Colors.lime,
-                          Colors.cyan,
-                          Colors.blue,
-                          Colors.indigo,
-                          Colors.amber,
-                          Colors.brown,
-                          Colors.cyan,
-                          Colors.blueGrey,
-                          Colors.lightBlue,
-                          Colors.lightGreen,
-                          Colors.red,
-                          Colors.orange,
-                          Colors.green,
-                          Colors.grey,
-                          Colors.pink,
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.deepOrange,
-                          Colors.teal,
-                          Colors.yellow,
-                          Colors.lime,
-                          Colors.red,
-                        ][categories!.keys.toList().indexOf(item.key)],
-                        //  Colors.primaries[
-                        // math.Random().nextInt(Colors.primaries.length)],
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                          child: Text(
-                        item.key ?? "Unknown  ",
-                        style: context.textTheme.headline6!.copyWith(
-                          color: Colors.white,
+            : Scrollbar(
+                child: GridView.count(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  childAspectRatio: 16 / 12,
+                  crossAxisCount: context.width > 1000
+                      ? 5
+                      : context.width > 600
+                          ? 4
+                          : context.width > 500
+                              ? 3
+                              : 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  children: categories!.entries.map((item) {
+                    return GestureDetector(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (ctx) => CategoryPage(
+                              theme: widget.theme,
+                              category: item.key,
+                              items: item.value))),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: [
+                            Colors.blue,
+                            Colors.indigo,
+                            Colors.amber[800],
+                            Colors.brown,
+                            Colors.cyan,
+                            Colors.blueGrey,
+                            Colors.lightGreen,
+                            Colors.red,
+                            Colors.orange,
+                            Colors.green,
+                            Colors.grey,
+                            Colors.pink,
+                            Colors.purple,
+                            Colors.deepPurple,
+                            Colors.deepOrange,
+                            Colors.teal,
+                            Colors.blue,
+                            Colors.indigo,
+                            Colors.amber[800],
+                            Colors.brown,
+                            Colors.cyan,
+                            Colors.blueGrey,
+                            Colors.lightGreen,
+                            Colors.red,
+                            Colors.orange,
+                            Colors.green,
+                            Colors.grey,
+                            Colors.pink,
+                            Colors.purple,
+                            Colors.deepPurple,
+                            Colors.deepOrange,
+                            Colors.teal,
+                            Colors.blue,
+                            Colors.indigo,
+                            Colors.amber[800],
+                            Colors.brown,
+                            Colors.cyan,
+                            Colors.blueGrey,
+                            Colors.lightGreen,
+                            Colors.red,
+                            Colors.orange,
+                            Colors.green,
+                            Colors.grey,
+                            Colors.pink,
+                            Colors.purple,
+                            Colors.deepPurple,
+                            Colors.deepOrange,
+                            Colors.teal,
+                          ][categories!.keys.toList().indexOf(item.key)],
+                          //  Colors.primaries[
+                          // math.Random().nextInt(Colors.primaries.length)],
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      )),
-                    ),
-                  );
-                }).toList(),
+                        child: Center(
+                            child: Text(
+                          item.key ?? "Unknown  ",
+                          style: context.textTheme.headline6!.copyWith(
+                            color: Colors.white,
+                          ),
+                        )),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
       ),
     );

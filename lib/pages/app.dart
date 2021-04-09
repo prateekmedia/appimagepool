@@ -33,11 +33,9 @@ class AppPage extends StatelessWidget {
             ? 60
             : 50;
     return Scaffold(
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (c, b) => [
-          aibAppBar(context, forceElevated: b),
-        ],
+      body: aibAppBar(
+        context,
+        trailing: [],
         body: ListView(
           children: [
             Container(
@@ -166,29 +164,44 @@ class AppPage extends StatelessWidget {
                   ),
                 ],
               ),
-            if (app['description'] != null)
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-                child: Text(
-                  removeAllHtmlTags(app['description']),
-                  style: context.textTheme.bodyText1,
-                ),
+            SizedBox(height: 20),
+            Center(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 800),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (app['description'] != null)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 60, vertical: 10),
+                          child: Text(
+                            removeAllHtmlTags(app['description']),
+                            style: context.textTheme.bodyText1,
+                          ),
+                        ),
+                      Column(
+                        children: [
+                          twoRowContainer(
+                            context,
+                            primaryT: "License",
+                            secondaryT: app['license'] != null
+                                ? app['license']
+                                : "N.A.",
+                          ),
+                          twoRowContainer(
+                            context,
+                            primaryT: "Authors",
+                            secondaryT: app['authors'] != null
+                                ? app['authors']
+                                    .map((e) => e['name'])
+                                    .join(', ')
+                                : "N.A.",
+                          ),
+                        ],
+                      )
+                    ]),
               ),
-            Column(
-              children: [
-                twoRowContainer(
-                  context,
-                  primaryT: "License",
-                  secondaryT: app['license'] != null ? app['license'] : "N.A.",
-                ),
-                twoRowContainer(
-                  context,
-                  primaryT: "Authors",
-                  secondaryT: app['authors'] != null
-                      ? app['authors'].map((e) => e['name']).join(', ')
-                      : "N.A.",
-                ),
-              ],
             )
           ],
         ),

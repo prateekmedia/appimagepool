@@ -11,10 +11,16 @@ extension Context on BuildContext {
 }
 
 extension Iterables<E> on Iterable<E> {
-  Map<K, List<E>> groupBy<K>(K Function(E) keyFunction) => fold(
-      <K, List<E>>{},
-      (Map<K, List<E>> map, E element) =>
-          map..putIfAbsent(keyFunction(element), () => <E>[]).add(element));
+  Map<K, List<E>> groupBy<K>(K Function(E) keyFunction) {
+    Map<K, List<E>> mape(element, map) {
+      (keyFunction(element) as List)
+          .forEach((el) => map..putIfAbsent(el, () => <E>[]).add(element));
+      return map;
+    }
+
+    return fold(
+        <K, List<E>>{}, (Map<K, List<E>> map, E element) => mape(element, map));
+  }
 }
 
 extension UrlLauncher on String {
