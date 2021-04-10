@@ -17,7 +17,7 @@ void main() {
         theme: ThemeData(
           brightness: Brightness.light,
           appBarTheme: AppBarTheme(
-            iconTheme: IconThemeData(color: Colors.black),
+            iconTheme: IconThemeData(color: Colors.grey[800]),
           ),
         ),
         darkTheme: ThemeData(
@@ -52,28 +52,49 @@ class _HomePageState extends State<HomePage> {
         List categori = m['categories'];
         List newList = [];
         categori.forEach((category) {
-          if (category != null) {
-            if (category.contains('Audio', 0) ||
-                category.contains('Music', 0)) {
-              newList.add('Audio');
-            } else if (category.contains('Video', 0)) {
+          if (category != null && category.length > 0) {
+            if (doesContain(category, ['Video'])) {
               newList.add('Video');
-            } else if (category.contains('Photo', 0)) {
+            } else if (doesContain(category, ['Audio', 'Music'])) {
+              newList.add('Audio');
+            } else if (doesContain(category, ['Photo'])) {
               newList.add('Graphics');
-            } else if (category.contains('KDE', 0)) {
+            } else if (doesContain(category, ['KDE'])) {
               newList.add('Qt');
-            } else if (category.contains('Chat', 0)) {
+            } else if (doesContain(category, ['GNOME'])) {
+              newList.add('GTK');
+            } else if (doesContain(category, ['Chat', 'InstantMessag'])) {
               newList.add('Communication');
+            } else if (doesContain(category, [
+              'Application',
+              'AdventureGame',
+              'Astronomy',
+              'Database',
+              'Engineering',
+              'HamRadio',
+              'IDE',
+              'News',
+              'ProjectManagement',
+              'Settings',
+              'StrategyGame',
+              'TextEditor',
+              'TerminalEmulator',
+              'Viewer',
+              'WebDev',
+              'WordProcessor',
+              'X-Tool',
+            ])) {
+              newList.add('Others');
             } else {
               newList.add(category);
             }
           } else
-            newList.add("Unknown");
+            newList.add("Others");
         });
         return newList;
       });
     });
-    i.retainWhere((element) => i.indexOf(element) < 400);
+    i.retainWhere((element) => i.indexOf(element) < 40);
     print(JsonEncoder.withIndent('  ').convert(categories));
   }
 
@@ -92,7 +113,7 @@ class _HomePageState extends State<HomePage> {
         title: "AppImageBrowser",
         trailing: [
           FloatingSearchBarAction.searchToClear(
-            color: context.isDark ? Colors.white : Colors.black,
+            color: context.isDark ? Colors.white : Colors.grey[800],
           ),
           FloatingSearchBarAction.icon(
               icon: Icon(Icons.nightlight_round),
@@ -106,7 +127,7 @@ class _HomePageState extends State<HomePage> {
             ? Center(child: CircularProgressIndicator())
             : Scrollbar(
                 child: GridView.count(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  padding: EdgeInsets.all(20),
                   childAspectRatio: 16 / 12,
                   crossAxisCount: context.width > 1000
                       ? 5
@@ -122,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () => Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) => CategoryPage(
                               theme: widget.theme,
-                              category: item.key,
+                              category: item.key ?? "N.A.",
                               items: item.value))),
                       child: Container(
                         padding:
@@ -184,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Center(
                             child: Text(
-                          item.key ?? "Unknown  ",
+                          "${item.key} (${item.value.length}) ",
                           style: context.textTheme.headline6!.copyWith(
                             color: Colors.white,
                           ),

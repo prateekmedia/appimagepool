@@ -1,6 +1,7 @@
 import 'package:appimagebrowser/pages/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
@@ -20,7 +21,7 @@ class CategoryPage extends StatelessWidget {
       title: category,
       trailing: [
         FloatingSearchBarAction.searchToClear(
-          color: context.isDark ? Colors.white : Colors.black,
+          color: context.isDark ? Colors.white : Colors.grey[800],
         ),
         FloatingSearchBarAction.icon(
             icon: Icon(Icons.nightlight_round),
@@ -31,7 +32,7 @@ class CategoryPage extends StatelessWidget {
       ],
       body: Scrollbar(
         child: GridView.count(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(15),
           crossAxisCount: context.width > 1300
               ? 8
               : context.width > 1000
@@ -51,7 +52,7 @@ class CategoryPage extends StatelessWidget {
             if (name.length > 12) name = name.substring(0, 12) + "...";
             Widget brokenImageWidget = SvgPicture.network(
               brokenImageUrl,
-              color: context.isDark ? Colors.white : Colors.black,
+              color: context.isDark ? Colors.white : Colors.grey[800],
             );
 
             return Tooltip(
@@ -74,6 +75,20 @@ class CategoryPage extends StatelessWidget {
                                     ? Image.network(
                                         logoUrl,
                                         fit: BoxFit.cover,
+                                        loadingBuilder: (c, w, i) => Center(
+                                          child: Container(
+                                            constraints: BoxConstraints(
+                                                maxWidth: 40, maxHeight: 40),
+                                            child: LoadingIndicator(
+                                              indicatorType: Indicator.orbit,
+                                              color: context.isDark
+                                                  ? Colors.white
+                                                  : Colors.grey[800],
+                                            ),
+                                          ),
+                                        ),
+                                        errorBuilder: (c, w, i) =>
+                                            brokenImageWidget,
                                       )
                                     : SvgPicture.network(logoUrl)
                                 : brokenImageWidget),
@@ -83,8 +98,10 @@ class CategoryPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 5),
                       child: Text(
                         name,
-                        style: context.textTheme.headline6!
-                            .copyWith(color: Colors.white),
+                        style: context.textTheme.headline6!.copyWith(
+                            color: context.isDark
+                                ? Colors.white
+                                : Colors.grey[900]),
                       ),
                     ),
                   ],
