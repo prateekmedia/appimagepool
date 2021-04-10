@@ -16,7 +16,7 @@ Widget aibAppBar(
       colorOnScroll: context.isDark
           ? Colors.grey[800]!.withOpacity(0.6)
           : Colors.grey[200],
-      color: context.isDark ? Colors.grey[800] : Colors.grey[100],
+      color: context.isDark ? Colors.grey[800] : Colors.grey[300],
       actions: trailing,
       body: body);
 }

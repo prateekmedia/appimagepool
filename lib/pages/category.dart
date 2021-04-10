@@ -1,7 +1,7 @@
 import 'package:appimagebrowser/pages/app.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
@@ -72,22 +72,13 @@ class CategoryPage extends StatelessWidget {
                             ),
                             child: item['icons'] != null
                                 ? (!logoUrl.endsWith('.svg'))
-                                    ? Image.network(
-                                        logoUrl,
+                                    ? CachedNetworkImage(
+                                        imageUrl: logoUrl,
                                         fit: BoxFit.cover,
-                                        loadingBuilder: (c, w, i) => Center(
-                                          child: Container(
-                                            constraints: BoxConstraints(
-                                                maxWidth: 40, maxHeight: 40),
-                                            child: LoadingIndicator(
-                                              indicatorType: Indicator.orbit,
-                                              color: context.isDark
-                                                  ? Colors.white
-                                                  : Colors.grey[800],
-                                            ),
-                                          ),
+                                        placeholder: (c, b) => Center(
+                                          child: CircularProgressIndicator(),
                                         ),
-                                        errorBuilder: (c, w, i) =>
+                                        errorWidget: (c, w, i) =>
                                             brokenImageWidget,
                                       )
                                     : SvgPicture.network(logoUrl)
