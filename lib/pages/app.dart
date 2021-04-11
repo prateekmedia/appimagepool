@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
@@ -25,7 +26,6 @@ class _AppPageState extends State<AppPage> {
       return htmlText.replaceAll(exp, '');
     }
 
-    var _controller = CarouselController();
     String url = widget.app['links'] != null
         ? (widget.app['links'] as List).firstWhere(
             (e) => e['type'] == 'Download',
@@ -63,7 +63,6 @@ class _AppPageState extends State<AppPage> {
             brokenImageUrl,
             color: context.isDark ? Colors.white : Colors.grey[800],
           );
-    var checkedValue = false;
     int _current = 0;
     return Scaffold(
       body: aibAppBar(
@@ -129,50 +128,11 @@ class _AppPageState extends State<AppPage> {
                                           'https://api.github.com/repos' + v[1];
                                       List response = (await Dio().get(u)).data;
                                       if (response.length > 0) {
-                                        List i = response[0]['assets'];
-                                        print(i);
-                                        var g = i
-                                            .where((element) => element['name']
-                                                .toLowerCase()
-                                                .endsWith('.appimage'))
-                                            .toList();
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
-                                              return CustomDialogBox(
-                                                versions: List.generate(
-                                                    response.length,
-                                                    (index) => response[index]
-                                                        ['name']),
-                                                items: [
-                                                  ...List.generate(
-                                                      g.length,
-                                                      (index) =>
-                                                          CheckboxListTile(
-                                                            title: Text(g[index]
-                                                                ['name']),
-                                                            value: checkedValue,
-                                                            onChanged:
-                                                                (newValue) {
-                                                              setState(() {
-                                                                checkedValue =
-                                                                    newValue!;
-                                                              });
-                                                            },
-                                                          ))
-                                                ],
-                                                endText: TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text(
-                                                      "Download",
-                                                      style: TextStyle(
-                                                          fontSize: 18),
-                                                    )),
-                                                img: appIcon,
-                                              );
+                                              return DownloadDialog(
+                                                  response, appIcon);
                                             });
                                       } else {
                                         url.launchIt();
@@ -198,82 +158,51 @@ class _AppPageState extends State<AppPage> {
                 child: Column(children: [
                   if (widget.app['screenshots'] != null &&
                       widget.app['screenshots'].length > 0)
-                    Stack(
-                      children: [
-                        CarouselSlider.builder(
-                          itemCount: widget.app['screenshots'].length,
-                          itemBuilder: (context, index, i) {
-                            String screenUrl = widget.app['screenshots'][index]
-                                    .startsWith('http')
+                    CarouselSlider.builder(
+                      itemCount: widget.app['screenshots'].length,
+                      itemBuilder: (context, index, i) {
+                        String screenUrl =
+                            widget.app['screenshots'][index].startsWith('http')
                                 ? widget.app['screenshots'][index]
                                 : PREFIX_URL + widget.app['screenshots'][index];
-                            Widget brokenImageWidget = SvgPicture.network(
-                              brokenImageUrl,
-                              color:
-                                  context.isDark ? Colors.white : Colors.black,
-                            );
-                            return Container(
-                              height: 400,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: widget.app['screenshots'] != null
-                                  ? screenUrl.endsWith('.svg')
-                                      ? SvgPicture.network(screenUrl)
-                                      : CachedNetworkImage(
-                                          imageUrl: screenUrl,
-                                          placeholder: (c, b) => Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                          errorWidget: (c, w, i) =>
-                                              brokenImageWidget,
-                                        )
-                                  : Container(),
-                            );
-                          },
-                          options: CarouselOptions(
-                              height: 400,
-                              viewportFraction: 0.8,
-                              initialPage: 0,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              autoPlay: true,
-                              autoPlayInterval: Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              scrollDirection: Axis.horizontal,
-                              onPageChanged: (idx, rsn) => {
-                                    setState(() {
-                                      _current = idx;
-                                    })
-                                  }),
-                        ),
-                        Align(
-                          heightFactor: 10,
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 8),
-                            child: FloatingActionButton(
-                              mini: true,
-                              onPressed: () => _controller.previousPage(),
-                              child: Text('←'),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          heightFactor: 10,
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            margin: EdgeInsets.only(right: 8),
-                            child: FloatingActionButton(
-                              mini: true,
-                              onPressed: () => _controller.nextPage(),
-                              child: Text('→'),
-                            ),
-                          ),
-                        ),
-                        Container(height: 200)
-                      ],
+                        Widget brokenImageWidget = SvgPicture.network(
+                          brokenImageUrl,
+                          color: context.isDark ? Colors.white : Colors.black,
+                        );
+                        return Container(
+                          height: 400,
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: widget.app['screenshots'] != null
+                              ? screenUrl.endsWith('.svg')
+                                  ? SvgPicture.network(screenUrl)
+                                  : CachedNetworkImage(
+                                      imageUrl: screenUrl,
+                                      placeholder: (c, b) => Center(
+                                          child: CircularProgressIndicator()),
+                                      errorWidget: (c, w, i) =>
+                                          brokenImageWidget,
+                                    )
+                              : Container(),
+                        );
+                      },
+                      options: CarouselOptions(
+                          height: 400,
+                          viewportFraction: 0.8,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          scrollDirection: Axis.horizontal,
+                          onPageChanged: (idx, rsn) => {
+                                setState(() {
+                                  _current = idx;
+                                })
+                              }),
                     ),
                   SizedBox(height: 5),
                   Row(
@@ -326,6 +255,70 @@ class _AppPageState extends State<AppPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class DownloadDialog extends StatefulHookWidget {
+  final List response;
+
+  final Widget appIcon;
+  DownloadDialog(this.response, this.appIcon);
+
+  @override
+  _DownloadDialogState createState() => _DownloadDialogState();
+}
+
+class _DownloadDialogState extends State<DownloadDialog> {
+  @override
+  Widget build(BuildContext context) {
+    final checkmap = useState<Map<String, String>>({});
+
+    return CustomDialogBox(
+      versions: List.generate(
+          widget.response.length, (index) => widget.response[index]['name']),
+      onVersionChange: (version) {
+        checkmap.value = {};
+      },
+      items: (index) {
+        Map i = widget.response[index];
+        var g = (i['assets'] as List)
+            .where((element) =>
+                element['name'].toLowerCase().endsWith('.appimage'))
+            .toList();
+        return List.generate(g.length, (idx) {
+          var checkedValue = useState(
+              checkmap.value.containsKey(g[idx]['browser_download_url']));
+          checkmap.addListener(() {
+            checkedValue.value =
+                checkmap.value.containsKey(g[idx]['browser_download_url']);
+          });
+          return CheckboxListTile(
+            title: Text(g[idx]['name']),
+            value: checkedValue.value,
+            onChanged: (newValue) {
+              if (checkmap.value.containsKey(g[idx]['browser_download_url']))
+                checkmap.value.removeWhere(
+                    (key, value) => key == g[idx]['browser_download_url']);
+              else
+                checkmap.value.putIfAbsent(
+                    g[idx]['browser_download_url'], () => g[idx]['name']);
+              checkedValue.value =
+                  checkmap.value.containsKey(g[idx]['browser_download_url']);
+            },
+          );
+        });
+      },
+      endText: TextButton(
+          onPressed: () {
+            print(checkmap);
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            "Download",
+            style: TextStyle(fontSize: 18),
+          )),
+      img: widget.appIcon,
     );
   }
 }

@@ -1,6 +1,6 @@
-import 'dart:ui';
-import '../utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import '../utils/utils.dart';
 
 class Constants {
   Constants._();
@@ -8,27 +8,25 @@ class Constants {
   static const double avatarRadius = 45;
 }
 
-class CustomDialogBox extends StatefulWidget {
+class CustomDialogBox extends HookWidget {
   final Widget img, endText;
-  final List<Widget> items;
+  final List<Widget> Function(int index) items;
   final List<String> versions;
+  final void Function(int version)? onVersionChange;
 
-  const CustomDialogBox(
-      {Key? key,
-      required this.items,
-      required this.endText,
-      required this.img,
-      required this.versions})
-      : super(key: key);
+  CustomDialogBox({
+    Key? key,
+    required this.items,
+    required this.endText,
+    required this.img,
+    required this.versions,
+    this.onVersionChange,
+  }) : super(key: key);
 
-  @override
-  _CustomDialogBoxState createState() => _CustomDialogBoxState();
-}
-
-class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
-    String selectedItem = widget.versions[0];
+    final selectedIndex = useState(0);
+    List<Widget> currentItem = items(selectedIndex.value);
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Constants.padding),
@@ -63,34 +61,36 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                DropdownButton<String>(
+                DropdownButton<int>(
                   isExpanded: true,
-                  value: selectedItem,
+                  value: selectedIndex.value,
                   underline: Container(),
-                  onChanged: (String? string) =>
-                      setState(() => selectedItem = string!),
+                  onChanged: (int) {
+                    selectedIndex.value = int!;
+                    if (onVersionChange != null) onVersionChange!(int);
+                  },
                   selectedItemBuilder: (BuildContext context) {
-                    return widget.versions.map<Widget>((String item) {
+                    return versions.map<Widget>((String item) {
                       return Center(
                           child: Text(item,
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.w600)));
                     }).toList();
                   },
-                  items: widget.versions.map((String item) {
-                    return DropdownMenuItem<String>(
+                  items: versions.asMap().entries.map((entry) {
+                    return DropdownMenuItem<int>(
                       child: Text(
-                        item,
+                        entry.value,
                       ),
-                      value: item,
+                      value: entry.key,
                     );
                   }).toList(),
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                if (widget.items.length > 0)
-                  ...widget.items
+                if (currentItem.length > 0)
+                  ...currentItem
                 else
                   Text("No AppImage Found in this Release"),
                 SizedBox(
@@ -98,7 +98,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
-                  child: widget.endText,
+                  child: endText,
                 ),
               ],
             ),
@@ -112,7 +112,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               child: ClipRRect(
                   borderRadius:
                       BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                  child: widget.img),
+                  child: img),
             ),
           ),
         ],
