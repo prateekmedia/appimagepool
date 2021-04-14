@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,4 +28,15 @@ extension UrlLauncher on String {
   launchIt() async => await canLaunch(this)
       ? await launch(this)
       : throw 'Could not launch $this';
+}
+
+extension getHumanizedFileSizeExtension on int {
+  String getFileSize({int decimals = 1}) {
+    if (this <= 0) return "0.0 KB";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (log(this) / log(1024)).floor();
+    return ((this / pow(1024, i)).toStringAsFixed(decimals)) +
+        ' ' +
+        suffixes[i];
+  }
 }

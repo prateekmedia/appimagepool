@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:appimagebrowser/widgets/customdialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -5,10 +7,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:path_provider/path_provider.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 
-class AppPage extends StatefulWidget {
+class AppPage extends StatefulHookWidget {
   AppPage({required this.app});
 
   final Map app;
@@ -64,10 +68,38 @@ class _AppPageState extends State<AppPage> {
             color: context.isDark ? Colors.white : Colors.grey[800],
           );
     int _current = 0;
+    bool downloading = false;
+    final recieved = useState<int>(0);
+    final total = useState<int>(0);
+    late String file;
+    _showPopupMenu(Offset offset) async {
+      double left = offset.dx;
+      double top = offset.dy;
+      await showMenu(
+        context: context,
+        position: RelativeRect.fromLTRB(left, top, 0, 0),
+        items: [
+          PopupMenuItem<String>(child: const Text('Doge'), value: 'Doge'),
+          PopupMenuItem<String>(child: const Text('Lion'), value: 'Lion'),
+        ],
+        elevation: 8.0,
+      );
+    }
+
     return Scaffold(
       body: aibAppBar(
         context,
-        trailing: [],
+        trailing: [
+          if (downloading != null)
+            GestureDetector(
+              onTapDown: (details) {
+                _showPopupMenu(details.globalPosition);
+              },
+              child: Icon(downloading
+                  ? Icons.download_outlined
+                  : Icons.download_done_outlined),
+            ),
+        ],
         body: ListView(
           children: [
             Container(
@@ -132,7 +164,40 @@ class _AppPageState extends State<AppPage> {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return DownloadDialog(
-                                                  response, appIcon);
+                                                  response, appIcon,
+                                                  (checkmap) async {
+                                                // print(checkmap.value);
+                                                var location = "/" +
+                                                    (await getApplicationDocumentsDirectory())
+                                                        .toString()
+                                                        .split('/')
+                                                        .toList()
+                                                        .sublist(1, 3)
+                                                        .join("/") +
+                                                    "/Applications/";
+                                                if (!Directory(location)
+                                                    .existsSync())
+                                                  Directory(location)
+                                                      .createSync();
+                                                if (checkmap.length > 0) {
+                                                  var fileurl =
+                                                      checkmap.keys.toList()[0];
+                                                  String filename = checkmap
+                                                      .values
+                                                      .toList()[0];
+                                                  print(location);
+                                                  downloading = true;
+                                                  file = filename;
+                                                  await Dio().download(fileurl,
+                                                      location + filename,
+                                                      onReceiveProgress:
+                                                          (r, t) {
+                                                    recieved.value = r;
+                                                    total.value = t;
+                                                  });
+                                                  downloading = false;
+                                                }
+                                              });
                                             });
                                       } else {
                                         url.launchIt();
@@ -205,36 +270,43 @@ class _AppPageState extends State<AppPage> {
                               }),
                     ),
                   SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: widget.app['screenshots'].map<Widget>((url) {
-                      int index = widget.app['screenshots'].indexOf(url);
-                      return Container(
-                        width: 8.0,
-                        height: 8.0,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _current == index
-                              ? (context.isDark ? Colors.white : Colors.black)
-                                  .withOpacity(0.9)
-                              : (context.isDark ? Colors.white : Colors.black)
-                                  .withOpacity(0.4),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(height: 20),
-                  if (widget.app['description'] != null)
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-                      child: Text(
-                        removeAllHtmlTags(widget.app['description']),
-                        style: context.textTheme.bodyText1,
-                      ),
+                  if (widget.app['screenshots'] != null &&
+                      widget.app['screenshots'].length > 0)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: widget.app['screenshots'].map<Widget>((url) {
+                        int index = widget.app['screenshots'].indexOf(url);
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _current == index
+                                ? (context.isDark ? Colors.white : Colors.black)
+                                    .withOpacity(0.9)
+                                : (context.isDark ? Colors.white : Colors.black)
+                                    .withOpacity(0.4),
+                          ),
+                        );
+                      }).toList(),
                     ),
+                  SizedBox(height: 20),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                    child: Text(
+                      (widget.app['description'] != null &&
+                              removeAllHtmlTags(widget.app['description']
+                                          .toString()
+                                          .trim())
+                                      .length >
+                                  0)
+                          ? removeAllHtmlTags(widget.app['description'])
+                          : "No Description Found",
+                      style: context.textTheme.bodyText1,
+                    ),
+                  ),
                   twoRowContainer(
                     context,
                     primaryT: "License",
@@ -261,9 +333,10 @@ class _AppPageState extends State<AppPage> {
 
 class DownloadDialog extends StatefulHookWidget {
   final List response;
-
   final Widget appIcon;
-  DownloadDialog(this.response, this.appIcon);
+  final void Function(Map<String, String>)? onEndPressed;
+
+  DownloadDialog(this.response, this.appIcon, this.onEndPressed);
 
   @override
   _DownloadDialogState createState() => _DownloadDialogState();
@@ -310,8 +383,9 @@ class _DownloadDialogState extends State<DownloadDialog> {
         });
       },
       endText: TextButton(
-          onPressed: () {
-            print(checkmap);
+          onPressed: () async {
+            if (widget.onEndPressed != null)
+              widget.onEndPressed!(checkmap.value);
             Navigator.of(context).pop();
           },
           child: Text(

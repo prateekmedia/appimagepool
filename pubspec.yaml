@@ -16,6 +16,7 @@ dependencies:
   dio: ^4.0.0
   flutter_svg: ^0.21.0-nullsafety.0
   material_floating_search_bar: ^0.3.3
+  path_provider: ^2.0.1
   # process_run: ^0.12.1
   url_launcher: ^6.0.3
 
