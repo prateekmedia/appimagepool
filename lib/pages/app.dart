@@ -7,8 +7,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:process_run/shell.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 
@@ -67,11 +67,14 @@ class _AppPageState extends State<AppPage> {
             brokenImageUrl,
             color: context.isDark ? Colors.white : Colors.grey[800],
           );
+    print(widget.app['icons'] != null
+        ? widget.app['icons'][0].endsWith('.svg')
+            ? "hi"
+            : 1
+        : true);
     int _current = 0;
-    bool downloading = false;
-    final recieved = useState<int>(0);
-    final total = useState<int>(0);
-    late String file;
+    final downloading = useState<bool?>(null);
+    final listDownloads = useState<Map<String, List<int>>>({});
     _showPopupMenu(Offset offset) async {
       double left = offset.dx;
       double top = offset.dy;
@@ -79,23 +82,28 @@ class _AppPageState extends State<AppPage> {
         context: context,
         position: RelativeRect.fromLTRB(left, top, 0, 0),
         items: [
-          PopupMenuItem<String>(child: const Text('Doge'), value: 'Doge'),
-          PopupMenuItem<String>(child: const Text('Lion'), value: 'Lion'),
+          for (var i in listDownloads.value.entries)
+            PopupMenuItem<String>(
+                child: Text(
+                    "${i.key} ${i.value[0].getFileSize()}/${i.value[1].getFileSize()}"),
+                value: i.key),
         ],
         elevation: 8.0,
       );
     }
 
+    print(widget.app);
+
     return Scaffold(
       body: aibAppBar(
         context,
         trailing: [
-          if (downloading != null)
+          if (downloading.value != null)
             GestureDetector(
               onTapDown: (details) {
                 _showPopupMenu(details.globalPosition);
               },
-              child: Icon(downloading
+              child: Icon(downloading.value!
                   ? Icons.download_outlined
                   : Icons.download_done_outlined),
             ),
@@ -186,16 +194,24 @@ class _AppPageState extends State<AppPage> {
                                                       .values
                                                       .toList()[0];
                                                   print(location);
-                                                  downloading = true;
-                                                  file = filename;
+                                                  downloading.value = true;
+                                                  listDownloads.value
+                                                      .putIfAbsent(filename,
+                                                          () => [0, 0]);
                                                   await Dio().download(fileurl,
                                                       location + filename,
                                                       onReceiveProgress:
                                                           (r, t) {
-                                                    recieved.value = r;
-                                                    total.value = t;
+                                                    listDownloads.value[
+                                                        filename]![0] = r;
+                                                    listDownloads.value[
+                                                        filename]![1] = t;
                                                   });
-                                                  downloading = false;
+                                                  downloading.value = false;
+                                                  var shell =
+                                                      Shell().cd(location);
+                                                  shell.run(
+                                                      'chmod +x ' + filename);
                                                 }
                                               });
                                             });

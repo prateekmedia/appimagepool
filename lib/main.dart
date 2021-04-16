@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'utils/utils.dart';
 import 'pages/category.dart';
@@ -94,8 +95,8 @@ class _HomePageState extends State<HomePage> {
         return newList;
       });
     });
-    i.retainWhere((element) => i.indexOf(element) < 40);
-    print(JsonEncoder.withIndent('  ').convert(categories));
+    // i.retainWhere((element) => i.indexOf(element) < 40);
+    print(JsonEncoder.withIndent('  ').convert(i.sublist(0, 2)));
   }
 
   Map? categories;
@@ -126,93 +127,54 @@ class _HomePageState extends State<HomePage> {
         body: categories == null
             ? Center(child: CircularProgressIndicator())
             : Scrollbar(
-                child: GridView.count(
-                  padding: EdgeInsets.all(20),
-                  childAspectRatio: 16 / 12,
-                  crossAxisCount: context.width > 1000
-                      ? 5
-                      : context.width > 600
-                          ? 4
-                          : context.width > 500
-                              ? 3
-                              : 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  children: categories!.entries.map((item) {
-                    return GestureDetector(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => CategoryPage(
-                              theme: widget.theme,
-                              category: item.key ?? "N.A.",
-                              items: item.value))),
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: [
-                            Colors.blue,
-                            Colors.indigo,
-                            Colors.amber[800],
-                            Colors.brown,
-                            Colors.cyan,
-                            Colors.blueGrey,
-                            Colors.lightGreen,
-                            Colors.red,
-                            Colors.orange,
-                            Colors.green,
-                            Colors.grey,
-                            Colors.pink,
-                            Colors.purple,
-                            Colors.deepPurple,
-                            Colors.deepOrange,
-                            Colors.teal,
-                            Colors.blue,
-                            Colors.indigo,
-                            Colors.amber[800],
-                            Colors.brown,
-                            Colors.cyan,
-                            Colors.blueGrey,
-                            Colors.lightGreen,
-                            Colors.red,
-                            Colors.orange,
-                            Colors.green,
-                            Colors.grey,
-                            Colors.pink,
-                            Colors.purple,
-                            Colors.deepPurple,
-                            Colors.deepOrange,
-                            Colors.teal,
-                            Colors.blue,
-                            Colors.indigo,
-                            Colors.amber[800],
-                            Colors.brown,
-                            Colors.cyan,
-                            Colors.blueGrey,
-                            Colors.lightGreen,
-                            Colors.red,
-                            Colors.orange,
-                            Colors.green,
-                            Colors.grey,
-                            Colors.pink,
-                            Colors.purple,
-                            Colors.deepPurple,
-                            Colors.deepOrange,
-                            Colors.teal,
-                          ][categories!.keys.toList().indexOf(item.key)],
-                          //  Colors.primaries[
-                          // math.Random().nextInt(Colors.primaries.length)],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                            child: Text(
-                          "${item.key} (${item.value.length}) ",
-                          style: context.textTheme.headline6!.copyWith(
-                            color: Colors.white,
-                          ),
-                        )),
+                child: ListView(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Text(
+                        "Categories",
+                        style: context.textTheme.headline6,
                       ),
-                    );
-                  }).toList(),
+                    ),
+                    StaggeredGridView.countBuilder(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      shrinkWrap: true,
+                      primary: false,
+                      crossAxisCount: 12,
+                      staggeredTileBuilder: (int index) =>
+                          StaggeredTile.fit(context.width > 1000
+                              ? 3
+                              : context.width > 600
+                                  ? 4
+                                  : context.width > 500
+                                      ? 6
+                                      : 12),
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      itemCount: categories!.entries.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var item = categories!.entries.toList()[index];
+                        return OutlinedButton(
+                          onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (ctx) => CategoryPage(
+                                      theme: widget.theme,
+                                      category: item.key ?? "N.A.",
+                                      items: item.value))),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 15),
+                            child: Text("${item.key} (${item.value.length}) ",
+                                style: context.textTheme.headline6!.copyWith(
+                                  color: Colors.white,
+                                )),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
       ),
