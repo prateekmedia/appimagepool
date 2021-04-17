@@ -19,6 +19,7 @@ dependencies:
   material_floating_search_bar: ^0.3.3
   path_provider: ^2.0.1
   process_run: ^0.12.1
+  simple_html_css: ^3.0.1
   url_launcher: ^6.0.3
 
 dev_dependencies:
@@ -30,3 +31,10 @@ flutter:
 
   # assets:
   #  - assets/images/
+
+  # fonts:
+  #   - family: Montserrat
+  #     fonts:
+  #       - asset: assets/fonts/Montserrat-Regular.ttf
+  #       - asset: assets/fonts/Montserrat-SemiBold.ttf
+  #       - asset: assets/fonts/Montserrat-Bold.ttf

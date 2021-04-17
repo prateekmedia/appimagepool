@@ -1,9 +1,15 @@
-import 'dart:convert';
+import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'pages/pages.dart';
 import 'utils/utils.dart';
 import 'pages/category.dart';
 import 'widgets/aibappbar.dart';
@@ -13,7 +19,7 @@ void main() {
   runApp(
     ValueListenableBuilder(
       valueListenable: theme,
-      builder: (ctx, ThemeMode va, ch) => MaterialApp(
+      builder: (ctx, ThemeMode themeMode, ch) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.light,
@@ -27,14 +33,14 @@ void main() {
             iconTheme: IconThemeData(color: Colors.white),
           ),
         ),
-        themeMode: va,
+        themeMode: themeMode,
         home: HomePage(theme: theme),
       ),
     ),
   );
 }
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatefulHookWidget {
   final ValueNotifier<ThemeMode> theme;
 
   HomePage({required this.theme});
@@ -46,9 +52,13 @@ class _HomePageState extends State<HomePage> {
   getData() async {
     Map response =
         (await Dio().get("https://appimage.github.io/feed.json")).data;
+    Map res = (await Dio().get(
+            "https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/api/featuredapps.json"))
+        .data;
     List i = response['items'];
     // i.retainWhere((element) => i.indexOf(element) < 40);
     setState(() {
+      featured = res;
       categories = i.groupBy((m) {
         List categori = m['categories'];
         List newList = [];
@@ -96,10 +106,11 @@ class _HomePageState extends State<HomePage> {
       });
     });
     // i.retainWhere((element) => i.indexOf(element) < 40);
-    print(JsonEncoder.withIndent('  ').convert(i.sublist(0, 2)));
+    print(i.firstWhere((element) => element['name'].contains('Firefox', 0)));
   }
 
   Map? categories;
+  Map? featured;
 
   void initState() {
     getData();
@@ -108,6 +119,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _current = useState<int>(0);
+    final _controller = CarouselController();
     return Scaffold(
       body: aibAppBar(
         context,
@@ -124,57 +137,282 @@ class _HomePageState extends State<HomePage> {
                         : ThemeMode.dark
                   }),
         ],
-        body: categories == null
+        body: categories == null && featured == null
             ? Center(child: CircularProgressIndicator())
             : Scrollbar(
-                child: ListView(
-                  children: [
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: Text(
-                        "Categories",
-                        style: context.textTheme.headline6,
-                      ),
-                    ),
-                    StaggeredGridView.countBuilder(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      shrinkWrap: true,
-                      primary: false,
-                      crossAxisCount: 12,
-                      staggeredTileBuilder: (int index) =>
-                          StaggeredTile.fit(context.width > 1000
-                              ? 3
-                              : context.width > 600
-                                  ? 4
-                                  : context.width > 500
-                                      ? 6
-                                      : 12),
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      itemCount: categories!.entries.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var item = categories!.entries.toList()[index];
-                        return OutlinedButton(
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (ctx) => CategoryPage(
-                                      theme: widget.theme,
-                                      category: item.key ?? "N.A.",
-                                      items: item.value))),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 15),
-                            child: Text("${item.key} (${item.value.length}) ",
-                                style: context.textTheme.headline6!.copyWith(
-                                  color: Colors.white,
-                                )),
+                child: Center(
+                  child: Container(
+                    constraints: BoxConstraints(maxWidth: 1200),
+                    child: ListView(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 16),
+                          child: Text(
+                            "Featured Apps",
+                            style: context.textTheme.headline6!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.2),
                           ),
-                        );
-                      },
+                        ),
+                        Stack(
+                          children: [
+                            CarouselSlider.builder(
+                              itemCount: featured!.length,
+                              itemBuilder: (context, index, i) {
+                                var prefixNameUrl =
+                                    featured!.values.toList()[index]['icons'] !=
+                                                null &&
+                                            (featured!.values.toList()[index]
+                                                    ['icons']! as List)[0]
+                                                .startsWith('http')
+                                        ? ""
+                                        : PREFIX_URL;
+                                return GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (ctx) => AppPage(
+                                              app: featured!.values
+                                                  .toList()[index]))),
+                                  child: Stack(
+                                    children: [
+                                      if (featured!.values.toList()[index]
+                                              ['screenshots'] !=
+                                          null)
+                                        Container(
+                                            constraints:
+                                                BoxConstraints.expand(),
+                                            child: CachedNetworkImage(
+                                              imageUrl: (featured!.values
+                                                                  .toList()[index]
+                                                              ['screenshots']!
+                                                          as List)[0]
+                                                      .startsWith('http')
+                                                  ? (featured!.values
+                                                              .toList()[index]
+                                                          ['screenshots']!
+                                                      as List)[0]
+                                                  : PREFIX_URL +
+                                                      (featured!.values
+                                                                  .toList()[index]
+                                                              ['screenshots']!
+                                                          as List)[0],
+                                              fit: BoxFit.cover,
+                                            )),
+                                      Center(
+                                        child: Container(
+                                          color: context.isDark
+                                              ? Colors.grey.shade900
+                                                  .withOpacity(0.5)
+                                              : Colors.grey.shade300
+                                                  .withOpacity(0.5),
+                                          height: 400,
+                                          child: ClipRect(
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                sigmaX: 10,
+                                                sigmaY: 10,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 100,
+                                                    child: featured!.values
+                                                                        .toList()[
+                                                                    index][
+                                                                'icons'] !=
+                                                            null
+                                                        ? (featured!.values.toList()[
+                                                                            index]
+                                                                        [
+                                                                        'icons']!
+                                                                    as List)[0]
+                                                                .endsWith(
+                                                                    '.svg')
+                                                            ? SvgPicture
+                                                                .network(
+                                                                prefixNameUrl +
+                                                                    (featured!
+                                                                            .values
+                                                                            .toList()[index]['icons']!
+                                                                        as List)[0],
+                                                              )
+                                                            : CachedNetworkImage(
+                                                                imageUrl: prefixNameUrl +
+                                                                    (featured!
+                                                                            .values
+                                                                            .toList()[index]['icons']!
+                                                                        as List)[0],
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                placeholder:
+                                                                    (c, u) =>
+                                                                        Center(
+                                                                  child:
+                                                                      CircularProgressIndicator(),
+                                                                ),
+                                                                errorWidget: (c,
+                                                                        w, i) =>
+                                                                    SvgPicture
+                                                                        .network(
+                                                                  brokenImageUrl,
+                                                                  color: context
+                                                                          .isDark
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors.grey[
+                                                                          800],
+                                                                ),
+                                                              )
+                                                        : SvgPicture.network(
+                                                            brokenImageUrl,
+                                                            color: context
+                                                                    .isDark
+                                                                ? Colors.white
+                                                                : Colors
+                                                                    .grey[800],
+                                                          ),
+                                                  ),
+                                                  Flexible(
+                                                    child: Text(
+                                                      "${featured!.values.toList()[index]['name']}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: context
+                                                          .textTheme.headline3,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              carouselController: _controller,
+                              options: CarouselOptions(
+                                  height: 400,
+                                  viewportFraction: 0.8,
+                                  initialPage: 0,
+                                  enableInfiniteScroll: true,
+                                  reverse: false,
+                                  autoPlay: true,
+                                  autoPlayInterval: Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      Duration(milliseconds: 800),
+                                  autoPlayCurve: Curves.fastOutSlowIn,
+                                  enlargeCenterPage: true,
+                                  scrollDirection: Axis.horizontal,
+                                  onPageChanged: (idx, rsn) =>
+                                      _current.value = idx),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                height: 400,
+                                child: IconButton(
+                                  icon: Icon(Icons.chevron_left),
+                                  onPressed: () => _controller.previousPage(),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                height: 400,
+                                child: IconButton(
+                                  icon: Icon(Icons.chevron_right),
+                                  onPressed: () => _controller.nextPage(),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(featured!.length, (index) {
+                            return GestureDetector(
+                              onTap: () => _controller.animateToPage(index),
+                              child: Container(
+                                width: 8.0,
+                                height: 8.0,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 2.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _current.value == index
+                                      ? (context.isDark
+                                              ? Colors.white
+                                              : Colors.black)
+                                          .withOpacity(0.9)
+                                      : (context.isDark
+                                              ? Colors.white
+                                              : Colors.black)
+                                          .withOpacity(0.4),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 12),
+                          child: Text(
+                            "Categories",
+                            style: context.textTheme.headline6!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.2),
+                          ),
+                        ),
+                        StaggeredGridView.countBuilder(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                          shrinkWrap: true,
+                          primary: false,
+                          crossAxisCount: 12,
+                          staggeredTileBuilder: (int index) =>
+                              StaggeredTile.fit(context.width > 1000
+                                  ? 3
+                                  : context.width > 600
+                                      ? 4
+                                      : context.width > 500
+                                          ? 6
+                                          : 12),
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          itemCount: categories!.entries.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var item = categories!.entries.toList()[index];
+                            return OutlinedButton(
+                              onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (ctx) => CategoryPage(
+                                          theme: widget.theme,
+                                          category: item.key ?? "N.A.",
+                                          items: item.value))),
+                              style: OutlinedButton.styleFrom(
+                                  alignment: Alignment(-1, 0)),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 15),
+                                child: Text(
+                                    "${item.key} (${item.value.length}) ",
+                                    style: context.textTheme.headline6!
+                                        .copyWith(fontSize: 17)),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
       ),

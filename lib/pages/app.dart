@@ -9,36 +9,24 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
+import 'package:simple_html_css/simple_html_css.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 
-class AppPage extends StatefulHookWidget {
+class AppPage extends HookWidget {
   AppPage({required this.app});
 
   final Map app;
 
   @override
-  _AppPageState createState() => _AppPageState();
-}
-
-class _AppPageState extends State<AppPage> {
-  @override
   Widget build(BuildContext context) {
-    String removeAllHtmlTags(String htmlText) {
-      RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
-
-      return htmlText.replaceAll(exp, '');
-    }
-
-    String url = widget.app['links'] != null
-        ? (widget.app['links'] as List).firstWhere(
-            (e) => e['type'] == 'Download',
+    String url = app['links'] != null
+        ? (app['links'] as List).firstWhere((e) => e['type'] == 'Download',
             orElse: () => {'url': ''})['url']
         : '';
-    String proUrl = widget.app['links'] != null
+    String proUrl = app['links'] != null
         ? github +
-            (widget.app['links'] as List).firstWhere(
-                (e) => e['type'] == 'GitHub',
+            (app['links'] as List).firstWhere((e) => e['type'] == 'GitHub',
                 orElse: () => {'url': ''})['url']
         : '';
 
@@ -47,13 +35,17 @@ class _AppPageState extends State<AppPage> {
         : context.width > 400
             ? 60
             : 50;
-    var appIcon = widget.app['icons'] != null
-        ? widget.app['icons'][0].endsWith('.svg')
+    var prefixNameUrl =
+        app['icons'] != null && app['icons'][0].startsWith('http')
+            ? ""
+            : PREFIX_URL;
+    var appIcon = app['icons'] != null
+        ? app['icons'][0].endsWith('.svg')
             ? SvgPicture.network(
-                PREFIX_URL + widget.app['icons'][0],
+                prefixNameUrl + app['icons'][0],
               )
             : CachedNetworkImage(
-                imageUrl: PREFIX_URL + widget.app['icons'][0],
+                imageUrl: prefixNameUrl + app['icons'][0],
                 fit: BoxFit.cover,
                 placeholder: (c, u) => Center(
                   child: CircularProgressIndicator(),
@@ -67,12 +59,7 @@ class _AppPageState extends State<AppPage> {
             brokenImageUrl,
             color: context.isDark ? Colors.white : Colors.grey[800],
           );
-    print(widget.app['icons'] != null
-        ? widget.app['icons'][0].endsWith('.svg')
-            ? "hi"
-            : 1
-        : true);
-    int _current = 0;
+    final _current = useState<int>(0);
     final downloading = useState<bool?>(null);
     final listDownloads = useState<Map<String, List<int>>>({});
     _showPopupMenu(Offset offset) async {
@@ -92,8 +79,7 @@ class _AppPageState extends State<AppPage> {
       );
     }
 
-    print(widget.app);
-
+    print(app);
     return Scaffold(
       body: aibAppBar(
         context,
@@ -115,20 +101,18 @@ class _AppPageState extends State<AppPage> {
               child: Center(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  constraints: BoxConstraints(maxWidth: 800),
+                  constraints: BoxConstraints(maxWidth: 1200),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Tooltip(
-                            message: (widget.app['links'] != null &&
-                                    proUrl.length > 0)
+                            message: (app['links'] != null && proUrl.length > 0)
                                 ? proUrl
                                 : "",
                             child: GestureDetector(
-                              onTap: (widget.app['links'] != null &&
-                                      proUrl.length > 0)
+                              onTap: (app['links'] != null && proUrl.length > 0)
                                   ? proUrl.launchIt
                                   : null,
                               child: Container(
@@ -142,22 +126,19 @@ class _AppPageState extends State<AppPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                    widget.app['name'] != null
-                                        ? widget.app['name']
-                                        : "N.A.",
+                                Text(app['name'] != null ? app['name'] : "N.A.",
                                     style: context.textTheme.headline6),
                                 Text(
-                                    (widget.app['categories'] != null &&
-                                            widget.app['categories'][0] != null
-                                        ? widget.app['categories'].join(', ')
+                                    (app['categories'] != null &&
+                                            app['categories'][0] != null
+                                        ? app['categories'].join(', ')
                                         : "N.A."),
                                     style: context.textTheme.bodyText2),
                               ],
                             ),
                           ),
                           SizedBox(width: 10),
-                          if (widget.app['links'] != null && url.length > 0)
+                          if (app['links'] != null && url.length > 0)
                             Tooltip(
                               message: url,
                               child: ElevatedButton(
@@ -235,17 +216,17 @@ class _AppPageState extends State<AppPage> {
             SizedBox(height: 20),
             Center(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 800),
+                constraints: BoxConstraints(maxWidth: 1200),
                 child: Column(children: [
-                  if (widget.app['screenshots'] != null &&
-                      widget.app['screenshots'].length > 0)
+                  if (app['screenshots'] != null &&
+                      app['screenshots'].length > 0)
                     CarouselSlider.builder(
-                      itemCount: widget.app['screenshots'].length,
+                      itemCount: app['screenshots'].length,
                       itemBuilder: (context, index, i) {
                         String screenUrl =
-                            widget.app['screenshots'][index].startsWith('http')
-                                ? widget.app['screenshots'][index]
-                                : PREFIX_URL + widget.app['screenshots'][index];
+                            app['screenshots'][index].startsWith('http')
+                                ? app['screenshots'][index]
+                                : PREFIX_URL + app['screenshots'][index];
                         Widget brokenImageWidget = SvgPicture.network(
                           brokenImageUrl,
                           color: context.isDark ? Colors.white : Colors.black,
@@ -253,7 +234,7 @@ class _AppPageState extends State<AppPage> {
                         return Container(
                           height: 400,
                           padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: widget.app['screenshots'] != null
+                          child: app['screenshots'] != null
                               ? screenUrl.endsWith('.svg')
                                   ? SvgPicture.network(screenUrl)
                                   : CachedNetworkImage(
@@ -279,19 +260,17 @@ class _AppPageState extends State<AppPage> {
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
                           scrollDirection: Axis.horizontal,
-                          onPageChanged: (idx, rsn) => {
-                                setState(() {
-                                  _current = idx;
-                                })
-                              }),
+                          onPageChanged: (idx, rsn) {
+                            _current.value = idx;
+                          }),
                     ),
                   SizedBox(height: 5),
-                  if (widget.app['screenshots'] != null &&
-                      widget.app['screenshots'].length > 0)
+                  if (app['screenshots'] != null &&
+                      app['screenshots'].length > 0)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: widget.app['screenshots'].map<Widget>((url) {
-                        int index = widget.app['screenshots'].indexOf(url);
+                      children:
+                          List.generate(app['screenshots'].length, (index) {
                         return Container(
                           width: 8.0,
                           height: 8.0,
@@ -299,7 +278,7 @@ class _AppPageState extends State<AppPage> {
                               vertical: 10.0, horizontal: 2.0),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: _current == index
+                            color: _current.value == index
                                 ? (context.isDark ? Colors.white : Colors.black)
                                     .withOpacity(0.9)
                                 : (context.isDark ? Colors.white : Colors.black)
@@ -311,30 +290,30 @@ class _AppPageState extends State<AppPage> {
                   SizedBox(height: 20),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-                    child: Text(
-                      (widget.app['description'] != null &&
-                              removeAllHtmlTags(widget.app['description']
-                                          .toString()
-                                          .trim())
-                                      .length >
-                                  0)
-                          ? removeAllHtmlTags(widget.app['description'])
-                          : "No Description Found",
-                      style: context.textTheme.bodyText1,
-                    ),
+                    child: RichText(
+                        text: HTML.toTextSpan(
+                            context,
+                            (app['description'] != null &&
+                                    app['description']
+                                            .toString()
+                                            .trim()
+                                            .length >
+                                        0)
+                                ? app['description']
+                                : "No Description Found",
+                            defaultTextStyle: context.textTheme.bodyText1!)),
                   ),
                   twoRowContainer(
                     context,
                     primaryT: "License",
-                    secondaryT: widget.app['license'] != null
-                        ? widget.app['license']
-                        : "N.A.",
+                    secondaryT:
+                        app['license'] != null ? app['license'] : "N.A.",
                   ),
                   twoRowContainer(
                     context,
                     primaryT: "Authors",
-                    secondaryT: widget.app['authors'] != null
-                        ? widget.app['authors'].map((e) => e['name']).join(', ')
+                    secondaryT: app['authors'] != null
+                        ? "${app['authors'].map((e) => '<a href="${e['url']}" >${e['name']}</a>').join(', ')}"
                         : "N.A.",
                   ),
                 ]),
@@ -384,6 +363,7 @@ class _DownloadDialogState extends State<DownloadDialog> {
           });
           return CheckboxListTile(
             title: Text(g[idx]['name']),
+            subtitle: Text((g[idx]['size'] as int).getFileSize()),
             value: checkedValue.value,
             onChanged: (newValue) {
               if (checkmap.value.containsKey(g[idx]['browser_download_url']))

@@ -1,0 +1,100 @@
+{
+    "0" : {
+      "name": "Blender",
+      "description":
+          "Blender is a free and open-source 3D computer graphics software toolset used for creating animated films, visual effects, art, 3D printed models, motion graphics, interactive 3D applications, virtual reality, and computer games. Blender's features include 3D modeling, UV unwrapping, texturing, raster graphics editing, rigging and skinning, fluid and smoke simulation, particle simulation, soft body simulation, sculpting, animating, match moving, rendering, motion graphics, video editing, and compositing.",
+      "categories": ["Graphics"],
+      "authors": [
+        {
+          "name": "Songtech-0912",
+          "url": "https://github.com/Songtech-0912"
+        }
+      ],
+      "license": "GPLv2+",
+      "links": [
+        {
+          "type": "Github",
+          "url": "https://github.com/Songtech-0912/Prometheus-Project/"
+        },
+        {
+          "type": "Download",
+          "url": "https://github.com/Songtech-0912/Prometheus-Project/releases"
+        }
+      ],
+      "icons": [
+        "https://download.blender.org/branding/community/blender_community_badge_white.png"
+      ],
+      "screenshots": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Blender_2.92.0_screenshot.png/1280px-Blender_2.92.0_screenshot.png"
+      ]
+    },
+    "1" : {
+      "name": "GIMP",
+      "description":
+          "GIMP is a free and open-source raster graphics editor used for image manipulation and image editing, free-form drawing, transcoding between different image file formats, and more specialized tasks.",
+      "categories": ["Graphics"],
+      "authors": [
+        {
+          "name": "aferrero2707",
+          "url": "https://github.com/aferrero2707"
+        }
+      ],
+      "license": "GPLv3+",
+      "links": [
+        {
+          "type": "Github",
+          "url": "https://github.com/aferrero2707/gimp-appimage/"
+        },
+        {
+          "type": "Download",
+          "url": "https://github.com/aferrero2707/gimp-appimage/releases"
+        }
+      ],
+      "icons": [
+        "https://upload.wikimedia.org/wikipedia/commons/4/45/The_GIMP_icon_-_gnome.svg"
+      ],
+      "screenshots": [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1d/GIMP_2.10.jpg",
+        "https://www.gimp.org/release-notes/images/2.10-foreground-select.jpg",
+        "https://www.gimp.org/release-notes/images/2.10-icon-sizes.png"
+      ]
+    },
+    "2" : {
+      "name": "GitHubDesktop",
+      "description": "Simple collaboration from your desktop",
+      "categories": ["GNOME"],
+      "authors": [
+        {"name": "shiftkey", "url": "https://github.com/shiftkey"}
+      ],
+      "license": "MIT",
+      "links": [
+        {"type": "GitHub", "url": "shiftkey/desktop"},
+        {
+          "type": "Download",
+          "url": "https://github.com/shiftkey/desktop/releases"
+        }
+      ],
+      "icons": ["https://desktop.github.com/images/desktop-icon.svg"],
+      "screenshots": [
+        "https://desktop.github.com/images/github-desktop-screenshot-windows.png"
+      ]
+    },
+    "3" : {
+      "name": "Firefox",
+      "description": "Browse the World Wide Web",
+      "categories": ["Network"],
+      "authors": [
+        {"name": "srevinsaju", "url": "https://github.com/srevinsaju"}
+      ],
+      "license": "MPL 2.0",
+      "links": [
+        {"type": "GitHub", "url": "srevinsaju/Firefox-Appimage"},
+        {
+          "type": "Download",
+          "url": "https://github.com/srevinsaju/Firefox-Appimage/releases"
+        }
+      ],
+      "icons": ["Firefox/icons/128x128/firefox.png"],
+      "screenshots": ["Firefox/screenshot.png"]
+    }
+  }

@@ -14,8 +14,8 @@ Widget aibAppBar(
       leadingActions: leading,
       transitionDuration: const Duration(milliseconds: 800),
       colorOnScroll: context.isDark
-          ? Colors.grey[800]!.withOpacity(0.6)
-          : Colors.grey[200],
+          ? Colors.grey[800]!.darken(20)
+          : Colors.grey[200]!.brighten(20),
       color: context.isDark ? Colors.grey[800] : Colors.grey[300],
       actions: trailing,
       body: body);

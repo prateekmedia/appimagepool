@@ -90,7 +90,11 @@ class CustomDialogBox extends HookWidget {
                   height: 15,
                 ),
                 if (currentItem.length > 0)
-                  ...currentItem
+                  Flexible(
+                    child: Scrollbar(
+                        child: ListView(
+                            shrinkWrap: true, children: [...currentItem])),
+                  )
                 else
                   Text("No AppImage Found in this Release"),
                 SizedBox(

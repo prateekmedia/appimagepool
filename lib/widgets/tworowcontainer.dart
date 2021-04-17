@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_html_css/simple_html_css.dart';
 import '../utils/utils.dart';
 
 Widget twoRowContainer(
@@ -16,11 +17,17 @@ Widget twoRowContainer(
           style: context.textTheme.headline6!
               .copyWith(fontWeight: FontWeight.w600),
         ),
-        Text(
+        RichText(
+            text: HTML.toTextSpan(
+          context,
           secondaryT,
-          style: context.textTheme.bodyText1!
+          linksCallback: (link) {
+            debugPrint('You clicked on ${link.toString()}');
+            link.toString().launchIt();
+          },
+          defaultTextStyle: context.textTheme.bodyText1!
               .copyWith(fontWeight: FontWeight.w500),
-        ),
+        )),
       ],
     ),
   );
