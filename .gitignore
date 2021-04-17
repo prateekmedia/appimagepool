@@ -20,6 +20,13 @@
 # Visual Studio Code related
 .vscode/
 
+# AppImage Related
+*.AppDir/data/
+*.AppDir/lib/
+*.AppDir/appimagebrowser
+*.AppDir/.DirIcon
+*-x86_64.AppImage
+
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/

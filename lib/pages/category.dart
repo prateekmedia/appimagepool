@@ -1,12 +1,11 @@
-import 'package:appimagebrowser/pages/app.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:appimagebrowser/widgets/gridOfApps.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends HookWidget {
   final List items;
   final String category;
   final ValueNotifier<ThemeMode> theme;
@@ -15,10 +14,17 @@ class CategoryPage extends StatelessWidget {
       {required this.theme, required this.category, required this.items});
   @override
   Widget build(BuildContext context) {
+    final searchedTerm = useState<String>("");
+    final itemsNew = items
+        .where((element) => element['name']
+            .toLowerCase()
+            .contains(searchedTerm.value.toLowerCase(), 0))
+        .toList();
     return Scaffold(
         body: aibAppBar(
       context,
       title: category,
+      searchText: searchedTerm,
       trailing: [
         FloatingSearchBarAction.searchToClear(
           color: context.isDark ? Colors.white : Colors.grey[800],
@@ -31,75 +37,11 @@ class CategoryPage extends StatelessWidget {
                 }),
       ],
       body: Scrollbar(
-        child: GridView.count(
-          padding: EdgeInsets.all(15),
-          crossAxisCount: context.width > 1300
-              ? 8
-              : context.width > 1000
-                  ? 6
-                  : context.width > 600
-                      ? 4
-                      : 3,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          children: items.map((item) {
-            String name = item['name'] != null ? item['name'] : "N.A.";
-            String desc =
-                item['description'] != null ? item['description'] : "";
-            String logoUrl =
-                item['icons'] != null ? PREFIX_URL + item['icons'][0] : "";
-
-            if (name.length > 12) name = name.substring(0, 12) + "...";
-            Widget brokenImageWidget = SvgPicture.network(
-              brokenImageUrl,
-              color: context.isDark ? Colors.white : Colors.grey[800],
-            );
-
-            return Tooltip(
-              message: desc,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) => AppPage(app: item))),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: item['icons'] != null
-                                ? (!logoUrl.endsWith('.svg'))
-                                    ? CachedNetworkImage(
-                                        imageUrl: logoUrl,
-                                        fit: BoxFit.cover,
-                                        placeholder: (c, b) => Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                        errorWidget: (c, w, i) =>
-                                            brokenImageWidget,
-                                      )
-                                    : SvgPicture.network(logoUrl)
-                                : brokenImageWidget),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        name,
-                        style: context.textTheme.headline6!.copyWith(
-                            color: context.isDark
-                                ? Colors.white
-                                : Colors.grey[900]),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
+        child: Center(
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 1200),
+            child: GridOfApps(itemList: itemsNew),
+          ),
         ),
       ),
     ));

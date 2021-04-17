@@ -68,13 +68,22 @@ class AppPage extends HookWidget {
       await showMenu(
         context: context,
         position: RelativeRect.fromLTRB(left, top, 0, 0),
-        items: [
-          for (var i in listDownloads.value.entries)
-            PopupMenuItem<String>(
-                child: Text(
-                    "${i.key} ${i.value[0].getFileSize()}/${i.value[1].getFileSize()}"),
-                value: i.key),
-        ],
+        items: List.generate(listDownloads.value.entries.length, (index) {
+          var i = listDownloads.value.entries.toList()[index];
+          return PopupMenuItem<String>(
+              child: Tooltip(
+                message: i.key,
+                child: ListTile(
+                  title: Text(
+                    i.key,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                      "${i.value[0].getFileSize()}/${i.value[1].getFileSize()}"),
+                ),
+              ),
+              value: i.key);
+        }).toList(),
         elevation: 8.0,
       );
     }
