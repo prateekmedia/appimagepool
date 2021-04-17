@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -52,9 +53,9 @@ class _HomePageState extends State<HomePage> {
   getData() async {
     Map response =
         (await Dio().get("https://appimage.github.io/feed.json")).data;
-    Map res = (await Dio().get(
-            "https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/api/featuredapps.json"))
-        .data;
+    Map res = json.decode((await Dio().get(
+            "https://gist.githubusercontent.com/prateekmedia/44c1ea7f7a627d284b9e50d47aa7200f/raw/cd4d9e14fdee79719eb9fb93e2fbb9a3c1d0ebb0/gistfile1.txt"))
+        .data);
     List i = response['items'];
     // i.retainWhere((element) => i.indexOf(element) < 40);
     setState(() {
