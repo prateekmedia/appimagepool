@@ -1,6 +1,7 @@
 name: FlutterAppImageCI
 
 on:
+  push: {}
   workflow_dispatch: {}
 
 jobs:
@@ -32,12 +33,11 @@ jobs:
       - name: Build Linux App
         run: > 
               flutter build linux;
-              mkdir -p SUbillManager.AppDir/usr/bin;
-              cp -r build/linux/release/bundle/ AppImageBrowser.AppDir;
-              chmod +x appimagetool-x86_64.AppImage;
+              cp -r build/linux/release/bundle/* AppImageBrowser.AppDir;
+              sudo chmod +x appimagetool-x86_64.AppImage;
 
       - name: Generate AppImage
-        run: ARCH=x86_64 ./appimagetool-x86_64.AppImage SUbillManager.AppDir/ appimagebrowser.AppImage
+        run: ARCH=x86_64 ./appimagetool-x86_64.AppImage AppImageBrowser.AppDir/ appimagebrowser.AppImage
 
       - name: Create Release
         id: create_release
@@ -57,11 +57,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ steps.create_release.outputs.id }}
-          assets_path: ./*.AppImage
+          assets_path: ./appimagebrowser.AppImage
 
 #      - name: Upload to Artifact
 #        uses: actions/upload-artifact@v2
 #        with:
 #          name: appimage-release
-#          path: ./*.AppImage
+#          path: ./appimagebrowser.AppImage
 
