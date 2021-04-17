@@ -32,12 +32,11 @@ jobs:
       - name: Build Linux App
         run: > 
               flutter build linux;
-              mkdir -p SUbillManager.AppDir/usr/bin;
-              cp -r build/linux/release/bundle/ AppImageBrowser.AppDir;
+              cp -r build/linux/release/bundle/* AppImageBrowser.AppDir;
               sudo chmod +x appimagetool-x86_64.AppImage;
 
       - name: Generate AppImage
-        run: ARCH=x86_64 ./appimagetool-x86_64.AppImage SUbillManager.AppDir/ appimagebrowser.AppImage
+        run: ARCH=x86_64 ./appimagetool-x86_64.AppImage AppImageBrowser.AppDir/ appimagebrowser.AppImage
 
       - name: Create Release
         id: create_release
