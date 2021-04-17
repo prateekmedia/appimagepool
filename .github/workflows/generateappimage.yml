@@ -1,0 +1,67 @@
+name: FlutterAppImageCI
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@master
+        with:
+          channel: stable
+          
+      - name: Get Packages
+        run: >
+              flutter pub get;
+              flutter config --enable-linux-desktop;
+              sudo apt-get update;
+              sudo apt-get install clang cmake ninja-build pkg-config libgtk-3-dev;
+              flutter doctor -v;
+
+      - name: Download required resources to Generate AppImage
+        uses: wei/wget@v1
+        with:
+          args: -O appimagetool-x86_64.AppImage https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
+        
+      - name: Build Linux App
+        run: > 
+              flutter build linux;
+              mkdir -p SUbillManager.AppDir/usr/bin;
+              cp -r build/linux/release/bundle/ AppImageBrowser.AppDir;
+              chmod +x appimagetool-x86_64.AppImage;
+
+      - name: Generate AppImage
+        run: ARCH=x86_64 ./appimagetool-x86_64.AppImage SUbillManager.AppDir/ appimagebrowser.AppImage
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+
+      - name: Upload AppImage to Release
+        id: upload-release-assets
+        uses: dwenegar/upload-release-assets@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ steps.create_release.outputs.id }}
+          assets_path: ./*.AppImage
+
+#      - name: Upload to Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: appimage-release
+#          path: ./*.AppImage
+
