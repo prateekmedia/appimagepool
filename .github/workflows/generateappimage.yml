@@ -34,7 +34,7 @@ jobs:
               flutter build linux;
               mkdir -p SUbillManager.AppDir/usr/bin;
               cp -r build/linux/release/bundle/ AppImageBrowser.AppDir;
-              chmod +x appimagetool-x86_64.AppImage;
+              sudo chmod +x appimagetool-x86_64.AppImage;
 
       - name: Generate AppImage
         run: ARCH=x86_64 ./appimagetool-x86_64.AppImage SUbillManager.AppDir/ appimagebrowser.AppImage
