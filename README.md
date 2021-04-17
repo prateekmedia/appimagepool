@@ -1,4 +1,4 @@
-<p align="center"><a href="#appimagebrowser"><img src="https://appimage.github.io/img/logo3.svg" height=80px alt="Clipboard manager Logo"/></a></p>
+<p align="center"><a href="#appimagebrowser"><img src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/appimagebrowser.png" height=80px alt="Clipboard manager Logo"/></a></p>
 <h1 align="center">AppImageBrowser</h1>
 <p align="center">
 <a href="https://github.com/prateekmedia/appimagebrowser/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagebrowser?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagebrowser?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
@@ -21,9 +21,15 @@
 
 **Note** : Some features are yet to be implemented.
 
+
+### Direct AppImage Download 
+<a href="https://github.com/prateekmedia/appimagebrowser/releases/latest/"><img src="https://img.shields.io/badge/Download from Github-indigo?style=for-the-badge&logo=Github"/></a>
+
+---
+
 ### Build from source
 
-- Download latest Flutter SDK (Currently Supported is 2.0.4)
+- Download latest Flutter SDK (Currently Supported is 2.0.5)
 - Clone this repo and then 
 
 ```
