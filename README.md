@@ -19,7 +19,7 @@
 - [x] Mobile Linux Support
 - [x] Version History
 
-**Note** : Some features are yet to be implemented.
+**Note** : Some features are not implemented yet.
 
 
 ### Direct AppImage Download 
