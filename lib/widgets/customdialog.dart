@@ -65,9 +65,9 @@ class CustomDialogBox extends HookWidget {
                   isExpanded: true,
                   value: selectedIndex.value,
                   underline: Container(),
-                  onChanged: (int) {
-                    selectedIndex.value = int!;
-                    if (onVersionChange != null) onVersionChange!(int);
+                  onChanged: (val) {
+                    selectedIndex.value = val!;
+                    if (onVersionChange != null) onVersionChange!(val);
                   },
                   selectedItemBuilder: (BuildContext context) {
                     return versions.map<Widget>((String item) {
@@ -91,9 +91,10 @@ class CustomDialogBox extends HookWidget {
                 ),
                 if (currentItem.length > 0)
                   Flexible(
-                    child: Scrollbar(
-                        child: ListView(
-                            shrinkWrap: true, children: [...currentItem])),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: currentItem,
+                    ),
                   )
                 else
                   Text("No AppImage Found in this Release"),

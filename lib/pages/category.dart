@@ -36,12 +36,10 @@ class CategoryPage extends HookWidget {
                       theme.value.index == 2 ? ThemeMode.light : ThemeMode.dark
                 }),
       ],
-      body: Scrollbar(
-        child: Center(
-          child: Container(
-            constraints: BoxConstraints(maxWidth: 1200),
-            child: GridOfApps(itemList: itemsNew),
-          ),
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 1200),
+          child: GridOfApps(itemList: itemsNew),
         ),
       ),
     ));

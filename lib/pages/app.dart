@@ -39,7 +39,7 @@ class AppPage extends HookWidget {
         app['icons'] != null && app['icons'][0].startsWith('http')
             ? ""
             : PREFIX_URL;
-    var appIcon = app['icons'] != null
+    Widget appIcon = app['icons'] != null
         ? app['icons'][0].endsWith('.svg')
             ? SvgPicture.network(
                 prefixNameUrl + app['icons'][0],
@@ -61,7 +61,7 @@ class AppPage extends HookWidget {
           );
     final _current = useState<int>(0);
     final downloading = useState<bool?>(null);
-    final listDownloads = useState<Map<String, List<int>>>({});
+    final listDownloads = useState<Map<String, List<dynamic>>>({});
     _showPopupMenu(Offset offset) async {
       double left = offset.dx;
       double top = offset.dy;
@@ -74,12 +74,28 @@ class AppPage extends HookWidget {
               child: Tooltip(
                 message: i.key,
                 child: ListTile(
+                  leading: i.value[2],
                   title: Text(
                     i.key,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  onTap: (i.value[0] == i.value[1])
+                      ? () async {
+                          var location = "/" +
+                              (await getApplicationDocumentsDirectory())
+                                  .toString()
+                                  .split('/')
+                                  .toList()
+                                  .sublist(1, 3)
+                                  .join("/") +
+                              "/Applications/";
+
+                          var shell = Shell().cd(location);
+                          shell.run('./' + i.key);
+                        }
+                      : null,
                   subtitle: Text(
-                      "${i.value[0].getFileSize()}/${i.value[1].getFileSize()}"),
+                      "${(i.value[0] as int).getFileSize()}/${(i.value[1] as int).getFileSize()}"),
                 ),
               ),
               value: i.key);
@@ -164,7 +180,7 @@ class AppPage extends HookWidget {
                                               return DownloadDialog(
                                                   response, appIcon,
                                                   (checkmap) async {
-                                                // print(checkmap.value);
+                                                // debugPrint(checkmap.value);
                                                 var location = "/" +
                                                     (await getApplicationDocumentsDirectory())
                                                         .toString()
@@ -183,11 +199,12 @@ class AppPage extends HookWidget {
                                                   String filename = checkmap
                                                       .values
                                                       .toList()[0];
-                                                  print(location);
                                                   downloading.value = true;
                                                   listDownloads.value
-                                                      .putIfAbsent(filename,
-                                                          () => [0, 0]);
+                                                      .putIfAbsent(
+                                                          filename,
+                                                          () =>
+                                                              [0, 0, appIcon]);
                                                   await Dio().download(fileurl,
                                                       location + filename,
                                                       onReceiveProgress:
@@ -196,8 +213,9 @@ class AppPage extends HookWidget {
                                                         filename]![0] = r;
                                                     listDownloads.value[
                                                         filename]![1] = t;
-                                                  });
-                                                  downloading.value = false;
+                                                  }).whenComplete(() =>
+                                                      downloading.value =
+                                                          false);
                                                   var shell =
                                                       Shell().cd(location);
                                                   shell.run(

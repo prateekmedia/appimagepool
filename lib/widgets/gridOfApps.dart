@@ -12,6 +12,7 @@ class GridOfApps extends StatelessWidget {
   Widget build(BuildContext context) {
     return itemList.length > 0
         ? GridView.builder(
+            primary: false,
             padding: EdgeInsets.all(15),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: context.width > 1200
@@ -96,9 +97,11 @@ class GridOfApps extends StatelessWidget {
               );
             },
           )
-        : Text(
-            "No Results Found,\nTry changing search terms.",
-            textAlign: TextAlign.center,
+        : Center(
+            child: Text(
+              "No Results Found,\nTry changing search terms.",
+              textAlign: TextAlign.center,
+            ),
           );
   }
 }
