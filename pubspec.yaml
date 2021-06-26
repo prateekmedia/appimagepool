@@ -10,9 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  carousel_slider: 
-    git:
-      url: https://github.com/prateekmedia/flutter_carousel_slider
+  carousel_slider: ^4.0.0
   flutter_hooks: ^0.16.0
   cached_network_image: ^3.0.0
   dio: ^4.0.0

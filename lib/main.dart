@@ -111,6 +111,7 @@ class _HomePageState extends State<HomePage> {
   Map? categories;
   List? allItems;
   Map? featured;
+  CarouselController _controller = CarouselController();
 
   void initState() {
     getData();
@@ -121,7 +122,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final searchedTerm = useState<String>("");
     final _current = useState<int>(0);
-    final CarouselController _controller = CarouselController();
     var itemsNew = allItems != null
         ? allItems!
             .where((element) => element['name']
