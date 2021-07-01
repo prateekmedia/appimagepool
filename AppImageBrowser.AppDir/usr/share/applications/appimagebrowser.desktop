@@ -5,4 +5,5 @@ Terminal=false
 Name=AppImage Browser
 Exec=appimagebrowser %u
 Icon=appimagebrowser
+StartupWMClass=Nyrna
 Categories=Utility;
