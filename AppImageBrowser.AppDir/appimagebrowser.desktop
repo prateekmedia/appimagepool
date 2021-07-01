@@ -1,8 +1,1 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Terminal=false
-Name=AppImage Browser
-Exec=appimagebrowser %u
-Icon=appimagebrowser
-Categories=Utility;
+/run/media/prateeksu/C8409541409536E2/Projects/appimagebrowser/AppImageBrowser.AppDir/usr/share/applications/appimagebrowser.desktop

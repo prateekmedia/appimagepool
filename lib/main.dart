@@ -383,8 +383,9 @@ class _HomePageState extends State<HomePage> {
                                 return GestureDetector(
                                   onTap: () => _controller.animateToPage(index),
                                   child: Container(
-                                    width: 8.0,
-                                    height: 8.0,
+                                    width: 10.0,
+                                    height: 10.0,
+                                    padding: EdgeInsets.all(4),
                                     margin: EdgeInsets.symmetric(
                                         vertical: 10.0, horizontal: 2.0),
                                     decoration: BoxDecoration(

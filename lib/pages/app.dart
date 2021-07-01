@@ -17,6 +17,7 @@ class AppPage extends HookWidget {
   AppPage({required this.app});
 
   final Map app;
+  final CarouselController _controller = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +94,17 @@ class AppPage extends HookWidget {
                           var shell = Shell().cd(location);
                           shell.run('./' + i.key);
                         }
-                      : null,
+                      : () {},
                   subtitle: Text(
                       "${(i.value[0] as int).getFileSize()}/${(i.value[1] as int).getFileSize()}"),
+                  trailing: (i.value[0] != i.value[1])
+                      ? IconButton(
+                          onPressed: () {
+                            print(i.value[3]);
+                            (i.value[3] as CancelToken).cancel("cancelled");
+                          },
+                          icon: Icon(Icons.close))
+                      : null,
                 ),
               ),
               value: i.key);
@@ -200,11 +209,17 @@ class AppPage extends HookWidget {
                                                       .values
                                                       .toList()[0];
                                                   downloading.value = true;
+                                                  CancelToken token =
+                                                      CancelToken();
                                                   listDownloads.value
                                                       .putIfAbsent(
                                                           filename,
-                                                          () =>
-                                                              [0, 0, appIcon]);
+                                                          () => [
+                                                                0,
+                                                                0,
+                                                                appIcon,
+                                                                token
+                                                              ]);
                                                   await Dio().download(fileurl,
                                                       location + filename,
                                                       onReceiveProgress:
@@ -213,8 +228,10 @@ class AppPage extends HookWidget {
                                                         filename]![0] = r;
                                                     listDownloads.value[
                                                         filename]![1] = t;
-                                                  }).whenComplete(() =>
-                                                      downloading.value =
+                                                  },
+                                                      cancelToken:
+                                                          token).whenComplete(
+                                                      () => downloading.value =
                                                           false);
                                                   var shell =
                                                       Shell().cd(location);
@@ -248,6 +265,7 @@ class AppPage extends HookWidget {
                   if (app['screenshots'] != null &&
                       app['screenshots'].length > 0)
                     CarouselSlider.builder(
+                      carouselController: _controller,
                       itemCount: app['screenshots'].length,
                       itemBuilder: (context, index, i) {
                         String screenUrl =
@@ -298,18 +316,26 @@ class AppPage extends HookWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:
                           List.generate(app['screenshots'].length, (index) {
-                        return Container(
-                          width: 8.0,
-                          height: 8.0,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 2.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _current.value == index
-                                ? (context.isDark ? Colors.white : Colors.black)
-                                    .withOpacity(0.9)
-                                : (context.isDark ? Colors.white : Colors.black)
-                                    .withOpacity(0.4),
+                        return GestureDetector(
+                          onTap: () => _controller.animateToPage(index),
+                          child: Container(
+                            width: 10.0,
+                            height: 10.0,
+                            padding: EdgeInsets.all(4),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 2.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _current.value == index
+                                  ? (context.isDark
+                                          ? Colors.white
+                                          : Colors.black)
+                                      .withOpacity(0.9)
+                                  : (context.isDark
+                                          ? Colors.white
+                                          : Colors.black)
+                                      .withOpacity(0.4),
+                            ),
                           ),
                         );
                       }).toList(),
