@@ -1,4 +1,4 @@
-<p align="center"><a href="#appimagebrowser"><img src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/appimagebrowser.png" height=80px alt="Clipboard manager Logo"/></a></p>
+<p align="center"><a href="#appimagebrowser"><img src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/usr/share/icons/hicolor/128x128/apps/appimagebrowser.png" height=80px alt="AppImage Browser Logo"/></a></p>
 <h1 align="center">AppImageBrowser</h1>
 <p align="center">
 <a href="https://github.com/prateekmedia/appimagebrowser/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagebrowser?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagebrowser?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
