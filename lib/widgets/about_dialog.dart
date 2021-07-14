@@ -22,9 +22,18 @@ Widget aboutDialog(BuildContext context) {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CachedNetworkImage(
-                        imageUrl:
-                            'https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/appimagebrowser.png'),
+                    Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.contain,
+                          image: CachedNetworkImageProvider(
+                            'https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/appimagebrowser.png',
+                          ),
+                        ),
+                      ),
+                      width: 70,
+                      height: 70,
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 2),
                       child: Text(

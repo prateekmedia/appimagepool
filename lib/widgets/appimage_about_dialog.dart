@@ -14,9 +14,9 @@ Dialog appimageAboutDialog(BuildContext context) {
           children: [
             CachedNetworkImage(
                 imageUrl:
-                    'https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/appimagebrowser.png'),
+                    'https://avatars.githubusercontent.com/u/16617932?s=80&v=4'),
             Padding(
-              padding: EdgeInsets.only(bottom: 6.0),
+              padding: EdgeInsets.only(top: 10.0, bottom: 6.0),
               child: Text(
                 "AppImages",
                 style: context.textTheme.headline5!.copyWith(letterSpacing: 1),
