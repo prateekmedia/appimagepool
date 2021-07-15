@@ -31,7 +31,7 @@ jobs:
         run: >
           flutter build linux;
           cp -r build/linux/release/bundle/* AppImagePool.AppDir || cp -r build/linux/x64/release/bundle/* AppImagePool.AppDir;
-          sudo chmod +x appimagetool-x86_64.AppImage AppImagePool.AppDir/appimagepool.desktop AppImagePool.AppDir/usr/share/applications/appimagepool.desktop;
+          sudo chmod +x appimagetool-x86_64.AppImage AppImagePool.AppDir/AppRun;
 
       - name: Generate AppImage
         run: ARCH=x86_64 ./appimagetool-x86_64.AppImage AppImagePool.AppDir/ appimagepool.AppImage
