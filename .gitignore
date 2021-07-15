@@ -25,7 +25,7 @@
 *.AppDir/lib/
 *.AppDir/appimagepool
 *.AppDir/.DirIcon
-*-x86_64.AppImage
+*.AppImage
 
 # Flutter/Dart/Pub related
 **/doc/api/
