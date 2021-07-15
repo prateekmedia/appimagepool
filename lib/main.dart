@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:appimagebrowser/widgets/gridOfApps.dart';
+import 'package:appimagepool/widgets/gridOfApps.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: aibAppBar(
         context,
-        title: "AppImageBrowser",
+        title: "AppImagePool",
         searchText: searchedTerm,
         trailing: [
           FloatingSearchBarAction.searchToClear(

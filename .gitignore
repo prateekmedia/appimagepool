@@ -23,7 +23,7 @@
 # AppImage Related
 *.AppDir/data/
 *.AppDir/lib/
-*.AppDir/appimagebrowser
+*.AppDir/appimagepool
 *.AppDir/.DirIcon
 *-x86_64.AppImage
 

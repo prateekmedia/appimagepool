@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "appimagebrowser")
-set(APPLICATION_ID "com.example.appimagebrowser")
+set(BINARY_NAME "appimagepool")
+set(APPLICATION_ID "com.psu.appimagepool")
 
 cmake_policy(SET CMP0063 NEW)
 

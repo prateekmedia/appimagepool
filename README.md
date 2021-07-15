@@ -1,12 +1,12 @@
-<p align="center"><a href="#appimagebrowser"><img src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/usr/share/icons/hicolor/128x128/apps/appimagebrowser.png" height=80px alt="AppImage Browser Logo"/></a></p>
-<h1 align="center">AppImageBrowser</h1>
+<p align="center"><a href="#appimagepool"><img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/AppImagePool.AppDir/usr/share/icons/hicolor/128x128/apps/appimagepool.png" height=80px alt="AppImage Pool Logo"/></a></p>
+<h1 align="center">AppImagePool</h1>
 <p align="center">
-<a href="https://github.com/prateekmedia/appimagebrowser/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagebrowser?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagebrowser?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
+<a href="https://github.com/prateekmedia/appimagepool/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
 </p>
 
 <p align="center">A simple, modern AppImageHub Client made for linux using flutter.</p>
 
-<p align="center"><img width=500 src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/assets/screenshot/01.png" alt="Screenshot 1"/> <img width=300  src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/assets/screenshot/04.png" alt="Screenshot 2"/> <img width=500 src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/assets/screenshot/02.png" alt="Screenshot 3"/>  <img  width=300 src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/assets/screenshot/05.png" alt="Screenshot 4"/> <img width=500 src="https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/assets/screenshot/03.png" alt="Screenshot 5"/></p>
+<p align="center"><img width=500 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/01.png" alt="Screenshot 1"/> <img width=300  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/04.png" alt="Screenshot 2"/> <img width=500 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/02.png" alt="Screenshot 3"/>  <img  width=300 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/05.png" alt="Screenshot 4"/> <img width=500 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/03.png" alt="Screenshot 5"/></p>
 
 ---
 
@@ -23,7 +23,7 @@
 
 
 ### Direct AppImage Download 
-<a href="https://github.com/prateekmedia/appimagebrowser/releases/latest/"><img src="https://img.shields.io/badge/Download from Github-indigo?style=for-the-badge&logo=Github"/></a>
+<a href="https://github.com/prateekmedia/appimagepool/releases/latest/"><img src="https://img.shields.io/badge/Download from Github-indigo?style=for-the-badge&logo=Github"/></a>
 
 ---
 

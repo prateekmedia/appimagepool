@@ -1,4 +1,4 @@
-import 'package:appimagebrowser/pages/custom_license_page.dart';
+import 'package:appimagepool/pages/custom_license_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -27,7 +27,7 @@ Widget aboutDialog(BuildContext context) {
                         image: DecorationImage(
                           fit: BoxFit.contain,
                           image: CachedNetworkImageProvider(
-                            'https://raw.githubusercontent.com/prateekmedia/appimagebrowser/main/AppImageBrowser.AppDir/appimagebrowser.png',
+                            'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/AppImagePool.AppDir/appimagepool.png',
                           ),
                         ),
                       ),
@@ -37,7 +37,7 @@ Widget aboutDialog(BuildContext context) {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 2),
                       child: Text(
-                        "${snapshot.data!.appName}",
+                        "AppImage Pool",
                         style: context.textTheme.headline5!
                             .copyWith(letterSpacing: 1),
                       ),
