@@ -77,9 +77,11 @@ class GridOfApps extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 5),
+                          padding: EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             app.name,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                             style: context.textTheme.bodyText1!.copyWith(
                                 color: context.isDark
                                     ? Colors.white
