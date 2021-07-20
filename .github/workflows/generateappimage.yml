@@ -34,7 +34,7 @@ jobs:
 
       - name: Generate AppImage (x86)
         run: >
-          cp -r build/linux/x64/release/bundle/* AppIma.AppDir;
+          cp -r build/linux/x64/release/bundle/* AppImagePool.AppDir;
           ARCH=x86_64 ./appimagetool-x86_64.AppImage AppImagePool.AppDir/ appimagepool-x86_64.AppImage
 
       - name: Upload files to a GitHub release
