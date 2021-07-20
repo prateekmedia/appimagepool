@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:appimagepool/models/models.dart';
+import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/widgets/customdialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
@@ -13,14 +16,14 @@ import 'package:simple_html_css/simple_html_css.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 
-class AppPage extends HookWidget {
+class AppPage extends HookConsumerWidget {
   AppPage({required this.app});
 
   final Map app;
   final CarouselController _controller = CarouselController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     String url = app['links'] != null
         ? (app['links'] as List).firstWhere((e) => e['type'] == 'Download',
             orElse: () => {'url': ''})['url']
@@ -61,72 +64,16 @@ class AppPage extends HookWidget {
             color: context.isDark ? Colors.white : Colors.grey[800],
           );
     final _current = useState<int>(0);
-    final downloading = useState<bool?>(null);
-    final listDownloads = useState<Map<String, List<dynamic>>>({});
-    _showPopupMenu(Offset offset) async {
-      double left = offset.dx;
-      double top = offset.dy;
-      await showMenu(
-        context: context,
-        position: RelativeRect.fromLTRB(left, top, 0, 0),
-        items: List.generate(listDownloads.value.entries.length, (index) {
-          var i = listDownloads.value.entries.toList()[index];
-          return PopupMenuItem<String>(
-              child: Tooltip(
-                message: i.key,
-                child: ListTile(
-                  leading: i.value[2],
-                  title: Text(
-                    i.key,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onTap: (i.value[0] == i.value[1])
-                      ? () async {
-                          var location = "/" +
-                              (await getApplicationDocumentsDirectory())
-                                  .toString()
-                                  .split('/')
-                                  .toList()
-                                  .sublist(1, 3)
-                                  .join("/") +
-                              "/Applications/";
+    var downloading = ref.watch(isDownloadingProvider);
+    List<QueryApp> listDownloads = ref.watch(downloadListProvider);
 
-                          var shell = Shell().cd(location);
-                          shell.run('./' + i.key);
-                        }
-                      : () {},
-                  subtitle: Text(
-                      "${(i.value[0] as int).getFileSize()}/${(i.value[1] as int).getFileSize()}"),
-                  trailing: (i.value[0] != i.value[1])
-                      ? IconButton(
-                          onPressed: () {
-                            print(i.value[3]);
-                            (i.value[3] as CancelToken).cancel("cancelled");
-                          },
-                          icon: Icon(Icons.close))
-                      : null,
-                ),
-              ),
-              value: i.key);
-        }).toList(),
-        elevation: 8.0,
-      );
-    }
-
-    print(app);
+    debugPrint(app.toString());
     return Scaffold(
       body: aibAppBar(
         context,
         trailing: [
-          if (downloading.value != null)
-            GestureDetector(
-              onTapDown: (details) {
-                _showPopupMenu(details.globalPosition);
-              },
-              child: Icon(downloading.value!
-                  ? Icons.download_outlined
-                  : Icons.download_done_outlined),
-            ),
+          if (listDownloads.length > 0)
+            downloadButton(context, listDownloads, downloading),
         ],
         body: ListView(
           children: [
@@ -208,31 +155,47 @@ class AppPage extends HookWidget {
                                                   String filename = checkmap
                                                       .values
                                                       .toList()[0];
-                                                  downloading.value = true;
-                                                  CancelToken token =
+                                                  ref
+                                                      .watch(
+                                                          isDownloadingProvider
+                                                              .notifier)
+                                                      .toggleValue();
+                                                  CancelToken cancelToken =
                                                       CancelToken();
-                                                  listDownloads.value
-                                                      .putIfAbsent(
-                                                          filename,
-                                                          () => [
-                                                                0,
-                                                                0,
-                                                                appIcon,
-                                                                token
-                                                              ]);
+                                                  listDownloads.add(QueryApp(
+                                                      filename,
+                                                      app['icons'][0],
+                                                      url,
+                                                      cancelToken,
+                                                      location,
+                                                      0,
+                                                      0));
                                                   await Dio().download(fileurl,
                                                       location + filename,
                                                       onReceiveProgress:
-                                                          (r, t) {
-                                                    listDownloads.value[
-                                                        filename]![0] = r;
-                                                    listDownloads.value[
-                                                        filename]![1] = t;
+                                                          (recieved, total) {
+                                                    listDownloads[listDownloads
+                                                            .indexWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .name ==
+                                                                    filename)]
+                                                        .actualBytes = recieved;
+                                                    listDownloads[listDownloads
+                                                            .indexWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .name ==
+                                                                    filename)]
+                                                        .totalBytes = total;
                                                   },
                                                       cancelToken:
-                                                          token).whenComplete(
-                                                      () => downloading.value =
-                                                          false);
+                                                          cancelToken).whenComplete(
+                                                      () => ref
+                                                          .watch(
+                                                              isDownloadingProvider
+                                                                  .notifier)
+                                                          .toggleValue());
                                                   var shell =
                                                       Shell().cd(location);
                                                   shell.run(
