@@ -30,22 +30,17 @@ jobs:
       - name: Build Linux App
         run: >
           flutter build linux;
-          cp -r build/linux/release/bundle/* AppImagePool.AppDir || cp -r build/linux/x64/release/bundle/* AppImagePool.AppDir;
           sudo chmod +x appimagetool-x86_64.AppImage AppImagePool.AppDir/AppRun;
 
-      - name: Generate AppImage
-        run: ARCH=x86_64 ./appimagetool-x86_64.AppImage AppImagePool.AppDir/ appimagepool.AppImage
+      - name: Generate AppImage (x86)
+        run: >
+          cp -r build/linux/x64/release/bundle/* AppIma.AppDir;
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppImagePool.AppDir/ appimagepool-x86_64.AppImage
 
       - name: Upload files to a GitHub release
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: appimagepool.AppImage
+          file: appimagepool-x86_64.AppImage
           tag: ${{ github.ref }}
           overwrite: true
-
-      - name: Upload to Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: appimage-release
-          path: ./appimagepool.AppImage
