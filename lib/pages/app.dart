@@ -19,50 +19,44 @@ import '../widgets/widgets.dart';
 class AppPage extends HookConsumerWidget {
   AppPage({required this.app});
 
-  final Map app;
+  final App app;
   final CarouselController _controller = CarouselController();
 
   @override
   Widget build(BuildContext context, ref) {
-    String url = app['links'] != null
-        ? (app['links'] as List).firstWhere((e) => e['type'] == 'Download',
+    String url = app.url != null
+        ? (app.url as List).firstWhere((e) => e['type'] == 'Download',
             orElse: () => {'url': ''})['url']
         : '';
-    String proUrl = app['links'] != null
-        ? github +
-            (app['links'] as List).firstWhere((e) => e['type'] == 'GitHub',
-                orElse: () => {'url': ''})['url']
+    print(app.url);
+    String proUrl = app.url != null
+        ? app.url!.firstWhere((e) => e['type'].toLowerCase() == 'github',
+            orElse: () => {'url': ''})['url']
         : '';
+
+    if (!proUrl.startsWith('http') && app.url != null) proUrl = github + proUrl;
 
     double iconSize = context.width > 500
         ? 100
         : context.width > 400
             ? 60
             : 50;
-    var prefixNameUrl =
-        app['icons'] != null && app['icons'][0].startsWith('http')
-            ? ""
-            : PREFIX_URL;
-    Widget appIcon = app['icons'] != null
-        ? app['icons'][0].endsWith('.svg')
-            ? SvgPicture.network(
-                prefixNameUrl + app['icons'][0],
-              )
-            : CachedNetworkImage(
-                imageUrl: prefixNameUrl + app['icons'][0],
+    Widget brokenImageWidget = SvgPicture.network(
+      brokenImageUrl,
+      color: context.isDark ? Colors.white : Colors.grey[800],
+    );
+    Widget appIcon = app.iconUrl != null
+        ? (!app.iconUrl!.endsWith('.svg'))
+            ? CachedNetworkImage(
+                imageUrl: app.iconUrl!,
                 fit: BoxFit.cover,
-                placeholder: (c, u) => Center(
+                placeholder: (c, b) => Center(
                   child: CircularProgressIndicator(),
                 ),
-                errorWidget: (c, w, i) => SvgPicture.network(
-                  brokenImageUrl,
-                  color: context.isDark ? Colors.white : Colors.grey[800],
-                ),
+                errorWidget: (c, w, i) => brokenImageWidget,
               )
-        : SvgPicture.network(
-            brokenImageUrl,
-            color: context.isDark ? Colors.white : Colors.grey[800],
-          );
+            : SvgPicture.network(app.iconUrl!)
+        : brokenImageWidget;
     final _current = useState<int>(0);
     var downloading = ref.watch(isDownloadingProvider);
     List<QueryApp> listDownloads = ref.watch(downloadListProvider);
@@ -89,11 +83,11 @@ class AppPage extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Tooltip(
-                            message: (app['links'] != null && proUrl.length > 0)
+                            message: (app.url != null && proUrl.length > 0)
                                 ? proUrl
                                 : "",
                             child: GestureDetector(
-                              onTap: (app['links'] != null && proUrl.length > 0)
+                              onTap: (app.url != null && proUrl.length > 0)
                                   ? proUrl.launchIt
                                   : null,
                               child: Container(
@@ -107,19 +101,19 @@ class AppPage extends HookConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(app['name'] != null ? app['name'] : "N.A.",
+                                Text(app.name,
                                     style: context.textTheme.headline6),
                                 Text(
-                                    (app['categories'] != null &&
-                                            app['categories'][0] != null
-                                        ? app['categories'].join(', ')
+                                    (app.categories != null &&
+                                            app.categories!.length > 0
+                                        ? app.categories!.join(', ')
                                         : "N.A."),
                                     style: context.textTheme.bodyText2),
                               ],
                             ),
                           ),
                           SizedBox(width: 10),
-                          if (app['links'] != null && url.length > 0)
+                          if (app.url != null && url.length > 0)
                             Tooltip(
                               message: url,
                               child: ElevatedButton(
@@ -162,14 +156,17 @@ class AppPage extends HookConsumerWidget {
                                                       .toggleValue();
                                                   CancelToken cancelToken =
                                                       CancelToken();
-                                                  listDownloads.add(QueryApp(
-                                                      filename,
-                                                      app['icons'][0],
-                                                      url,
-                                                      cancelToken,
-                                                      location,
-                                                      0,
-                                                      0));
+                                                  listDownloads.add(
+                                                    QueryApp(
+                                                        name: filename,
+                                                        url: url,
+                                                        cancelToken:
+                                                            cancelToken,
+                                                        downloadLocation:
+                                                            location,
+                                                        actualBytes: 0,
+                                                        totalBytes: 0),
+                                                  );
                                                   await Dio().download(fileurl,
                                                       location + filename,
                                                       onReceiveProgress:
@@ -225,16 +222,16 @@ class AppPage extends HookConsumerWidget {
               child: Container(
                 constraints: BoxConstraints(maxWidth: 1200),
                 child: Column(children: [
-                  if (app['screenshots'] != null &&
-                      app['screenshots'].length > 0)
+                  if (app.screenshotsUrl != null &&
+                      app.screenshotsUrl!.length > 0)
                     CarouselSlider.builder(
                       carouselController: _controller,
-                      itemCount: app['screenshots'].length,
+                      itemCount: app.screenshotsUrl!.length,
                       itemBuilder: (context, index, i) {
                         String screenUrl =
-                            app['screenshots'][index].startsWith('http')
-                                ? app['screenshots'][index]
-                                : PREFIX_URL + app['screenshots'][index];
+                            app.screenshotsUrl![index].startsWith('http')
+                                ? app.screenshotsUrl![index]
+                                : PREFIX_URL + app.screenshotsUrl![index];
                         Widget brokenImageWidget = SvgPicture.network(
                           brokenImageUrl,
                           color: context.isDark ? Colors.white : Colors.black,
@@ -242,7 +239,7 @@ class AppPage extends HookConsumerWidget {
                         return Container(
                           height: 400,
                           padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: app['screenshots'] != null
+                          child: app.screenshotsUrl != null
                               ? screenUrl.endsWith('.svg')
                                   ? SvgPicture.network(screenUrl)
                                   : CachedNetworkImage(
@@ -273,12 +270,12 @@ class AppPage extends HookConsumerWidget {
                           }),
                     ),
                   SizedBox(height: 5),
-                  if (app['screenshots'] != null &&
-                      app['screenshots'].length > 0)
+                  if (app.screenshotsUrl != null &&
+                      app.screenshotsUrl!.length > 0)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:
-                          List.generate(app['screenshots'].length, (index) {
+                          List.generate(app.screenshotsUrl!.length, (index) {
                         return GestureDetector(
                           onTap: () => _controller.animateToPage(index),
                           child: Container(
@@ -309,27 +306,23 @@ class AppPage extends HookConsumerWidget {
                     child: RichText(
                         text: HTML.toTextSpan(
                             context,
-                            (app['description'] != null &&
-                                    app['description']
-                                            .toString()
-                                            .trim()
-                                            .length >
+                            (app.description != null &&
+                                    app.description!.toString().trim().length >
                                         0)
-                                ? app['description']
+                                ? app.description!
                                 : "No Description Found",
                             defaultTextStyle: context.textTheme.bodyText1!)),
                   ),
                   twoRowContainer(
                     context,
                     primaryT: "License",
-                    secondaryT:
-                        app['license'] != null ? app['license'] : "N.A.",
+                    secondaryT: app.license ?? "N.A.",
                   ),
                   twoRowContainer(
                     context,
                     primaryT: "Authors",
-                    secondaryT: app['authors'] != null
-                        ? "${app['authors'].map((e) => '<a href="${e['url']}" >${e['name']}</a>').join(', ')}"
+                    secondaryT: app.authors != null
+                        ? "${app.authors!.map((e) => '<a href="${e['url']}" >${e['name']}</a>').join(', ')}"
                         : "N.A.",
                   ),
                 ]),

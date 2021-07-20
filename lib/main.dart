@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/widgets/gridOfApps.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -158,8 +159,8 @@ class _HomePageState extends State<HomePage> {
               if (listDownloads.length > 0)
                 downloadButton(context, listDownloads, downloading),
               FloatingSearchBarAction(
-                child: PopupMenuButton(
-                  itemBuilder: (ctx) => [
+                child: AppPopupMenu(
+                  menuItems: [
                     PopupMenuItem(
                       child: Text("About Appimages"),
                       value: "appimage",
@@ -185,6 +186,11 @@ class _HomePageState extends State<HomePage> {
                         break;
                     }
                   },
+                  elevation: 3,
+                  offset: const Offset(0, 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
               ),
             ],
@@ -214,47 +220,32 @@ class _HomePageState extends State<HomePage> {
                                     CarouselSlider.builder(
                                       itemCount: featured!.length,
                                       itemBuilder: (context, index, i) {
-                                        var prefixNameUrl = featured!.values
-                                                            .toList()[index]
-                                                        ['icons'] !=
-                                                    null &&
-                                                (featured!.values
-                                                            .toList()[index]
-                                                        ['icons']! as List)[0]
-                                                    .startsWith('http')
-                                            ? ""
-                                            : PREFIX_URL;
+                                        App featuredApp = App.fromItem(
+                                            featured!.values.toList()[index]);
                                         return GestureDetector(
                                           onTap: () => Navigator.of(context)
                                               .push(MaterialPageRoute(
                                                   builder: (ctx) => AppPage(
-                                                      app: featured!.values
-                                                          .toList()[index]))),
+                                                      app: featuredApp))),
                                           child: Stack(
                                             children: [
-                                              if (featured!.values
-                                                          .toList()[index]
-                                                      ['screenshots'] !=
+                                              if (featuredApp.screenshotsUrl !=
                                                   null)
                                                 Container(
                                                     constraints:
                                                         BoxConstraints.expand(),
                                                     child: CachedNetworkImage(
-                                                      imageUrl: (featured!.values
-                                                                          .toList()[index]
-                                                                      ['screenshots']!
-                                                                  as List)[0]
+                                                      imageUrl: featuredApp
+                                                              .screenshotsUrl![
+                                                                  0]
                                                               .startsWith(
                                                                   'http')
-                                                          ? (featured!.values
-                                                                      .toList()[index]
-                                                                  ['screenshots']!
-                                                              as List)[0]
+                                                          ? (featuredApp
+                                                                  .screenshotsUrl!)[
+                                                              0]
                                                           : PREFIX_URL +
-                                                              (featured!.values.toList()[
-                                                                          index]
-                                                                      ['screenshots']!
-                                                                  as List)[0],
+                                                              featuredApp
+                                                                  .screenshotsUrl![0],
                                                       fit: BoxFit.cover,
                                                     )),
                                               Center(
@@ -278,26 +269,21 @@ class _HomePageState extends State<HomePage> {
                                                         children: [
                                                           Container(
                                                             width: 100,
-                                                            child: featured!.values
-                                                                            .toList()[index]
-                                                                        [
-                                                                        'icons'] !=
+                                                            child: featuredApp
+                                                                        .iconUrl !=
                                                                     null
-                                                                ? (featured!.values.toList()[index]['icons']!
-                                                                                as List)[
-                                                                            0]
+                                                                ? featuredApp
+                                                                        .iconUrl!
                                                                         .endsWith(
                                                                             '.svg')
                                                                     ? SvgPicture
                                                                         .network(
-                                                                        prefixNameUrl +
-                                                                            (featured!.values.toList()[index]['icons']!
-                                                                                as List)[0],
+                                                                        featuredApp
+                                                                            .iconUrl!,
                                                                       )
                                                                     : CachedNetworkImage(
                                                                         imageUrl:
-                                                                            prefixNameUrl +
-                                                                                (featured!.values.toList()[index]['icons']! as List)[0],
+                                                                            featuredApp.iconUrl!,
                                                                         fit: BoxFit
                                                                             .cover,
                                                                         placeholder:
@@ -328,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                                                           ),
                                                           Flexible(
                                                             child: Text(
-                                                              "${featured!.values.toList()[index]['name']}",
+                                                              "${featuredApp.name}",
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,

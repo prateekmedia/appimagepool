@@ -1,3 +1,4 @@
+import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/pages/pages.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -30,23 +31,18 @@ class GridOfApps extends StatelessWidget {
             itemCount: itemList.length,
             itemBuilder: (BuildContext context, int index) {
               var item = itemList[index];
-              String name = item['name'] != null ? item['name'] : "N.A.";
-              String desc =
-                  item['description'] != null ? item['description'] : "";
-              String logoUrl =
-                  item['icons'] != null ? PREFIX_URL + item['icons'][0] : "";
+              var app = App.fromItem(item);
 
-              if (name.length > 12) name = name.substring(0, 12) + "...";
               Widget brokenImageWidget = SvgPicture.network(
                 brokenImageUrl,
                 color: context.isDark ? Colors.white : Colors.grey[800],
               );
 
               return Tooltip(
-                message: desc,
+                message: app.description ?? "",
                 child: GestureDetector(
                   onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) => AppPage(app: item))),
+                      MaterialPageRoute(builder: (ctx) => AppPage(app: app))),
                   child: Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
@@ -64,10 +60,10 @@ class GridOfApps extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: item['icons'] != null
-                                    ? (!logoUrl.endsWith('.svg'))
+                                child: app.iconUrl != null
+                                    ? (!app.iconUrl!.endsWith('.svg'))
                                         ? CachedNetworkImage(
-                                            imageUrl: logoUrl,
+                                            imageUrl: app.iconUrl!,
                                             fit: BoxFit.cover,
                                             placeholder: (c, b) => Center(
                                               child:
@@ -76,14 +72,14 @@ class GridOfApps extends StatelessWidget {
                                             errorWidget: (c, w, i) =>
                                                 brokenImageWidget,
                                           )
-                                        : SvgPicture.network(logoUrl)
+                                        : SvgPicture.network(app.iconUrl!)
                                     : brokenImageWidget),
                           ),
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 5),
                           child: Text(
-                            name,
+                            app.name,
                             style: context.textTheme.bodyText1!.copyWith(
                                 color: context.isDark
                                     ? Colors.white
