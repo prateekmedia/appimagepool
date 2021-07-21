@@ -16,7 +16,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'models/models.dart';
-import 'pages/pages.dart';
+import 'screens/screens.dart';
 import 'utils/utils.dart';
 import 'widgets/widgets.dart';
 

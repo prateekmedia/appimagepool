@@ -1,4 +1,4 @@
-import 'package:appimagepool/pages/custom_license_page.dart';
+import 'package:appimagepool/screens/screens.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';

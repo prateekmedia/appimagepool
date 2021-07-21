@@ -1,5 +1,5 @@
 import 'package:appimagepool/models/models.dart';
-import 'package:appimagepool/pages/pages.dart';
+import 'package:appimagepool/screens/screens.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
