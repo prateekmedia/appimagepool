@@ -13,6 +13,7 @@ class Package {
 }
 
 class CustomLicensePage extends StatelessWidget {
+  const CustomLicensePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,24 +23,25 @@ class CustomLicensePage extends StatelessWidget {
         body: FutureBuilder<List<LicenseEntry>>(
             future: LicenseRegistry.licenses.toList(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Center(child: CircularProgressIndicator());
-              else {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
                 List<Package> packages = [];
-                snapshot.data!.forEach((element) {
+                for (var element in snapshot.data!) {
                   if (packages.firstWhereOrNull(
                           (e) => e.name == element.packages.first) ==
                       null) {
-                    if (element.paragraphs.toList().length > 1)
+                    if (element.paragraphs.toList().length > 1) {
                       packages
                           .add(Package(name: element.packages.first, count: 1));
+                    }
                   } else {
                     packages
                         .firstWhereOrNull(
                             (e) => e.name == element.packages.first)!
                         .count += 1;
                   }
-                });
+                }
 
                 return ListView.builder(
                   itemBuilder: (context, index) => ListTile(
@@ -53,7 +55,7 @@ class CustomLicensePage extends StatelessWidget {
                                   .toList(),
                             ))),
                     title: Text(
-                      '${packages[index].name}',
+                      packages[index].name,
                       style: context.textTheme.bodyText1,
                     ),
                     subtitle: Text(
@@ -74,7 +76,8 @@ class LicenseInfoPage extends StatelessWidget {
   final Package? package;
   final List<LicenseEntry>? paragraph;
 
-  LicenseInfoPage({this.package, this.paragraph});
+  const LicenseInfoPage({Key? key, this.package, this.paragraph})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)?.settings.arguments as Map?;
@@ -94,11 +97,12 @@ class LicenseInfoPage extends StatelessWidget {
                   color: context.isDark
                       ? Colors.grey[800]
                       : Colors.white.darken(4),
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 15),
                   alignment: Alignment.centerLeft,
                   child: Text(cParagraph![index].paragraphs.toList()[0].text)),
               content: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                     children: List.generate(
                         cParagraph![index].paragraphs.toList().length - 1,

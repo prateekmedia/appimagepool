@@ -44,9 +44,9 @@ Widget downloadButton(
                   trailing: IconButton(
                       onPressed: () {
                         debugPrint(i.cancelToken.toString());
-                        if (i.actualBytes != i.totalBytes)
+                        if (i.actualBytes != i.totalBytes) {
                           i.cancelToken.cancel("cancelled");
-                        else {
+                        } else {
                           File(i.downloadLocation + i.name).deleteSync();
                           listDownloads.removeAt(index);
                         }

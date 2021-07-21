@@ -8,7 +8,7 @@ Dialog appimageAboutDialog(BuildContext context) {
   return roundedDialog(context, children: [
     Center(
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -16,7 +16,7 @@ Dialog appimageAboutDialog(BuildContext context) {
                 imageUrl:
                     'https://avatars.githubusercontent.com/u/16617932?s=80&v=4'),
             Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 6.0),
+              padding: const EdgeInsets.only(top: 10.0, bottom: 6.0),
               child: Text(
                 "AppImages",
                 style: context.textTheme.headline5!.copyWith(letterSpacing: 1),
@@ -24,14 +24,14 @@ Dialog appimageAboutDialog(BuildContext context) {
             ),
             Text("EASY TRUSTED FAST",
                 style: context.textTheme.bodyText2!.copyWith(letterSpacing: 2)),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Linux apps that run anywhere",
               style: context.textTheme.bodyText1!
                   .copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Tooltip(
               message: projectUrl,
               child: MaterialButton(

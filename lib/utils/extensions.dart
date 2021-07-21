@@ -15,8 +15,9 @@ extension Context on BuildContext {
 extension Iterables<E> on Iterable<E> {
   Map<K, List<E>> groupBy<K>(K Function(E) keyFunction) {
     Map<K, List<E>> mape(element, map) {
-      (keyFunction(element) as List)
-          .forEach((el) => map..putIfAbsent(el, () => <E>[]).add(element));
+      for (var el in (keyFunction(element) as List)) {
+        map.putIfAbsent(el, () => <E>[]).add(element);
+      }
       return map;
     }
 
@@ -31,7 +32,7 @@ extension UrlLauncher on String {
       : throw 'Could not launch $this';
 }
 
-extension getHumanizedFileSizeExtension on int {
+extension GetHumanizedFileSizeExtension on int {
   String getFileSize({int decimals = 1}) {
     if (this <= 0) return "0.0 KB";
     const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
@@ -46,17 +47,14 @@ extension ColorTint on Color {
   Color darken([int percent = 10]) {
     assert(1 <= percent && percent <= 100);
     var f = 1 - percent / 100;
-    return Color.fromARGB(this.alpha, (this.red * f).round(),
-        (this.green * f).round(), (this.blue * f).round());
+    return Color.fromARGB(
+        alpha, (red * f).round(), (green * f).round(), (blue * f).round());
   }
 
   Color brighten([int percent = 10]) {
     assert(1 <= percent && percent <= 100);
     var p = percent / 100;
-    return Color.fromARGB(
-        this.alpha,
-        this.red + ((255 - this.red) * p).round(),
-        this.green + ((255 - this.green) * p).round(),
-        this.blue + ((255 - this.blue) * p).round());
+    return Color.fromARGB(alpha, red + ((255 - red) * p).round(),
+        green + ((255 - green) * p).round(), blue + ((255 - blue) * p).round());
   }
 }

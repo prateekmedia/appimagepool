@@ -23,12 +23,12 @@ class App {
 
   static App fromItem(item) {
     return App(
-      name: item['name'] != null ? item['name'] : "N.A.",
+      name: item['name'] ?? "N.A.",
       description: item['description'],
       iconUrl: item['icons'] != null
           ? item['icons'][0].startsWith('http')
               ? item['icons'][0]
-              : PREFIX_URL + item['icons'][0]
+              : prefixUrl + item['icons'][0]
           : null,
       categories: item['categories'],
       screenshotsUrl: item['screenshots'],

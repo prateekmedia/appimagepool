@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:appimagepool/widgets/gridOfApps.dart';
+import 'package:appimagepool/widgets/grid_of_apps.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
@@ -36,7 +36,7 @@ void main() {
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
               iconTheme: IconThemeData(color: Colors.white),
             ),
           ),
@@ -48,7 +48,7 @@ void main() {
   );
   doWhenWindowReady(() {
     final win = appWindow;
-    final initialSize = Size(1280, 720);
+    const initialSize = Size(1280, 720);
     win.size = initialSize;
     win.alignment = Alignment.center;
     win.title = "AppImage Pool";
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       categories = i.groupBy((m) {
         List categori = m['categories'];
         List newList = [];
-        categori.forEach((category) {
+        for (var category in categori) {
           if (category != null && category.length > 0) {
             if (doesContain(category, ['Video'])) {
               newList.add('Video');
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
           } else {
             newList.add("Others");
           }
-        });
+        }
         return newList;
       });
     });
@@ -128,8 +128,9 @@ class _HomePageState extends State<HomePage> {
   Map? categories;
   List? allItems;
   Map? featured;
-  CarouselController _controller = CarouselController();
+  final CarouselController _controller = CarouselController();
 
+  @override
   void initState() {
     getData();
     super.initState();
@@ -171,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                         isEmpty: isEmpty,
                         size: 24,
                         color: context.isDark ? Colors.white : Colors.grey[800],
-                        duration: Duration(milliseconds: 900) * 0.5,
+                        duration: const Duration(milliseconds: 900) * 0.5,
                         onTap: () {
                           if (!isEmpty) {
                             bar.clear();
@@ -188,17 +189,17 @@ class _HomePageState extends State<HomePage> {
             ],
             trailing: [
               FloatingSearchBarAction.icon(
-                  icon: Icon(Icons.nightlight_round),
+                  icon: const Icon(Icons.nightlight_round),
                   onTap: () => {
                         widget.theme.value = widget.theme.value.index == 2
                             ? ThemeMode.light
                             : ThemeMode.dark
                       }),
-              if (listDownloads.length > 0)
+              if (listDownloads.isNotEmpty)
                 downloadButton(context, listDownloads, downloading),
               FloatingSearchBarAction(
                 child: AppPopupMenu(
-                  menuItems: [
+                  menuItems: const [
                     PopupMenuItem(
                       child: Text("About Appimages"),
                       value: "appimage",
@@ -208,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                       value: "app",
                     ),
                   ],
-                  icon: Icon(Icons.menu),
+                  icon: const Icon(Icons.menu),
                   onSelected: (val) {
                     switch (val) {
                       case 'app':
@@ -234,17 +235,17 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
             body: categories == null && featured == null
-                ? Center(child: CircularProgressIndicator())
-                : searchedTerm.value.trim().length <= 0
+                ? const Center(child: CircularProgressIndicator())
+                : searchedTerm.value.trim().isEmpty
                     ? SingleChildScrollView(
                         child: Center(
                           child: Container(
-                            constraints: BoxConstraints(maxWidth: 1200),
+                            constraints: const BoxConstraints(maxWidth: 1200),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 16),
                                   child: Text(
                                     "Featured Apps",
@@ -272,7 +273,8 @@ class _HomePageState extends State<HomePage> {
                                                   null)
                                                 Container(
                                                     constraints:
-                                                        BoxConstraints.expand(),
+                                                        const BoxConstraints
+                                                            .expand(),
                                                     child: CachedNetworkImage(
                                                       imageUrl: featuredApp
                                                               .screenshotsUrl![
@@ -282,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                                                           ? (featuredApp
                                                                   .screenshotsUrl!)[
                                                               0]
-                                                          : PREFIX_URL +
+                                                          : prefixUrl +
                                                               featuredApp
                                                                   .screenshotsUrl![0],
                                                       fit: BoxFit.cover,
@@ -306,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Container(
+                                                          SizedBox(
                                                             width: 100,
                                                             child: featuredApp
                                                                         .iconUrl !=
@@ -327,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                                                                             .cover,
                                                                         placeholder:
                                                                             (c, u) =>
-                                                                                Center(
+                                                                                const Center(
                                                                           child:
                                                                               CircularProgressIndicator(),
                                                                         ),
@@ -353,7 +355,7 @@ class _HomePageState extends State<HomePage> {
                                                           ),
                                                           Flexible(
                                                             child: Text(
-                                                              "${featuredApp.name}",
+                                                              featuredApp.name,
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -381,9 +383,9 @@ class _HomePageState extends State<HomePage> {
                                           reverse: false,
                                           autoPlay: true,
                                           autoPlayInterval:
-                                              Duration(seconds: 3),
+                                              const Duration(seconds: 3),
                                           autoPlayAnimationDuration:
-                                              Duration(milliseconds: 800),
+                                              const Duration(milliseconds: 800),
                                           autoPlayCurve: Curves.fastOutSlowIn,
                                           enlargeCenterPage: true,
                                           scrollDirection: Axis.horizontal,
@@ -392,10 +394,10 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 400,
                                         child: IconButton(
-                                          icon: Icon(Icons.chevron_left),
+                                          icon: const Icon(Icons.chevron_left),
                                           onPressed: () =>
                                               _controller.previousPage(),
                                         ),
@@ -403,10 +405,10 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     Align(
                                       alignment: Alignment.centerRight,
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 400,
                                         child: IconButton(
-                                          icon: Icon(Icons.chevron_right),
+                                          icon: const Icon(Icons.chevron_right),
                                           onPressed: () =>
                                               _controller.nextPage(),
                                         ),
@@ -414,7 +416,7 @@ class _HomePageState extends State<HomePage> {
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children:
@@ -425,8 +427,8 @@ class _HomePageState extends State<HomePage> {
                                       child: Container(
                                         width: 10.0,
                                         height: 10.0,
-                                        padding: EdgeInsets.all(4),
-                                        margin: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.all(4),
+                                        margin: const EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 2.0),
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
@@ -444,9 +446,9 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   }).toList(),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 12),
                                   child: Text(
                                     "Categories",
@@ -457,7 +459,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 StaggeredGridView.countBuilder(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 4),
                                   shrinkWrap: true,
                                   primary: false,
@@ -485,9 +487,9 @@ class _HomePageState extends State<HomePage> {
                                                   category: item.key ?? "N.A.",
                                                   items: item.value))),
                                       style: OutlinedButton.styleFrom(
-                                          alignment: Alignment(-1, 0)),
+                                          alignment: const Alignment(-1, 0)),
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 8, vertical: 15),
                                         child: Text(
                                             "${item.key} (${item.value.length}) ",

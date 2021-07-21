@@ -8,13 +8,13 @@ import '../utils/utils.dart';
 class GridOfApps extends StatelessWidget {
   final List itemList;
 
-  GridOfApps({required this.itemList});
+  const GridOfApps({Key? key, required this.itemList}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return itemList.length > 0
+    return itemList.isNotEmpty
         ? GridView.builder(
             primary: false,
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: context.width > 1200
                   ? 8
@@ -44,7 +44,7 @@ class GridOfApps extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (ctx) => AppPage(app: app))),
                   child: Container(
-                    padding: EdgeInsets.all(6),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color:
@@ -65,7 +65,7 @@ class GridOfApps extends StatelessWidget {
                                         ? CachedNetworkImage(
                                             imageUrl: app.iconUrl!,
                                             fit: BoxFit.cover,
-                                            placeholder: (c, b) => Center(
+                                            placeholder: (c, b) => const Center(
                                               child:
                                                   CircularProgressIndicator(),
                                             ),
@@ -77,7 +77,7 @@ class GridOfApps extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 8),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             app.name,
                             overflow: TextOverflow.ellipsis,
@@ -95,7 +95,7 @@ class GridOfApps extends StatelessWidget {
               );
             },
           )
-        : Center(
+        : const Center(
             child: Text(
               "No Results Found,\nTry changing search terms.",
               textAlign: TextAlign.center,

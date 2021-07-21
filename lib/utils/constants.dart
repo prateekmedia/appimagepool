@@ -1,4 +1,4 @@
-const String PREFIX_URL =
+const String prefixUrl =
     "https://raw.githubusercontent.com/AppImage/appimage.github.io/master/database/";
 
 const String github = "https://github.com/";

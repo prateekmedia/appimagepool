@@ -14,7 +14,7 @@ class CustomDialogBox extends HookWidget {
   final List<String> versions;
   final void Function(int version)? onVersionChange;
 
-  CustomDialogBox({
+  const CustomDialogBox({
     Key? key,
     required this.items,
     required this.endText,
@@ -36,15 +36,13 @@ class CustomDialogBox extends HookWidget {
       child: Stack(
         children: <Widget>[
           Container(
-            constraints: BoxConstraints(
-              maxWidth: 700,
-            ),
-            padding: EdgeInsets.only(
+            constraints: const BoxConstraints(maxWidth: 700),
+            padding: const EdgeInsets.only(
                 left: Constants.padding,
                 top: Constants.avatarRadius + Constants.padding,
                 right: Constants.padding,
                 bottom: Constants.padding),
-            margin: EdgeInsets.only(top: Constants.avatarRadius),
+            margin: const EdgeInsets.only(top: Constants.avatarRadius),
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: context.isDark ? Colors.grey[800] : Colors.grey[300],
@@ -54,7 +52,7 @@ class CustomDialogBox extends HookWidget {
                       color: context.isDark
                           ? Colors.grey.shade900
                           : Colors.grey.shade500,
-                      offset: Offset(0, 10),
+                      offset: const Offset(0, 10),
                       spreadRadius: 2,
                       blurRadius: 20),
                 ]),
@@ -73,7 +71,7 @@ class CustomDialogBox extends HookWidget {
                     return versions.map<Widget>((String item) {
                       return Center(
                           child: Text(item,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.w600)));
                     }).toList();
                   },
@@ -86,10 +84,8 @@ class CustomDialogBox extends HookWidget {
                     );
                   }).toList(),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                if (currentItem.length > 0)
+                const SizedBox(height: 15),
+                if (currentItem.isNotEmpty)
                   Flexible(
                     child: ListView(
                       shrinkWrap: true,
@@ -97,10 +93,8 @@ class CustomDialogBox extends HookWidget {
                     ),
                   )
                 else
-                  Text("No AppImage Found in this Release"),
-                SizedBox(
-                  height: 22,
-                ),
+                  const Text("No AppImage Found in this Release"),
+                const SizedBox(height: 22),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: endText,
@@ -115,8 +109,7 @@ class CustomDialogBox extends HookWidget {
               backgroundColor: Colors.transparent,
               radius: Constants.avatarRadius,
               child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                  borderRadius: BorderRadius.circular(Constants.avatarRadius),
                   child: img),
             ),
           ),

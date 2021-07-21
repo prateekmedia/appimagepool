@@ -28,10 +28,11 @@ Widget aibAppBar(
       ),
     )
   ];
-  if (trailing != null)
+  if (trailing != null) {
     trailing.addAll(trailingIcons);
-  else
+  } else {
     trailing = trailingIcons;
+  }
   return MoveWindow(
     child: WindowBorder(
       color: Colors.grey,

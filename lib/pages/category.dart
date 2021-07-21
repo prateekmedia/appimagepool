@@ -1,6 +1,6 @@
 import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:appimagepool/widgets/gridOfApps.dart';
+import 'package:appimagepool/widgets/grid_of_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,8 +13,12 @@ class CategoryPage extends HookConsumerWidget {
   final String category;
   final ValueNotifier<ThemeMode> theme;
 
-  CategoryPage(
-      {required this.theme, required this.category, required this.items});
+  const CategoryPage(
+      {Key? key,
+      required this.theme,
+      required this.category,
+      required this.items})
+      : super(key: key);
   @override
   Widget build(BuildContext context, ref) {
     final searchedTerm = useState<String>("");
@@ -45,7 +49,7 @@ class CategoryPage extends HookConsumerWidget {
                   isEmpty: isEmpty,
                   size: 24,
                   color: context.isDark ? Colors.white : Colors.grey[800],
-                  duration: Duration(milliseconds: 900) * 0.5,
+                  duration: const Duration(milliseconds: 900) * 0.5,
                   onTap: () {
                     if (!isEmpty) {
                       bar.clear();
@@ -63,17 +67,17 @@ class CategoryPage extends HookConsumerWidget {
       searchText: searchedTerm,
       trailing: [
         FloatingSearchBarAction.icon(
-            icon: Icon(Icons.nightlight_round),
+            icon: const Icon(Icons.nightlight_round),
             onTap: () => {
                   theme.value =
                       theme.value.index == 2 ? ThemeMode.light : ThemeMode.dark
                 }),
-        if (listDownloads.length > 0)
+        if (listDownloads.isNotEmpty)
           downloadButton(context, listDownloads, downloading),
       ],
       body: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 1200),
+          constraints: const BoxConstraints(maxWidth: 1200),
           child: GridOfApps(itemList: itemsNew),
         ),
       ),

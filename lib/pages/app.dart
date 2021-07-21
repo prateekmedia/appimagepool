@@ -17,7 +17,7 @@ import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 
 class AppPage extends HookConsumerWidget {
-  AppPage({required this.app});
+  AppPage({Key? key, required this.app}) : super(key: key);
 
   final App app;
   final CarouselController _controller = CarouselController();
@@ -28,7 +28,7 @@ class AppPage extends HookConsumerWidget {
         ? (app.url as List).firstWhere((e) => e['type'] == 'Download',
             orElse: () => {'url': ''})['url']
         : '';
-    print(app.url);
+    debugPrint(app.url.toString());
     String proUrl = app.url != null
         ? app.url!.firstWhere((e) => e['type'].toLowerCase() == 'github',
             orElse: () => {'url': ''})['url']
@@ -50,7 +50,7 @@ class AppPage extends HookConsumerWidget {
             ? CachedNetworkImage(
                 imageUrl: app.iconUrl!,
                 fit: BoxFit.cover,
-                placeholder: (c, b) => Center(
+                placeholder: (c, b) => const Center(
                   child: CircularProgressIndicator(),
                 ),
                 errorWidget: (c, w, i) => brokenImageWidget,
@@ -67,7 +67,7 @@ class AppPage extends HookConsumerWidget {
         context,
         title: '',
         trailing: [
-          if (listDownloads.length > 0)
+          if (listDownloads.isNotEmpty)
             downloadButton(context, listDownloads, downloading),
         ],
         body: ListView(
@@ -76,28 +76,29 @@ class AppPage extends HookConsumerWidget {
               color: context.isDark ? Colors.grey[800] : Colors.grey[300],
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  constraints: BoxConstraints(maxWidth: 1200),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                  constraints: const BoxConstraints(maxWidth: 1200),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Tooltip(
-                            message: (app.url != null && proUrl.length > 0)
+                            message: (app.url != null && proUrl.isNotEmpty)
                                 ? proUrl
                                 : "",
                             child: GestureDetector(
-                              onTap: (app.url != null && proUrl.length > 0)
+                              onTap: (app.url != null && proUrl.isNotEmpty)
                                   ? proUrl.launchIt
                                   : null,
-                              child: Container(
+                              child: SizedBox(
                                   width: iconSize,
                                   height: iconSize,
                                   child: appIcon),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,15 +107,15 @@ class AppPage extends HookConsumerWidget {
                                     style: context.textTheme.headline6),
                                 Text(
                                     (app.categories != null &&
-                                            app.categories!.length > 0
+                                            app.categories!.isNotEmpty
                                         ? app.categories!.join(', ')
                                         : "N.A."),
                                     style: context.textTheme.bodyText2),
                               ],
                             ),
                           ),
-                          SizedBox(width: 10),
-                          if (app.url != null && url.length > 0)
+                          const SizedBox(width: 10),
+                          if (app.url != null && url.isNotEmpty)
                             Tooltip(
                               message: url,
                               child: ElevatedButton(
@@ -124,7 +125,7 @@ class AppPage extends HookConsumerWidget {
                                       var u =
                                           'https://api.github.com/repos' + v[1];
                                       List response = (await Dio().get(u)).data;
-                                      if (response.length > 0) {
+                                      if (response.isNotEmpty) {
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -141,10 +142,11 @@ class AppPage extends HookConsumerWidget {
                                                         .join("/") +
                                                     "/Applications/";
                                                 if (!Directory(location)
-                                                    .existsSync())
+                                                    .existsSync()) {
                                                   Directory(location)
                                                       .createSync();
-                                                if (checkmap.length > 0) {
+                                                }
+                                                if (checkmap.isNotEmpty) {
                                                   var fileurl =
                                                       checkmap.keys.toList()[0];
                                                   String filename = checkmap
@@ -208,23 +210,23 @@ class AppPage extends HookConsumerWidget {
                                       url.launchIt();
                                     }
                                   },
-                                  child: Text("Download")),
+                                  child: const Text("Download")),
                             )
                         ],
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                     ],
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 1200),
+                constraints: const BoxConstraints(maxWidth: 1200),
                 child: Column(children: [
                   if (app.screenshotsUrl != null &&
-                      app.screenshotsUrl!.length > 0)
+                      app.screenshotsUrl!.isNotEmpty)
                     CarouselSlider.builder(
                       carouselController: _controller,
                       itemCount: app.screenshotsUrl!.length,
@@ -232,20 +234,20 @@ class AppPage extends HookConsumerWidget {
                         String screenUrl =
                             app.screenshotsUrl![index].startsWith('http')
                                 ? app.screenshotsUrl![index]
-                                : PREFIX_URL + app.screenshotsUrl![index];
+                                : prefixUrl + app.screenshotsUrl![index];
                         Widget brokenImageWidget = SvgPicture.network(
                           brokenImageUrl,
                           color: context.isDark ? Colors.white : Colors.black,
                         );
                         return Container(
                           height: 400,
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: app.screenshotsUrl != null
                               ? screenUrl.endsWith('.svg')
                                   ? SvgPicture.network(screenUrl)
                                   : CachedNetworkImage(
                                       imageUrl: screenUrl,
-                                      placeholder: (c, b) => Center(
+                                      placeholder: (c, b) => const Center(
                                           child: CircularProgressIndicator()),
                                       errorWidget: (c, w, i) =>
                                           brokenImageWidget,
@@ -260,9 +262,9 @@ class AppPage extends HookConsumerWidget {
                           enableInfiniteScroll: true,
                           reverse: false,
                           autoPlay: true,
-                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayInterval: const Duration(seconds: 3),
                           autoPlayAnimationDuration:
-                              Duration(milliseconds: 800),
+                              const Duration(milliseconds: 800),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
                           scrollDirection: Axis.horizontal,
@@ -270,9 +272,9 @@ class AppPage extends HookConsumerWidget {
                             _current.value = idx;
                           }),
                     ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   if (app.screenshotsUrl != null &&
-                      app.screenshotsUrl!.length > 0)
+                      app.screenshotsUrl!.isNotEmpty)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:
@@ -282,8 +284,8 @@ class AppPage extends HookConsumerWidget {
                           child: Container(
                             width: 10.0,
                             height: 10.0,
-                            padding: EdgeInsets.all(4),
-                            margin: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.all(4),
+                            margin: const EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 2.0),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -301,15 +303,18 @@ class AppPage extends HookConsumerWidget {
                         );
                       }).toList(),
                     ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60, vertical: 10),
                     child: RichText(
                         text: HTML.toTextSpan(
                             context,
                             (app.description != null &&
-                                    app.description!.toString().trim().length >
-                                        0)
+                                    app.description!
+                                        .toString()
+                                        .trim()
+                                        .isNotEmpty)
                                 ? app.description!
                                 : "No Description Found",
                             defaultTextStyle: context.textTheme.bodyText1!)),
@@ -323,7 +328,10 @@ class AppPage extends HookConsumerWidget {
                     context,
                     primaryT: "Authors",
                     secondaryT: app.authors != null
-                        ? "${app.authors!.map((e) => '<a href="${e['url']}" >${e['name']}</a>').join(', ')}"
+                        ? app.authors!
+                            .map((e) =>
+                                '<a href="${e['url']}" >${e['name']}</a>')
+                            .join(', ')
                         : "N.A.",
                   ),
                 ]),
@@ -341,7 +349,9 @@ class DownloadDialog extends StatefulHookWidget {
   final Widget appIcon;
   final void Function(Map<String, String>)? onEndPressed;
 
-  DownloadDialog(this.response, this.appIcon, this.onEndPressed);
+  const DownloadDialog(this.response, this.appIcon, this.onEndPressed,
+      {Key? key})
+      : super(key: key);
 
   @override
   _DownloadDialogState createState() => _DownloadDialogState();
@@ -376,12 +386,13 @@ class _DownloadDialogState extends State<DownloadDialog> {
             subtitle: Text((g[idx]['size'] as int).getFileSize()),
             value: checkedValue.value,
             onChanged: (newValue) {
-              if (checkmap.value.containsKey(g[idx]['browser_download_url']))
+              if (checkmap.value.containsKey(g[idx]['browser_download_url'])) {
                 checkmap.value.removeWhere(
                     (key, value) => key == g[idx]['browser_download_url']);
-              else
+              } else {
                 checkmap.value.putIfAbsent(
                     g[idx]['browser_download_url'], () => g[idx]['name']);
+              }
               checkedValue.value =
                   checkmap.value.containsKey(g[idx]['browser_download_url']);
             },
@@ -390,11 +401,12 @@ class _DownloadDialogState extends State<DownloadDialog> {
       },
       endText: TextButton(
           onPressed: () async {
-            if (widget.onEndPressed != null)
+            if (widget.onEndPressed != null) {
               widget.onEndPressed!(checkmap.value);
+            }
             Navigator.of(context).pop();
           },
-          child: Text(
+          child: const Text(
             "Download",
             style: TextStyle(fontSize: 18),
           )),

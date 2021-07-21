@@ -18,12 +18,12 @@ Widget aboutDialog(BuildContext context) {
         : roundedDialog(context, children: [
             Center(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.contain,
                           image: CachedNetworkImageProvider(
@@ -35,7 +35,7 @@ Widget aboutDialog(BuildContext context) {
                       height: 70,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2),
+                      padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
                         "AppImage Pool",
                         style: context.textTheme.headline5!
@@ -46,14 +46,14 @@ Widget aboutDialog(BuildContext context) {
                       "V ${snapshot.data!.version}",
                       style: context.textTheme.bodyText2,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text(
                       "Simplifying the way you browse, install and update your appimages. \n\nPowered by Flutter.",
                       style: context.textTheme.bodyText1!
                           .copyWith(fontWeight: FontWeight.w600),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Tooltip(
                       message: projectUrl,
                       child: MaterialButton(
@@ -78,12 +78,12 @@ Widget aboutDialog(BuildContext context) {
                     primary: context.textTheme.bodyText1!.color),
                 onPressed: () {
                   context.back();
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) => CustomLicensePage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (ctx) => const CustomLicensePage()));
                 },
-                child: Text("View Licenses"),
+                child: const Text("View Licenses"),
               ),
-              alignment: Alignment(-0.95, 0.98),
+              alignment: const Alignment(-0.95, 0.98),
             ),
           ]),
   );
