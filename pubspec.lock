@@ -92,6 +92,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.4"
+  desktop_notifications:
+    dependency: "direct main"
+    description:
+      name: desktop_notifications
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   dio:
     dependency: "direct main"
     description:

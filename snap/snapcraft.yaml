@@ -1,0 +1,31 @@
+name: appimagepool
+base: core18
+version: git
+summary: A simple, modern AppImageHub Client made for linux using flutter.
+description: |
+  A simple, modern AppImageHub Client made for linux using flutter.
+
+grade: stable
+confinement: strict
+
+parts:
+  appimagepool:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
+
+slots:
+  dbus-svc:
+    interface: dbus
+    bus: session
+    name: com.psu.appimagepool
+
+apps:
+  appimagepool:
+    extensions: [flutter-dev]
+    command: appimagepool
+    plugs:
+      - network
+      - home
+    slots:
+      - dbus-svc

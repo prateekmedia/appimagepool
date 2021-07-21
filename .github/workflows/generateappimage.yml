@@ -3,42 +3,29 @@ name: FlutterAppImageCI
 on: [push, workflow_dispatch]
 
 jobs:
-  build:
+  build-appimage:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
       - uses: subosito/flutter-action@master
         with:
           channel: stable
-
-      - name: Get Packages
-        run: >
-          flutter pub get;
-          flutter config --enable-linux-desktop;
-          sudo apt-get update;
-          sudo apt-get install clang cmake ninja-build pkg-config libgtk-3-dev;
-
-      - name: Download required resources to Generate AppImage
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev libblkid-dev
+      - name: Flutter setup
+        run: |
+          flutter config --enable-linux-desktop
+      - name: Build Flutter app
+        run: flutter build linux
+      - name: Download appimagetool
         uses: wei/wget@v1
         with:
           args: -O appimagetool-x86_64.AppImage https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-
-      - name: Build Linux App
-        run: >
-          flutter build linux;
-          sudo chmod +x appimagetool-x86_64.AppImage AppImagePool.AppDir/AppRun;
-
-      - name: Generate AppImage (x86)
-        run: >
-          cp -r build/linux/x64/release/bundle/* AppImagePool.AppDir;
-          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppImagePool.AppDir/ appimagepool-x86_64.AppImage
-
-      - name: Upload files to a GitHub release
-        uses: svenstaro/upload-release-action@2.2.1
+      - name: Build AppImage
+        run: ./create_appimage.sh
+      - uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: appimagepool-x86_64.AppImage
