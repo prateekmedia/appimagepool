@@ -65,6 +65,7 @@ class AppPage extends HookConsumerWidget {
     return Scaffold(
       body: aibAppBar(
         context,
+        title: '',
         trailing: [
           if (listDownloads.length > 0)
             downloadButton(context, listDownloads, downloading),

@@ -8,7 +8,7 @@ Widget twoRowContainer(
   String secondaryT = "",
 }) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

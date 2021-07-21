@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/widgets/gridOfApps.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -45,12 +46,20 @@ void main() {
       ),
     ),
   );
+  doWhenWindowReady(() {
+    final win = appWindow;
+    final initialSize = Size(1280, 720);
+    win.size = initialSize;
+    win.alignment = Alignment.center;
+    win.title = "AppImage Pool";
+    win.show();
+  });
 }
 
 class HomePage extends StatefulHookWidget {
   final ValueNotifier<ThemeMode> theme;
 
-  HomePage({required this.theme});
+  const HomePage({Key? key, required this.theme}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -81,12 +90,12 @@ class _HomePageState extends State<HomePage> {
               newList.add('Qt');
             } else if (doesContain(category, ['GNOME'])) {
               newList.add('GTK');
-            } else if (doesContain(category, ['Chat', 'InstantMessag'])) {
-              newList.add('Communication');
             } else if (doesContain(category, [
               'Application',
               'AdventureGame',
               'Astronomy',
+              'Chat',
+              'InstantMessag',
               'Database',
               'Engineering',
               'Electronics',
@@ -107,8 +116,9 @@ class _HomePageState extends State<HomePage> {
             } else {
               newList.add(category);
             }
-          } else
+          } else {
             newList.add("Others");
+          }
         });
         return newList;
       });
@@ -145,10 +155,38 @@ class _HomePageState extends State<HomePage> {
             context,
             title: "AppImagePool",
             searchText: searchedTerm,
-            trailing: [
-              FloatingSearchBarAction.searchToClear(
-                color: context.isDark ? Colors.white : Colors.grey[800],
+            leading: [
+              FloatingSearchBarAction(
+                showIfOpened: false,
+                showIfClosed: true,
+                builder: (context, animation) {
+                  final bar = FloatingSearchAppBar.of(context)!;
+
+                  return ValueListenableBuilder<String>(
+                    valueListenable: bar.queryNotifer,
+                    builder: (context, query, _) {
+                      final isEmpty = query.isEmpty;
+
+                      return SearchToClear(
+                        isEmpty: isEmpty,
+                        size: 24,
+                        color: context.isDark ? Colors.white : Colors.grey[800],
+                        duration: Duration(milliseconds: 900) * 0.5,
+                        onTap: () {
+                          if (!isEmpty) {
+                            bar.clear();
+                          } else {
+                            bar.isOpen = !bar.isOpen ||
+                                (!bar.hasFocus && bar.isAlwaysOpened);
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
               ),
+            ],
+            trailing: [
               FloatingSearchBarAction.icon(
                   icon: Icon(Icons.nightlight_round),
                   onTap: () => {
@@ -170,6 +208,7 @@ class _HomePageState extends State<HomePage> {
                       value: "app",
                     ),
                   ],
+                  icon: Icon(Icons.menu),
                   onSelected: (val) {
                     switch (val) {
                       case 'app':

@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   app_popup_menu: ^1.0.0
+  bitsdojo_window: ^0.1.1+1
   carousel_slider: ^4.0.0
   cached_network_image: ^3.1.0
   desktop_notifications: ^0.5.0
@@ -29,6 +30,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true

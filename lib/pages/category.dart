@@ -29,11 +29,39 @@ class CategoryPage extends HookConsumerWidget {
         body: aibAppBar(
       context,
       title: category,
+      leading: [
+        FloatingSearchBarAction(
+          showIfOpened: false,
+          showIfClosed: true,
+          builder: (context, animation) {
+            final bar = FloatingSearchAppBar.of(context)!;
+
+            return ValueListenableBuilder<String>(
+              valueListenable: bar.queryNotifer,
+              builder: (context, query, _) {
+                final isEmpty = query.isEmpty;
+
+                return SearchToClear(
+                  isEmpty: isEmpty,
+                  size: 24,
+                  color: context.isDark ? Colors.white : Colors.grey[800],
+                  duration: Duration(milliseconds: 900) * 0.5,
+                  onTap: () {
+                    if (!isEmpty) {
+                      bar.clear();
+                    } else {
+                      bar.isOpen =
+                          !bar.isOpen || (!bar.hasFocus && bar.isAlwaysOpened);
+                    }
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ],
       searchText: searchedTerm,
       trailing: [
-        FloatingSearchBarAction.searchToClear(
-          color: context.isDark ? Colors.white : Colors.grey[800],
-        ),
         FloatingSearchBarAction.icon(
             icon: Icon(Icons.nightlight_round),
             onTap: () => {

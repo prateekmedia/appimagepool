@@ -12,7 +12,7 @@ Dialog roundedDialog(BuildContext context, {required List<Widget> children}) {
           ...children,
           Align(
             child: IconButton(
-              icon: Icon(Icons.close),
+              icon: const Icon(Icons.close),
               onPressed: context.back,
             ),
             alignment: Alignment.topRight,
