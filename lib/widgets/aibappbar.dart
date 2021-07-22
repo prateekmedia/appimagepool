@@ -13,20 +13,27 @@ Widget aibAppBar(
   required Widget body,
 }) {
   var trailingIcons = [
-    MinimizeWindowButton(
-      colors: WindowButtonColors(
-          iconNormal: context.isDark ? Colors.white : Colors.black),
-    ),
-    MaximizeWindowButton(
-      colors: WindowButtonColors(
-          iconNormal: context.isDark ? Colors.white : Colors.black),
-    ),
-    CloseWindowButton(
-      colors: WindowButtonColors(
-        iconNormal: context.isDark ? Colors.white : Colors.black,
-        mouseOver: Colors.red,
+    Hero(
+      tag: 'window-buttons',
+      child: Row(
+        children: [
+          MinimizeWindowButton(
+            colors: WindowButtonColors(
+                iconNormal: context.isDark ? Colors.white : Colors.black),
+          ),
+          MaximizeWindowButton(
+            colors: WindowButtonColors(
+                iconNormal: context.isDark ? Colors.white : Colors.black),
+          ),
+          CloseWindowButton(
+            colors: WindowButtonColors(
+              iconNormal: context.isDark ? Colors.white : Colors.black,
+              mouseOver: Colors.red,
+            ),
+          ),
+        ],
       ),
-    )
+    ),
   ];
   if (trailing != null) {
     trailing.addAll(trailingIcons);
@@ -38,7 +45,9 @@ Widget aibAppBar(
       color: Colors.grey,
       width: 1,
       child: FloatingSearchAppBar(
-          title: title != null ? Text(title) : null,
+          title: title != null && title.isNotEmpty
+              ? Hero(tag: 'header-title', child: Text(title))
+              : Container(),
           alwaysOpened: alwaysOpened,
           leadingActions: leading,
           transitionDuration: const Duration(milliseconds: 800),

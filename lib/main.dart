@@ -51,7 +51,7 @@ void main() {
     const initialSize = Size(1280, 720);
     win.size = initialSize;
     win.alignment = Alignment.center;
-    win.title = "AppImage Pool";
+    win.title = "Pool";
     win.show();
   });
 }
@@ -154,49 +154,9 @@ class _HomePageState extends State<HomePage> {
           var downloading = ref.watch(isDownloadingProvider);
           return aibAppBar(
             context,
-            title: "AppImagePool",
+            title: '',
             searchText: searchedTerm,
             leading: [
-              FloatingSearchBarAction(
-                showIfOpened: false,
-                showIfClosed: true,
-                builder: (context, animation) {
-                  final bar = FloatingSearchAppBar.of(context)!;
-
-                  return ValueListenableBuilder<String>(
-                    valueListenable: bar.queryNotifer,
-                    builder: (context, query, _) {
-                      final isEmpty = query.isEmpty;
-
-                      return SearchToClear(
-                        isEmpty: isEmpty,
-                        size: 24,
-                        color: context.isDark ? Colors.white : Colors.grey[800],
-                        duration: const Duration(milliseconds: 900) * 0.5,
-                        onTap: () {
-                          if (!isEmpty) {
-                            bar.clear();
-                          } else {
-                            bar.isOpen = !bar.isOpen ||
-                                (!bar.hasFocus && bar.isAlwaysOpened);
-                          }
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
-            trailing: [
-              FloatingSearchBarAction.icon(
-                  icon: const Icon(Icons.nightlight_round),
-                  onTap: () => {
-                        widget.theme.value = widget.theme.value.index == 2
-                            ? ThemeMode.light
-                            : ThemeMode.dark
-                      }),
-              if (listDownloads.isNotEmpty)
-                downloadButton(context, listDownloads, downloading),
               FloatingSearchBarAction(
                 child: AppPopupMenu(
                   menuItems: const [
@@ -233,6 +193,27 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+              FloatingSearchBarAction(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text("Pool", style: context.textTheme.headline6),
+                ),
+              ),
+              FloatingSearchBarAction.searchToClear(),
+            ],
+            trailing: [
+              Hero(
+                tag: 'theme-switch',
+                child: FloatingSearchBarAction.icon(
+                    icon: const Icon(Icons.nightlight_round),
+                    onTap: () => {
+                          widget.theme.value = widget.theme.value.index == 2
+                              ? ThemeMode.light
+                              : ThemeMode.dark
+                        }),
+              ),
+              if (listDownloads.isNotEmpty)
+                downloadButton(context, listDownloads, downloading),
             ],
             body: categories == null && featured == null
                 ? const Center(child: CircularProgressIndicator())

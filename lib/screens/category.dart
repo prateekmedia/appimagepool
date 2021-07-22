@@ -32,46 +32,31 @@ class CategoryPage extends HookConsumerWidget {
     return Scaffold(
         body: aibAppBar(
       context,
-      title: category,
+      title: '',
       leading: [
         FloatingSearchBarAction(
-          showIfOpened: false,
-          showIfClosed: true,
-          builder: (context, animation) {
-            final bar = FloatingSearchAppBar.of(context)!;
-
-            return ValueListenableBuilder<String>(
-              valueListenable: bar.queryNotifer,
-              builder: (context, query, _) {
-                final isEmpty = query.isEmpty;
-
-                return SearchToClear(
-                  isEmpty: isEmpty,
-                  size: 24,
-                  color: context.isDark ? Colors.white : Colors.grey[800],
-                  duration: const Duration(milliseconds: 900) * 0.5,
-                  onTap: () {
-                    if (!isEmpty) {
-                      bar.clear();
-                    } else {
-                      bar.isOpen =
-                          !bar.isOpen || (!bar.hasFocus && bar.isAlwaysOpened);
-                    }
-                  },
-                );
-              },
-            );
-          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Text(
+              category,
+              style: context.textTheme.headline6,
+            ),
+          ),
         ),
+        FloatingSearchBarAction.searchToClear(),
       ],
       searchText: searchedTerm,
       trailing: [
-        FloatingSearchBarAction.icon(
-            icon: const Icon(Icons.nightlight_round),
-            onTap: () => {
-                  theme.value =
-                      theme.value.index == 2 ? ThemeMode.light : ThemeMode.dark
-                }),
+        Hero(
+          tag: 'theme-switch',
+          child: FloatingSearchBarAction.icon(
+              icon: const Icon(Icons.nightlight_round),
+              onTap: () => {
+                    theme.value = theme.value.index == 2
+                        ? ThemeMode.light
+                        : ThemeMode.dark
+                  }),
+        ),
         if (listDownloads.isNotEmpty)
           downloadButton(context, listDownloads, downloading),
       ],
