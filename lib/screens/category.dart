@@ -43,7 +43,9 @@ class CategoryPage extends HookConsumerWidget {
             ),
           ),
         ),
-        FloatingSearchBarAction.searchToClear(),
+        FloatingSearchBarAction.searchToClear(
+          color: context.isDark ? Colors.white : Colors.grey[800],
+        ),
       ],
       searchText: searchedTerm,
       trailing: [

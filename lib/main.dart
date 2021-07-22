@@ -199,7 +199,9 @@ class _HomePageState extends State<HomePage> {
                   child: Text("Pool", style: context.textTheme.headline6),
                 ),
               ),
-              FloatingSearchBarAction.searchToClear(),
+              FloatingSearchBarAction.searchToClear(
+                color: context.isDark ? Colors.white : Colors.grey[800],
+              ),
             ],
             trailing: [
               Hero(
