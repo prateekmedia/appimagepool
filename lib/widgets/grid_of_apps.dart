@@ -14,7 +14,7 @@ class GridOfApps extends StatelessWidget {
     return itemList.isNotEmpty
         ? GridView.builder(
             primary: false,
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(18),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: context.width > 1200
                   ? 8
@@ -45,6 +45,7 @@ class GridOfApps extends StatelessWidget {
                       MaterialPageRoute(builder: (ctx) => AppPage(app: app))),
                   child: Container(
                     padding: const EdgeInsets.all(6),
+                    margin: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color:
