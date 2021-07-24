@@ -14,6 +14,7 @@ class GridOfApps extends StatelessWidget {
     return itemList.isNotEmpty
         ? GridView.builder(
             primary: false,
+            shrinkWrap: true,
             padding: const EdgeInsets.all(18),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: context.width > 1200

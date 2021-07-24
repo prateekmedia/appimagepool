@@ -13,7 +13,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'models/models.dart';
@@ -242,6 +241,7 @@ class _HomePageState extends State<HomePage> {
               body: categories == null && featured == null
                   ? const Center(child: CircularProgressIndicator())
                   : Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (context.width >= 640)
                           LayoutBuilder(
@@ -285,238 +285,289 @@ class _HomePageState extends State<HomePage> {
                           child: searchedTerm.value.trim().isEmpty &&
                                   _navrailIndex.value == 0
                               ? SingleChildScrollView(
-                                  child: Center(
-                                    child: Container(
-                                      constraints: BoxConstraints(
-                                          maxWidth: min(
-                                              1200,
-                                              context.width >= 640
-                                                  ? context.width - 300
-                                                  : context.width)),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 16),
+                                        child: Text(
+                                          "Featured Apps",
+                                          style: context.textTheme.headline6!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 1.2),
+                                        ),
+                                      ),
+                                      Stack(
                                         children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 16),
-                                            child: Text(
-                                              "Featured Apps",
-                                              style: context
-                                                  .textTheme.headline6!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      letterSpacing: 1.2),
-                                            ),
-                                          ),
-                                          Stack(
-                                            children: [
-                                              CarouselSlider.builder(
-                                                itemCount: featured!.length,
-                                                itemBuilder:
-                                                    (context, index, i) {
-                                                  App featuredApp =
-                                                      App.fromItem(featured!
-                                                          .values
-                                                          .toList()[index]);
-                                                  return GestureDetector(
-                                                    onTap: () => Navigator.of(
-                                                            context)
-                                                        .push(MaterialPageRoute(
-                                                            builder: (ctx) =>
-                                                                AppPage(
-                                                                    app:
-                                                                        featuredApp))),
-                                                    child: Stack(
-                                                      children: [
-                                                        if (featuredApp
-                                                                .screenshotsUrl !=
-                                                            null)
-                                                          Container(
-                                                              constraints:
-                                                                  const BoxConstraints
-                                                                      .expand(),
-                                                              child:
-                                                                  CachedNetworkImage(
-                                                                imageUrl: featuredApp
-                                                                        .screenshotsUrl![
-                                                                            0]
-                                                                        .startsWith(
-                                                                            'http')
-                                                                    ? (featuredApp
-                                                                            .screenshotsUrl!)[
+                                          CarouselSlider.builder(
+                                            itemCount: featured!.length,
+                                            itemBuilder: (context, index, i) {
+                                              App featuredApp = App.fromItem(
+                                                  featured!.values
+                                                      .toList()[index]);
+                                              return GestureDetector(
+                                                onTap: () => Navigator.of(
+                                                        context)
+                                                    .push(MaterialPageRoute(
+                                                        builder: (ctx) => AppPage(
+                                                            app: featuredApp))),
+                                                child: Stack(
+                                                  children: [
+                                                    if (featuredApp
+                                                            .screenshotsUrl !=
+                                                        null)
+                                                      Container(
+                                                          constraints:
+                                                              const BoxConstraints
+                                                                  .expand(),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: featuredApp
+                                                                    .screenshotsUrl![
                                                                         0]
-                                                                    : prefixUrl +
-                                                                        featuredApp
-                                                                            .screenshotsUrl![0],
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              )),
-                                                        Center(
-                                                          child: Container(
-                                                            color: context
-                                                                    .isDark
-                                                                ? Colors.grey
-                                                                    .shade900
-                                                                    .withOpacity(
-                                                                        0.5)
-                                                                : Colors.grey
-                                                                    .shade300
-                                                                    .withOpacity(
-                                                                        0.5),
-                                                            height: 400,
-                                                            child: ClipRect(
-                                                              child:
-                                                                  BackdropFilter(
-                                                                filter:
-                                                                    ImageFilter
-                                                                        .blur(
-                                                                  sigmaX: 10,
-                                                                  sigmaY: 10,
+                                                                    .startsWith(
+                                                                        'http')
+                                                                ? (featuredApp
+                                                                        .screenshotsUrl!)[
+                                                                    0]
+                                                                : prefixUrl +
+                                                                    featuredApp
+                                                                        .screenshotsUrl![0],
+                                                            fit: BoxFit.cover,
+                                                          )),
+                                                    Center(
+                                                      child: Container(
+                                                        color: context.isDark
+                                                            ? Colors
+                                                                .grey.shade900
+                                                                .withOpacity(
+                                                                    0.5)
+                                                            : Colors
+                                                                .grey.shade300
+                                                                .withOpacity(
+                                                                    0.5),
+                                                        height: 400,
+                                                        child: ClipRect(
+                                                          child: BackdropFilter(
+                                                            filter: ImageFilter
+                                                                .blur(
+                                                              sigmaX: 10,
+                                                              sigmaY: 10,
+                                                            ),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SizedBox(
+                                                                  width: 100,
+                                                                  child: featuredApp
+                                                                              .iconUrl !=
+                                                                          null
+                                                                      ? featuredApp.iconUrl!.endsWith(
+                                                                              '.svg')
+                                                                          ? SvgPicture
+                                                                              .network(
+                                                                              featuredApp.iconUrl!,
+                                                                            )
+                                                                          : CachedNetworkImage(
+                                                                              imageUrl: featuredApp.iconUrl!,
+                                                                              fit: BoxFit.cover,
+                                                                              placeholder: (c, u) => const Center(
+                                                                                child: CircularProgressIndicator(),
+                                                                              ),
+                                                                              errorWidget: (c, w, i) => SvgPicture.network(
+                                                                                brokenImageUrl,
+                                                                                color: context.isDark ? Colors.white : Colors.grey[800],
+                                                                              ),
+                                                                            )
+                                                                      : SvgPicture
+                                                                          .network(
+                                                                          brokenImageUrl,
+                                                                          color: context.isDark
+                                                                              ? Colors.white
+                                                                              : Colors.grey[800],
+                                                                        ),
                                                                 ),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width:
-                                                                          100,
-                                                                      child: featuredApp.iconUrl !=
-                                                                              null
-                                                                          ? featuredApp.iconUrl!.endsWith('.svg')
-                                                                              ? SvgPicture.network(
-                                                                                  featuredApp.iconUrl!,
-                                                                                )
-                                                                              : CachedNetworkImage(
-                                                                                  imageUrl: featuredApp.iconUrl!,
-                                                                                  fit: BoxFit.cover,
-                                                                                  placeholder: (c, u) => const Center(
-                                                                                    child: CircularProgressIndicator(),
-                                                                                  ),
-                                                                                  errorWidget: (c, w, i) => SvgPicture.network(
-                                                                                    brokenImageUrl,
-                                                                                    color: context.isDark ? Colors.white : Colors.grey[800],
-                                                                                  ),
-                                                                                )
-                                                                          : SvgPicture.network(
-                                                                              brokenImageUrl,
-                                                                              color: context.isDark ? Colors.white : Colors.grey[800],
-                                                                            ),
-                                                                    ),
-                                                                    Flexible(
-                                                                      child:
-                                                                          Text(
-                                                                        featuredApp
-                                                                            .name,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style: context
-                                                                            .textTheme
-                                                                            .headline3,
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
+                                                                Flexible(
+                                                                  child: Text(
+                                                                    featuredApp
+                                                                        .name,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: context
+                                                                        .textTheme
+                                                                        .headline3,
+                                                                  ),
+                                                                )
+                                                              ],
                                                             ),
                                                           ),
                                                         ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                  );
-                                                },
-                                                carouselController: _controller,
-                                                options: CarouselOptions(
-                                                    height: 400,
-                                                    viewportFraction: 0.8,
-                                                    initialPage: 0,
-                                                    enableInfiniteScroll: true,
-                                                    reverse: false,
-                                                    autoPlay: true,
-                                                    autoPlayInterval:
-                                                        const Duration(
-                                                            seconds: 3),
-                                                    autoPlayAnimationDuration:
-                                                        const Duration(
-                                                            milliseconds: 800),
-                                                    autoPlayCurve:
-                                                        Curves.fastOutSlowIn,
-                                                    enlargeCenterPage: true,
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    onPageChanged: (idx, rsn) =>
-                                                        _carouselIndex.value =
-                                                            idx),
-                                              ),
-                                              Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: SizedBox(
-                                                  height: 400,
-                                                  child: IconButton(
-                                                    icon: const Icon(
-                                                        Icons.chevron_left),
-                                                    onPressed: () => _controller
-                                                        .previousPage(),
-                                                  ),
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: SizedBox(
-                                                  height: 400,
-                                                  child: IconButton(
-                                                    icon: const Icon(
-                                                        Icons.chevron_right),
-                                                    onPressed: () =>
-                                                        _controller.nextPage(),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: List.generate(
-                                                featured!.length, (index) {
-                                              return GestureDetector(
-                                                onTap: () => _controller
-                                                    .animateToPage(index),
-                                                child: Container(
-                                                  width: 10.0,
-                                                  height: 10.0,
-                                                  padding:
-                                                      const EdgeInsets.all(4),
-                                                  margin: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 10.0,
-                                                      horizontal: 2.0),
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: _carouselIndex
-                                                                .value ==
-                                                            index
-                                                        ? (context.isDark
-                                                                ? Colors.white
-                                                                : Colors.black)
-                                                            .withOpacity(0.9)
-                                                        : (context.isDark
-                                                                ? Colors.white
-                                                                : Colors.black)
-                                                            .withOpacity(0.4),
-                                                  ),
+                                                  ],
                                                 ),
                                               );
-                                            }).toList(),
+                                            },
+                                            carouselController: _controller,
+                                            options: CarouselOptions(
+                                                height: 400,
+                                                viewportFraction: 0.8,
+                                                initialPage: 0,
+                                                enableInfiniteScroll: true,
+                                                reverse: false,
+                                                autoPlay: true,
+                                                autoPlayInterval:
+                                                    const Duration(seconds: 3),
+                                                autoPlayAnimationDuration:
+                                                    const Duration(
+                                                        milliseconds: 800),
+                                                autoPlayCurve:
+                                                    Curves.fastOutSlowIn,
+                                                enlargeCenterPage: true,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                onPageChanged: (idx, rsn) =>
+                                                    _carouselIndex.value = idx),
                                           ),
-                                          const SizedBox(height: 20),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: SizedBox(
+                                              height: 400,
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                    Icons.chevron_left),
+                                                onPressed: () =>
+                                                    _controller.previousPage(),
+                                              ),
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: SizedBox(
+                                              height: 400,
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                    Icons.chevron_right),
+                                                onPressed: () =>
+                                                    _controller.nextPage(),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
-                                    ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                            featured!.length, (index) {
+                                          return GestureDetector(
+                                            onTap: () => _controller
+                                                .animateToPage(index),
+                                            child: Container(
+                                              width: 10.0,
+                                              height: 10.0,
+                                              padding: const EdgeInsets.all(4),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10.0,
+                                                      horizontal: 2.0),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: _carouselIndex.value ==
+                                                        index
+                                                    ? (context.isDark
+                                                            ? Colors.white
+                                                            : Colors.black)
+                                                        .withOpacity(0.9)
+                                                    : (context.isDark
+                                                            ? Colors.white
+                                                            : Colors.black)
+                                                        .withOpacity(0.4),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      if (categories != null)
+                                        Center(
+                                          child: Container(
+                                            constraints: BoxConstraints(
+                                                maxWidth: min(
+                                                    1200,
+                                                    context.width >= 640
+                                                        ? context.width - 300
+                                                        : context.width)),
+                                            child: Column(children: [
+                                              for (var category in categories!
+                                                  .entries
+                                                  .toList()) ...[
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 16),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        category.key,
+                                                        style: context.textTheme
+                                                            .headline6!
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                letterSpacing:
+                                                                    1.2),
+                                                      ),
+                                                      OutlinedButton.icon(
+                                                        style: OutlinedButton
+                                                            .styleFrom(
+                                                          primary: context
+                                                                  .isDark
+                                                              ? Colors.grey[200]
+                                                              : Colors
+                                                                  .grey[800],
+                                                        ),
+                                                        onPressed: () {
+                                                          _navrailIndex
+                                                              .value = categories!
+                                                                  .keys
+                                                                  .toList()
+                                                                  .indexOf(
+                                                                      category
+                                                                          .key) +
+                                                              1;
+                                                        },
+                                                        label: const Icon(
+                                                            Icons.chevron_right,
+                                                            size: 14),
+                                                        icon: const Text(
+                                                            "See all"),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                GridOfApps(
+                                                  itemList: category.value
+                                                      .take(8)
+                                                      .toList(),
+                                                ),
+                                              ],
+                                            ]),
+                                          ),
+                                        )
+                                    ],
                                   ),
                                 )
                               : GridOfApps(
