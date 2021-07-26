@@ -12,6 +12,7 @@ Widget aibAppBar(
   ValueNotifier<String>? searchText,
   required Widget body,
 }) {
+  var colorItem = context.isDark ? Colors.white : Colors.black;
   var trailingIcons = [
     Hero(
       tag: 'window-buttons',
@@ -19,15 +20,17 @@ Widget aibAppBar(
         children: [
           MinimizeWindowButton(
             colors: WindowButtonColors(
-                iconNormal: context.isDark ? Colors.white : Colors.black),
+              iconNormal: colorItem,
+            ),
           ),
           MaximizeWindowButton(
             colors: WindowButtonColors(
-                iconNormal: context.isDark ? Colors.white : Colors.black),
+              iconNormal: colorItem,
+            ),
           ),
           CloseWindowButton(
             colors: WindowButtonColors(
-              iconNormal: context.isDark ? Colors.white : Colors.black,
+              iconNormal: colorItem,
               mouseOver: Colors.red,
             ),
           ),
@@ -42,8 +45,8 @@ Widget aibAppBar(
   }
   return MoveWindow(
     child: WindowBorder(
-      color: Colors.grey,
-      width: 1,
+      color: context.isDark ? Colors.grey[800]! : Colors.grey[200]!,
+      width: 2,
       child: FloatingSearchAppBar(
           title: title != null && title.isNotEmpty
               ? Hero(tag: 'header-title', child: Text(title))

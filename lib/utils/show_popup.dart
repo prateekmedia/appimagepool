@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
-import 'extensions.dart';
+import './utils.dart';
 
 Widget downloadButton(
     BuildContext context, List<QueryApp> listDownloads, bool downloading) {

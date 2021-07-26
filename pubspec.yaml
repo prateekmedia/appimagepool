@@ -11,7 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   app_popup_menu: ^1.0.0
-  bitsdojo_window: ^0.1.1+1
+  bitsdojo_window: 
+    git: 
+      url: https://github.com/bitsdojo/bitsdojo_window/
+      path: bitsdojo_window
   carousel_slider: ^4.0.0
   cached_network_image: ^3.1.0
   dio: ^4.0.0

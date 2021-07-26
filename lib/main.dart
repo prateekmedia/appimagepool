@@ -176,12 +176,15 @@ class _HomePageState extends State<HomePage> {
                                 ? Colors.white
                                 : Colors.grey[800],
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 26.0),
-                            child: Center(
-                                child: Text("Pool",
-                                    style: context.textTheme.headline6)),
+                          GestureDetector(
+                            onTap: () => _navrailIndex.value = 0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 26.0),
+                              child: Center(
+                                  child: Text("Pool",
+                                      style: context.textTheme.headline6)),
+                            ),
                           ),
                           FloatingSearchBarAction(
                             child: AppPopupMenu(
@@ -417,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                                             carouselController: _controller,
                                             options: CarouselOptions(
                                                 height: 400,
-                                                viewportFraction: 0.8,
+                                                viewportFraction: 0.75,
                                                 initialPage: 0,
                                                 enableInfiniteScroll: true,
                                                 reverse: false,
@@ -570,13 +573,25 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 )
-                              : GridOfApps(
-                                  itemList: searchedTerm.value.isEmpty &&
-                                          categories != null
-                                      ? categories!.entries
-                                          .toList()[_navrailIndex.value - 1]
-                                          .value
-                                      : itemsNew),
+                              : Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    constraints: BoxConstraints(
+                                        maxWidth: min(
+                                            1400,
+                                            context.width >= 640
+                                                ? context.width - 300
+                                                : context.width)),
+                                    child: GridOfApps(
+                                        itemList: searchedTerm.value.isEmpty &&
+                                                categories != null
+                                            ? categories!.entries
+                                                .toList()[
+                                                    _navrailIndex.value - 1]
+                                                .value
+                                            : itemsNew),
+                                  ),
+                                ),
                         ),
                       ],
                     ));

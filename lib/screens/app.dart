@@ -174,20 +174,15 @@ class AppPage extends HookConsumerWidget {
                                                       location + filename,
                                                       onReceiveProgress:
                                                           (recieved, total) {
-                                                    listDownloads[listDownloads
+                                                    var item = listDownloads[
+                                                        listDownloads
                                                             .indexWhere(
                                                                 (element) =>
                                                                     element
                                                                         .name ==
-                                                                    filename)]
-                                                        .actualBytes = recieved;
-                                                    listDownloads[listDownloads
-                                                            .indexWhere(
-                                                                (element) =>
-                                                                    element
-                                                                        .name ==
-                                                                    filename)]
-                                                        .totalBytes = total;
+                                                                    filename)];
+                                                    item.actualBytes = recieved;
+                                                    item.totalBytes = total;
                                                   },
                                                       cancelToken:
                                                           cancelToken).whenComplete(
