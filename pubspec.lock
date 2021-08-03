@@ -176,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  flutter_gtk:
+    dependency: "direct main"
+    description:
+      name: flutter_gtk
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   flutter_hooks:
     dependency: transitive
     description:

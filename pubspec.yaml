@@ -18,6 +18,7 @@ dependencies:
   carousel_slider: ^4.0.0
   cached_network_image: ^3.1.0
   dio: ^4.0.0
+  flutter_gtk: ^0.0.1
   flutter_svg: ^0.22.0
   hooks_riverpod: ^1.0.0-dev.6
   material_floating_search_bar: ^0.3.4

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:appimagepool/models/models.dart';
+import 'package:appimagepool/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
 import './utils.dart';
@@ -12,9 +12,9 @@ Widget downloadButton(
     BuildContext context, List<QueryApp> listDownloads, bool downloading) {
   return Hero(
     tag: 'download_menu',
-    child: CircularButton(
-      onPressed: () {},
-      icon: AppPopupMenu(
+    child: CustomAdwaitaHeaderButton(
+      onTap: () {},
+      child: AppPopupMenu(
         menuItems: List.generate(listDownloads.length, (index) {
           var i = listDownloads[index];
           return PopupMenuItem<String>(
@@ -60,13 +60,16 @@ Widget downloadButton(
               value: i.name);
         }).toList(),
         elevation: 3,
-        offset: const Offset(0, 16),
+        color: context.theme.canvasColor,
+        offset: const Offset(0, 40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        icon: Icon(downloading
-            ? Icons.download_outlined
-            : Icons.download_done_outlined),
+        icon: Icon(
+            downloading
+                ? Icons.download_outlined
+                : Icons.download_done_outlined,
+            size: 18),
       ),
     ),
   );

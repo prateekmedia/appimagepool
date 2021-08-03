@@ -11,6 +11,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,15 +31,11 @@ void main() {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             brightness: Brightness.light,
-            appBarTheme: AppBarTheme(
-              iconTheme: IconThemeData(color: Colors.grey[800]),
-            ),
+            canvasColor: AdwaitaLightColors.canvas,
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
-            appBarTheme: const AppBarTheme(
-              iconTheme: IconThemeData(color: Colors.white),
-            ),
+            canvasColor: AdwaitaDarkColors.canvas,
           ),
           themeMode: themeMode,
           home: HomePage(theme: theme),
@@ -186,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                                       style: context.textTheme.headline6)),
                             ),
                           ),
-                          FloatingSearchBarAction(
+                          CustomAdwaitaHeaderButton(
                             child: AppPopupMenu(
                               menuItems: const [
                                 PopupMenuItem(
@@ -198,7 +195,11 @@ class _HomePageState extends State<HomePage> {
                                   value: "app",
                                 ),
                               ],
-                              icon: const Icon(Icons.menu),
+                              color: context.isDark
+                                  ? AdwaitaDarkColors.headerBarBackgroundBottom
+                                  : AdwaitaLightColors
+                                      .headerBarBackgroundBottom,
+                              icon: const Icon(Icons.menu, size: 18),
                               onSelected: (val) {
                                 switch (val) {
                                   case 'app':
@@ -217,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                                 }
                               },
                               elevation: 3,
-                              offset: const Offset(0, 16),
+                              offset: const Offset(0, 40),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),
@@ -230,13 +231,14 @@ class _HomePageState extends State<HomePage> {
               trailing: [
                 Hero(
                   tag: 'theme-switch',
-                  child: FloatingSearchBarAction.icon(
-                      icon: const Icon(Icons.nightlight_round),
-                      onTap: () => {
-                            widget.theme.value = widget.theme.value.index == 2
-                                ? ThemeMode.light
-                                : ThemeMode.dark
-                          }),
+                  child: AdwaitaHeaderButton(
+                    icon: Icons.nightlight_round,
+                    onTap: () => {
+                      widget.theme.value = widget.theme.value.index == 2
+                          ? ThemeMode.light
+                          : ThemeMode.dark
+                    },
+                  ),
                 ),
                 if (listDownloads.isNotEmpty)
                   downloadButton(context, listDownloads, downloading),
@@ -258,8 +260,10 @@ class _HomePageState extends State<HomePage> {
                                         child: NavigationRail(
                                           extended: true,
                                           backgroundColor: context.isDark
-                                              ? Colors.grey[800]
-                                              : Colors.grey[300],
+                                              ? AdwaitaDarkColors
+                                                  .headerBarBackgroundBottom
+                                              : AdwaitaLightColors
+                                                  .headerBarBackgroundBottom,
                                           destinations: [
                                             const NavigationRailDestination(
                                               icon: Icon(Icons.explore),

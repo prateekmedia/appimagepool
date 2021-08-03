@@ -1,5 +1,6 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../utils/utils.dart';
 
@@ -45,19 +46,25 @@ Widget aibAppBar(
   }
   return MoveWindow(
     child: WindowBorder(
-      color: context.isDark ? Colors.grey[800]! : Colors.grey[200]!,
-      width: 2,
+      color: context.isDark
+          ? AdwaitaDarkColors.headerSwitcherTabBorder
+          : AdwaitaLightColors.headerSwitcherTabBorder,
+      width: 1,
       child: FloatingSearchAppBar(
           title: title != null && title.isNotEmpty
               ? Hero(tag: 'header-title', child: Text(title))
               : Container(),
           alwaysOpened: alwaysOpened,
+          elevation: 0,
+          liftOnScrollElevation: 0,
           leadingActions: leading,
           transitionDuration: const Duration(milliseconds: 800),
           colorOnScroll: context.isDark
-              ? Colors.grey[800]!.darken(20)
-              : Colors.grey[200]!.brighten(20),
-          color: context.isDark ? Colors.grey[800] : Colors.grey[300],
+              ? AdwaitaDarkColors.headerBarBackgroundTop
+              : AdwaitaLightColors.headerBarBackgroundTop,
+          color: context.isDark
+              ? AdwaitaDarkColors.headerBarBackgroundTop
+              : AdwaitaLightColors.headerBarBackgroundTop,
           onQueryChanged: (query) {
             if (searchText != null) {
               searchText.value = query;
