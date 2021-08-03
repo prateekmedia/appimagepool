@@ -168,11 +168,6 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          FloatingSearchBarAction.searchToClear(
-                            color: context.isDark
-                                ? Colors.white
-                                : Colors.grey[800],
-                          ),
                           GestureDetector(
                             onTap: () => _navrailIndex.value = 0,
                             child: Padding(

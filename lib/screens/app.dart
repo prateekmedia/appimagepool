@@ -67,6 +67,12 @@ class AppPage extends HookConsumerWidget {
       body: aibAppBar(
         context,
         title: '',
+        leading: [
+          AdwaitaHeaderButton(
+            icon: Icons.chevron_left,
+            onTap: context.back,
+          )
+        ],
         trailing: [
           if (listDownloads.isNotEmpty)
             downloadButton(context, listDownloads, downloading),
