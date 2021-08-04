@@ -128,93 +128,93 @@ class AppPage extends HookConsumerWidget {
                             Tooltip(
                               message: url,
                               child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (url.contains('github.com', 0)) {
-                                      List<String> v = url.split('github.com');
-                                      var u =
-                                          'https://api.github.com/repos' + v[1];
-                                      List response = (await Dio().get(u)).data;
-                                      if (response.isNotEmpty) {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return DownloadDialog(
-                                                  response, appIcon,
-                                                  (checkmap) async {
-                                                // debugPrint(checkmap.value);
-                                                var location = "/" +
-                                                    (await getApplicationDocumentsDirectory())
-                                                        .toString()
-                                                        .split('/')
-                                                        .toList()
-                                                        .sublist(1, 3)
-                                                        .join("/") +
-                                                    "/Applications/";
-                                                if (!Directory(location)
-                                                    .existsSync()) {
-                                                  Directory(location)
-                                                      .createSync();
-                                                }
-                                                if (checkmap.isNotEmpty) {
-                                                  var fileurl =
-                                                      checkmap.keys.toList()[0];
-                                                  String filename = checkmap
-                                                      .values
-                                                      .toList()[0];
-                                                  ref
-                                                      .watch(
-                                                          isDownloadingProvider
-                                                              .notifier)
-                                                      .toggleValue();
-                                                  CancelToken cancelToken =
-                                                      CancelToken();
-                                                  listDownloads.add(
-                                                    QueryApp(
-                                                        name: filename,
-                                                        url: url,
-                                                        cancelToken:
-                                                            cancelToken,
-                                                        downloadLocation:
-                                                            location,
-                                                        actualBytes: 0,
-                                                        totalBytes: 0),
-                                                  );
-                                                  await Dio().download(fileurl,
-                                                      location + filename,
-                                                      onReceiveProgress:
-                                                          (recieved, total) {
-                                                    var item = listDownloads[
-                                                        listDownloads
-                                                            .indexWhere(
-                                                                (element) =>
-                                                                    element
-                                                                        .name ==
-                                                                    filename)];
-                                                    item.actualBytes = recieved;
-                                                    item.totalBytes = total;
-                                                  },
-                                                      cancelToken:
-                                                          cancelToken).whenComplete(
-                                                      () => ref
-                                                          .watch(
-                                                              isDownloadingProvider
-                                                                  .notifier)
-                                                          .toggleValue());
-                                                  var shell =
-                                                      Shell().cd(location);
-                                                  shell.run(
-                                                      'chmod +x ' + filename);
-                                                }
-                                              });
+                                onPressed: () async {
+                                  if (url.contains('github.com', 0)) {
+                                    List<String> v = url.split('github.com');
+                                    var u =
+                                        'https://api.github.com/repos' + v[1];
+                                    List response = (await Dio().get(u)).data;
+                                    if (response.isNotEmpty) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return DownloadDialog(
+                                                response, appIcon,
+                                                (checkmap) async {
+                                              // debugPrint(checkmap.value);
+                                              var location = "/" +
+                                                  (await getApplicationDocumentsDirectory())
+                                                      .toString()
+                                                      .split('/')
+                                                      .toList()
+                                                      .sublist(1, 3)
+                                                      .join("/") +
+                                                  "/Applications/";
+                                              if (!Directory(location)
+                                                  .existsSync()) {
+                                                Directory(location)
+                                                    .createSync();
+                                              }
+                                              if (checkmap.isNotEmpty) {
+                                                var fileurl =
+                                                    checkmap.keys.toList()[0];
+                                                String filename =
+                                                    checkmap.values.toList()[0];
+                                                ref
+                                                    .watch(isDownloadingProvider
+                                                        .notifier)
+                                                    .toggleValue();
+                                                CancelToken cancelToken =
+                                                    CancelToken();
+                                                listDownloads.add(
+                                                  QueryApp(
+                                                      name: filename,
+                                                      url: url,
+                                                      cancelToken: cancelToken,
+                                                      downloadLocation:
+                                                          location,
+                                                      actualBytes: 0,
+                                                      totalBytes: 0),
+                                                );
+                                                await Dio().download(fileurl,
+                                                    location + filename,
+                                                    onReceiveProgress:
+                                                        (recieved, total) {
+                                                  var item = listDownloads[
+                                                      listDownloads.indexWhere(
+                                                          (element) =>
+                                                              element.name ==
+                                                              filename)];
+                                                  item.actualBytes = recieved;
+                                                  item.totalBytes = total;
+                                                },
+                                                    cancelToken:
+                                                        cancelToken).whenComplete(
+                                                    () => ref
+                                                        .watch(
+                                                            isDownloadingProvider
+                                                                .notifier)
+                                                        .toggleValue());
+                                                var shell =
+                                                    Shell().cd(location);
+                                                shell.run(
+                                                    'chmod +x ' + filename);
+                                              }
                                             });
-                                      } else {
-                                        url.launchIt();
-                                      }
+                                          });
                                     } else {
                                       url.launchIt();
                                     }
-                                  },
-                                  child: const Text("Download")),
+                                  } else {
+                                    url.launchIt();
+                                  }
+                                },
+                                child: const Text("Download"),
+                                style: ElevatedButton.styleFrom(
+                                    primary: context.isDark
+                                        ? Colors.blue[700]
+                                        : Colors.blue),
+                              ),
                             )
                         ],
                       ),

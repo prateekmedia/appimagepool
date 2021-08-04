@@ -25,7 +25,7 @@ Widget aibAppBar(
           child: AdwaitaHeaderBar(
             onClose: appWindow.close,
             onMinimize: appWindow.minimize,
-            onMaximize: appWindow.maximize,
+            onMaximize: appWindow.maximizeOrRestore,
             leading: Row(children: [
               title != null && title.isNotEmpty
                   ? Hero(tag: 'header-title', child: Text(title))
