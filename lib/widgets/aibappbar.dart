@@ -6,11 +6,9 @@ import '../utils/utils.dart';
 Widget aibAppBar(
   BuildContext context, {
   String? title,
-  bool alwaysOpened = false,
   List<Widget> leading = const [],
   List<Widget> trailing = const [],
   bool showBackButton = false,
-  ValueNotifier<String>? searchText,
   required Widget body,
 }) {
   return WindowBorder(
@@ -44,11 +42,6 @@ Widget aibAppBar(
                     style: context.textTheme.headline6!.copyWith(fontSize: 17),
                   )
                 : const SizedBox(),
-            // onQueryChanged: (query) {
-            //   if (searchText != null) {
-            //     searchText.value = query;
-            //   }
-            // },
             trailling: Row(children: trailing),
           ),
         ),
