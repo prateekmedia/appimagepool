@@ -15,7 +15,6 @@ import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'models/models.dart';
 import 'screens/screens.dart';
 import 'utils/utils.dart';
@@ -161,71 +160,71 @@ class _HomePageState extends State<HomePage> {
               title: '',
               searchText: searchedTerm,
               leading: [
-                FloatingSearchBarAction(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    width: context.width >= 640 ? 250 : null,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AdwaitaHeaderButton(
-                            icon: Icons.search,
-                            onTap: () {
-                              debugPrint('Not Implemented');
-                            },
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  width: context.width >= 640 ? 250 : null,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AdwaitaHeaderButton(
+                          icon: Icons.search,
+                          onTap: () {
+                            debugPrint('Not Implemented');
+                          },
+                        ),
+                        GestureDetector(
+                          onTap: () => _navrailIndex.value = 0,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 26.0),
+                            child: Center(
+                                child: Text(
+                              "Pool",
+                              style: context.textTheme.headline6!
+                                  .copyWith(fontSize: 17),
+                            )),
                           ),
-                          GestureDetector(
-                            onTap: () => _navrailIndex.value = 0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 26.0),
-                              child: Center(
-                                  child: Text("Pool",
-                                      style: context.textTheme.headline6)),
-                            ),
-                          ),
-                          CustomAdwaitaHeaderButton(
-                            onTap: () {},
-                            child: AppPopupMenu(
-                              menuItems: const [
-                                PopupMenuItem(
-                                  child: Text("About Appimages"),
-                                  value: "appimage",
-                                ),
-                                PopupMenuItem(
-                                  child: Text("About the App"),
-                                  value: "app",
-                                ),
-                              ],
-                              color: context.theme.canvasColor,
-                              icon: const Icon(Icons.menu, size: 18),
-                              onSelected: (val) {
-                                switch (val) {
-                                  case 'app':
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => aboutDialog(ctx),
-                                    );
-                                    break;
-                                  case 'appimage':
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) =>
-                                          appimageAboutDialog(ctx),
-                                    );
-                                    break;
-                                }
-                              },
-                              elevation: 3,
-                              offset: const Offset(0, 40),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                        ),
+                        CustomAdwaitaHeaderButton(
+                          onTap: () {},
+                          child: AppPopupMenu(
+                            menuItems: const [
+                              PopupMenuItem(
+                                child: Text("About Appimages"),
+                                value: "appimage",
                               ),
+                              PopupMenuItem(
+                                child: Text("About the App"),
+                                value: "app",
+                              ),
+                            ],
+                            color: context.theme.canvasColor,
+                            icon: const Icon(Icons.menu, size: 18),
+                            onSelected: (val) {
+                              switch (val) {
+                                case 'app':
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => aboutDialog(ctx),
+                                  );
+                                  break;
+                                case 'appimage':
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => appimageAboutDialog(ctx),
+                                  );
+                                  break;
+                              }
+                            },
+                            elevation: 3,
+                            offset: const Offset(0, 40),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                        ]),
-                  ),
-                )
+                        ),
+                      ]),
+                ),
               ],
               trailing: [
                 Hero(

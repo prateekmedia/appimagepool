@@ -9,6 +9,7 @@ Widget aibAppBar(
   bool alwaysOpened = false,
   List<Widget> leading = const [],
   List<Widget> trailing = const [],
+  bool showBackButton = false,
   ValueNotifier<String>? searchText,
   required Widget body,
 }) {
@@ -27,11 +28,22 @@ Widget aibAppBar(
             onMinimize: appWindow.minimize,
             onMaximize: appWindow.maximizeOrRestore,
             leading: Row(children: [
-              title != null && title.isNotEmpty
-                  ? Hero(tag: 'header-title', child: Text(title))
-                  : Container(),
+              if (showBackButton)
+                Hero(
+                  tag: 'back-button',
+                  child: AdwaitaHeaderButton(
+                    icon: Icons.chevron_left,
+                    onTap: context.back,
+                  ),
+                ),
               ...leading,
             ]),
+            center: (title != null && title.isNotEmpty)
+                ? Text(
+                    title,
+                    style: context.textTheme.headline6!.copyWith(fontSize: 17),
+                  )
+                : const SizedBox(),
             // onQueryChanged: (query) {
             //   if (searchText != null) {
             //     searchText.value = query;

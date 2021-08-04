@@ -21,7 +21,6 @@ dependencies:
   flutter_gtk: ^0.0.1
   flutter_svg: ^0.22.0
   hooks_riverpod: ^1.0.0-dev.6
-  material_floating_search_bar: ^0.3.4
   package_info_plus: ^1.0.4
   path_provider: ^2.0.2
   process_run: ^0.12.1
