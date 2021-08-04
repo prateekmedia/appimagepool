@@ -20,6 +20,7 @@ class CustomLicensePage extends StatelessWidget {
       body: aibAppBar(
         context,
         title: "Licenses",
+        showBackButton: true,
         body: FutureBuilder<List<LicenseEntry>>(
             future: LicenseRegistry.licenses.toList(),
             builder: (context, snapshot) {
@@ -89,6 +90,7 @@ class LicenseInfoPage extends StatelessWidget {
       body: aibAppBar(
         context,
         title: currentPackage!.name,
+        showBackButton: true,
         body: ListView(
           children: List.generate(
             cParagraph!.length,
