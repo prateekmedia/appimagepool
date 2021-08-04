@@ -168,6 +168,12 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          AdwaitaHeaderButton(
+                            icon: Icons.search,
+                            onTap: () {
+                              debugPrint('Not Implemented');
+                            },
+                          ),
                           GestureDetector(
                             onTap: () => _navrailIndex.value = 0,
                             child: Padding(
@@ -179,6 +185,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           CustomAdwaitaHeaderButton(
+                            onTap: () {},
                             child: AppPopupMenu(
                               menuItems: const [
                                 PopupMenuItem(
@@ -190,10 +197,7 @@ class _HomePageState extends State<HomePage> {
                                   value: "app",
                                 ),
                               ],
-                              color: context.isDark
-                                  ? AdwaitaDarkColors.headerBarBackgroundBottom
-                                  : AdwaitaLightColors
-                                      .headerBarBackgroundBottom,
+                              color: context.theme.canvasColor,
                               icon: const Icon(Icons.menu, size: 18),
                               onSelected: (val) {
                                 switch (val) {
@@ -249,10 +253,10 @@ class _HomePageState extends State<HomePage> {
                                   SingleChildScrollView(
                                     child: ConstrainedBox(
                                       constraints: BoxConstraints(
-                                          minHeight: constraint.maxHeight,
-                                          maxWidth: 250),
+                                          minHeight: constraint.maxHeight),
                                       child: IntrinsicHeight(
                                         child: NavigationRail(
+                                          minExtendedWidth: 250,
                                           extended: true,
                                           backgroundColor: context.isDark
                                               ? AdwaitaDarkColors
