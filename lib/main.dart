@@ -22,7 +22,7 @@ import 'utils/utils.dart';
 import 'widgets/widgets.dart';
 
 void main() {
-  var theme = ValueNotifier(ThemeMode.dark);
+  var theme = ValueNotifier(ThemeMode.system);
   runApp(
     ProviderScope(
       child: ValueListenableBuilder(
@@ -45,8 +45,7 @@ void main() {
   );
   doWhenWindowReady(() {
     final win = appWindow;
-    const initialSize = Size(1280, 720);
-    win.size = initialSize;
+    win.size = const Size(1280, 720);
     win.alignment = Alignment.center;
     win.title = "Pool";
     win.show();
@@ -155,6 +154,7 @@ class _HomePageState extends State<HomePage> {
             : [];
 
     switchSearchBar() {
+      if (categories == null && featured == null) return null;
       searchedTerm.value = '';
       toggleSearch.value = !toggleSearch.value;
     }
@@ -260,45 +260,52 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (context.width >= 640)
-                          LayoutBuilder(
-                              builder: (context, constraint) =>
-                                  SingleChildScrollView(
-                                    child: ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          minHeight: constraint.maxHeight),
-                                      child: IntrinsicHeight(
-                                        child: NavigationRail(
-                                          minExtendedWidth: 250,
-                                          extended: true,
-                                          backgroundColor: context.isDark
-                                              ? AdwaitaDarkColors
-                                                  .headerBarBackgroundBottom
-                                              : AdwaitaLightColors
-                                                  .headerBarBackgroundBottom,
-                                          destinations: [
-                                            const NavigationRailDestination(
-                                              icon: Icon(Icons.explore),
-                                              label: Text("Explore"),
-                                            ),
-                                            for (var category
-                                                in categories!.entries)
-                                              NavigationRailDestination(
-                                                icon: Icon(
-                                                    categoryIcons.containsKey(
-                                                            category.key)
-                                                        ? categoryIcons[
-                                                            category.key]
-                                                        : Icons.help),
-                                                label: Text(category.key),
-                                              ),
-                                          ],
-                                          selectedIndex: _navrailIndex.value,
-                                          onDestinationSelected: (idx) =>
-                                              _navrailIndex.value = idx,
-                                        ),
-                                      ),
-                                    ),
-                                  )),
+                          Container(
+                            // color: context.isDark
+                            //     ? AdwaitaDarkColors.headerBarBackgroundBottom
+                            //     : AdwaitaLightColors.headerBarBackgroundBottom,
+                            constraints: const BoxConstraints(maxWidth: 250),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: ListView(
+                                    padding: EdgeInsets.zero,
+                                    children: [
+                                      gtkSidebarItem(
+                                          context, _navrailIndex.value == 0,
+                                          label: "Explore",
+                                          icon: Icons.explore, onSelected: () {
+                                        _navrailIndex.value = 0;
+                                      }),
+                                      for (var category in categories!.entries
+                                          .toList()
+                                          .asMap()
+                                          .entries)
+                                        gtkSidebarItem(
+                                            context,
+                                            _navrailIndex.value ==
+                                                category.key + 1,
+                                            label: category.value.key,
+                                            icon: categoryIcons.containsKey(
+                                                    category.value.key)
+                                                ? categoryIcons[
+                                                    category.value.key]!
+                                                : Icons.help, onSelected: () {
+                                          _navrailIndex.value =
+                                              category.key + 1;
+                                        }),
+                                    ],
+                                  ),
+                                ),
+                                VerticalDivider(
+                                  width: 2,
+                                  color: context.isDark
+                                      ? Colors.grey[800]
+                                      : Colors.grey[400],
+                                ),
+                              ],
+                            ),
+                          ),
                         Expanded(
                           child: Column(
                             children: [
@@ -701,6 +708,36 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget gtkSidebarItem(
+    BuildContext context,
+    bool isSelected, {
+    required String label,
+    required IconData icon,
+    VoidCallback? onSelected,
+  }) {
+    return ListTile(
+      onTap: onSelected,
+      tileColor: isSelected ? context.theme.primaryColor : null,
+      title: Row(
+        children: [
+          Icon(
+            icon,
+            size: 19,
+            color: isSelected ? Colors.white : null,
+          ),
+          const SizedBox(width: 12),
+          Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.white : null,
+              fontSize: 15,
+            ),
+          ),
+        ],
       ),
     );
   }
