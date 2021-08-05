@@ -25,11 +25,9 @@ packages:
   bitsdojo_window:
     dependency: "direct main"
     description:
-      path: bitsdojo_window
-      ref: HEAD
-      resolved-ref: a5ce2e21ecb800eee6f014594891db2d49db8866
-      url: "https://github.com/bitsdojo/bitsdojo_window/"
-    source: git
+      name: bitsdojo_window
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.1.1+1"
   bitsdojo_window_linux:
     dependency: transitive
