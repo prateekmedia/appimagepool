@@ -17,14 +17,10 @@ Widget twoRowContainer(
           style: context.textTheme.headline6!
               .copyWith(fontWeight: FontWeight.w600),
         ),
-        RichText(
-            text: HTML.toTextSpan(
+        SelectableText.rich(HTML.toTextSpan(
           context,
           secondaryT,
-          linksCallback: (link) {
-            debugPrint('You clicked on ${link.toString()}');
-            link.toString().launchIt();
-          },
+          linksCallback: (link) => link.toString().launchIt(),
           defaultTextStyle: context.textTheme.bodyText1!
               .copyWith(fontWeight: FontWeight.w500),
         )),

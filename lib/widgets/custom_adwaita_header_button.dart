@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gtk/flutter_gtk.dart';
 
 class CustomAdwaitaHeaderButton extends StatelessWidget {
-  final Widget? child;
-  final VoidCallback? onTap;
+  final Widget child;
 
   const CustomAdwaitaHeaderButton({
     Key? key,
-    this.child,
-    this.onTap,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -40,18 +38,7 @@ class CustomAdwaitaHeaderButton extends StatelessWidget {
           ],
         ),
       ),
-      padding: EdgeInsets.zero,
-      child: TextButton(
-        style: OutlinedButton.styleFrom(
-          primary: ThemePicker.of(context).pick(
-            light: AdwaitaLightColors.headerButtonPrimary,
-            dark: AdwaitaDarkColors.headerButtonPrimary,
-          ),
-          textStyle: Theme.of(context).textTheme.subtitle2,
-        ),
-        child: child!,
-        onPressed: onTap,
-      ),
+      child: child,
     );
   }
 }

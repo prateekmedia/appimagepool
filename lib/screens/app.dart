@@ -29,7 +29,6 @@ class AppPage extends HookConsumerWidget {
         ? (app.url as List).firstWhere((e) => e['type'] == 'Download',
             orElse: () => {'url': ''})['url']
         : '';
-    debugPrint(app.url.toString());
     String proUrl = app.url != null
         ? app.url!.firstWhere((e) => e['type'].toLowerCase() == 'github',
             orElse: () => {'url': ''})['url']
@@ -62,7 +61,6 @@ class AppPage extends HookConsumerWidget {
     var downloading = ref.watch(isDownloadingProvider);
     List<QueryApp> listDownloads = ref.watch(downloadListProvider);
 
-    debugPrint(app.toString());
     return Scaffold(
       body: aibAppBar(
         context,
@@ -107,9 +105,9 @@ class AppPage extends HookConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(app.name,
+                                SelectableText(app.name,
                                     style: context.textTheme.headline6),
-                                Text(
+                                SelectableText(
                                     (app.categories != null &&
                                             app.categories!.isNotEmpty
                                         ? app.categories!.join(', ')
@@ -136,7 +134,6 @@ class AppPage extends HookConsumerWidget {
                                             return DownloadDialog(
                                                 response, appIcon,
                                                 (checkmap) async {
-                                              // debugPrint(checkmap.value);
                                               var location = "/" +
                                                   (await getApplicationDocumentsDirectory())
                                                       .toString()
@@ -206,9 +203,7 @@ class AppPage extends HookConsumerWidget {
                                 },
                                 child: const Text("Download"),
                                 style: ElevatedButton.styleFrom(
-                                    primary: context.isDark
-                                        ? Colors.blue[700]
-                                        : Colors.blue),
+                                    primary: context.theme.primaryColor),
                               ),
                             )
                         ],
@@ -306,17 +301,13 @@ class AppPage extends HookConsumerWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 60, vertical: 10),
-                    child: RichText(
-                        text: HTML.toTextSpan(
-                            context,
-                            (app.description != null &&
-                                    app.description!
-                                        .toString()
-                                        .trim()
-                                        .isNotEmpty)
-                                ? app.description!
-                                : "No Description Found",
-                            defaultTextStyle: context.textTheme.bodyText1!)),
+                    child: SelectableText.rich(HTML.toTextSpan(
+                        context,
+                        (app.description != null &&
+                                app.description!.toString().trim().isNotEmpty)
+                            ? app.description!
+                            : "No Description Found",
+                        defaultTextStyle: context.textTheme.bodyText1!)),
                   ),
                   twoRowContainer(
                     context,

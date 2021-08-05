@@ -13,7 +13,6 @@ Widget downloadButton(
   return Hero(
     tag: 'download_menu',
     child: CustomAdwaitaHeaderButton(
-      onTap: () {},
       child: AppPopupMenu(
         menuItems: List.generate(listDownloads.length, (index) {
           var i = listDownloads[index];
@@ -45,7 +44,6 @@ Widget downloadButton(
                         "${i.actualBytes.getFileSize()}/${i.totalBytes.getFileSize()}"),
                     trailing: IconButton(
                         onPressed: () {
-                          debugPrint(i.cancelToken.toString());
                           if (i.actualBytes != i.totalBytes) {
                             i.cancelToken.cancel("cancelled");
                           } else {

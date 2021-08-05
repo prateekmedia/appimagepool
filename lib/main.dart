@@ -35,6 +35,7 @@ void main() {
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
+            primaryColor: Colors.blue[700],
             canvasColor: AdwaitaDarkColors.canvas,
           ),
           themeMode: themeMode,
@@ -54,6 +55,7 @@ void main() {
 
 class HomePage extends StatefulHookWidget {
   final ValueNotifier<ThemeMode> theme;
+  // bool _isConnected = true;
 
   const HomePage({Key? key, required this.theme}) : super(key: key);
   @override
@@ -62,6 +64,11 @@ class HomePage extends StatefulHookWidget {
 
 class _HomePageState extends State<HomePage> {
   getData() async {
+    // var connectivityResult = await (Connectivity().checkConnectivity());
+    // if (connectivityResult == ConnectivityResult.none) {
+    //   setState(() => _isConnected = false);
+    //   return null;
+    // }
     Map response =
         (await Dio().get("https://appimage.github.io/feed.json")).data;
     Map res = json.decode((await Dio().get(
@@ -176,8 +183,8 @@ class _HomePageState extends State<HomePage> {
               title: '',
               leading: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  width: context.width >= 640 ? 250 : null,
+                  padding: const EdgeInsets.only(right: 4),
+                  width: context.width >= 640 ? 242 : null,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -199,20 +206,25 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         CustomAdwaitaHeaderButton(
-                          onTap: () {},
                           child: AppPopupMenu(
-                            menuItems: const [
+                            menuItems: [
                               PopupMenuItem(
-                                child: Text("About Appimages"),
+                                child: Text(
+                                  "About Appimages",
+                                  style: context.textTheme.bodyText1,
+                                ),
                                 value: "appimage",
                               ),
                               PopupMenuItem(
-                                child: Text("About the App"),
+                                child: Text(
+                                  "About the App",
+                                  style: context.textTheme.bodyText1,
+                                ),
                                 value: "app",
                               ),
                             ],
                             color: context.theme.canvasColor,
-                            icon: const Icon(Icons.menu, size: 18),
+                            icon: const Icon(Icons.menu, size: 17),
                             onSelected: (val) {
                               switch (val) {
                                 case 'app':
@@ -238,6 +250,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ]),
                 ),
+                if (context.width >= 640)
+                  VerticalDivider(
+                    width: 1,
+                    color: context.isDark ? Colors.grey[800] : Colors.grey[400],
+                  ),
               ],
               trailing: [
                 Hero(
@@ -298,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 VerticalDivider(
-                                  width: 2,
+                                  width: 1,
                                   color: context.isDark
                                       ? Colors.grey[800]
                                       : Colors.grey[400],
@@ -322,26 +339,32 @@ class _HomePageState extends State<HomePage> {
                                           const Duration(milliseconds: 260),
                                       height: toggleSearch.value ? 52 : 0,
                                       child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 6),
                                         constraints:
                                             const BoxConstraints(maxWidth: 450),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 8),
                                         child: RawKeyboardListener(
                                           child: TextField(
+                                            textAlignVertical:
+                                                TextAlignVertical.center,
                                             autofocus: true,
                                             cursorHeight: 20,
                                             onChanged: (query) {
                                               searchedTerm.value = query;
                                             },
                                             style: context.textTheme.bodyText1!
-                                                .copyWith(fontSize: 16),
+                                                .copyWith(fontSize: 14),
                                             decoration: InputDecoration(
                                               fillColor:
                                                   context.theme.canvasColor,
+                                              contentPadding:
+                                                  const EdgeInsets.only(top: 8),
+                                              isCollapsed: true,
                                               filled: true,
                                               prefixIcon: const Icon(
-                                                  Icons.search,
-                                                  size: 20),
+                                                Icons.search,
+                                                size: 18,
+                                              ),
                                               border: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(6),

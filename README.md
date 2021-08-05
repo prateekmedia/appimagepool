@@ -29,7 +29,7 @@
 
 ### Build from source
 
-- Download latest Flutter SDK (Currently Supported is 2.0.5)
+- Download latest Flutter SDK (>=2.5.0 / dev version)
 - Clone this repo and then 
 
 ```

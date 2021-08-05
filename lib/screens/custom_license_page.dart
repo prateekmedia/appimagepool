@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
@@ -97,8 +98,8 @@ class LicenseInfoPage extends StatelessWidget {
             (index) => StickyHeader(
               header: Container(
                   color: context.isDark
-                      ? Colors.grey[800]
-                      : Colors.white.darken(4),
+                      ? AdwaitaDarkColors.headerBarBackgroundBottom
+                      : AdwaitaLightColors.headerBarBackgroundBottom,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 15),
                   alignment: Alignment.centerLeft,
@@ -108,7 +109,7 @@ class LicenseInfoPage extends StatelessWidget {
                 child: Column(
                     children: List.generate(
                         cParagraph![index].paragraphs.toList().length - 1,
-                        (i) => Text(cParagraph![index]
+                        (i) => SelectableText(cParagraph![index]
                             .paragraphs
                             .toList()[i + 1]
                             .text))),

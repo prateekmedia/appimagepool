@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@master
         with:
-          channel: stable
+          channel: dev
       - name: Install dependencies
         run: |
           sudo apt-get update -y
