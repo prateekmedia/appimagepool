@@ -17,15 +17,15 @@ Dialog appimageAboutDialog(BuildContext context) {
                     'https://avatars.githubusercontent.com/u/16617932?s=80&v=4'),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 6.0),
-              child: Text(
+              child: SelectableText(
                 "AppImages",
                 style: context.textTheme.headline5!.copyWith(letterSpacing: 1),
               ),
             ),
-            Text("EASY TRUSTED FAST",
+            SelectableText("EASY TRUSTED FAST",
                 style: context.textTheme.bodyText2!.copyWith(letterSpacing: 2)),
             const SizedBox(height: 10),
-            Text(
+            SelectableText(
               "Linux apps that run anywhere",
               style: context.textTheme.bodyText1!
                   .copyWith(fontWeight: FontWeight.w600),
@@ -33,7 +33,7 @@ Dialog appimageAboutDialog(BuildContext context) {
             ),
             const SizedBox(height: 10),
             Tooltip(
-              message: projectUrl,
+              message: appimageWebsite,
               child: MaterialButton(
                 child: Text(
                   "Know More",

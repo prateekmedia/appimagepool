@@ -36,18 +36,18 @@ Widget aboutDialog(BuildContext context) {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
+                      child: SelectableText(
                         "AppImage Pool",
                         style: context.textTheme.headline5!
                             .copyWith(letterSpacing: 1),
                       ),
                     ),
-                    Text(
+                    SelectableText(
                       "V ${snapshot.data!.version}",
                       style: context.textTheme.bodyText2,
                     ),
                     const SizedBox(height: 20),
-                    Text(
+                    SelectableText(
                       "Simplifying the way you browse, install and update your appimages. \n\nPowered by Flutter.",
                       style: context.textTheme.bodyText1!
                           .copyWith(fontWeight: FontWeight.w600),
