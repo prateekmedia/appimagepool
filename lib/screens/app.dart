@@ -64,7 +64,7 @@ class AppPage extends HookConsumerWidget {
     return Scaffold(
       body: aibAppBar(
         context,
-        title: '',
+        title: app.name,
         showBackButton: true,
         trailing: [
           if (listDownloads.isNotEmpty)

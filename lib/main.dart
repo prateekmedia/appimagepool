@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/widgets/grid_of_apps.dart';
@@ -180,92 +181,115 @@ class _HomePageState extends State<HomePage> {
             },
             child: aibAppBar(
               context,
-              title: '',
-              leading: [
-                Container(
-                  padding: const EdgeInsets.only(right: 4),
-                  width: context.width >= 640 ? 242 : null,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AdwaitaHeaderButton(
-                          icon: Icons.search,
-                          onTap: switchSearchBar,
-                        ),
-                        GestureDetector(
-                          onTap: () => _navrailIndex.value = 0,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 26.0),
-                            child: Center(
-                                child: Text(
-                              "Pool",
-                              style: context.textTheme.headline6!
-                                  .copyWith(fontSize: 17),
-                            )),
-                          ),
-                        ),
-                        CustomAdwaitaHeaderButton(
-                          child: AppPopupMenu(
-                            menuItems: [
-                              PopupMenuItem(
-                                child: Text(
-                                  "About Appimages",
-                                  style: context.textTheme.bodyText1,
+              title: categories == null && featured == null ? 'Pool' : '',
+              leading: categories != null || featured != null
+                  ? [
+                      Container(
+                        padding: const EdgeInsets.only(right: 4),
+                        width: context.width >= 640 ? 242 : null,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomAdwaitaHeaderButton(
+                                color: toggleSearch.value
+                                    ? context.isDark
+                                        ? AdwaitaDarkColors
+                                            .headerSwitcherTabBackground
+                                        : AdwaitaLightColors
+                                            .headerSwitcherTabBackground
+                                    : null,
+                                child: IconButton(
+                                  icon: const AdwaitaIcon(
+                                    AdwaitaIcons.system_search,
+                                    size: 17,
+                                  ),
+                                  onPressed: switchSearchBar,
                                 ),
-                                value: "appimage",
                               ),
-                              PopupMenuItem(
-                                child: Text(
-                                  "About the App",
-                                  style: context.textTheme.bodyText1,
+                              GestureDetector(
+                                onTap: () => _navrailIndex.value = 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 26.0),
+                                  child: Center(
+                                      child: Text(
+                                    "Pool",
+                                    style: context.textTheme.headline6!
+                                        .copyWith(fontSize: 17),
+                                  )),
                                 ),
-                                value: "app",
                               ),
-                            ],
-                            color: context.theme.canvasColor,
-                            icon: const Icon(Icons.menu, size: 17),
-                            onSelected: (val) {
-                              switch (val) {
-                                case 'app':
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => aboutDialog(ctx),
-                                  );
-                                  break;
-                                case 'appimage':
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => appimageAboutDialog(ctx),
-                                  );
-                                  break;
-                              }
-                            },
-                            elevation: 3,
-                            offset: const Offset(0, 40),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
+                              CustomAdwaitaHeaderButton(
+                                child: AppPopupMenu(
+                                  menuItems: [
+                                    PopupMenuItem(
+                                      child: Text(
+                                        "About Appimages",
+                                        style: context.textTheme.bodyText1,
+                                      ),
+                                      value: "appimage",
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text(
+                                        "About the App",
+                                        style: context.textTheme.bodyText1,
+                                      ),
+                                      value: "app",
+                                    ),
+                                  ],
+                                  color: context.theme.canvasColor,
+                                  icon: const AdwaitaIcon(
+                                    AdwaitaIcons.menu,
+                                    size: 17,
+                                  ),
+                                  onSelected: (val) {
+                                    switch (val) {
+                                      case 'app':
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) => aboutDialog(ctx),
+                                        );
+                                        break;
+                                      case 'appimage':
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) =>
+                                              appimageAboutDialog(ctx),
+                                        );
+                                        break;
+                                    }
+                                  },
+                                  elevation: 3,
+                                  offset: const Offset(0, 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                      ),
+                      if (context.width >= 640)
+                        VerticalDivider(
+                          width: 1,
+                          color: context.isDark
+                              ? Colors.grey[800]
+                              : Colors.grey[400],
                         ),
-                      ]),
-                ),
-                if (context.width >= 640)
-                  VerticalDivider(
-                    width: 1,
-                    color: context.isDark ? Colors.grey[800] : Colors.grey[400],
-                  ),
-              ],
+                    ]
+                  : [],
               trailing: [
                 Hero(
                   tag: 'theme-switch',
-                  child: AdwaitaHeaderButton(
-                    icon: Icons.nightlight_round,
-                    onTap: () => {
-                      widget.theme.value = widget.theme.value.index == 2
-                          ? ThemeMode.light
-                          : ThemeMode.dark
-                    },
+                  child: CustomAdwaitaHeaderButton(
+                    child: IconButton(
+                      icon: AdwaitaIcon(context.isDark
+                          ? AdwaitaIcons.night_light
+                          : AdwaitaIcons.night_light_disabled),
+                      onPressed: () => {
+                        widget.theme.value =
+                            context.isDark ? ThemeMode.light : ThemeMode.dark
+                      },
+                    ),
                   ),
                 ),
                 if (listDownloads.isNotEmpty)
@@ -286,12 +310,14 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Expanded(
                                   child: ListView(
+                                    controller: ScrollController(),
                                     padding: EdgeInsets.zero,
                                     children: [
                                       gtkSidebarItem(
                                           context, _navrailIndex.value == 0,
                                           label: "Explore",
-                                          icon: Icons.explore, onSelected: () {
+                                          icon: AdwaitaIcons.explore2,
+                                          onSelected: () {
                                         _navrailIndex.value = 0;
                                       }),
                                       for (var category in categories!.entries
@@ -307,7 +333,8 @@ class _HomePageState extends State<HomePage> {
                                                     category.value.key)
                                                 ? categoryIcons[
                                                     category.value.key]!
-                                                : Icons.help, onSelected: () {
+                                                : AdwaitaIcons.question,
+                                            onSelected: () {
                                           _navrailIndex.value =
                                               category.key + 1;
                                         }),
@@ -390,6 +417,7 @@ class _HomePageState extends State<HomePage> {
                                 child: searchedTerm.value.trim().isEmpty &&
                                         _navrailIndex.value == 0
                                     ? SingleChildScrollView(
+                                        controller: ScrollController(),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -559,8 +587,9 @@ class _HomePageState extends State<HomePage> {
                                                   child: SizedBox(
                                                     height: 400,
                                                     child: IconButton(
-                                                      icon: const Icon(
-                                                          Icons.chevron_left),
+                                                      icon: const AdwaitaIcon(
+                                                          AdwaitaIcons
+                                                              .go_previous),
                                                       onPressed: () =>
                                                           _controller
                                                               .previousPage(),
@@ -573,8 +602,8 @@ class _HomePageState extends State<HomePage> {
                                                   child: SizedBox(
                                                     height: 400,
                                                     child: IconButton(
-                                                      icon: const Icon(
-                                                          Icons.chevron_right),
+                                                      icon: const AdwaitaIcon(
+                                                          AdwaitaIcons.go_next),
                                                       onPressed: () =>
                                                           _controller
                                                               .nextPage(),
@@ -739,7 +768,7 @@ class _HomePageState extends State<HomePage> {
     BuildContext context,
     bool isSelected, {
     required String label,
-    required IconData icon,
+    required String icon,
     VoidCallback? onSelected,
   }) {
     return ListTile(
@@ -747,7 +776,7 @@ class _HomePageState extends State<HomePage> {
       tileColor: isSelected ? context.theme.primaryColor : null,
       title: Row(
         children: [
-          Icon(
+          AdwaitaIcon(
             icon,
             size: 19,
             color: isSelected ? Colors.white : null,

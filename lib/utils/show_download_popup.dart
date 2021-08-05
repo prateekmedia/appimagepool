@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/widgets/widgets.dart';
@@ -20,10 +21,10 @@ Widget downloadButton(
               child: Tooltip(
                   message: i.name,
                   child: ListTile(
-                    // leading: i.value[2], icon
                     title: Text(
                       i.name,
                       overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.bodyText1,
                     ),
                     onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
                         ? () async {
@@ -51,9 +52,9 @@ Widget downloadButton(
                             listDownloads.removeAt(index);
                           }
                         },
-                        icon: Icon((i.actualBytes != i.totalBytes)
-                            ? Icons.close
-                            : Icons.delete)),
+                        icon: AdwaitaIcon((i.actualBytes != i.totalBytes)
+                            ? AdwaitaIcons.edit_delete
+                            : AdwaitaIcons.user_trash)),
                   )),
               value: i.name);
         }).toList(),
@@ -63,10 +64,10 @@ Widget downloadButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        icon: Icon(
+        icon: AdwaitaIcon(
             downloading
-                ? Icons.download_outlined
-                : Icons.download_done_outlined,
+                ? AdwaitaIcons.folder_download
+                : AdwaitaIcons.emblem_default,
             size: 18),
       ),
     ),

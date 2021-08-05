@@ -1,3 +1,5 @@
+import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:appimagepool/widgets/custom_adwaita_header_button.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gtk/flutter_gtk.dart';
@@ -29,9 +31,11 @@ Widget aibAppBar(
               if (showBackButton)
                 Hero(
                   tag: 'back-button',
-                  child: AdwaitaHeaderButton(
-                    icon: Icons.chevron_left,
-                    onTap: context.back,
+                  child: CustomAdwaitaHeaderButton(
+                    child: IconButton(
+                      icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
+                      onPressed: context.back,
+                    ),
                   ),
                 ),
               ...leading,
