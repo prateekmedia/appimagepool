@@ -6,7 +6,7 @@
 
 <p align="center">A simple, modern AppImageHub Client made for linux using flutter.</p>
 
-<p align="center"><img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/01.jpg" alt="Screenshot 1"/> <img width=600  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/04.jpg" alt="Screenshot 2"/> <img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/02.jpg" alt="Screenshot 3"/>  <img  width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/03.jpg" alt="Screenshot 4"/></p>
+<p align="center"><img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/home.jpg" alt="Screenshot 1"/> <img width=600  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/app.jpg" alt="Screenshot 2"/> <img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/search.jpg" alt="Screenshot 3"/>  <img  width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/category.jpg" alt="Screenshot 4"/></p>
 
 ---
 
