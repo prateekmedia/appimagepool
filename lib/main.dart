@@ -186,24 +186,20 @@ class _HomePageState extends State<HomePage> {
                   ? [
                       Container(
                         padding: const EdgeInsets.only(right: 4),
-                        width: context.width >= 640 ? 242 : null,
+                        width: context.width >= 640 ? 241 : null,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomAdwaitaHeaderButton(
-                                color: toggleSearch.value
-                                    ? context.isDark
-                                        ? AdwaitaDarkColors
-                                            .headerSwitcherTabBackground
-                                        : AdwaitaLightColors
-                                            .headerSwitcherTabBackground
-                                    : null,
                                 child: IconButton(
-                                  icon: const AdwaitaIcon(
-                                    AdwaitaIcons.system_search,
-                                    size: 17,
-                                  ),
-                                  onPressed: switchSearchBar,
+                                  icon: AdwaitaIcon(context.isDark
+                                      ? AdwaitaIcons.night_light
+                                      : AdwaitaIcons.night_light_disabled),
+                                  onPressed: () => {
+                                    widget.theme.value = context.isDark
+                                        ? ThemeMode.light
+                                        : ThemeMode.dark
+                                  },
                                 ),
                               ),
                               GestureDetector(
@@ -278,20 +274,21 @@ class _HomePageState extends State<HomePage> {
                     ]
                   : [],
               trailing: [
-                Hero(
-                  tag: 'theme-switch',
-                  child: CustomAdwaitaHeaderButton(
+                if (categories != null || featured != null)
+                  CustomAdwaitaHeaderButton(
+                    color: toggleSearch.value
+                        ? context.isDark
+                            ? AdwaitaDarkColors.headerSwitcherTabBackground
+                            : AdwaitaLightColors.headerSwitcherTabBackground
+                        : null,
                     child: IconButton(
-                      icon: AdwaitaIcon(context.isDark
-                          ? AdwaitaIcons.night_light
-                          : AdwaitaIcons.night_light_disabled),
-                      onPressed: () => {
-                        widget.theme.value =
-                            context.isDark ? ThemeMode.light : ThemeMode.dark
-                      },
+                      icon: const AdwaitaIcon(
+                        AdwaitaIcons.system_search,
+                        size: 17,
+                      ),
+                      onPressed: switchSearchBar,
                     ),
                   ),
-                ),
                 if (listDownloads.isNotEmpty)
                   downloadButton(context, listDownloads, downloading),
               ],

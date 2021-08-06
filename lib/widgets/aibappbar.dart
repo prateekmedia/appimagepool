@@ -23,6 +23,7 @@ Widget aibAppBar(
         GestureDetector(
           behavior: HitTestBehavior.translucent,
           onPanStart: (_) => appWindow.startDragging(),
+          onDoubleTap: () => appWindow.maximizeOrRestore(),
           child: AdwaitaHeaderBar(
             onClose: appWindow.close,
             onMinimize: appWindow.minimize,
