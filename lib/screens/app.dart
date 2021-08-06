@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
@@ -41,17 +42,14 @@ class AppPage extends HookConsumerWidget {
         : context.width > 400
             ? 60
             : 50;
-    Widget brokenImageWidget = SvgPicture.network(
-      brokenImageUrl,
-      color: context.isDark ? Colors.white : Colors.grey[800],
-    );
     Widget appIcon = app.iconUrl != null
         ? (!app.iconUrl!.endsWith('.svg'))
             ? CachedNetworkImage(
                 imageUrl: app.iconUrl!,
                 fit: BoxFit.cover,
-                placeholder: (c, b) => const Center(
-                  child: CircularProgressIndicator(),
+                placeholder: (c, b) => Center(
+                  child:
+                      SpinKitRipple(color: context.textTheme.bodyText1!.color),
                 ),
                 errorWidget: (c, w, i) => brokenImageWidget,
               )
@@ -229,10 +227,6 @@ class AppPage extends HookConsumerWidget {
                             app.screenshotsUrl![index].startsWith('http')
                                 ? app.screenshotsUrl![index]
                                 : prefixUrl + app.screenshotsUrl![index];
-                        Widget brokenImageWidget = SvgPicture.network(
-                          brokenImageUrl,
-                          color: context.isDark ? Colors.white : Colors.black,
-                        );
                         return Container(
                           height: 400,
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -241,8 +235,10 @@ class AppPage extends HookConsumerWidget {
                                   ? SvgPicture.network(screenUrl)
                                   : CachedNetworkImage(
                                       imageUrl: screenUrl,
-                                      placeholder: (c, b) => const Center(
-                                          child: CircularProgressIndicator()),
+                                      placeholder: (c, b) => Center(
+                                          child: SpinKitRipple(
+                                              color: context
+                                                  .textTheme.bodyText1!.color)),
                                       errorWidget: (c, w, i) =>
                                           brokenImageWidget,
                                     )

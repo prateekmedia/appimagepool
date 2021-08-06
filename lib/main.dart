@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'models/models.dart';
@@ -293,7 +294,9 @@ class _HomePageState extends State<HomePage> {
                   downloadButton(context, listDownloads, downloading),
               ],
               body: categories == null && featured == null
-                  ? const Center(child: CircularProgressIndicator())
+                  ? Center(
+                      child: SpinKitThreeBounce(
+                          color: context.textTheme.bodyText1!.color))
                   : Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -519,15 +522,9 @@ class _HomePageState extends State<HomePage> {
                                                                                     placeholder: (c, u) => const Center(
                                                                                       child: CircularProgressIndicator(),
                                                                                     ),
-                                                                                    errorWidget: (c, w, i) => SvgPicture.network(
-                                                                                      brokenImageUrl,
-                                                                                      color: context.isDark ? Colors.white : Colors.grey[800],
-                                                                                    ),
+                                                                                    errorWidget: (c, w, i) => brokenImageWidget,
                                                                                   )
-                                                                            : SvgPicture.network(
-                                                                                brokenImageUrl,
-                                                                                color: context.isDark ? Colors.white : Colors.grey[800],
-                                                                              ),
+                                                                            : brokenImageWidget,
                                                                       ),
                                                                       Flexible(
                                                                         child:

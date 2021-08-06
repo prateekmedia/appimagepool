@@ -2,6 +2,7 @@ import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/screens/screens.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/utils.dart';
 
@@ -34,11 +35,6 @@ class GridOfApps extends StatelessWidget {
               var item = itemList[index];
               var app = App.fromItem(item);
 
-              Widget brokenImageWidget = SvgPicture.network(
-                brokenImageUrl,
-                color: context.isDark ? Colors.white : Colors.grey[800],
-              );
-
               return Tooltip(
                 message: app.description ?? "",
                 child: GestureDetector(
@@ -67,9 +63,10 @@ class GridOfApps extends StatelessWidget {
                                         ? CachedNetworkImage(
                                             imageUrl: app.iconUrl!,
                                             fit: BoxFit.cover,
-                                            placeholder: (c, b) => const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
+                                            placeholder: (c, b) => Center(
+                                              child: SpinKitRipple(
+                                                  color: context.textTheme
+                                                      .bodyText1!.color),
                                             ),
                                             errorWidget: (c, w, i) =>
                                                 brokenImageWidget,
