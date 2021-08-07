@@ -26,8 +26,11 @@ Widget aibAppBar(
           onDoubleTap: () => appWindow.maximizeOrRestore(),
           child: AdwaitaHeaderBar(
             onClose: appWindow.close,
-            onMinimize: appWindow.minimize,
-            onMaximize: appWindow.maximizeOrRestore,
+            onMinimize:
+                context.width >= mobileWidth ? appWindow.minimize : null,
+            onMaximize: context.width >= mobileWidth
+                ? appWindow.maximizeOrRestore
+                : null,
             leading: Row(children: [
               if (showBackButton)
                 Hero(

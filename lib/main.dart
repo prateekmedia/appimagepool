@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/widgets/grid_of_apps.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
@@ -162,10 +161,10 @@ class _HomePageState extends State<HomePage> {
                 .toList()
             : [];
 
-    switchSearchBar() {
+    switchSearchBar([bool? value]) {
       if (categories == null && featured == null) return null;
       searchedTerm.value = '';
-      toggleSearch.value = !toggleSearch.value;
+      toggleSearch.value = value ?? !toggleSearch.value;
     }
 
     return Scaffold(
@@ -187,7 +186,20 @@ class _HomePageState extends State<HomePage> {
                   ? [
                       Container(
                         padding: const EdgeInsets.only(right: 4),
-                        width: context.width >= 640 ? 241 : null,
+                        width: context.width >= mobileWidth ? 242 : null,
+                        constraints: BoxConstraints.tightFor(
+                            width: context.width >= mobileWidth ? 242 : null),
+                        decoration: BoxDecoration(
+                          border: context.width >= mobileWidth
+                              ? Border(
+                                  right: BorderSide(
+                                    color: context.isDark
+                                        ? Colors.grey[800]!
+                                        : Colors.grey[400]!,
+                                  ),
+                                )
+                              : null,
+                        ),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -216,62 +228,41 @@ class _HomePageState extends State<HomePage> {
                                   )),
                                 ),
                               ),
-                              CustomAdwaitaHeaderButton(
-                                child: AppPopupMenu(
-                                  menuItems: [
-                                    PopupMenuItem(
-                                      child: Text(
-                                        "About Appimages",
-                                        style: context.textTheme.bodyText1,
-                                      ),
-                                      value: "appimage",
+                              GtkPopupMenu(
+                                children: [
+                                  ListTile(
+                                    dense: true,
+                                    title: Text(
+                                      "About Appimages",
+                                      style: context.textTheme.bodyText1,
                                     ),
-                                    PopupMenuItem(
-                                      child: Text(
-                                        "About the App",
-                                        style: context.textTheme.bodyText1,
-                                      ),
-                                      value: "app",
+                                    onTap: () {
+                                      context.back();
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) =>
+                                            appimageAboutDialog(ctx),
+                                      );
+                                    },
+                                  ),
+                                  ListTile(
+                                    dense: true,
+                                    title: Text(
+                                      "About the App",
+                                      style: context.textTheme.bodyText1,
                                     ),
-                                  ],
-                                  color: context.theme.canvasColor,
-                                  icon: const AdwaitaIcon(
-                                    AdwaitaIcons.menu,
-                                    size: 17,
+                                    onTap: () {
+                                      context.back();
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) => aboutDialog(ctx),
+                                      );
+                                    },
                                   ),
-                                  onSelected: (val) {
-                                    switch (val) {
-                                      case 'app':
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx) => aboutDialog(ctx),
-                                        );
-                                        break;
-                                      case 'appimage':
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx) =>
-                                              appimageAboutDialog(ctx),
-                                        );
-                                        break;
-                                    }
-                                  },
-                                  elevation: 3,
-                                  offset: const Offset(0, 40),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
+                                ],
                               ),
                             ]),
                       ),
-                      if (context.width >= 640)
-                        VerticalDivider(
-                          width: 1,
-                          color: context.isDark
-                              ? Colors.grey[800]
-                              : Colors.grey[400],
-                        ),
                     ]
                   : [],
               trailing: [
@@ -294,18 +285,34 @@ class _HomePageState extends State<HomePage> {
                   downloadButton(context, listDownloads, downloading),
               ],
               body: categories == null && featured == null
-                  ? Center(
-                      child: SpinKitThreeBounce(
-                          color: context.textTheme.bodyText1!.color))
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SpinKitThreeBounce(
+                            color: context.textTheme.bodyText1!.color),
+                        const SizedBox(height: 20),
+                        Text("Fetching Softwares",
+                            style: context.textTheme.headline5),
+                      ],
+                    )
                   : Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (context.width >= 640)
+                        if (context.width >= mobileWidth)
                           Container(
                             // color: context.isDark
                             //     ? AdwaitaDarkColors.headerBarBackgroundBottom
                             //     : AdwaitaLightColors.headerBarBackgroundBottom,
                             constraints: const BoxConstraints(maxWidth: 250),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                right: BorderSide(
+                                  color: context.isDark
+                                      ? Colors.grey[800]!
+                                      : Colors.grey[400]!,
+                                ),
+                              ),
+                            ),
                             child: Row(
                               children: [
                                 Expanded(
@@ -340,12 +347,6 @@ class _HomePageState extends State<HomePage> {
                                         }),
                                     ],
                                   ),
-                                ),
-                                VerticalDivider(
-                                  width: 1,
-                                  color: context.isDark
-                                      ? Colors.grey[800]
-                                      : Colors.grey[400],
                                 ),
                               ],
                             ),
@@ -403,9 +404,8 @@ class _HomePageState extends State<HomePage> {
                                             if (event.runtimeType ==
                                                     RawKeyDownEvent &&
                                                 event.logicalKey.keyId ==
-                                                    4295426089) {
-                                              searchedTerm.value = '';
-                                              toggleSearch.value = false;
+                                                    4294967323) {
+                                              switchSearchBar(false);
                                             }
                                           },
                                         ),
@@ -651,7 +651,8 @@ class _HomePageState extends State<HomePage> {
                                                   constraints: BoxConstraints(
                                                       maxWidth: min(
                                                           1200,
-                                                          context.width >= 640
+                                                          context.width >=
+                                                                  mobileWidth
                                                               ? context.width -
                                                                   300
                                                               : context.width)),
@@ -730,7 +731,7 @@ class _HomePageState extends State<HomePage> {
                                           constraints: BoxConstraints(
                                               maxWidth: min(
                                                   1400,
-                                                  context.width >= 640
+                                                  context.width >= mobileWidth
                                                       ? context.width - 300
                                                       : context.width)),
                                           child: GridOfApps(

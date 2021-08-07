@@ -9,7 +9,6 @@ environment:
 
 dependencies:
   adwaita_icons: ^0.2.0
-  app_popup_menu: ^1.0.0
   bitsdojo_window: ^0.1.1+1
   cached_network_image: ^3.1.0
   carousel_slider: ^4.0.0
@@ -22,6 +21,7 @@ dependencies:
   hooks_riverpod: ^1.0.0-dev.6
   package_info_plus: ^1.0.4
   path_provider: ^2.0.2
+  popover: ^0.2.6+2
   process_run: ^0.12.1
   simple_html_css: ^3.0.1
   sticky_headers: ^0.2.0

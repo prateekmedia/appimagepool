@@ -10,6 +10,8 @@ const String projectUrl = "https://github.com/prateekmedia/appimagepool";
 
 const String appimageWebsite = "https://appimage.org/";
 
+const mobileWidth = 700;
+
 Widget brokenImageWidget = const AdwaitaIcon(AdwaitaIcons.question);
 const Map<String, String> categoryIcons = {
   'Video': AdwaitaIcons.video_x_generic,
