@@ -135,9 +135,8 @@ class AppPage extends HookConsumerWidget {
                                               response =
                                                   (await Dio().get(u)).data;
                                             } catch (e) {
-                                              print(e);
                                               isLoadingDL.value = false;
-                                              return null;
+                                              return;
                                             }
                                             if (response.isNotEmpty) {
                                               await showDialog(
