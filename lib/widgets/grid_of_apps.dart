@@ -35,60 +35,56 @@ class GridOfApps extends StatelessWidget {
               var item = itemList[index];
               var app = App.fromItem(item);
 
-              return Tooltip(
-                message: app.description ?? "",
-                child: GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) => AppPage(app: app))),
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    margin: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color:
-                          context.isDark ? Colors.grey[800] : Colors.grey[300],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: app.iconUrl != null
-                                    ? (!app.iconUrl!.endsWith('.svg'))
-                                        ? CachedNetworkImage(
-                                            imageUrl: app.iconUrl!,
-                                            fit: BoxFit.cover,
-                                            placeholder: (c, b) => Center(
-                                              child: SpinKitRipple(
-                                                  color: context.textTheme
-                                                      .bodyText1!.color),
-                                            ),
-                                            errorWidget: (c, w, i) =>
-                                                brokenImageWidget,
-                                          )
-                                        : SvgPicture.network(app.iconUrl!)
-                                    : brokenImageWidget),
-                          ),
+              return GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => AppPage(app: app))),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  margin: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: context.isDark ? Colors.grey[800] : Colors.grey[300],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: app.iconUrl != null
+                                  ? (!app.iconUrl!.endsWith('.svg'))
+                                      ? CachedNetworkImage(
+                                          imageUrl: app.iconUrl!,
+                                          fit: BoxFit.cover,
+                                          placeholder: (c, b) => Center(
+                                            child: SpinKitRipple(
+                                                color: context.textTheme
+                                                    .bodyText1!.color),
+                                          ),
+                                          errorWidget: (c, w, i) =>
+                                              brokenImageWidget,
+                                        )
+                                      : SvgPicture.network(app.iconUrl!)
+                                  : brokenImageWidget),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            app.name,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: context.textTheme.bodyText1!.copyWith(
-                                color: context.isDark
-                                    ? Colors.white
-                                    : Colors.grey[900]),
-                          ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          app.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: context.textTheme.bodyText1!.copyWith(
+                              color: context.isDark
+                                  ? Colors.white
+                                  : Colors.grey[900]),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
