@@ -3,7 +3,7 @@ import 'package:window_decorations/window_decorations.dart';
 
 final themeTypeProvider =
     StateNotifierProvider<ThemeTypeNotifier, ThemeType>((ref) {
-  return ThemeTypeNotifier(ThemeType.adwaita);
+  return ThemeTypeNotifier(ThemeType.auto);
 });
 
 class ThemeTypeNotifier extends StateNotifier<ThemeType> {

@@ -26,7 +26,7 @@ dependencies:
   simple_html_css: ^3.0.1
   sticky_headers: ^0.2.0
   url_launcher: ^6.0.9
-  window_decorations: ^0.2.0
+  window_decorations: ^0.3.0+1
 
 dev_dependencies:
   flutter_lints: ^1.0.0

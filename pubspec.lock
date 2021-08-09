@@ -134,6 +134,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  dylib:
+    dependency: transitive
+    description:
+      name: dylib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2+1"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -233,6 +247,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.2"
+  gsettings:
+    dependency: transitive
+    description:
+      name: gsettings
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2+1"
   hooks_riverpod:
     dependency: "direct main"
     description:
@@ -296,6 +317,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  more:
+    dependency: transitive
+    description:
+      name: more
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   octo_image:
     dependency: transitive
     description:
@@ -636,7 +664,7 @@ packages:
       name: window_decorations
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0+1"
   xdg_directories:
     dependency: transitive
     description:
