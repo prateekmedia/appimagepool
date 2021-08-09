@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:window_decorations/window_decorations.dart';
+import '../providers/providers.dart';
 import '../utils/utils.dart';
 
 Dialog roundedDialog(BuildContext context,
@@ -11,15 +14,26 @@ Dialog roundedDialog(BuildContext context,
       child: Stack(
         children: [
           ...children,
-          Align(
-            child: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: context.back,
-            ),
+          const Align(
+            child: DecorCloseButton(),
             alignment: Alignment.topRight,
           ),
         ],
       ),
     ),
   );
+}
+
+class DecorCloseButton extends HookConsumerWidget {
+  const DecorCloseButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return DecoratedCloseButton(
+      type: ref.read(themeTypeProvider),
+      onPressed: context.back,
+    );
+  }
 }

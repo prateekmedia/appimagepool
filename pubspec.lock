@@ -630,6 +630,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.5"
+  window_decorations:
+    dependency: "direct main"
+    description:
+      name: window_decorations
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   xdg_directories:
     dependency: transitive
     description:

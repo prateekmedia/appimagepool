@@ -1,5 +1,6 @@
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:appimagepool/widgets/custom_adwaita_header_button.dart';
+import 'package:appimagepool/widgets/widgets.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gtk/flutter_gtk.dart';
@@ -24,7 +25,7 @@ Widget aibAppBar(
           behavior: HitTestBehavior.translucent,
           onPanStart: (_) => appWindow.startDragging(),
           onDoubleTap: () => appWindow.maximizeOrRestore(),
-          child: AdwaitaHeaderBar(
+          child: GtkHeaderBar(
             onClose: appWindow.close,
             onMinimize:
                 context.width >= mobileWidth ? appWindow.minimize : null,

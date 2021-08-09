@@ -243,22 +243,7 @@ class _HomePageState extends State<HomePage> {
                                       context.back();
                                       showDialog(
                                         context: context,
-                                        builder: (ctx) => roundedDialog(context,
-                                            height: 600,
-                                            width: 600,
-                                            children: [
-                                              Center(
-                                                child: SingleChildScrollView(
-                                                  padding:
-                                                      const EdgeInsets.all(20),
-                                                  child: Column(
-                                                    children: const [
-                                                      Text('Demo'),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ]),
+                                        builder: (ctx) => prefsDialog(ctx),
                                       );
                                     },
                                   ),
@@ -818,36 +803,6 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget gtkSidebarItem(
-    BuildContext context,
-    bool isSelected, {
-    required String label,
-    required String icon,
-    VoidCallback? onSelected,
-  }) {
-    return ListTile(
-      onTap: onSelected,
-      tileColor: isSelected ? context.theme.primaryColor : null,
-      title: Row(
-        children: [
-          AdwaitaIcon(
-            icon,
-            size: 19,
-            color: isSelected ? Colors.white : null,
-          ),
-          const SizedBox(width: 12),
-          Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.white : null,
-              fontSize: 15,
-            ),
-          ),
-        ],
       ),
     );
   }
