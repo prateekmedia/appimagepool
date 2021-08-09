@@ -236,6 +236,36 @@ class _HomePageState extends State<HomePage> {
                                   ListTile(
                                     dense: true,
                                     title: Text(
+                                      "Preferences",
+                                      style: context.textTheme.bodyText1,
+                                    ),
+                                    onTap: () {
+                                      context.back();
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) => roundedDialog(context,
+                                            height: 600,
+                                            width: 600,
+                                            children: [
+                                              Center(
+                                                child: SingleChildScrollView(
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  child: Column(
+                                                    children: const [
+                                                      Text('Demo'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
+                                      );
+                                    },
+                                  ),
+                                  const Divider(height: 1),
+                                  ListTile(
+                                    dense: true,
+                                    title: Text(
                                       "About Appimages",
                                       style: context.textTheme.bodyText1,
                                     ),

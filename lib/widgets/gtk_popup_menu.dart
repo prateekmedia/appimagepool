@@ -43,8 +43,8 @@ class GtkPopupMenu extends StatelessWidget {
             )
           ],
           backgroundColor: context.isDark
-              ? AdwaitaDarkColors.headerBarBackgroundBottom
-              : context.theme.canvasColor,
+              ? AdwaitaDarkColors.headerButtonBackgroundTop
+              : AdwaitaLightColors.headerButtonBackgroundTop,
           transitionDuration: const Duration(milliseconds: 150),
           bodyBuilder: (context) => SizedBox(
             child: Column(
