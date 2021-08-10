@@ -5,8 +5,10 @@ import '../utils/utils.dart';
 Widget gtkSidebarItem(
   BuildContext context,
   bool isSelected, {
-  required String label,
-  required String icon,
+  String? label,
+  String? icon,
+  Widget? labelWidget,
+  Widget? iconWidget,
   VoidCallback? onSelected,
 }) {
   return ListTile(
@@ -14,19 +16,22 @@ Widget gtkSidebarItem(
     tileColor: isSelected ? context.theme.primaryColor : null,
     title: Row(
       children: [
-        AdwaitaIcon(
-          icon,
-          size: 19,
-          color: isSelected ? Colors.white : null,
-        ),
-        const SizedBox(width: 12),
-        Text(
-          label,
-          style: TextStyle(
+        if (iconWidget != null) iconWidget,
+        if (icon != null)
+          AdwaitaIcon(
+            icon,
+            size: 19,
             color: isSelected ? Colors.white : null,
-            fontSize: 15,
           ),
-        ),
+        const SizedBox(width: 12),
+        labelWidget ??
+            Text(
+              label!,
+              style: TextStyle(
+                color: isSelected ? Colors.white : null,
+                fontSize: 15,
+              ),
+            ),
       ],
     ),
   );

@@ -36,10 +36,16 @@ Widget aibAppBar(
               if (showBackButton)
                 Hero(
                   tag: 'back-button',
-                  child: CustomAdwaitaHeaderButton(
-                    child: IconButton(
-                      icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
-                      onPressed: context.back,
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: CustomAdwaitaHeaderButton(
+                      child: IconButton(
+                        hoverColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
+                        onPressed: context.back,
+                      ),
                     ),
                   ),
                 ),

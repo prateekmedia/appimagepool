@@ -47,7 +47,7 @@ void main() {
   );
   doWhenWindowReady(() {
     final win = appWindow;
-    win.size = const Size(1280, 720);
+    // win.size = const Size(1280, 720);
     win.alignment = Alignment.center;
     win.title = "Pool";
     win.show();
@@ -309,9 +309,13 @@ class _HomePageState extends State<HomePage> {
                         const AdwaitaIcon(AdwaitaIcons.network_no_route,
                             size: 45),
                         const SizedBox(height: 20),
-                        Text("Not connected to a network.",
+                        Text("Can't connect",
                             style: context.textTheme.headline5),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 12),
+                        Text(
+                            "You need an internet connection to use AppImage Pool.",
+                            style: context.textTheme.headline6),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                             onPressed: getData, child: const Text('Retry')),
                       ],
