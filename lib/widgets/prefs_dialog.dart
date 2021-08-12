@@ -1,6 +1,8 @@
 import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_gtk/utils/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
 import 'package:appimagepool/widgets/widgets.dart';
@@ -38,6 +40,7 @@ class PrefsWidget extends HookConsumerWidget {
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 15),
+              height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: context.theme.canvasColor,
@@ -63,18 +66,61 @@ class PrefsWidget extends HookConsumerWidget {
                   AdwaitaIcons.go_down,
                   size: 16,
                 ),
+                itemHeight: 48,
                 selectedItemBuilder: (ctx) => ThemeType.values
                     .map(
                       (e) => Align(
                         alignment: Alignment.center,
-                        child: Text(describeEnum(e)),
+                        child: Text(
+                          describeEnum(e),
+                          style: const TextStyle(fontSize: 15),
+                        ),
                       ),
                     )
                     .toList(),
               ),
             ),
           ],
-        )
+        ),
+        const SizedBox(height: 13),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text('Download Path'),
+            Expanded(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Row(children: [
+                      const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
+                      const SizedBox(width: 6),
+                      SelectableText(
+                        '${key ?? ''}Applications',
+                      )
+                    ]))),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: context.isDark
+                      ? AdwaitaDarkColors.headerButtonBackgroundTop
+                      : AdwaitaLightColors.headerButtonBackgroundTop),
+              onPressed: () async {
+                var path = await FilePicker.platform
+                    .getDirectoryPath(dialogTitle: 'Choose Download Folder');
+                print(path);
+              },
+              child: Text(
+                'Browse...',
+                style: TextStyle(
+                    color: context.isDark ? Colors.white : Colors.black),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

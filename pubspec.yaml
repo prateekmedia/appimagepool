@@ -15,6 +15,7 @@ dependencies:
   cached_network_image: ^3.1.0
   carousel_slider: ^4.0.0
   dio: ^4.0.0
+  file_picker: ^4.0.0
   flutter_gtk: ^0.0.1
   flutter_spinkit: ^5.0.0
   flutter_svg: ^0.22.0
