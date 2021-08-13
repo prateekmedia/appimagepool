@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets.dart';
@@ -34,16 +35,13 @@ Dialog appimageAboutDialog(BuildContext context) {
             const SizedBox(height: 10),
             Tooltip(
               message: appimageWebsite,
-              child: MaterialButton(
-                child: Text(
-                  "Know More",
-                  style: context.textTheme.bodyText2!.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.w600),
+              child: RichText(
+                text: TextSpan(
+                  text: 'Know More',
+                  style: linkStyle(context),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = appimageWebsite.launchIt,
                 ),
-                color: Colors.blue[600],
-                onPressed: () {
-                  appimageWebsite.launchIt();
-                },
               ),
             )
           ],

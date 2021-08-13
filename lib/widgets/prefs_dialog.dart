@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_gtk/utils/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/utils/utils.dart';
@@ -25,10 +26,10 @@ class PrefsWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final isBrowserActive = useState<bool>(false);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const SizedBox(height: 30),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -88,31 +89,39 @@ class PrefsWidget extends HookConsumerWidget {
           children: [
             const Text('Download Path'),
             Expanded(
-                child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(children: [
-                      const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
-                      const SizedBox(width: 6),
-                      SelectableText(
-                        '${key ?? ''}Applications',
-                      )
-                    ]))),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Row(
+                  children: [
+                    const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
+                    const SizedBox(width: 6),
+                    SelectableText(
+                      '${key ?? ''}Applications',
+                    )
+                  ],
+                ),
+              ),
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                   primary: context.isDark
                       ? AdwaitaDarkColors.headerButtonBackgroundTop
                       : AdwaitaLightColors.headerButtonBackgroundTop),
-              onPressed: () async {
-                var path = await FilePicker.platform
-                    .getDirectoryPath(dialogTitle: 'Choose Download Folder');
-                print(path);
-              },
+              onPressed: !isBrowserActive.value
+                  ? () async {
+                      isBrowserActive.value = true;
+                      var path = await FilePicker.platform.getDirectoryPath(
+                          dialogTitle: 'Choose Download Folder');
+                      isBrowserActive.value = false;
+                      print(path);
+                    }
+                  : null,
               child: Text(
                 'Browse...',
                 style: TextStyle(

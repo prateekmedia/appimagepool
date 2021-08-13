@@ -10,6 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gtk/flutter_gtk.dart';
@@ -63,73 +64,73 @@ class HomePage extends StatefulHookWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+Map getSimplifiedCategories(List value) {
+  return value.groupBy((m) {
+    List categori = m['categories'];
+    List newList = [];
+    for (var category in categori) {
+      if (category != null && category.length > 0) {
+        if (doesContain(category, ['Video'])) {
+          newList.add('Video');
+        } else if (doesContain(category, ['Audio', 'Music'])) {
+          newList.add('Audio');
+        } else if (doesContain(category, ['Photo'])) {
+          newList.add('Graphics');
+        } else if (doesContain(category, ['KDE'])) {
+          newList.add('Qt');
+        } else if (doesContain(category, ['GNOME'])) {
+          newList.add('GTK');
+        } else if (doesContain(category, [
+          'Application',
+          'AdventureGame',
+          'Astronomy',
+          'Chat',
+          'InstantMessag',
+          'Database',
+          'Engineering',
+          'Electronics',
+          'HamRadio',
+          'IDE',
+          'News',
+          'ProjectManagement',
+          'Settings',
+          'StrategyGame',
+          'TextEditor',
+          'TerminalEmulator',
+          'Viewer',
+          'WebDev',
+          'WordProcessor',
+          'X-Tool',
+        ])) {
+          newList.add('Others');
+        } else {
+          newList.add(category);
+        }
+      } else {
+        newList.add("Others");
+      }
+    }
+    return newList;
+  });
+}
+
 class _HomePageState extends State<HomePage> {
   bool _isConnected = true;
   getData() async {
     setState(() => _isConnected = true);
-    late Map response;
-    late Map res;
     try {
-      response = (await Dio().get("https://appimage.github.io/feed.json")).data;
-      res = json.decode((await Dio().get(
+      allItems = (await Dio().get("https://appimage.github.io/feed.json"))
+          .data['items'];
+      featured = json.decode((await Dio().get(
               "https://gist.githubusercontent.com/prateekmedia/44c1ea7f7a627d284b9e50d47aa7200f/raw/gistfile1.txt"))
           .data);
     } catch (e) {
+      debugPrint(e.toString());
       setState(() => _isConnected = false);
       return null;
     }
-    List i = response['items'];
-    setState(() {
-      featured = res;
-      allItems = i;
-      categories = i.groupBy((m) {
-        List categori = m['categories'];
-        List newList = [];
-        for (var category in categori) {
-          if (category != null && category.length > 0) {
-            if (doesContain(category, ['Video'])) {
-              newList.add('Video');
-            } else if (doesContain(category, ['Audio', 'Music'])) {
-              newList.add('Audio');
-            } else if (doesContain(category, ['Photo'])) {
-              newList.add('Graphics');
-            } else if (doesContain(category, ['KDE'])) {
-              newList.add('Qt');
-            } else if (doesContain(category, ['GNOME'])) {
-              newList.add('GTK');
-            } else if (doesContain(category, [
-              'Application',
-              'AdventureGame',
-              'Astronomy',
-              'Chat',
-              'InstantMessag',
-              'Database',
-              'Engineering',
-              'Electronics',
-              'HamRadio',
-              'IDE',
-              'News',
-              'ProjectManagement',
-              'Settings',
-              'StrategyGame',
-              'TextEditor',
-              'TerminalEmulator',
-              'Viewer',
-              'WebDev',
-              'WordProcessor',
-              'X-Tool',
-            ])) {
-              newList.add('Others');
-            } else {
-              newList.add(category);
-            }
-          } else {
-            newList.add("Others");
-          }
-        }
-        return newList;
-      });
-    });
+    categories = (await compute<List, Map>(getSimplifiedCategories, allItems!));
+    setState(() {});
   }
 
   Map? categories;

@@ -21,44 +21,37 @@ Widget aibAppBar(
     width: 1,
     child: Column(
       children: [
-        GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onPanStart: (_) => appWindow.startDragging(),
-          onDoubleTap: () => appWindow.maximizeOrRestore(),
-          child: GtkHeaderBar(
-            onClose: appWindow.close,
-            onMinimize:
-                context.width >= mobileWidth ? appWindow.minimize : null,
-            onMaximize: context.width >= mobileWidth
-                ? appWindow.maximizeOrRestore
-                : null,
-            leading: Row(children: [
-              if (showBackButton)
-                Hero(
-                  tag: 'back-button',
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: CustomAdwaitaHeaderButton(
-                      child: IconButton(
-                        hoverColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
-                        onPressed: context.back,
-                      ),
+        GtkHeaderBar(
+          onClose: appWindow.close,
+          onMinimize: context.width >= mobileWidth ? appWindow.minimize : null,
+          onMaximize:
+              context.width >= mobileWidth ? appWindow.maximizeOrRestore : null,
+          leading: Row(children: [
+            if (showBackButton)
+              Hero(
+                tag: 'back-button',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: CustomAdwaitaHeaderButton(
+                    child: IconButton(
+                      hoverColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
+                      onPressed: context.back,
                     ),
                   ),
                 ),
-              ...leading,
-            ]),
-            center: (title != null && title.isNotEmpty)
-                ? Text(
-                    title,
-                    style: context.textTheme.headline6!.copyWith(fontSize: 17),
-                  )
-                : const SizedBox(),
-            trailling: Row(children: trailing),
-          ),
+              ),
+            ...leading,
+          ]),
+          center: (title != null && title.isNotEmpty)
+              ? Text(
+                  title,
+                  style: context.textTheme.headline6!.copyWith(fontSize: 17),
+                )
+              : const SizedBox(),
+          trailling: Row(children: trailing),
         ),
         Expanded(child: body),
       ],

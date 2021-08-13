@@ -1,5 +1,6 @@
 import 'package:appimagepool/screens/screens.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../utils/utils.dart';
@@ -18,7 +19,7 @@ Widget aboutDialog(BuildContext context) {
         : roundedDialog(context, children: [
             Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -54,36 +55,40 @@ Widget aboutDialog(BuildContext context) {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 10),
-                    Tooltip(
-                      message: projectUrl,
-                      child: MaterialButton(
-                        child: Text(
-                          "View Source Code",
-                          style: context.textTheme.bodyText2!.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w600),
-                        ),
-                        color: Colors.blue[600],
-                        onPressed: () {
-                          projectUrl.launchIt();
-                        },
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'View Source Code',
+                            style: linkStyle(context),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = projectUrl.launchIt,
+                          ),
+                          const WidgetSpan(
+                            child: SizedBox(
+                              width: 15,
+                              child: Center(
+                                child: Text('•'),
+                              ),
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'View Licenses',
+                            style: linkStyle(context),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                context.back();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (ctx) =>
+                                        const CustomLicensePage()));
+                              },
+                          ),
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-            ),
-            Align(
-              child: TextButton(
-                style: TextButton.styleFrom(
-                    primary: context.textTheme.bodyText1!.color),
-                onPressed: () {
-                  context.back();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) => const CustomLicensePage()));
-                },
-                child: const Text("View Licenses"),
-              ),
-              alignment: const Alignment(-0.95, 0.98),
             ),
           ]),
   );

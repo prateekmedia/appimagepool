@@ -1,5 +1,6 @@
 import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'utils.dart';
 
 const String prefixUrl =
     "https://raw.githubusercontent.com/AppImage/appimage.github.io/master/database/";
@@ -9,6 +10,11 @@ const String github = "https://github.com/";
 const String projectUrl = "https://github.com/prateekmedia/appimagepool";
 
 const String appimageWebsite = "https://appimage.org/";
+
+TextStyle linkStyle(BuildContext context) => TextStyle(
+      color: context.isDark ? Colors.lightBlue[400] : Colors.blue,
+      decoration: TextDecoration.underline,
+    );
 
 const mobileWidth = 700;
 
