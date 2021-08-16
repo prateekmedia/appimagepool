@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gtk/gtk.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:appimagepool/widgets/gtk_header_bar.dart';
 import '../utils/utils.dart';
 
 class RoundedDialog extends HookConsumerWidget {

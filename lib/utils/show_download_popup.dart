@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:appimagepool/models/models.dart';
-import 'package:appimagepool/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:gtk/gtk.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
 import './utils.dart';

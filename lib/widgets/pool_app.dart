@@ -1,9 +1,8 @@
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:appimagepool/widgets/gtk_header_button.dart';
-import 'package:appimagepool/widgets/widgets.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:gtk/gtk.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../utils/utils.dart';
@@ -50,16 +49,11 @@ class PoolApp extends HookConsumerWidget {
                   child: Material(
                     type: MaterialType.transparency,
                     child: GtkHeaderButton(
-                      child: IconButton(
-                        hoverColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
-                        onPressed: () {
-                          if (onBackPressed != null) onBackPressed!();
-                          context.back();
-                        },
-                      ),
+                      icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
+                      onPressed: () {
+                        if (onBackPressed != null) onBackPressed!();
+                        context.back();
+                      },
                     ),
                   ),
                 ),

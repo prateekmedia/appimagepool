@@ -2,6 +2,7 @@ import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:gtk/gtk.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

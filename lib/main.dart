@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gtk/gtk.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'models/models.dart';
@@ -208,16 +209,14 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GtkHeaderButton(
-                                child: IconButton(
-                                  icon: AdwaitaIcon(context.isDark
-                                      ? AdwaitaIcons.night_light
-                                      : AdwaitaIcons.night_light_disabled),
-                                  onPressed: () => {
-                                    widget.theme.value = context.isDark
-                                        ? ThemeMode.light
-                                        : ThemeMode.dark
-                                  },
-                                ),
+                                icon: AdwaitaIcon(context.isDark
+                                    ? AdwaitaIcons.night_light
+                                    : AdwaitaIcons.night_light_disabled),
+                                onPressed: () => {
+                                  widget.theme.value = context.isDark
+                                      ? ThemeMode.light
+                                      : ThemeMode.dark
+                                },
                               ),
                               GestureDetector(
                                 onTap: () => _navrailIndex.value = 0,
@@ -293,13 +292,11 @@ class _HomePageState extends State<HomePage> {
                             colorType: GtkColorType.headerSwitcherTabBackground,
                           )
                         : null,
-                    child: IconButton(
-                      icon: const AdwaitaIcon(
-                        AdwaitaIcons.system_search,
-                        size: 17,
-                      ),
-                      onPressed: switchSearchBar,
+                    icon: const AdwaitaIcon(
+                      AdwaitaIcons.system_search,
+                      size: 17,
                     ),
+                    onPressed: switchSearchBar,
                   ),
                 if (listDownloads.isNotEmpty)
                   downloadButton(context, listDownloads, downloading),
