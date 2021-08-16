@@ -7,7 +7,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -61,8 +60,7 @@ class AppPage extends HookConsumerWidget {
     List<QueryApp> listDownloads = ref.watch(downloadListProvider);
 
     return Scaffold(
-      body: aibAppBar(
-        context,
+      body: PoolApp(
         title: app.name,
         showBackButton: true,
         trailing: [
@@ -72,9 +70,10 @@ class AppPage extends HookConsumerWidget {
         body: ListView(
           children: [
             Container(
-              color: context.isDark
-                  ? AdwaitaDarkColors.headerBarBackgroundTop
-                  : AdwaitaLightColors.headerBarBackgroundTop,
+              color: getAdaptiveGtkColor(
+                context,
+                colorType: GtkColorType.headerBarBackgroundTop,
+              ),
               child: Center(
                 child: Container(
                   padding:

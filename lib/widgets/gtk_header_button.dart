@@ -1,11 +1,11 @@
+import 'package:appimagepool/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gtk/flutter_gtk.dart';
 
-class CustomAdwaitaHeaderButton extends StatelessWidget {
+class GtkHeaderButton extends StatelessWidget {
   final Widget child;
   final Color? color;
 
-  const CustomAdwaitaHeaderButton({
+  const GtkHeaderButton({
     Key? key,
     required this.child,
     this.color,
@@ -20,9 +20,9 @@ class CustomAdwaitaHeaderButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-          color: ThemePicker.of(context).pick(
-            light: AdwaitaLightColors.headerButtonBorder,
-            dark: AdwaitaDarkColors.headerButtonBorder,
+          color: getAdaptiveGtkColor(
+            context,
+            colorType: GtkColorType.headerButtonBorder,
           ),
         ),
         color: color,
@@ -31,13 +31,13 @@ class CustomAdwaitaHeaderButton extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  ThemePicker.of(context).pick(
-                    light: AdwaitaLightColors.headerButtonBackgroundTop,
-                    dark: AdwaitaDarkColors.headerButtonBackgroundBottom,
+                  getAdaptiveGtkColor(
+                    context,
+                    colorType: GtkColorType.headerBarBackgroundBottom,
                   ),
-                  ThemePicker.of(context).pick(
-                    light: AdwaitaLightColors.headerButtonBackgroundTop,
-                    dark: AdwaitaDarkColors.headerButtonBackgroundBottom,
+                  getAdaptiveGtkColor(
+                    context,
+                    colorType: GtkColorType.headerBarBackgroundTop,
                   ),
                 ],
               )

@@ -1,23 +1,23 @@
-import 'package:appimagepool/providers/providers.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:appimagepool/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gtk/flutter_gtk.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:window_decorations/window_decorations.dart';
 
-class GtkHeaderBar extends HookConsumerWidget {
+class GtkHeaderBar extends StatelessWidget {
   final Widget leading;
   final Widget center;
   final Widget trailling;
   final VoidCallback? onMinimize;
   final VoidCallback? onMaximize;
   final VoidCallback? onClose;
+  final ThemeType themeType;
 
   const GtkHeaderBar({
     Key? key,
     this.leading = const SizedBox(),
     this.center = const SizedBox(),
     this.trailling = const SizedBox(),
+    this.themeType = ThemeType.auto,
     this.onMinimize,
     this.onMaximize,
     this.onClose,
@@ -27,7 +27,7 @@ class GtkHeaderBar extends HookConsumerWidget {
       onClose != null || onMinimize != null || onMaximize != null;
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onPanStart: (_) => appWindow.startDragging(),
@@ -40,27 +40,27 @@ class GtkHeaderBar extends HookConsumerWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                ThemePicker.of(context).pick(
-                  light: AdwaitaLightColors.headerBarBackgroundTop,
-                  dark: AdwaitaDarkColors.headerBarBackgroundTop,
+                getAdaptiveGtkColor(
+                  context,
+                  colorType: GtkColorType.headerBarBackgroundTop,
                 ),
-                ThemePicker.of(context).pick(
-                  light: AdwaitaLightColors.headerBarBackgroundBottom,
-                  dark: AdwaitaDarkColors.headerBarBackgroundBottom,
+                getAdaptiveGtkColor(
+                  context,
+                  colorType: GtkColorType.headerBarBackgroundBottom,
                 ),
               ],
             ),
             border: Border(
               top: BorderSide(
-                color: ThemePicker.of(context).pick(
-                  light: AdwaitaLightColors.headerBarTopBorder,
-                  dark: AdwaitaDarkColors.headerBarTopBorder,
+                color: getAdaptiveGtkColor(
+                  context,
+                  colorType: GtkColorType.headerBarTopBorder,
                 ),
               ),
               bottom: BorderSide(
-                color: ThemePicker.of(context).pick(
-                  light: AdwaitaLightColors.headerBarBottomBorder,
-                  dark: AdwaitaDarkColors.headerBarBottomBorder,
+                color: getAdaptiveGtkColor(
+                  context,
+                  colorType: GtkColorType.headerBarBottomBorder,
                 ),
               ),
             ),
@@ -85,20 +85,20 @@ class GtkHeaderBar extends HookConsumerWidget {
                             ...[
                               if (onMinimize != null)
                                 DecoratedMinimizeButton(
-                                  type: ref.read(themeTypeProvider),
+                                  type: themeType,
                                   onPressed: onMinimize,
                                 ),
                               if (onMaximize != null)
                                 DecoratedMaximizeButton(
-                                  type: ref.read(themeTypeProvider),
+                                  type: themeType,
                                   onPressed: onMaximize,
                                 ),
                               if (onClose != null)
                                 DecoratedCloseButton(
-                                  type: ref.read(themeTypeProvider),
+                                  type: themeType,
                                   onPressed: onClose,
                                 ),
-                            ].separate(11)
+                            ]
                           ],
                         ),
                       ],

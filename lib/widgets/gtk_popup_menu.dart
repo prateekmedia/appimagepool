@@ -1,9 +1,8 @@
-import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:appimagepool/widgets/widgets.dart';
 import 'package:appimagepool/utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:popover/popover.dart';
+import 'package:flutter/material.dart';
+import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:appimagepool/widgets/gtk_header_button.dart';
 
 class GtkPopupMenu extends StatelessWidget {
   final List<Widget> children;
@@ -21,7 +20,7 @@ class GtkPopupMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomAdwaitaHeaderButton(
+    return GtkHeaderButton(
         child: IconButton(
       icon: Center(
         child: AdwaitaIcon(
@@ -36,15 +35,16 @@ class GtkPopupMenu extends StatelessWidget {
           contentDyOffset: 4,
           shadow: [
             BoxShadow(
-              color: context.isDark
+              color: Theme.of(context).brightness == Brightness.dark
                   ? const Color(0x1FFFFFFF)
                   : const Color(0x1F000000),
               blurRadius: 5,
             )
           ],
-          backgroundColor: context.isDark
-              ? AdwaitaDarkColors.headerButtonBackgroundTop
-              : AdwaitaLightColors.headerButtonBackgroundTop,
+          backgroundColor: getAdaptiveGtkColor(
+            context,
+            colorType: GtkColorType.headerButtonBackgroundTop,
+          ),
           transitionDuration: const Duration(milliseconds: 150),
           bodyBuilder: (context) => SizedBox(
             child: Column(

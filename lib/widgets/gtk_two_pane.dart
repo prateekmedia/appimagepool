@@ -1,9 +1,8 @@
-import 'package:appimagepool/widgets/aibappbar.dart';
-import '../utils/utils.dart';
+import 'package:appimagepool/widgets/pool_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-class TwoPane extends StatefulWidget {
+class GtkTwoPane extends StatefulWidget {
   final Widget pane1;
   final Widget pane2;
 
@@ -24,7 +23,7 @@ class TwoPane extends StatefulWidget {
   /// pane2 `total - panelWidth`
   final double panelWidth;
 
-  const TwoPane({
+  const GtkTwoPane({
     Key? key,
     this.showPane2 = false,
     required this.pane1,
@@ -36,10 +35,10 @@ class TwoPane extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TwoPaneState createState() => _TwoPaneState();
+  _GtkTwoPaneState createState() => _GtkTwoPaneState();
 }
 
-class _TwoPaneState extends State<TwoPane> {
+class _GtkTwoPaneState extends State<GtkTwoPane> {
   bool _popupNotOpen = true;
 
   bool get canSplitPanes =>
@@ -56,10 +55,11 @@ class _TwoPaneState extends State<TwoPane> {
           MaterialPageRoute(
             builder: (BuildContext context) {
               return Scaffold(
-                body: aibAppBar(context,
-                    title: widget.pane2Name,
-                    showBackButton: true,
-                    body: widget.pane2),
+                body: PoolApp(
+                  title: widget.pane2Name,
+                  showBackButton: true,
+                  body: widget.pane2,
+                ),
               );
             },
             fullscreenDialog: true,
@@ -93,7 +93,9 @@ class _TwoPaneState extends State<TwoPane> {
             decoration: BoxDecoration(
               border: Border(
                 right: BorderSide(
-                  color: context.isDark ? Colors.grey[800]! : Colors.grey[400]!,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey[800]!
+                      : Colors.grey[400]!,
                 ),
               ),
             ),

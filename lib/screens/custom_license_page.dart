@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -29,8 +28,7 @@ class CustomLicensePage extends HookWidget {
 
     void _clearSelected() => _selected.value = null;
     return Scaffold(
-      body: aibAppBar(
-        context,
+      body: PoolApp(
         title: appBarName.value ?? "Licenses",
         showBackButton: true,
         body: FutureBuilder<List<LicenseEntry>>(
@@ -58,7 +56,7 @@ class CustomLicensePage extends HookWidget {
                   }
                 }
 
-                return TwoPane(
+                return GtkTwoPane(
                   showPane2: context.width < 800 && _selected.value == null
                       ? false
                       : true,
@@ -66,14 +64,12 @@ class CustomLicensePage extends HookWidget {
                   pane2Name: _selected.value != null
                       ? packages[_selected.value!].name
                       : null,
-                  pane1: ListView.builder(
-                    itemBuilder: (context, index) {
-                      var isSelected = _selected.value == index;
-                      return gtkSidebarItem(
-                        context,
-                        isSelected,
-                        onSelected: () =>
-                            _selectValue(index, packages[index].name),
+                  pane1: GtkSidebar(
+                    onSelected: (index) =>
+                        _selectValue(index, packages[index].name),
+                    currentIndex: _selected.value,
+                    itemBuilder: (context, index, isSelected) {
+                      return GtkSidebarItem(
                         labelWidget: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -91,7 +87,6 @@ class CustomLicensePage extends HookWidget {
                             ),
                           ],
                         ),
-                        iconWidget: const SizedBox(),
                       );
                     },
                     itemCount: packages.length,
@@ -133,9 +128,10 @@ class LicenseInfoPage extends StatelessWidget {
             var currentPara = cParagraph![index].paragraphs.toList();
             return StickyHeader(
               header: Container(
-                color: context.isDark
-                    ? AdwaitaDarkColors.headerBarBackgroundBottom
-                    : AdwaitaLightColors.headerBarBackgroundBottom,
+                color: getAdaptiveGtkColor(
+                  context,
+                  colorType: GtkColorType.headerBarBackgroundBottom,
+                ),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),
                 alignment: Alignment.centerLeft,

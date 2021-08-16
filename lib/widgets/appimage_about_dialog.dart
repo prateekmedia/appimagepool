@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'widgets.dart';
 import '../utils/utils.dart';
 
-Dialog appimageAboutDialog(BuildContext context) {
-  return roundedDialog(context, children: [
+Widget appimageAboutDialog(BuildContext context) {
+  return RoundedDialog(children: [
     Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

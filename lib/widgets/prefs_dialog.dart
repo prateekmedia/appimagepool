@@ -2,7 +2,6 @@ import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_gtk/utils/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -10,13 +9,17 @@ import 'package:appimagepool/widgets/widgets.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/utils/utils.dart';
 
-Dialog prefsDialog(BuildContext context) {
-  return roundedDialog(context, height: 600, width: 600, children: [
-    const SingleChildScrollView(
-      padding: EdgeInsets.all(20),
-      child: PrefsWidget(),
-    ),
-  ]);
+Widget prefsDialog(BuildContext context) {
+  return const RoundedDialog(
+    height: 600,
+    width: 600,
+    children: [
+      SingleChildScrollView(
+        padding: EdgeInsets.all(20),
+        child: PrefsWidget(),
+      ),
+    ],
+  );
 }
 
 class PrefsWidget extends HookConsumerWidget {
@@ -27,6 +30,7 @@ class PrefsWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final isBrowserActive = useState<bool>(false);
+    final path = useState<String>("Applications");
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -97,29 +101,34 @@ class PrefsWidget extends HookConsumerWidget {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Row(
-                  children: [
-                    const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
-                    const SizedBox(width: 6),
-                    SelectableText(
-                      '${key ?? ''}Applications',
-                    )
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
+                      const SizedBox(width: 6),
+                      SelectableText(path.value.contains('Applications')
+                          ? 'Applications'
+                          : path.value),
+                    ],
+                  ),
                 ),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: context.isDark
-                      ? AdwaitaDarkColors.headerButtonBackgroundTop
-                      : AdwaitaLightColors.headerButtonBackgroundTop),
+                primary: getAdaptiveGtkColor(
+                  context,
+                  colorType: GtkColorType.headerBarBackgroundTop,
+                ),
+              ),
               onPressed: !isBrowserActive.value
                   ? () async {
                       isBrowserActive.value = true;
-                      var path = await FilePicker.platform.getDirectoryPath(
+                      var dirPath = await FilePicker.platform.getDirectoryPath(
                           dialogTitle: 'Choose Download Folder');
                       isBrowserActive.value = false;
-                      print(path);
+                      path.value = dirPath ?? path.value;
                     }
                   : null,
               child: Text(

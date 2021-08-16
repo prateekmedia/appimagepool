@@ -13,7 +13,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gtk/flutter_gtk.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,12 +32,14 @@ void main() {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             brightness: Brightness.light,
-            canvasColor: AdwaitaLightColors.canvas,
+            canvasColor:
+                getGtkColor(colorType: GtkColorType.canvas, isDark: false),
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
             primaryColor: Colors.blue[700],
-            canvasColor: AdwaitaDarkColors.canvas,
+            canvasColor:
+                getGtkColor(colorType: GtkColorType.canvas, isDark: true),
           ),
           themeMode: themeMode,
           home: HomePage(theme: theme),
@@ -183,8 +184,7 @@ class _HomePageState extends State<HomePage> {
                   event.isControlPressed &&
                   event.logicalKey.keyId == 102) switchSearchBar();
             },
-            child: aibAppBar(
-              context,
+            child: PoolApp(
               title: categories == null && featured == null ? 'Pool' : '',
               leading: categories != null || featured != null
                   ? [
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CustomAdwaitaHeaderButton(
+                              GtkHeaderButton(
                                 child: IconButton(
                                   icon: AdwaitaIcon(context.isDark
                                       ? AdwaitaIcons.night_light
@@ -286,11 +286,12 @@ class _HomePageState extends State<HomePage> {
                   : [],
               trailing: [
                 if (categories != null || featured != null)
-                  CustomAdwaitaHeaderButton(
+                  GtkHeaderButton(
                     color: toggleSearch.value
-                        ? context.isDark
-                            ? AdwaitaDarkColors.headerSwitcherTabBackground
-                            : AdwaitaLightColors.headerSwitcherTabBackground
+                        ? getAdaptiveGtkColor(
+                            context,
+                            colorType: GtkColorType.headerSwitcherTabBackground,
+                          )
                         : null,
                     child: IconButton(
                       icon: const AdwaitaIcon(
@@ -313,8 +314,7 @@ class _HomePageState extends State<HomePage> {
                         Text("Can't connect",
                             style: context.textTheme.headline5),
                         const SizedBox(height: 12),
-                        Text(
-                            "You need an internet connection to use AppImage Pool.",
+                        Text("You need an internet connection to use $appName.",
                             style: context.textTheme.headline6),
                         const SizedBox(height: 20),
                         ElevatedButton(
@@ -354,36 +354,30 @@ class _HomePageState extends State<HomePage> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                      child: ListView(
-                                        controller: ScrollController(),
+                                      child: GtkSidebar(
                                         padding: EdgeInsets.zero,
+                                        currentIndex: _navrailIndex.value,
+                                        onSelected: (index) =>
+                                            _navrailIndex.value = index,
                                         children: [
-                                          gtkSidebarItem(
-                                              context, _navrailIndex.value == 0,
-                                              label: "Explore",
-                                              icon: AdwaitaIcons.explore2,
-                                              onSelected: () {
-                                            _navrailIndex.value = 0;
-                                          }),
+                                          GtkSidebarItem(
+                                            label: "Explore",
+                                            leadingIcon: AdwaitaIcons.explore2,
+                                          ),
                                           for (var category in categories!
                                               .entries
                                               .toList()
                                               .asMap()
                                               .entries)
-                                            gtkSidebarItem(
-                                                context,
-                                                _navrailIndex.value ==
-                                                    category.key + 1,
-                                                label: category.value.key,
-                                                icon: categoryIcons.containsKey(
-                                                        category.value.key)
-                                                    ? categoryIcons[
-                                                        category.value.key]!
-                                                    : AdwaitaIcons.question,
-                                                onSelected: () {
-                                              _navrailIndex.value =
-                                                  category.key + 1;
-                                            }),
+                                            GtkSidebarItem(
+                                              label: category.value.key,
+                                              leadingIcon:
+                                                  categoryIcons.containsKey(
+                                                          category.value.key)
+                                                      ? categoryIcons[
+                                                          category.value.key]!
+                                                      : AdwaitaIcons.question,
+                                            ),
                                         ],
                                       ),
                                     ),
@@ -395,11 +389,11 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   if (toggleSearch.value)
                                     Container(
-                                      color: context.isDark
-                                          ? AdwaitaDarkColors
-                                              .headerBarBackgroundBottom
-                                          : AdwaitaLightColors
-                                              .headerBarBackgroundBottom,
+                                      color: getAdaptiveGtkColor(
+                                        context,
+                                        colorType: GtkColorType
+                                            .headerBarBackgroundBottom,
+                                      ),
                                       child: Center(
                                         child: AnimatedContainer(
                                           duration:

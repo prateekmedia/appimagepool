@@ -2,6 +2,8 @@ import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
 
+const String appName = "AppImage Pool";
+
 const String prefixUrl =
     "https://raw.githubusercontent.com/AppImage/appimage.github.io/master/database/";
 

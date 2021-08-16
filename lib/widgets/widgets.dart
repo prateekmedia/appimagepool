@@ -1,11 +1,11 @@
 export 'about_dialog.dart';
-export 'aibappbar.dart';
+export 'pool_app.dart';
 export 'appimage_about_dialog.dart';
-export 'custom_adwaita_header_button.dart';
+export 'gtk_header_button.dart';
 export 'gtk_popup_menu.dart';
 export 'gtk_header_bar.dart';
 export 'gtk_two_pane.dart';
-export 'gtk_sidebar_item.dart';
+export 'gtk_sidebar.dart';
 export 'prefs_dialog.dart';
 export 'rounded_dialog.dart';
 export 'tworowcontainer.dart';
