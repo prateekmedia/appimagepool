@@ -14,6 +14,7 @@ class PoolApp extends HookConsumerWidget {
   final List<Widget> trailing;
   final bool showBackButton;
   final Widget body;
+  final VoidCallback? onBackPressed;
 
   const PoolApp({
     Key? key,
@@ -22,6 +23,7 @@ class PoolApp extends HookConsumerWidget {
     this.leading = const [],
     this.trailing = const [],
     this.showBackButton = false,
+    this.onBackPressed,
   }) : super(key: key);
 
   @override
@@ -53,7 +55,10 @@ class PoolApp extends HookConsumerWidget {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
-                        onPressed: context.back,
+                        onPressed: () {
+                          if (onBackPressed != null) onBackPressed!();
+                          context.back();
+                        },
                       ),
                     ),
                   ),

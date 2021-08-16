@@ -1,4 +1,3 @@
-import 'package:appimagepool/widgets/pool_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -23,6 +22,9 @@ class GtkTwoPane extends StatefulWidget {
   /// pane2 `total - panelWidth`
   final double panelWidth;
 
+  // Pane 2 builder on smaller screen
+  final Function(String? pane2Name, Widget pane2)? fullPane2Builder;
+
   const GtkTwoPane({
     Key? key,
     this.showPane2 = false,
@@ -32,6 +34,7 @@ class GtkTwoPane extends StatefulWidget {
     this.breakpoint = 800,
     this.panelWidth = 250,
     this.pane2Name,
+    this.fullPane2Builder,
   }) : super(key: key);
 
   @override
@@ -55,11 +58,9 @@ class _GtkTwoPaneState extends State<GtkTwoPane> {
           MaterialPageRoute(
             builder: (BuildContext context) {
               return Scaffold(
-                body: PoolApp(
-                  title: widget.pane2Name,
-                  showBackButton: true,
-                  body: widget.pane2,
-                ),
+                body: widget.fullPane2Builder != null
+                    ? widget.fullPane2Builder!(widget.pane2Name, widget.pane2)
+                    : widget.pane2,
               );
             },
             fullscreenDialog: true,

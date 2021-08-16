@@ -61,6 +61,12 @@ class CustomLicensePage extends HookWidget {
                       ? false
                       : true,
                   onClosePane2Popup: _clearSelected,
+                  fullPane2Builder: (pane2Name, pane2) => PoolApp(
+                    title: pane2Name,
+                    showBackButton: true,
+                    onBackPressed: () => _selectValue(null, "Licenses"),
+                    body: pane2,
+                  ),
                   pane2Name: _selected.value != null
                       ? packages[_selected.value!].name
                       : null,
