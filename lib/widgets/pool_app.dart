@@ -36,6 +36,7 @@ class PoolApp extends HookConsumerWidget {
       child: Column(
         children: [
           GtkHeaderBar(
+            appWindow: appWindow,
             onClose: appWindow.close,
             onMinimize:
                 context.width >= mobileWidth ? appWindow.minimize : null,
