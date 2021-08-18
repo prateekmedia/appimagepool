@@ -13,9 +13,10 @@ const String projectUrl = "https://github.com/prateekmedia/appimagepool";
 
 const String appimageWebsite = "https://appimage.org/";
 
-TextStyle linkStyle(BuildContext context) => TextStyle(
+TextStyle linkStyle(BuildContext context, [bool showUnderline = true]) =>
+    TextStyle(
       color: context.isDark ? Colors.lightBlue[400] : Colors.blue,
-      decoration: TextDecoration.underline,
+      decoration: showUnderline ? TextDecoration.underline : null,
     );
 
 const mobileWidth = 700;

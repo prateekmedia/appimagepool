@@ -75,7 +75,7 @@ Widget aboutDialog(BuildContext context) {
                             ),
                             TextSpan(
                               text: 'View Licenses',
-                              style: linkStyle(context),
+                              style: linkStyle(context, false),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   context.back();

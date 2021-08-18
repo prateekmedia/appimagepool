@@ -1,21 +1,16 @@
-import 'dart:io';
-
-import 'package:appimagepool/models/models.dart';
-import 'package:appimagepool/providers/providers.dart';
+import 'package:dio/dio.dart';
+import 'package:gtk/gtk.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:appimagepool/widgets/customdialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gtk/gtk.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:process_run/shell.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import '../utils/utils.dart';
+import '../models/models.dart';
 import '../widgets/widgets.dart';
 
 class AppPage extends HookConsumerWidget {
@@ -57,16 +52,13 @@ class AppPage extends HookConsumerWidget {
             : SvgPicture.network(app.iconUrl!)
         : brokenImageWidget;
     final _current = useState<int>(0);
-    var downloading = ref.watch(isDownloadingProvider);
-    List<QueryApp> listDownloads = ref.watch(downloadListProvider);
 
     return Scaffold(
       body: PoolApp(
         title: app.name,
         showBackButton: true,
-        trailing: [
-          if (listDownloads.isNotEmpty)
-            downloadButton(context, listDownloads, downloading),
+        trailing: const [
+          DownloadButton(),
         ],
         body: ListView(
           children: [
@@ -142,80 +134,16 @@ class AppPage extends HookConsumerWidget {
                                               await showDialog(
                                                   context: context,
                                                   builder:
-                                                      (BuildContext context) {
-                                                    return DownloadDialog(
-                                                        response, appIcon,
-                                                        (checkmap) async {
-                                                      var location = "/" +
-                                                          (await getApplicationDocumentsDirectory())
-                                                              .toString()
-                                                              .split('/')
-                                                              .toList()
-                                                              .sublist(1, 3)
-                                                              .join("/") +
-                                                          "/Applications/";
-                                                      if (!Directory(location)
-                                                          .existsSync()) {
-                                                        Directory(location)
-                                                            .createSync();
-                                                      }
-                                                      if (checkmap.isNotEmpty) {
-                                                        var fileurl = checkmap
-                                                            .keys
-                                                            .toList()[0];
-                                                        String filename =
-                                                            checkmap.values
-                                                                .toList()[0];
-                                                        ref
-                                                            .watch(
-                                                                isDownloadingProvider
-                                                                    .notifier)
-                                                            .toggleValue();
-                                                        CancelToken
-                                                            cancelToken =
-                                                            CancelToken();
-                                                        listDownloads.add(
-                                                          QueryApp(
-                                                              name: filename,
-                                                              url: url,
-                                                              cancelToken:
-                                                                  cancelToken,
-                                                              downloadLocation:
-                                                                  location,
-                                                              actualBytes: 0,
-                                                              totalBytes: 0),
-                                                        );
-                                                        await Dio().download(
-                                                            fileurl,
-                                                            location + filename,
-                                                            onReceiveProgress:
-                                                                (recieved,
-                                                                    total) {
-                                                          var item = listDownloads[
-                                                              listDownloads.indexWhere(
-                                                                  (element) =>
-                                                                      element
-                                                                          .name ==
-                                                                      filename)];
-                                                          item.actualBytes =
-                                                              recieved;
-                                                          item.totalBytes =
-                                                              total;
-                                                        },
-                                                            cancelToken:
-                                                                cancelToken).whenComplete(
-                                                            () => ref
-                                                                .watch(
-                                                                    isDownloadingProvider
-                                                                        .notifier)
-                                                                .toggleValue());
-                                                        var shell = Shell()
-                                                            .cd(location);
-                                                        shell.run('chmod +x ' +
-                                                            filename);
-                                                      }
-                                                    });
-                                                  });
+                                                      (BuildContext context) =>
+                                                          DownloadDialog(
+                                                              response,
+                                                              appIcon,
+                                                              (checkmap) =>
+                                                                  downloadApp(
+                                                                    checkmap,
+                                                                    ref,
+                                                                    url,
+                                                                  )));
                                             } else {
                                               url.launchIt();
                                             }

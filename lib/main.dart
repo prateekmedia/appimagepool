@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/widgets/grid_of_apps.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -176,8 +175,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Consumer(
         builder: (ctx, ref, _) {
-          List<QueryApp> listDownloads = ref.watch(downloadListProvider);
-          var downloading = ref.watch(isDownloadingProvider);
           return RawKeyboardListener(
             focusNode: FocusNode(),
             onKey: (event) {
@@ -186,103 +183,68 @@ class _HomePageState extends State<HomePage> {
                   event.logicalKey.keyId == 102) switchSearchBar();
             },
             child: PoolApp(
-              title: categories == null && featured == null ? 'Pool' : '',
-              leading: categories != null || featured != null
-                  ? [
-                      Container(
-                        padding: const EdgeInsets.only(right: 4),
-                        width: context.width >= mobileWidth ? 242 : null,
-                        constraints: BoxConstraints.tightFor(
-                            width: context.width >= mobileWidth ? 242 : null),
-                        decoration: BoxDecoration(
-                          border: context.width >= mobileWidth
-                              ? Border(
-                                  right: BorderSide(
-                                    color: context.isDark
-                                        ? Colors.grey[800]!
-                                        : Colors.grey[400]!,
-                                  ),
-                                )
-                              : null,
+              title: 'Pool',
+              leading: [
+                GtkPopupMenu(
+                  body: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          "Preferences",
+                          style: context.textTheme.bodyText1,
                         ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GtkHeaderButton(
-                                icon: AdwaitaIcon(context.isDark
-                                    ? AdwaitaIcons.night_light
-                                    : AdwaitaIcons.night_light_disabled),
-                                onPressed: () => {
-                                  widget.theme.value = context.isDark
-                                      ? ThemeMode.light
-                                      : ThemeMode.dark
-                                },
-                              ),
-                              GestureDetector(
-                                onTap: () => _navrailIndex.value = 0,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 26.0),
-                                  child: Center(
-                                      child: Text(
-                                    "Pool",
-                                    style: context.textTheme.headline6!
-                                        .copyWith(fontSize: 17),
-                                  )),
-                                ),
-                              ),
-                              GtkPopupMenu(
-                                children: [
-                                  ListTile(
-                                    dense: true,
-                                    title: Text(
-                                      "Preferences",
-                                      style: context.textTheme.bodyText1,
-                                    ),
-                                    onTap: () {
-                                      context.back();
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) => prefsDialog(ctx),
-                                      );
-                                    },
-                                  ),
-                                  const Divider(height: 1),
-                                  ListTile(
-                                    dense: true,
-                                    title: Text(
-                                      "About Appimages",
-                                      style: context.textTheme.bodyText1,
-                                    ),
-                                    onTap: () {
-                                      context.back();
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) =>
-                                            appimageAboutDialog(ctx),
-                                      );
-                                    },
-                                  ),
-                                  ListTile(
-                                    dense: true,
-                                    title: Text(
-                                      "About the App",
-                                      style: context.textTheme.bodyText1,
-                                    ),
-                                    onTap: () {
-                                      context.back();
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) => aboutDialog(ctx),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ]),
+                        onTap: () {
+                          context.back();
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => prefsDialog(ctx),
+                          );
+                        },
                       ),
-                    ]
-                  : [],
+                      const Divider(height: 1),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          "About Appimages",
+                          style: context.textTheme.bodyText1,
+                        ),
+                        onTap: () {
+                          context.back();
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => appimageAboutDialog(ctx),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          "About the App",
+                          style: context.textTheme.bodyText1,
+                        ),
+                        onTap: () {
+                          context.back();
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => aboutDialog(ctx),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                GtkHeaderButton(
+                  icon: AdwaitaIcon(context.isDark
+                      ? AdwaitaIcons.night_light
+                      : AdwaitaIcons.night_light_disabled),
+                  onPressed: () => {
+                    widget.theme.value =
+                        context.isDark ? ThemeMode.light : ThemeMode.dark
+                  },
+                ),
+              ],
               trailing: [
                 if (categories != null || featured != null)
                   GtkHeaderButton(
@@ -298,8 +260,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: switchSearchBar,
                   ),
-                if (listDownloads.isNotEmpty)
-                  downloadButton(context, listDownloads, downloading),
+                const DownloadButton(),
               ],
               body: !_isConnected
                   ? Column(
@@ -334,9 +295,6 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             if (context.width >= mobileWidth)
                               Container(
-                                // color: context.isDark
-                                //     ? AdwaitaDarkColors.headerBarBackgroundBottom
-                                //     : AdwaitaLightColors.headerBarBackgroundBottom,
                                 constraints:
                                     const BoxConstraints(maxWidth: 250),
                                 decoration: BoxDecoration(
@@ -406,7 +364,7 @@ class _HomePageState extends State<HomePage> {
                                                 textAlignVertical:
                                                     TextAlignVertical.center,
                                                 autofocus: true,
-                                                cursorHeight: 20,
+                                                cursorHeight: 18,
                                                 onChanged: (query) {
                                                   searchedTerm.value = query;
                                                 },
@@ -485,94 +443,88 @@ class _HomePageState extends State<HomePage> {
                                                                         .values
                                                                         .toList()[
                                                                     index]);
-                                                            return GestureDetector(
-                                                              onTap: () => Navigator
-                                                                      .of(
-                                                                          context)
-                                                                  .push(MaterialPageRoute(
-                                                                      builder: (ctx) =>
-                                                                          AppPage(
-                                                                              app: featuredApp))),
-                                                              child: Stack(
-                                                                children: [
-                                                                  if (featuredApp
-                                                                          .screenshotsUrl !=
-                                                                      null)
-                                                                    Container(
-                                                                        constraints:
-                                                                            const BoxConstraints
-                                                                                .expand(),
-                                                                        child:
-                                                                            CachedNetworkImage(
-                                                                          imageUrl: featuredApp.screenshotsUrl![0].startsWith('http')
-                                                                              ? (featuredApp.screenshotsUrl!)[0]
-                                                                              : prefixUrl + featuredApp.screenshotsUrl![0],
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        )),
-                                                                  Center(
-                                                                    child:
-                                                                        Container(
-                                                                      color: context
-                                                                              .isDark
-                                                                          ? Colors
-                                                                              .grey
-                                                                              .shade900
-                                                                              .withOpacity(
-                                                                                  0.5)
-                                                                          : Colors
-                                                                              .grey
-                                                                              .shade300
-                                                                              .withOpacity(0.5),
-                                                                      height:
-                                                                          400,
-                                                                      child:
-                                                                          ClipRect(
-                                                                        child:
-                                                                            BackdropFilter(
-                                                                          filter:
-                                                                              ImageFilter.blur(
-                                                                            sigmaX:
-                                                                                10,
-                                                                            sigmaY:
-                                                                                10,
-                                                                          ),
+                                                            return ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              child:
+                                                                  GestureDetector(
+                                                                onTap: () => Navigator.of(
+                                                                        context)
+                                                                    .push(MaterialPageRoute(
+                                                                        builder:
+                                                                            (ctx) =>
+                                                                                AppPage(app: featuredApp))),
+                                                                child: Stack(
+                                                                  children: [
+                                                                    if (featuredApp
+                                                                            .screenshotsUrl !=
+                                                                        null)
+                                                                      Container(
+                                                                          constraints: const BoxConstraints
+                                                                              .expand(),
                                                                           child:
-                                                                              Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            children: [
-                                                                              SizedBox(
-                                                                                width: 100,
-                                                                                child: featuredApp.iconUrl != null
-                                                                                    ? featuredApp.iconUrl!.endsWith('.svg')
-                                                                                        ? SvgPicture.network(
-                                                                                            featuredApp.iconUrl!,
-                                                                                          )
-                                                                                        : CachedNetworkImage(
-                                                                                            imageUrl: featuredApp.iconUrl!,
-                                                                                            fit: BoxFit.cover,
-                                                                                            placeholder: (c, u) => const Center(
-                                                                                              child: CircularProgressIndicator(),
-                                                                                            ),
-                                                                                            errorWidget: (c, w, i) => brokenImageWidget,
-                                                                                          )
-                                                                                    : brokenImageWidget,
-                                                                              ),
-                                                                              Flexible(
-                                                                                child: Text(
-                                                                                  featuredApp.name,
-                                                                                  overflow: TextOverflow.ellipsis,
-                                                                                  style: context.textTheme.headline3,
+                                                                              CachedNetworkImage(
+                                                                            imageUrl: featuredApp.screenshotsUrl![0].startsWith('http')
+                                                                                ? (featuredApp.screenshotsUrl!)[0]
+                                                                                : prefixUrl + featuredApp.screenshotsUrl![0],
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                          )),
+                                                                    Center(
+                                                                      child:
+                                                                          Container(
+                                                                        color: context.isDark
+                                                                            ? Colors.grey.shade900.withOpacity(0.5)
+                                                                            : Colors.grey.shade300.withOpacity(0.5),
+                                                                        height:
+                                                                            400,
+                                                                        child:
+                                                                            ClipRect(
+                                                                          child:
+                                                                              BackdropFilter(
+                                                                            filter:
+                                                                                ImageFilter.blur(
+                                                                              sigmaX: 10,
+                                                                              sigmaY: 10,
+                                                                            ),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                SizedBox(
+                                                                                  width: 100,
+                                                                                  child: featuredApp.iconUrl != null
+                                                                                      ? featuredApp.iconUrl!.endsWith('.svg')
+                                                                                          ? SvgPicture.network(
+                                                                                              featuredApp.iconUrl!,
+                                                                                            )
+                                                                                          : CachedNetworkImage(
+                                                                                              imageUrl: featuredApp.iconUrl!,
+                                                                                              fit: BoxFit.cover,
+                                                                                              placeholder: (c, u) => const Center(
+                                                                                                child: CircularProgressIndicator(),
+                                                                                              ),
+                                                                                              errorWidget: (c, w, i) => brokenImageWidget,
+                                                                                            )
+                                                                                      : brokenImageWidget,
                                                                                 ),
-                                                                              )
-                                                                            ],
+                                                                                Flexible(
+                                                                                  child: Text(
+                                                                                    featuredApp.name,
+                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                    style: context.textTheme.headline3,
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
                                                             );
                                                           },
