@@ -172,6 +172,8 @@ class _HomePageState extends State<HomePage> {
       toggleSearch.value = value ?? !toggleSearch.value;
     }
 
+    final showCarouselArrows = useState<bool>(false);
+
     return Scaffold(
       body: Consumer(
         builder: (ctx, ref, _) {
@@ -350,13 +352,15 @@ class _HomePageState extends State<HomePage> {
                                             .headerBarBackgroundBottom,
                                       ),
                                       child: Center(
-                                        child: AnimatedContainer(
+                                        child: AnimatedSize(
                                           duration:
                                               const Duration(milliseconds: 260),
-                                          height: toggleSearch.value ? 52 : 0,
                                           child: Container(
-                                            constraints: const BoxConstraints(
-                                                maxWidth: 450),
+                                            constraints: BoxConstraints(
+                                              maxWidth: 450,
+                                              maxHeight:
+                                                  toggleSearch.value ? 52 : 0,
+                                            ),
                                             margin: const EdgeInsets.symmetric(
                                                 horizontal: 12, vertical: 8),
                                             child: RawKeyboardListener(
@@ -364,7 +368,6 @@ class _HomePageState extends State<HomePage> {
                                                 textAlignVertical:
                                                     TextAlignVertical.center,
                                                 autofocus: true,
-                                                cursorHeight: 18,
                                                 onChanged: (query) {
                                                   searchedTerm.value = query;
                                                 },
@@ -431,164 +434,173 @@ class _HomePageState extends State<HomePage> {
                                                                     1.2),
                                                       ),
                                                     ),
-                                                    Stack(
-                                                      children: [
-                                                        CarouselSlider.builder(
-                                                          itemCount:
-                                                              featured!.length,
-                                                          itemBuilder: (context,
-                                                              index, i) {
-                                                            App featuredApp = App
-                                                                .fromItem(featured!
-                                                                        .values
-                                                                        .toList()[
-                                                                    index]);
-                                                            return ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              child:
-                                                                  GestureDetector(
-                                                                onTap: () => Navigator.of(
-                                                                        context)
-                                                                    .push(MaterialPageRoute(
-                                                                        builder:
-                                                                            (ctx) =>
-                                                                                AppPage(app: featuredApp))),
-                                                                child: Stack(
-                                                                  children: [
-                                                                    if (featuredApp
-                                                                            .screenshotsUrl !=
-                                                                        null)
-                                                                      Container(
-                                                                          constraints: const BoxConstraints
-                                                                              .expand(),
-                                                                          child:
-                                                                              CachedNetworkImage(
-                                                                            imageUrl: featuredApp.screenshotsUrl![0].startsWith('http')
-                                                                                ? (featuredApp.screenshotsUrl!)[0]
-                                                                                : prefixUrl + featuredApp.screenshotsUrl![0],
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                          )),
-                                                                    Center(
-                                                                      child:
-                                                                          Container(
-                                                                        color: context.isDark
-                                                                            ? Colors.grey.shade900.withOpacity(0.5)
-                                                                            : Colors.grey.shade300.withOpacity(0.5),
-                                                                        height:
-                                                                            400,
+                                                    MouseRegion(
+                                                      onExit: (value) =>
+                                                          showCarouselArrows
+                                                              .value = false,
+                                                      onHover: (value) =>
+                                                          showCarouselArrows
+                                                              .value = true,
+                                                      child: Stack(
+                                                        children: [
+                                                          CarouselSlider
+                                                              .builder(
+                                                            itemCount: featured!
+                                                                .length,
+                                                            itemBuilder:
+                                                                (context, index,
+                                                                    i) {
+                                                              App featuredApp =
+                                                                  App.fromItem(
+                                                                      featured!
+                                                                          .values
+                                                                          .toList()[index]);
+                                                              return ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () => Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
+                                                                          builder: (ctx) =>
+                                                                              AppPage(app: featuredApp))),
+                                                                  child: Stack(
+                                                                    children: [
+                                                                      if (featuredApp
+                                                                              .screenshotsUrl !=
+                                                                          null)
+                                                                        Container(
+                                                                            constraints:
+                                                                                const BoxConstraints.expand(),
+                                                                            child: CachedNetworkImage(
+                                                                              imageUrl: featuredApp.screenshotsUrl![0].startsWith('http') ? (featuredApp.screenshotsUrl!)[0] : prefixUrl + featuredApp.screenshotsUrl![0],
+                                                                              fit: BoxFit.cover,
+                                                                            )),
+                                                                      Center(
                                                                         child:
-                                                                            ClipRect(
+                                                                            Container(
+                                                                          color: context.isDark
+                                                                              ? Colors.grey.shade900.withOpacity(0.5)
+                                                                              : Colors.grey.shade300.withOpacity(0.5),
+                                                                          height:
+                                                                              400,
                                                                           child:
-                                                                              BackdropFilter(
-                                                                            filter:
-                                                                                ImageFilter.blur(
-                                                                              sigmaX: 10,
-                                                                              sigmaY: 10,
-                                                                            ),
+                                                                              ClipRect(
                                                                             child:
-                                                                                Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                                              children: [
-                                                                                SizedBox(
-                                                                                  width: 100,
-                                                                                  child: featuredApp.iconUrl != null
-                                                                                      ? featuredApp.iconUrl!.endsWith('.svg')
-                                                                                          ? SvgPicture.network(
-                                                                                              featuredApp.iconUrl!,
-                                                                                            )
-                                                                                          : CachedNetworkImage(
-                                                                                              imageUrl: featuredApp.iconUrl!,
-                                                                                              fit: BoxFit.cover,
-                                                                                              placeholder: (c, u) => const Center(
-                                                                                                child: CircularProgressIndicator(),
-                                                                                              ),
-                                                                                              errorWidget: (c, w, i) => brokenImageWidget,
-                                                                                            )
-                                                                                      : brokenImageWidget,
-                                                                                ),
-                                                                                Flexible(
-                                                                                  child: Text(
-                                                                                    featuredApp.name,
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    style: context.textTheme.headline3,
+                                                                                BackdropFilter(
+                                                                              filter: ImageFilter.blur(
+                                                                                sigmaX: 10,
+                                                                                sigmaY: 10,
+                                                                              ),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  SizedBox(
+                                                                                    width: 100,
+                                                                                    child: featuredApp.iconUrl != null
+                                                                                        ? featuredApp.iconUrl!.endsWith('.svg')
+                                                                                            ? SvgPicture.network(
+                                                                                                featuredApp.iconUrl!,
+                                                                                              )
+                                                                                            : CachedNetworkImage(
+                                                                                                imageUrl: featuredApp.iconUrl!,
+                                                                                                fit: BoxFit.cover,
+                                                                                                placeholder: (c, u) => const Center(
+                                                                                                  child: CircularProgressIndicator(),
+                                                                                                ),
+                                                                                                errorWidget: (c, w, i) => brokenImageWidget,
+                                                                                              )
+                                                                                        : brokenImageWidget,
                                                                                   ),
-                                                                                )
-                                                                              ],
+                                                                                  Flexible(
+                                                                                    child: Text(
+                                                                                      featuredApp.name,
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                      style: context.textTheme.headline3,
+                                                                                    ),
+                                                                                  )
+                                                                                ],
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ],
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            carouselController:
+                                                                _controller,
+                                                            options: CarouselOptions(
+                                                                height: 400,
+                                                                viewportFraction:
+                                                                    0.75,
+                                                                initialPage: 0,
+                                                                enableInfiniteScroll:
+                                                                    true,
+                                                                reverse: false,
+                                                                autoPlay: true,
+                                                                autoPlayInterval:
+                                                                    const Duration(
+                                                                        seconds:
+                                                                            3),
+                                                                autoPlayAnimationDuration:
+                                                                    const Duration(
+                                                                        milliseconds:
+                                                                            800),
+                                                                autoPlayCurve:
+                                                                    Curves
+                                                                        .fastOutSlowIn,
+                                                                enlargeCenterPage:
+                                                                    true,
+                                                                scrollDirection:
+                                                                    Axis
+                                                                        .horizontal,
+                                                                onPageChanged: (idx,
+                                                                        rsn) =>
+                                                                    _carouselIndex
+                                                                            .value =
+                                                                        idx),
+                                                          ),
+                                                          if (showCarouselArrows
+                                                              .value) ...[
+                                                            Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: SizedBox(
+                                                                height: 400,
+                                                                child:
+                                                                    CarouselArrow(
+                                                                  icon: AdwaitaIcons
+                                                                      .go_previous,
+                                                                  onPressed: () =>
+                                                                      _controller
+                                                                          .previousPage(),
                                                                 ),
                                                               ),
-                                                            );
-                                                          },
-                                                          carouselController:
-                                                              _controller,
-                                                          options: CarouselOptions(
-                                                              height: 400,
-                                                              viewportFraction:
-                                                                  0.75,
-                                                              initialPage: 0,
-                                                              enableInfiniteScroll:
-                                                                  true,
-                                                              reverse: false,
-                                                              autoPlay: true,
-                                                              autoPlayInterval: const Duration(
-                                                                  seconds: 3),
-                                                              autoPlayAnimationDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          800),
-                                                              autoPlayCurve: Curves
-                                                                  .fastOutSlowIn,
-                                                              enlargeCenterPage:
-                                                                  true,
-                                                              scrollDirection:
-                                                                  Axis
-                                                                      .horizontal,
-                                                              onPageChanged: (idx,
-                                                                      rsn) =>
-                                                                  _carouselIndex
-                                                                          .value =
-                                                                      idx),
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: SizedBox(
-                                                            height: 400,
-                                                            child: IconButton(
-                                                              icon: const AdwaitaIcon(
-                                                                  AdwaitaIcons
-                                                                      .go_previous),
-                                                              onPressed: () =>
-                                                                  _controller
-                                                                      .previousPage(),
                                                             ),
-                                                          ),
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .centerRight,
-                                                          child: SizedBox(
-                                                            height: 400,
-                                                            child: IconButton(
-                                                              icon: const AdwaitaIcon(
-                                                                  AdwaitaIcons
-                                                                      .go_next),
-                                                              onPressed: () =>
-                                                                  _controller
-                                                                      .nextPage(),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
+                                                            Align(
+                                                              alignment: Alignment
+                                                                  .centerRight,
+                                                              child: SizedBox(
+                                                                height: 400,
+                                                                child:
+                                                                    CarouselArrow(
+                                                                  icon: AdwaitaIcons
+                                                                      .go_next,
+                                                                  onPressed: () =>
+                                                                      _controller
+                                                                          .nextPage(),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ]
+                                                        ],
+                                                      ),
                                                     ),
                                                     const SizedBox(height: 5),
                                                     Row(
@@ -751,6 +763,36 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class CarouselArrow extends StatelessWidget {
+  const CarouselArrow({
+    Key? key,
+    required this.icon,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+  final String icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 44,
+      height: 44,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: getAdaptiveGtkColor(
+            context,
+            colorType: GtkColorType.headerButtonBackgroundBottom,
+          ).withOpacity(0.50),
+          shape: const CircleBorder(),
+        ),
+        child: AdwaitaIcon(icon),
+        onPressed: onPressed,
       ),
     );
   }
