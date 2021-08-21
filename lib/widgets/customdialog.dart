@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:appimagepool/providers/providers.dart';
+import 'package:intl/intl.dart';
 import 'package:window_decorations/window_decorations.dart';
 import '../utils/utils.dart';
 
@@ -17,10 +18,12 @@ class CustomDialogBox extends HookConsumerWidget {
   final List<Widget> Function(int index) items;
   final List<String> versions;
   final void Function(int version)? onVersionChange;
+  final List<String> dates;
 
   const CustomDialogBox({
     Key? key,
     required this.items,
+    required this.dates,
     required this.endText,
     required this.img,
     required this.versions,
@@ -85,13 +88,20 @@ class CustomDialogBox extends HookConsumerWidget {
                     },
                     items: versions.asMap().entries.map((entry) {
                       return DropdownMenuItem<int>(
-                        child: Text(
-                          entry.value,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(entry.value),
+                            Text(DateFormat('MMM dd yyyy')
+                                .format(DateTime.parse(dates[entry.key]))),
+                          ],
                         ),
                         value: entry.key,
                       );
                     }).toList(),
                   ),
+                  Text(DateFormat('MMMM dd yyyy H:mm')
+                      .format(DateTime.parse(dates[selectedIndex.value]))),
                   const SizedBox(height: 15),
                   if (currentItem.isNotEmpty)
                     Flexible(

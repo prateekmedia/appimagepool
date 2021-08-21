@@ -1,6 +1,6 @@
-import 'dart:convert';
-import 'dart:math';
 import 'dart:ui';
+import 'dart:math';
+import 'dart:convert';
 
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:appimagepool/widgets/grid_of_apps.dart';
@@ -23,44 +23,38 @@ import 'utils/utils.dart';
 import 'widgets/widgets.dart';
 
 void main() {
-  var theme = ValueNotifier(ThemeMode.system);
   runApp(
-    ProviderScope(
-      child: ValueListenableBuilder(
-        valueListenable: theme,
-        builder: (ctx, ThemeMode themeMode, ch) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            brightness: Brightness.light,
-            canvasColor:
-                getGtkColor(colorType: GtkColorType.canvas, isDark: false),
-          ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            primaryColor: Colors.blue[700],
-            canvasColor:
-                getGtkColor(colorType: GtkColorType.canvas, isDark: true),
-          ),
-          themeMode: themeMode,
-          home: HomePage(theme: theme),
-        ),
-      ),
-    ),
+    const ProviderScope(child: MyApp()),
   );
   doWhenWindowReady(() {
     final win = appWindow;
     // win.size = const Size(1280, 720);
-    win.alignment = Alignment.center;
+    // win.alignment = Alignment.center;
     win.title = "Pool";
     win.show();
   });
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final gTheme = GnomeTheme();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: gTheme.data(context).copyWith(primaryColor: Colors.blue[600]),
+      home: const HomePage(),
+    );
+  }
+}
+
 class HomePage extends StatefulHookWidget {
-  final ValueNotifier<ThemeMode> theme;
   // bool _isConnected = true;
 
-  const HomePage({Key? key, required this.theme}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -237,25 +231,11 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                GtkHeaderButton(
-                  icon: AdwaitaIcon(context.isDark
-                      ? AdwaitaIcons.night_light
-                      : AdwaitaIcons.night_light_disabled),
-                  onPressed: () => {
-                    widget.theme.value =
-                        context.isDark ? ThemeMode.light : ThemeMode.dark
-                  },
-                ),
               ],
               trailing: [
                 if (categories != null || featured != null)
                   GtkHeaderButton(
-                    color: toggleSearch.value
-                        ? getAdaptiveGtkColor(
-                            context,
-                            colorType: GtkColorType.headerSwitcherTabBackground,
-                          )
-                        : null,
+                    isActive: toggleSearch.value,
                     icon: const AdwaitaIcon(
                       AdwaitaIcons.system_search,
                       size: 17,
@@ -788,10 +768,11 @@ class CarouselArrow extends StatelessWidget {
           primary: getAdaptiveGtkColor(
             context,
             colorType: GtkColorType.headerButtonBackgroundBottom,
-          ).withOpacity(0.50),
+          ).withOpacity(0.70),
           shape: const CircleBorder(),
         ),
-        child: AdwaitaIcon(icon),
+        child: AdwaitaIcon(icon,
+            color: context.textTheme.bodyText1!.color, size: 30),
         onPressed: onPressed,
       ),
     );

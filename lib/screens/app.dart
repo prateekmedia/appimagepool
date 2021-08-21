@@ -150,7 +150,8 @@ class AppPage extends HookConsumerWidget {
                                             isLoadingDL.value = false;
                                           }
                                         : null,
-                                child: const Text("Download"),
+                                child: const Text("Download",
+                                    style: TextStyle(color: Colors.white)),
                                 style: ElevatedButton.styleFrom(
                                     primary: context.theme.primaryColor),
                               ),
@@ -302,6 +303,8 @@ class _DownloadDialogState extends State<DownloadDialog> {
     return CustomDialogBox(
       versions: List.generate(
           widget.response.length, (index) => widget.response[index]['name']),
+      dates: List.generate(widget.response.length,
+          (index) => widget.response[index]['created_at']),
       onVersionChange: (version) {
         checkmap.value = {};
       },
