@@ -1,3 +1,4 @@
+import 'package:appimagepool/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,17 +17,15 @@ class Constants {
 class CustomDialogBox extends HookConsumerWidget {
   final Widget img, endText;
   final List<Widget> Function(int index) items;
-  final List<String> versions;
+  final List<DownloadItem> downloadItems;
   final void Function(int version)? onVersionChange;
-  final List<String> dates;
 
   const CustomDialogBox({
     Key? key,
     required this.items,
-    required this.dates,
     required this.endText,
     required this.img,
-    required this.versions,
+    required this.downloadItems,
     this.onVersionChange,
   }) : super(key: key);
 
@@ -77,31 +76,36 @@ class CustomDialogBox extends HookConsumerWidget {
                       if (onVersionChange != null) onVersionChange!(val);
                     },
                     selectedItemBuilder: (BuildContext context) {
-                      return versions.map<Widget>((String item) {
+                      return downloadItems.map<Widget>((DownloadItem item) {
                         return Center(
-                            child: Text(item,
-                                style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                )));
+                          child: Text(
+                            item.version,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        );
                       }).toList();
                     },
-                    items: versions.asMap().entries.map((entry) {
+                    items: downloadItems.asMap().entries.map((entry) {
                       return DropdownMenuItem<int>(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(entry.value),
+                            Text(entry.value.version),
                             Text(DateFormat('MMM dd yyyy')
-                                .format(DateTime.parse(dates[entry.key]))),
+                                .format(entry.value.date)),
                           ],
                         ),
                         value: entry.key,
                       );
                     }).toList(),
                   ),
-                  Text(DateFormat('MMMM dd yyyy H:mm')
-                      .format(DateTime.parse(dates[selectedIndex.value]))),
+                  Text(
+                    DateFormat('MMMM dd yyyy H:mm')
+                        .format(downloadItems[selectedIndex.value].date),
+                  ),
                   const SizedBox(height: 15),
                   if (currentItem.isNotEmpty)
                     Flexible(

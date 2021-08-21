@@ -17,14 +17,14 @@ class QueryApp {
     required this.totalBytes,
   });
 
-  QueryApp copyWith(
+  QueryApp copyWith({
     String? name,
     String? url,
     String? downloadLocation,
     CancelToken? cancelToken,
     int? actualBytes,
     int? totalBytes,
-  ) =>
+  }) =>
       QueryApp(
         name: name ?? this.name,
         url: url ?? this.url,

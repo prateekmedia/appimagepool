@@ -119,7 +119,7 @@ class DownloadButton extends HookConsumerWidget {
 }
 
 downloadApp(Map<String, String> checkmap, ref, url) async {
-  var listDownloads = ref.watch(downloadListProvider);
+  final List<QueryApp> listDownloads = ref.watch(downloadListProvider);
   var location = "/" +
       (await getApplicationDocumentsDirectory())
           .toString()
@@ -139,12 +139,13 @@ downloadApp(Map<String, String> checkmap, ref, url) async {
     listDownloads.insert(
       0,
       QueryApp(
-          name: filename,
-          url: url,
-          cancelToken: cancelToken,
-          downloadLocation: location,
-          actualBytes: 0,
-          totalBytes: 0),
+        name: filename,
+        url: url,
+        cancelToken: cancelToken,
+        downloadLocation: location,
+        actualBytes: 0,
+        totalBytes: 0,
+      ),
     );
     ref.watch(downloadListProvider.notifier).refresh();
     await Dio().download(fileurl, location + filename,

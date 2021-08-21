@@ -299,42 +299,36 @@ class _DownloadDialogState extends State<DownloadDialog> {
   @override
   Widget build(BuildContext context) {
     final checkmap = useState<Map<String, String>>({});
+    final downloadItems = DownloadItem.fromItems(widget.response);
 
     return CustomDialogBox(
-      versions: List.generate(
-          widget.response.length, (index) => widget.response[index]['name']),
-      dates: List.generate(widget.response.length,
-          (index) => widget.response[index]['created_at']),
+      downloadItems: downloadItems,
       onVersionChange: (version) {
         checkmap.value = {};
       },
       items: (index) {
-        Map i = widget.response[index];
-        var g = (i['assets'] as List)
-            .where((element) =>
-                element['name'].toLowerCase().endsWith('.appimage'))
-            .toList();
-        return List.generate(g.length, (idx) {
-          var checkedValue = useState(
-              checkmap.value.containsKey(g[idx]['browser_download_url']));
+        var releaseItems = downloadItems[index].items;
+        return List.generate(releaseItems.length, (idx) {
+          var checkedValue =
+              useState(checkmap.value.containsKey(releaseItems[idx].url));
           checkmap.addListener(() {
             checkedValue.value =
-                checkmap.value.containsKey(g[idx]['browser_download_url']);
+                checkmap.value.containsKey(releaseItems[idx].url);
           });
           return CheckboxListTile(
-            title: Text(g[idx]['name']),
-            subtitle: Text((g[idx]['size'] as int).getFileSize()),
+            title: Text(releaseItems[idx].name),
+            subtitle: Text(releaseItems[idx].size.getFileSize()),
             value: checkedValue.value,
             onChanged: (newValue) {
-              if (checkmap.value.containsKey(g[idx]['browser_download_url'])) {
-                checkmap.value.removeWhere(
-                    (key, value) => key == g[idx]['browser_download_url']);
+              if (checkmap.value.containsKey(releaseItems[idx].url)) {
+                checkmap.value
+                    .removeWhere((key, value) => key == releaseItems[idx].url);
               } else {
                 checkmap.value.putIfAbsent(
-                    g[idx]['browser_download_url'], () => g[idx]['name']);
+                    releaseItems[idx].url, () => releaseItems[idx].name);
               }
               checkedValue.value =
-                  checkmap.value.containsKey(g[idx]['browser_download_url']);
+                  checkmap.value.containsKey(releaseItems[idx].url);
             },
           );
         });
