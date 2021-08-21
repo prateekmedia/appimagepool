@@ -4,7 +4,7 @@
 <a href="https://github.com/prateekmedia/appimagepool/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
 </p>
 
-<p align="center">A simple, modern AppImageHub Client made for linux using flutter.</p>
+<p align="center"><b>A simple, modern AppImageHub Client made for linux using flutter.</b></p>
 
 <p align="center"><img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/home.jpg" alt="Screenshot 1"/> <img width=600  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/app.jpg" alt="Screenshot 2"/> <img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/search.jpg" alt="Screenshot 3"/>  <img  width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/category.jpg" alt="Screenshot 4"/></p>
 
@@ -34,8 +34,8 @@
 
 ```
 # Download dependencies and Enable Linux support
-$ flutter pub get; flutter config --enable-linux-desktop
+flutter pub get; flutter config --enable-linux-desktop
 
 # For Direct Testing
-$ flutter run -v -d linux
+flutter run -v -d linux
 ```
