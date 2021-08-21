@@ -1,6 +1,11 @@
 name: FlutterAppImageCI
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    paths-ignore:
+      - "README.md"
+      - "docs/**"
+  workflow_dispatch:
 
 jobs:
   build-appimage:
@@ -9,32 +14,25 @@ jobs:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@master
         with:
-          channel: dev
+          channel: beta
       - name: Install dependencies
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev libblkid-dev
+          sudo apt-get install -y ninja-build libgtk-3-dev libblkid-dev curl
+      - name: Download appimagetool
+        run: |
+          curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
       - name: Flutter setup
         run: |
           flutter config --enable-linux-desktop
       - name: Build Flutter app
         run: flutter build linux
-      - name: Download appimagetool
-        uses: wei/wget@v1
-        with:
-          args: -O appimagetool-x86_64.AppImage https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
       - name: Build AppImage
         run: ./create_appimage.sh
-      - uses: dev-drprasad/delete-tag-and-release@v0.2.0
-        with:
-          delete_release: true
-          tag_name: "main"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: svenstaro/upload-release-action@master
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: appimagepool-x86_64.AppImage
           tag: ${{ github.ref }}-nightly
+          body: Always up to date
           overwrite: true
-          body: ${{ github.sha }}
