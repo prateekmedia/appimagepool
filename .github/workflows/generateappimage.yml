@@ -22,11 +22,8 @@ jobs:
       - name: Download appimagetool
         run: |
           curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
-      - name: Flutter setup
-        run: |
-          flutter config --enable-linux-desktop
-      - name: Build Flutter app
-        run: flutter build linux
+      - name: Build Flutter app using cargo
+        run: cargo build --release
       - name: Build AppImage
         run: ./create_appimage.sh
       - uses: svenstaro/upload-release-action@master

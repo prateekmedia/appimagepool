@@ -1,7 +1,7 @@
 #!/bin/sh
 
 sudo chmod +x appimagetool-x86_64.AppImage
-cp -r build/linux/x64/release/bundle/* AppDir
+cp -r target/release/build/* AppDir
 mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps/
 cp assets/appimagepool.png AppDir/usr/share/icons/hicolor/256x256/apps/
 cp assets/appimagepool.png AppDir/appimagepool.png

@@ -45,7 +45,6 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
   refresh() => state = state;
 
   addDownload({required String url, required String name}) async {
-    final List<QueryApp> listDownloads = ref.read(downloadListProvider);
     var location = ref.watch(downloadPathProvider);
     if (!Directory(location).existsSync()) {
       try {
@@ -57,7 +56,7 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
     }
     ref.watch(isDownloadingProvider.notifier).increment();
     final CancelToken cancelToken = CancelToken();
-    listDownloads.insert(
+    state.insert(
       0,
       QueryApp(
         name: name,
@@ -71,8 +70,10 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
     ref.read(downloadListProvider.notifier).refresh();
     await Dio().download(url, location + name,
         onReceiveProgress: (recieved, total) {
-      var item = listDownloads[
-          listDownloads.indexWhere((element) => element.name == name)];
+      var item = state[state.indexWhere(
+        (element) =>
+            (element.name == name) && (element.downloadLocation == location),
+      )];
       item.actualBytes = recieved;
       item.totalBytes = total;
       ref.read(downloadListProvider.notifier).refresh();
