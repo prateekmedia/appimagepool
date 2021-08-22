@@ -1,4 +1,4 @@
-import 'package:appimagepool/utils/utils.dart';
+import '../utils/utils.dart';
 
 class App {
   final String name;

@@ -29,6 +29,7 @@ AppDir
 .pub-cache/
 .pub/
 build/
+target/
 .metadata
 
 # Android related

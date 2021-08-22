@@ -1,10 +1,11 @@
-import 'package:appimagepool/models/models.dart';
-import 'package:appimagepool/screens/screens.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../utils/utils.dart';
+import '../models/models.dart';
+import '../screens/screens.dart';
 
 class GridOfApps extends StatelessWidget {
   final List itemList;

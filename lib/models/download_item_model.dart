@@ -1,4 +1,4 @@
-import 'package:appimagepool/models/models.dart';
+import './models.dart';
 
 class DownloadItem {
   final DateTime date;

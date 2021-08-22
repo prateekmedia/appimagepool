@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:appimagepool/widgets/customdialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simple_html_css/simple_html_css.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../utils/utils.dart';
 import '../models/models.dart';
 import '../widgets/widgets.dart';
@@ -132,18 +132,16 @@ class AppPage extends HookConsumerWidget {
                                             }
                                             if (response.isNotEmpty) {
                                               await showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          DownloadDialog(
-                                                              response,
-                                                              appIcon,
-                                                              (checkmap) =>
-                                                                  downloadApp(
-                                                                    checkmap,
-                                                                    ref,
-                                                                    url,
-                                                                  )));
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        DownloadDialog(
+                                                  response,
+                                                  appIcon,
+                                                  (checkmap) => downloadApp(
+                                                      checkmap, ref),
+                                                ),
+                                              );
                                             } else {
                                               url.launchIt();
                                             }

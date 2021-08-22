@@ -1,14 +1,15 @@
-import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:gtk/gtk.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:appimagepool/widgets/widgets.dart';
-import 'package:appimagepool/providers/providers.dart';
-import 'package:appimagepool/utils/utils.dart';
+
+import './widgets.dart';
+import '../utils/utils.dart';
+import '../providers/providers.dart';
 
 Widget prefsDialog(BuildContext context) {
   return const RoundedDialog(
@@ -31,7 +32,7 @@ class PrefsWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final isBrowserActive = useState<bool>(false);
-    final path = useState<String>("Applications");
+    final path = ref.watch(downloadPathProvider);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -108,9 +109,9 @@ class PrefsWidget extends HookConsumerWidget {
                     children: [
                       const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
                       const SizedBox(width: 6),
-                      SelectableText(path.value.contains('Applications')
+                      SelectableText(path.contains('Applications')
                           ? 'Applications'
-                          : path.value),
+                          : path),
                     ],
                   ),
                 ),
@@ -129,7 +130,8 @@ class PrefsWidget extends HookConsumerWidget {
                       var dirPath = await FilePicker.platform.getDirectoryPath(
                           dialogTitle: 'Choose Download Folder');
                       isBrowserActive.value = false;
-                      path.value = dirPath ?? path.value;
+                      ref.watch(downloadPathProvider.notifier).update =
+                          dirPath ?? path;
                     }
                   : null,
               child: Text(

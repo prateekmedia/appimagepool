@@ -1,15 +1,14 @@
 import 'dart:io';
 
-import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:appimagepool/models/models.dart';
-import 'package:appimagepool/providers/providers.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:gtk/gtk.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:process_run/shell.dart';
+import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../utils/utils.dart';
+import '../models/models.dart';
+import '../providers/providers.dart';
 
 class DownloadButton extends HookConsumerWidget {
   const DownloadButton({
@@ -43,7 +42,7 @@ class DownloadButton extends HookConsumerWidget {
                         File(i.downloadLocation + i.name).deleteSync();
                       }
                       if (listDownloads.length == 1) context.back();
-                      await Future.delayed(const Duration(milliseconds: 200));
+                      await Future.delayed(const Duration(milliseconds: 155));
                       listDownloads.removeAt(index);
                       ref.watch(downloadListProvider.notifier).refresh();
                     }
@@ -57,6 +56,8 @@ class DownloadButton extends HookConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                             style: context.textTheme.bodyText1,
                           ),
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
                           subtitle: Text(
                             i.cancelToken.isCancelled
                                 ? "Cancelled"
@@ -89,15 +90,9 @@ class DownloadButton extends HookConsumerWidget {
                           ),
                           onTap: (i.actualBytes == i.totalBytes &&
                                   i.totalBytes != 0)
-                              ? () async {
-                                  var location = "/" +
-                                      (await getApplicationDocumentsDirectory())
-                                          .toString()
-                                          .split('/')
-                                          .toList()
-                                          .sublist(1, 3)
-                                          .join("/") +
-                                      "/Applications/";
+                              ? () {
+                                  var location =
+                                      ref.watch(downloadPathProvider);
 
                                   var shell = Shell().cd(location);
                                   shell.run('./' + i.name);
@@ -118,48 +113,12 @@ class DownloadButton extends HookConsumerWidget {
   }
 }
 
-downloadApp(Map<String, String> checkmap, ref, url) async {
-  final List<QueryApp> listDownloads = ref.watch(downloadListProvider);
-  var location = "/" +
-      (await getApplicationDocumentsDirectory())
-          .toString()
-          .split('/')
-          .toList()
-          .sublist(1, 3)
-          .join("/") +
-      "/Applications/";
-  if (!Directory(location).existsSync()) {
-    Directory(location).createSync();
-  }
+downloadApp(Map<String, String> checkmap, WidgetRef ref) async {
   if (checkmap.isNotEmpty) {
-    var fileurl = checkmap.keys.toList()[0];
-    String filename = checkmap.values.toList()[0];
-    ref.watch(isDownloadingProvider.notifier).increment();
-    CancelToken cancelToken = CancelToken();
-    listDownloads.insert(
-      0,
-      QueryApp(
-        name: filename,
-        url: url,
-        cancelToken: cancelToken,
-        downloadLocation: location,
-        actualBytes: 0,
-        totalBytes: 0,
-      ),
-    );
-    ref.watch(downloadListProvider.notifier).refresh();
-    await Dio().download(fileurl, location + filename,
-        onReceiveProgress: (recieved, total) {
-      var item = listDownloads[
-          listDownloads.indexWhere((element) => element.name == filename)];
-      item.actualBytes = recieved;
-      item.totalBytes = total;
-      ref.watch(downloadListProvider.notifier).refresh();
-    }, cancelToken: cancelToken).whenComplete(() {
-      ref.watch(isDownloadingProvider.notifier).decrement();
-
-      var shell = Shell().cd(location);
-      shell.run('chmod +x ' + filename);
-    });
+    var fileUrl = checkmap.keys.toList()[0];
+    String fileName = checkmap.values.toList()[0];
+    ref
+        .watch(downloadListProvider.notifier)
+        .addDownload(url: fileUrl, name: fileName);
   }
 }

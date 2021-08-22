@@ -2,21 +2,23 @@ import 'dart:ui';
 import 'dart:math';
 import 'dart:convert';
 
-import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:appimagepool/widgets/grid_of_apps.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:gtk/gtk.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gtk/gtk.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nativeshell/nativeshell.dart';
+import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'models/models.dart';
 import 'screens/screens.dart';
 import 'utils/utils.dart';
@@ -24,21 +26,28 @@ import 'widgets/widgets.dart';
 
 void main() {
   runApp(
-    const ProviderScope(child: MyApp()),
+    ProviderScope(child: WindowWidget(
+      onCreateState: (initData) {
+        WindowState? state;
+        state ??= MyApp();
+        return state;
+      },
+    )),
   );
-  doWhenWindowReady(() {
-    final win = appWindow;
-    // win.size = const Size(1280, 720);
-    // win.alignment = Alignment.center;
-    win.title = "Pool";
-    win.show();
-  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({
-    Key? key,
-  }) : super(key: key);
+class MyApp extends WindowState {
+  @override
+  WindowSizingMode get windowSizingMode => WindowSizingMode.manual;
+
+  @override
+  Future<void> initializeWindow(Size contentSize) async {
+    this.window.setStyle(WindowStyle(
+          frame: WindowFrame.noTitle,
+        ));
+    this.window.setTitle('Pool');
+    return super.initializeWindow(const Size(1280, 720));
+  }
 
   @override
   Widget build(BuildContext context) {
