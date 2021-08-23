@@ -29,7 +29,7 @@
 
 ### Build from source
 
-- Download latest Flutter SDK (>=2.5.0 / dev version)
+- Download latest Flutter SDK (>=2.5.0 / beta version)
 - Clone this repo and then 
 
 ```
@@ -37,5 +37,5 @@
 flutter pub get; flutter config --enable-linux-desktop
 
 # For Direct Testing
-flutter run -v -d linux
+cargo run
 ```
