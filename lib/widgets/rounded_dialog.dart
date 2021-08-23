@@ -28,8 +28,9 @@ class RoundedDialog extends HookConsumerWidget {
           width: width,
           child: Column(
             children: [
-              GtkHeaderBar.nativeshell(
-                window: Window.of(context),
+              GtkHeaderBar(
+                onHeaderDrag: Window.of(context).performDrag,
+                onDoubleTap: null,
                 themeType: ref.watch(themeTypeProvider),
                 onClose: context.back,
               ),

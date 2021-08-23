@@ -308,7 +308,10 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           GtkSidebarItem(
                                             label: "Explore",
-                                            leadingIcon: AdwaitaIcons.explore2,
+                                            leading: const AdwaitaIcon(
+                                              AdwaitaIcons.explore2,
+                                              size: 19,
+                                            ),
                                           ),
                                           for (var category in categories!
                                               .entries
@@ -317,12 +320,14 @@ class _HomePageState extends State<HomePage> {
                                               .entries)
                                             GtkSidebarItem(
                                               label: category.value.key,
-                                              leadingIcon:
-                                                  categoryIcons.containsKey(
-                                                          category.value.key)
-                                                      ? categoryIcons[
-                                                          category.value.key]!
-                                                      : AdwaitaIcons.question,
+                                              leading: AdwaitaIcon(
+                                                categoryIcons.containsKey(
+                                                        category.value.key)
+                                                    ? categoryIcons[
+                                                        category.value.key]!
+                                                    : AdwaitaIcons.question,
+                                                size: 19,
+                                              ),
                                             ),
                                         ],
                                       ),

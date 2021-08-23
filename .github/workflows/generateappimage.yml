@@ -23,7 +23,9 @@ jobs:
         run: |
           curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
       - name: Build Flutter app using cargo
-        run: cargo build --release
+        run: |
+          flutter pub get
+          cargo build --release
       - name: Build AppImage
         run: ./create_appimage.sh
       - uses: svenstaro/upload-release-action@master

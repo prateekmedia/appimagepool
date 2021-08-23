@@ -31,10 +31,10 @@ class PoolApp extends HookConsumerWidget {
       children: [
         GtkHeaderBar.nativeshell(
           padding: const EdgeInsets.only(right: 7),
+          titlebarSpace: 0,
           window: Window.of(context),
-          onClose: Window.of(context).close,
-          onMinimize: context.width >= mobileWidth ? () {} : null,
-          onMaximize: context.width >= mobileWidth ? () {} : null,
+          showMinimize: context.width >= mobileWidth,
+          showMaximize: context.width >= mobileWidth,
           leading: Row(children: [
             if (showBackButton)
               Hero(

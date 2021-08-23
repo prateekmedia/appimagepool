@@ -2,7 +2,7 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   adwaita_icons:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: adwaita_icons
       url: "https://pub.dartlang.org"
@@ -239,7 +239,7 @@ packages:
       name: gtk
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0+1"
+    version: "0.5.5"
   hooks_riverpod:
     dependency: "direct main"
     description:

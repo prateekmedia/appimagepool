@@ -27,9 +27,12 @@ class DownloadButton extends HookConsumerWidget {
           type: MaterialType.transparency,
           child: GtkPopupMenu(
             popupWidth: 400,
-            icon: downloading > 0
-                ? AdwaitaIcons.folder_download
-                : AdwaitaIcons.emblem_default,
+            icon: AdwaitaIcon(
+              downloading > 0
+                  ? AdwaitaIcons.folder_download
+                  : AdwaitaIcons.emblem_default,
+              size: 17,
+            ),
             body: Consumer(
               builder: (ctx, ref, child) {
                 List<QueryApp> listDownloads = ref.watch(downloadListProvider);
