@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:process_run/shell.dart';
@@ -81,11 +82,21 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
       item.actualBytes = recieved;
       item.totalBytes = total;
       ref.read(downloadListProvider.notifier).refresh();
-    }, cancelToken: cancelToken).whenComplete(() {
+    }, cancelToken: cancelToken).whenComplete(() async {
       ref.read(isDownloadingProvider.notifier).decrement();
+      if (!cancelToken.isCancelled) {
+        var client = NotificationsClient();
+        await client.notify(
+          "Download Complete!",
+          body: name + " has been downloaded succesfully.",
+          appName: "AppImage Pool",
+          appIcon: "success",
+        );
+        await client.close();
 
-      var shell = Shell().cd(location);
-      shell.run('chmod +x ' + name);
+        var shell = Shell().cd(location);
+        shell.run('chmod +x ' + name);
+      }
     });
   }
 }

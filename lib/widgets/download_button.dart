@@ -88,7 +88,7 @@ class DownloadButton extends HookConsumerWidget {
                                 ? AdwaitaIcons.list_remove
                                 : (i.actualBytes != i.totalBytes ||
                                         i.actualBytes == 0)
-                                    ? AdwaitaIcons.edit_delete
+                                    ? AdwaitaIcons.window_close
                                     : AdwaitaIcons.user_trash),
                           ),
                           onTap: (i.actualBytes == i.totalBytes &&
