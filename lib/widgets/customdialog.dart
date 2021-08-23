@@ -7,12 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../utils/utils.dart';
 import '../models/models.dart';
 
-class Constants {
-  Constants._();
-  static const double padding = 20;
-  static const double avatarRadius = 45;
-}
-
 class CustomDialogBox extends HookConsumerWidget {
   final Widget img, endText;
   final List<Widget> Function(int index) items;
@@ -30,28 +24,28 @@ class CustomDialogBox extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    const double padding = 20;
+    const double avatarRadius = 45;
+
     final selectedIndex = useState(0);
     List<Widget> currentItem = items(selectedIndex.value);
+
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Constants.padding),
-      ),
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(padding)),
       elevation: 0,
       backgroundColor: Colors.transparent,
       child: Stack(
-        children: <Widget>[
+        children: [
           Container(
             constraints: const BoxConstraints(maxWidth: 700),
             padding: const EdgeInsets.only(
-                left: Constants.padding,
-                top: Constants.avatarRadius + Constants.padding,
-                right: Constants.padding,
-                bottom: Constants.padding),
-            margin: const EdgeInsets.only(top: Constants.avatarRadius),
+                left: padding, top: padding, right: padding, bottom: padding),
+            margin: const EdgeInsets.only(top: avatarRadius),
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: context.isDark ? Colors.grey[800] : Colors.grey[300],
-                borderRadius: BorderRadius.circular(Constants.padding),
+                borderRadius: BorderRadius.circular(padding),
                 boxShadow: [
                   BoxShadow(
                       color: context.isDark
@@ -114,21 +108,18 @@ class CustomDialogBox extends HookConsumerWidget {
                 else
                   const Text("No AppImage Found in this Release"),
                 const SizedBox(height: 22),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: endText,
-                ),
+                endText,
               ],
             ),
           ),
           Positioned(
-            left: Constants.padding,
-            right: Constants.padding,
+            left: padding,
+            right: padding,
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
-              radius: Constants.avatarRadius,
+              radius: avatarRadius,
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(Constants.avatarRadius),
+                  borderRadius: BorderRadius.circular(avatarRadius),
                   child: img),
             ),
           ),

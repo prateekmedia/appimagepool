@@ -24,7 +24,9 @@ import 'screens/screens.dart';
 import 'utils/utils.dart';
 import 'widgets/widgets.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MyPrefs().init();
   runApp(
     ProviderScope(child: WindowWidget(
       onCreateState: (initData) {
@@ -42,9 +44,7 @@ class MyApp extends WindowState {
 
   @override
   Future<void> initializeWindow(Size contentSize) async {
-    this.window.setStyle(WindowStyle(
-          frame: WindowFrame.noTitle,
-        ));
+    this.window.setStyle(WindowStyle(frame: WindowFrame.noTitle));
     this.window.setTitle('Pool');
     return super.initializeWindow(const Size(1280, 720));
   }

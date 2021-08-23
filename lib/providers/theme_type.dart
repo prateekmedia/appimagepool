@@ -1,9 +1,15 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
+import '../utils/utils.dart';
 
 final themeTypeProvider =
     StateNotifierProvider<ThemeTypeNotifier, ThemeType>((ref) {
-  return ThemeTypeNotifier(ThemeType.auto);
+  return ThemeTypeNotifier(
+    MyPrefs().prefs.getInt('themeType') != null
+        ? ThemeType.values.firstWhere(
+            (element) => element.index == MyPrefs().prefs.getInt('themeType'))
+        : ThemeType.auto,
+  );
 });
 
 class ThemeTypeNotifier extends StateNotifier<ThemeType> {
@@ -11,5 +17,6 @@ class ThemeTypeNotifier extends StateNotifier<ThemeType> {
 
   set(ThemeType value) {
     state = value;
+    MyPrefs().prefs.setInt('themeType', state.index);
   }
 }

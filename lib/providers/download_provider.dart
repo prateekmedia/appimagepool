@@ -6,19 +6,23 @@ import 'package:process_run/shell.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
+import '../utils/utils.dart';
 
 import '../models/models.dart';
 
 final downloadPathProvider =
     StateNotifierProvider<DownloadPathNotifier, String>((ref) {
-  return DownloadPathNotifier(
+  return DownloadPathNotifier(MyPrefs().prefs.getString('path') ??
       xdg.configHome.path.replaceAll('.config', 'Applications/'));
 });
 
 class DownloadPathNotifier extends StateNotifier<String> {
   DownloadPathNotifier(state) : super(state);
 
-  set update(String value) => state = value.endsWith('/') ? value : value + '/';
+  set update(String value) {
+    state = value.endsWith('/') ? value : value + '/';
+    MyPrefs().prefs.setString('path', state);
+  }
 }
 
 final isDownloadingProvider =

@@ -38,18 +38,19 @@ class AppPage extends HookConsumerWidget {
         : context.width > 400
             ? 60
             : 50;
-    Widget appIcon = app.iconUrl != null
+    Widget appIcon([double? size]) => app.iconUrl != null
         ? (!app.iconUrl!.endsWith('.svg'))
             ? CachedNetworkImage(
                 imageUrl: app.iconUrl!,
                 fit: BoxFit.cover,
+                width: size,
                 placeholder: (c, b) => Center(
                   child:
                       SpinKitRipple(color: context.textTheme.bodyText1!.color),
                 ),
                 errorWidget: (c, w, i) => brokenImageWidget,
               )
-            : SvgPicture.network(app.iconUrl!)
+            : SvgPicture.network(app.iconUrl!, width: size)
         : brokenImageWidget;
     final _current = useState<int>(0);
 
@@ -88,7 +89,7 @@ class AppPage extends HookConsumerWidget {
                               child: SizedBox(
                                   width: iconSize,
                                   height: iconSize,
-                                  child: appIcon),
+                                  child: appIcon()),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -137,7 +138,7 @@ class AppPage extends HookConsumerWidget {
                                                     (BuildContext context) =>
                                                         DownloadDialog(
                                                   response,
-                                                  appIcon,
+                                                  appIcon(50),
                                                   (checkmap) => downloadApp(
                                                       checkmap, ref),
                                                 ),
