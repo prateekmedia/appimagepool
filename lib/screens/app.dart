@@ -325,22 +325,22 @@ class _DownloadDialogState extends State<DownloadDialog> {
                 checkmap.value.putIfAbsent(
                     releaseItems[idx].url, () => releaseItems[idx].name);
               }
-              checkedValue.value =
-                  checkmap.value.containsKey(releaseItems[idx].url);
+              // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+              checkmap.notifyListeners();
             },
           );
         });
       },
       endText: TextButton(
           onPressed: () async {
-            if (widget.onEndPressed != null) {
+            if (widget.onEndPressed != null && checkmap.value.isNotEmpty) {
               widget.onEndPressed!(checkmap.value);
             }
             Navigator.of(context).pop();
           },
-          child: const Text(
-            "Download",
-            style: TextStyle(fontSize: 18),
+          child: Text(
+            checkmap.value.isNotEmpty ? "Download" : "Close",
+            style: const TextStyle(fontSize: 18),
           )),
       img: widget.appIcon,
     );

@@ -116,12 +116,10 @@ class DownloadButton extends HookConsumerWidget {
   }
 }
 
-downloadApp(Map<String, String> checkmap, WidgetRef ref) async {
-  if (checkmap.isNotEmpty) {
-    var fileUrl = checkmap.keys.toList()[0];
-    String fileName = checkmap.values.toList()[0];
+downloadApp(Map<String, String> checkmap, WidgetRef ref) {
+  for (var item in checkmap.entries) {
     ref
         .watch(downloadListProvider.notifier)
-        .addDownload(url: fileUrl, name: fileName);
+        .addDownload(url: item.key, name: item.value);
   }
 }

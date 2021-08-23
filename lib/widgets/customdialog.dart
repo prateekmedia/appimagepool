@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:window_decorations/window_decorations.dart';
 
 import '../utils/utils.dart';
 import '../models/models.dart';
-import '../providers/providers.dart';
 
 class Constants {
   Constants._();
@@ -132,14 +130,6 @@ class CustomDialogBox extends HookConsumerWidget {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(Constants.avatarRadius),
                   child: img),
-            ),
-          ),
-          Positioned(
-            right: 0,
-            top: Constants.avatarRadius,
-            child: DecoratedCloseButton(
-              onPressed: context.back,
-              type: ref.watch(themeTypeProvider),
             ),
           ),
         ],
