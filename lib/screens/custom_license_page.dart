@@ -58,9 +58,8 @@ class CustomLicensePage extends HookWidget {
                 }
 
                 return GtkTwoPane(
-                  showPane2: context.width < 800 && _selected.value == null
-                      ? false
-                      : true,
+                  showPane2:
+                      !(context.width < mobileWidth && _selected.value == null),
                   onClosePane2Popup: _clearSelected,
                   fullPane2Builder: (pane2Name, pane2) => PoolApp(
                     title: pane2Name,
@@ -68,20 +67,26 @@ class CustomLicensePage extends HookWidget {
                     onBackPressed: () => _selectValue(null, "Licenses"),
                     body: pane2,
                   ),
+                  panelWidth: 265,
                   pane2Name: _selected.value != null
                       ? packages[_selected.value!].name
                       : null,
-                  pane1: GtkSidebar(
+                  pane1: GtkSidebar.builder(
+                    controller: ScrollController(),
+                    width: double.infinity,
                     onSelected: (index) =>
                         _selectValue(index, packages[index].name),
                     currentIndex: _selected.value,
                     itemBuilder: (context, index, isSelected) {
                       return GtkSidebarItem(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
                         labelWidget: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               packages[index].name,
+                              overflow: TextOverflow.ellipsis,
                               style: context.textTheme.bodyText1!.copyWith(
                                 color: isSelected ? Colors.white : null,
                               ),

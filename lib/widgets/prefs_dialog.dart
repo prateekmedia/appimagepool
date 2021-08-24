@@ -6,6 +6,7 @@ import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
+import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 import './widgets.dart';
 import '../utils/utils.dart';
@@ -109,7 +110,9 @@ class PrefsWidget extends HookConsumerWidget {
                     children: [
                       const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
                       const SizedBox(width: 6),
-                      SelectableText(path.contains('Applications')
+                      SelectableText(path ==
+                              xdg.configHome.path
+                                  .replaceAll('.config', 'Applications/')
                           ? 'Applications'
                           : path),
                     ],

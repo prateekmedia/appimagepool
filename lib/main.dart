@@ -242,6 +242,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
               trailing: [
+                const DownloadButton(),
                 if (categories != null || featured != null)
                   GtkHeaderButton(
                     isActive: toggleSearch.value,
@@ -251,7 +252,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: switchSearchBar,
                   ),
-                const DownloadButton(),
               ],
               body: !_isConnected
                   ? Column(
@@ -285,55 +285,34 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (context.width >= mobileWidth)
-                              Container(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 250),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    right: BorderSide(
-                                      color: context.isDark
-                                          ? Colors.grey[800]!
-                                          : Colors.grey[400]!,
+                              GtkSidebar(
+                                padding: EdgeInsets.zero,
+                                currentIndex: _navrailIndex.value,
+                                onSelected: (index) =>
+                                    _navrailIndex.value = index,
+                                children: [
+                                  GtkSidebarItem(
+                                    label: "Explore",
+                                    leading: const AdwaitaIcon(
+                                      AdwaitaIcons.explore2,
+                                      size: 17,
                                     ),
                                   ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: GtkSidebar(
-                                        padding: EdgeInsets.zero,
-                                        currentIndex: _navrailIndex.value,
-                                        onSelected: (index) =>
-                                            _navrailIndex.value = index,
-                                        children: [
-                                          GtkSidebarItem(
-                                            label: "Explore",
-                                            leading: const AdwaitaIcon(
-                                              AdwaitaIcons.explore2,
-                                              size: 19,
-                                            ),
-                                          ),
-                                          for (var category in categories!
-                                              .entries
-                                              .toList()
-                                              .asMap()
-                                              .entries)
-                                            GtkSidebarItem(
-                                              label: category.value.key,
-                                              leading: AdwaitaIcon(
-                                                categoryIcons.containsKey(
-                                                        category.value.key)
-                                                    ? categoryIcons[
-                                                        category.value.key]!
-                                                    : AdwaitaIcons.question,
-                                                size: 19,
-                                              ),
-                                            ),
-                                        ],
+                                  for (var category in categories!.entries
+                                      .toList()
+                                      .asMap()
+                                      .entries)
+                                    GtkSidebarItem(
+                                      label: category.value.key,
+                                      leading: AdwaitaIcon(
+                                        categoryIcons
+                                                .containsKey(category.value.key)
+                                            ? categoryIcons[category.value.key]!
+                                            : AdwaitaIcons.question,
+                                        size: 19,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                ],
                               ),
                             Expanded(
                               child: Column(
