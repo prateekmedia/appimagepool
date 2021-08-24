@@ -2,10 +2,15 @@ name: FlutterAppImageCI
 
 on:
   push:
+    branches:
+      - main
+      - dev
     paths-ignore:
       - "README.md"
       - "docs/**"
   workflow_dispatch:
+  release:
+    types: created
 
 jobs:
   build-appimage:
@@ -27,9 +32,18 @@ jobs:
       - name: Build AppImage
         run: ./create_appimage.sh
       - uses: svenstaro/upload-release-action@master
+        if: github.event_name != 'release'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: appimagepool-x86_64.AppImage
-          tag: ${{ github.ref }}-nightly
+          tag: ${{github.ref}}-nightly
+          body: Always up to date
+          overwrite: true
+      - uses: svenstaro/upload-release-action@master
+        if: github.event_name == 'release'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: appimagepool-x86_64.AppImage
+          tag: ${{github.ref}}
           body: Always up to date
           overwrite: true
