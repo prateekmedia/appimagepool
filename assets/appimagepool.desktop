@@ -1,10 +1,7 @@
 [Desktop Entry]
-Version=1.0
 Type=Application
 Name=AppImage Pool
-Exec=appimagepool
-Icon=appimagepool
-StartupNotify=false
-Terminal=false
-StartupWMClass=appimagepool
+Icon=com.prateekmedia.pool
+Exec=env GDK_GL=gles appimagepool %U
 Categories=Utility;
+Keywords=AppImage;Store;AppImageHub;Flutter;Gtk

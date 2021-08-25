@@ -4,20 +4,20 @@
 <a href="https://github.com/prateekmedia/appimagepool/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
 </p>
 
-<p align="center"><b>A simple, modern AppImageHub Client made for linux using flutter.</b></p>
+<p align="center"><b>
+Simple AppImageHub Client</b></p>
 
 <p align="center"><img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/home.jpg" alt="Screenshot 1"/> <img width=600  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/app.jpg" alt="Screenshot 2"/> <img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/search.jpg" alt="Screenshot 3"/>  <img  width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/category.jpg" alt="Screenshot 4"/></p>
 
 ---
 
-## FEATURES
-- [x] Simplified Categories
-- [x] Easy to search and navigate
-- [x] Light and Dark Mode
-- [x] Download from github directly
-- [x] Upgrade and Downgrade appimages easily
-- [x] Mobile Linux Support
-- [x] Version History
+## Top Feautres
+- FLOSS and non profit app
+- Simple categories
+- Download from github directly, no extra-server involved
+- Upgrade and Downgrade appimages easily
+- Version History and multi dowload support
+- Fast downloader
 
 **Note** : Some features are not implemented yet.
 
