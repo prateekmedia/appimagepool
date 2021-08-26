@@ -23,7 +23,7 @@ class App {
 
   static App fromItem(item) {
     return App(
-      name: item['name'] ?? "N.A.",
+      name: item['name'].replaceAll('_', ' ').replaceAll('-', ' ') ?? "N.A.",
       description: item['description'],
       iconUrl: item['icons'] != null
           ? item['icons'][0].startsWith('http')

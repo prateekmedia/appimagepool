@@ -19,6 +19,7 @@ AppDir
 *.ipr
 *.iws
 .idea/
+com.prateekmedia*
 
 # Flutter/Dart/Pub related
 **/doc/api/

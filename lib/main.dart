@@ -20,6 +20,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'models/models.dart';
+import 'providers/providers.dart';
 import 'screens/screens.dart';
 import 'utils/utils.dart';
 import 'widgets/widgets.dart';
@@ -190,6 +191,29 @@ class _HomePageState extends State<HomePage> {
             child: PoolApp(
               title: 'Pool',
               leading: [
+                if (categories != null || featured != null)
+                  GtkHeaderButton(
+                    isActive: toggleSearch.value,
+                    icon: const AdwaitaIcon(
+                      AdwaitaIcons.system_search,
+                      size: 17,
+                    ),
+                    onPressed: switchSearchBar,
+                  ),
+              ],
+              trailing: [
+                const DownloadButton(),
+                GtkHeaderButton(
+                  icon: AdwaitaIcon(
+                    ref.watch(viewTypeProvider) == 0
+                        ? AdwaitaIcons.view_grid
+                        : AdwaitaIcons.view_list_bullet,
+                    size: 17,
+                  ),
+                  onPressed: (categories != null || featured != null)
+                      ? ref.watch(viewTypeProvider.notifier).update
+                      : null,
+                ),
                 GtkPopupMenu(
                   body: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -240,18 +264,6 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-              ],
-              trailing: [
-                const DownloadButton(),
-                if (categories != null || featured != null)
-                  GtkHeaderButton(
-                    isActive: toggleSearch.value,
-                    icon: const AdwaitaIcon(
-                      AdwaitaIcons.system_search,
-                      size: 17,
-                    ),
-                    onPressed: switchSearchBar,
-                  ),
               ],
               body: !_isConnected
                   ? Column(
@@ -653,7 +665,7 @@ class _HomePageState extends State<HomePage> {
                                                                         horizontal:
                                                                             20,
                                                                         vertical:
-                                                                            16),
+                                                                            4),
                                                                     child: Row(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment

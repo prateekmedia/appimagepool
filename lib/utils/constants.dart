@@ -19,7 +19,7 @@ TextStyle linkStyle(BuildContext context, [bool showUnderline = true]) =>
       decoration: showUnderline ? TextDecoration.underline : null,
     );
 
-const mobileWidth = 700;
+const mobileWidth = 800;
 
 Widget brokenImageWidget = const AdwaitaIcon(AdwaitaIcons.question);
 const Map<String, String> categoryIcons = {

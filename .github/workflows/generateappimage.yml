@@ -53,11 +53,12 @@ jobs:
           files: |
             ./AppDir
           outPath: appimagepool-x86_64.tar.gz
+      - run: ls
       - uses: svenstaro/upload-release-action@master
         if: github.event_name == 'release'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: appimagepool-x86_64*
+          file: ./appimagepool-x86_64*
           file_glob: true
           tag: ${{github.ref}}
           body: Always up to date

@@ -18,7 +18,7 @@ dependencies:
   file_picker: ^4.0.0
   flutter_spinkit: ^5.0.0
   flutter_svg: ^0.22.0
-  gtk: ^0.6.0
+  gtk: ^0.7.0+1
   hooks_riverpod: ^1.0.0-dev.7
   intl: ^0.17.0
   nativeshell: ^0.1.9
