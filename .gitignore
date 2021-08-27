@@ -13,6 +13,7 @@
 **hide**
 **.AppImage
 AppDir
+.flatpak
 
 # IntelliJ related
 *.iml

@@ -50,10 +50,8 @@ jobs:
         id: compress
         with:
           command: c
-          files: |
-            ./AppDir
+          files: ./AppDir
           outPath: appimagepool-x86_64.tar.gz
-      - run: ls
       - uses: svenstaro/upload-release-action@master
         if: github.event_name == 'release'
         with:
