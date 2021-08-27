@@ -7,11 +7,11 @@
 <p align="center"><b>
 Simple AppImageHub Client</b></p>
 
-<p align="center"><img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/home.jpg" alt="Screenshot 1"/> <img width=600  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/app.jpg" alt="Screenshot 2"/> <img width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/search.jpg" alt="Screenshot 3"/>  <img  width=600 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/category.jpg" alt="Screenshot 4"/></p>
+<p align="center"><img width=400 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/home.jpg" alt="Screenshot 1"/> <img width=400  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/app.jpg" alt="Screenshot 2"/> <img width=400 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/search.jpg" alt="Screenshot 3"/>  <img  width=400 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/category.jpg" alt="Screenshot 4"/></p>
 
 ---
 
-## Top Feautres
+## Top Features
 - FLOSS and non profit app
 - Simple categories
 - Download from github directly, no extra-server involved
@@ -22,8 +22,18 @@ Simple AppImageHub Client</b></p>
 **Note** : Some features are not implemented yet.
 
 
-### Direct AppImage Download 
-<a href="https://github.com/prateekmedia/appimagepool/releases/latest/"><img src="https://img.shields.io/badge/Download from Github-indigo?style=for-the-badge&logo=Github"/></a>
+### Download Links  
+
+<table>
+  <tr>
+    <td>AppImage</td>
+  </tr>
+  <tr>
+    <td>
+      <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a>
+    </td>
+  </tr>
+</table>
 
 ---
 
