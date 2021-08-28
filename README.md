@@ -37,6 +37,9 @@ Simple AppImageHub Client</b></p>
 
 ---
 
+## Supporters
+[![Stargazers repo roster for @prateekmedia/appimagepool](https://reporoster.com/stars/prateekmedia/appimagepool)](https://github.com/prateekmedia/appimagepool/stargazers)
+
 ### Build from source
 
 - Download latest Flutter SDK (>=2.5.0 / beta version)
