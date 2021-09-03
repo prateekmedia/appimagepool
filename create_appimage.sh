@@ -13,16 +13,14 @@ sudo chmod +x AppDir/AppRun
 # Copy all build files to AppDir
 cp -aR target/release/data/ AppDir/data/
 cp -aR target/release/lib/ AppDir/lib/
-cp -R target/release/appimagepool AppDir/appimagepool
+install -Dm777 target/release/appimagepool AppDir/appimagepool
 for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;
 
 ## Add Application metadata
 # Copy app icon
-sudo mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps/
-cp assets/appimagepool.png AppDir/appimagepool.png
-sudo cp AppDir/appimagepool.png AppDir/usr/share/icons/hicolor/256x256/apps/appimagepool.png
 
-sudo mkdir -p AppDir/usr/share/applications
+install -Dm777  assets/appimagepool.png AppDir/appimagepool.png
+sudo install -Dm777 AppDir/appimagepool.png AppDir/usr/share/icons/hicolor/256x256/apps/appimagepool.png
 
 # Either copy .desktop file content from file or with echo command
 # cp assets/appimagepool.desktop AppDir/appimagepool.desktop
@@ -37,8 +35,7 @@ StartupWMClass=appimagepool
 Categories=Utility;
 Keywords=AppImage;Store;AppImageHub;Flutter;Gtk;' > AppDir/appimagepool.desktop
 
-# Also copy the same .desktop file to usr folder
-sudo cp AppDir/appimagepool.desktop AppDir/usr/share/applications/appimagepool.desktop
+sudo install -Dm777 AppDir/appimagepool.desktop AppDir/usr/share/applications/appimagepool.desktop
 
 ## Start build
 test ! -e appimagetool-x86_64.AppImage && curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
