@@ -13,40 +13,52 @@ on:
     types: created
 
 jobs:
-  build-appimage:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@master
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@master
         with:
-          channel: master
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev libblkid-dev curl cmake
-          flutter config --enable-linux-desktop
-      - name: Download appimagetool
-        run: curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
-      - name: Build app using cargo
+          channel: beta
+
+      - name: Install linux app dependencies
+        run: sudo apt-get update -y && sudo apt-get install -y ninja-build libgtk-3-dev
+
+      - name: Enable desktop support
+        run: flutter config --enable-linux-desktop
+
+      - name: Build Flutter app
         run: cargo build --release
+
       - name: Build AppImage
         run: ./create_appimage.sh
-      - uses: svenstaro/upload-release-action@master
+
+      - name: Upload AppImage to release
+        uses: svenstaro/upload-release-action@master
         if: github.event_name != 'release'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: appimagepool-x86_64.AppImage
-          tag: ${{github.ref}}-nightly
+          tag: ${{ github.ref }}-nightly
           body: Always up to date
           overwrite: true
+
       - if: github.event_name == 'release'
         run: |
-          rm -rf ./AppDir/usr/
-          rm -rf ./AppDir/AppRun
-          rm -rf ./AppDir/.DirIcon
+          sudo rm -rf ./AppDir/usr/
+          sudo rm -rf ./AppDir/AppRun
+          sudo rm -rf ./AppDir/.DirIcon
+
       - name: Compress AppDir
         if: github.event_name == 'release'
-        run: cd AppDir; tar -cvf ../appimagepool-x86_64.tar.gz *
+        run: tar -czvf appimagepool-x86_64.tar.gz AppDir/*
+
+      - name: App tar sha256 sum
+        if: github.event_name == 'release'
+        run: sha256sum appimagepool-x86_64.tar.gz
+
       - uses: svenstaro/upload-release-action@master
         if: github.event_name == 'release'
         with:

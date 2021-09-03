@@ -1,19 +1,46 @@
 #!/bin/sh
 
-sudo chmod +x appimagetool-x86_64.AppImage
-mkdir AppDir/data AppDir/lib
-cp -r target/release/data/* AppDir/data/
-cp -r target/release/lib/* AppDir/lib/
-cp target/release/appimagepool AppDir/appimagepool
+# Create Application Directory
+mkdir -p AppDir
+
+# Create AppRun file(required by AppImage)
+echo '#!/bin/sh
+
+cd "$(dirname "$0")"
+exec ./appimagepool' > AppDir/AppRun
+sudo chmod +x AppDir/AppRun
+
+# Copy all build files to AppDir
+cp -aR target/release/data/ AppDir/data/
+cp -aR target/release/lib/ AppDir/lib/
+cp -R target/release/appimagepool AppDir/appimagepool
 for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;
 
-mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps/
-cp assets/appimagepool.png AppDir/usr/share/icons/hicolor/256x256/apps/
+## Add Application metadata
+# Copy app icon
+sudo mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps/
 cp assets/appimagepool.png AppDir/appimagepool.png
+sudo cp AppDir/appimagepool.png AppDir/usr/share/icons/hicolor/256x256/apps/appimagepool.png
 
-mkdir -p AppDir/usr/share/applications
-cp assets/appimagepool.desktop AppDir/usr/share/applications/appimagepool.desktop
-cp assets/appimagepool.desktop AppDir/appimagepool.desktop
+sudo mkdir -p AppDir/usr/share/applications
 
+# Either copy .desktop file content from file or with echo command
+# cp assets/appimagepool.desktop AppDir/appimagepool.desktop
+
+echo '[Desktop Entry]
+Version=1.0
+Type=Application
+Name=AppImage Pool
+Icon=appimagepool
+Exec=appimagepool %u
+StartupWMClass=appimagepool
+Categories=Utility;
+Keywords=AppImage;Store;AppImageHub;Flutter;Gtk;' > AppDir/appimagepool.desktop
+
+# Also copy the same .desktop file to usr folder
+sudo cp AppDir/appimagepool.desktop AppDir/usr/share/applications/appimagepool.desktop
+
+## Start build
+test ! -e appimagetool-x86_64.AppImage && curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
 sudo chmod +x appimagetool-x86_64.AppImage
 ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir/ appimagepool-x86_64.AppImage

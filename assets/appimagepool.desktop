@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=AppImage Pool
-Icon=appimagepool
-Exec=env GDK_GL=gles appimagepool %U
-Categories=Utility;
-Keywords=AppImage;Store;AppImageHub;Flutter;Gtk
