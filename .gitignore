@@ -9,8 +9,9 @@
 .history
 .svn/
 .comments
+.flatpak-builder*
 
-**hide**
+**hid**
 **.AppImage
 AppDir
 .flatpak

@@ -1,4 +1,4 @@
-name: FlutterAppImageCI
+name: FlutterCI
 
 on:
   push:
@@ -46,12 +46,7 @@ jobs:
           rm -rf ./AppDir/.DirIcon
       - name: Compress AppDir
         if: github.event_name == 'release'
-        uses: master-atul/tar-action@master
-        id: compress
-        with:
-          command: c
-          files: ./AppDir
-          outPath: appimagepool-x86_64.tar.gz
+        run: cd AppDir; tar -cvf ../appimagepool-x86_64.tar.gz *
       - uses: svenstaro/upload-release-action@master
         if: github.event_name == 'release'
         with:
