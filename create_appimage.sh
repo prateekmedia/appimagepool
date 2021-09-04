@@ -20,7 +20,7 @@ for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;
 # Copy app icon
 
 install -Dm777  assets/appimagepool.svg AppDir/appimagepool.svg
-sudo install -Dm777 AppDir/appimagepool.svg AppDir/usr/share/icons/hicolor/256x256/apps/appimagepool.svg
+sudo install -Dm777 AppDir/appimagepool.svg AppDir/usr/share/icons/hicolor/128x128/apps/appimagepool.svg
 
 # Either copy .desktop file content from file or with echo command
 # cp assets/appimagepool.desktop AppDir/appimagepool.desktop
