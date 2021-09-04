@@ -53,7 +53,7 @@ jobs:
 
       - name: Compress AppDir
         if: github.event_name == 'release'
-        run: cd AppDir; tar -cvzf ../appimagepool-x86_64.tar.gz *
+        run: tar czf appimagepool-x86_64.tar.gz -C AppDir/ . 
 
       - name: App tar sha256 sum
         if: github.event_name == 'release'
