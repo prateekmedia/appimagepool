@@ -45,12 +45,6 @@ jobs:
           body: Always up to date
           overwrite: true
 
-      - if: github.event_name == 'release'
-        run: |
-          sudo rm -rf ./AppDir/usr/
-          sudo rm -rf ./AppDir/AppRun
-          sudo rm -rf ./AppDir/.DirIcon
-
       - name: Compress AppDir
         if: github.event_name == 'release'
         run: tar czf appimagepool-x86_64.tar.gz -C AppDir/ . 
