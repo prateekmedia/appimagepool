@@ -1,6 +1,6 @@
 [package]
 name = "appimagepool"
-version = "2.1.0"
+version = "2.3.1"
 authors = ["Prateek SU <pankajsunal123@gmail.com>"]
 edition = "2018"
 

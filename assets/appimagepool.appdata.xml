@@ -37,6 +37,7 @@
 	</screenshots>
 	<launchable type="desktop-id">appimagepool.desktop</launchable>
 	<releases>
+		<release version="2.3.1" date="2021-09-05"/>
 		<release version="2.3.0" date="2021-09-03"/>
 	</releases>
 	<content_rating type="oars-1.0" />
