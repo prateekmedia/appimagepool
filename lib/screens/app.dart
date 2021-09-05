@@ -23,12 +23,10 @@ class AppPage extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final isLoadingDL = useState<bool>(false);
     String url = app.url != null
-        ? (app.url as List).firstWhere((e) => e['type'] == 'Download',
-            orElse: () => {'url': ''})['url']
+        ? (app.url as List).firstWhere((e) => e['type'] == 'Download', orElse: () => {'url': ''})['url']
         : '';
     String proUrl = app.url != null
-        ? app.url!.firstWhere((e) => e['type'].toLowerCase() == 'github',
-            orElse: () => {'url': ''})['url']
+        ? app.url!.firstWhere((e) => e['type'].toLowerCase() == 'github', orElse: () => {'url': ''})['url']
         : '';
 
     if (!proUrl.startsWith('http') && app.url != null) proUrl = github + proUrl;
@@ -45,8 +43,7 @@ class AppPage extends HookConsumerWidget {
                 fit: BoxFit.cover,
                 width: size,
                 placeholder: (c, b) => Center(
-                  child:
-                      SpinKitRipple(color: context.textTheme.bodyText1!.color),
+                  child: SpinKitRipple(color: context.textTheme.bodyText1!.color),
                 ),
                 errorWidget: (c, w, i) => brokenImageWidget,
               )
@@ -70,8 +67,7 @@ class AppPage extends HookConsumerWidget {
               ),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                   constraints: const BoxConstraints(maxWidth: 1200),
                   child: Column(
                     children: [
@@ -79,17 +75,10 @@ class AppPage extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Tooltip(
-                            message: (app.url != null && proUrl.isNotEmpty)
-                                ? proUrl
-                                : "",
+                            message: (app.url != null && proUrl.isNotEmpty) ? proUrl : "",
                             child: GestureDetector(
-                              onTap: (app.url != null && proUrl.isNotEmpty)
-                                  ? proUrl.launchIt
-                                  : null,
-                              child: SizedBox(
-                                  width: iconSize,
-                                  height: iconSize,
-                                  child: appIcon()),
+                              onTap: (app.url != null && proUrl.isNotEmpty) ? proUrl.launchIt : null,
+                              child: SizedBox(width: iconSize, height: iconSize, child: appIcon()),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -97,11 +86,9 @@ class AppPage extends HookConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SelectableText(app.name,
-                                    style: context.textTheme.headline6),
+                                SelectableText(app.name, style: context.textTheme.headline6),
                                 SelectableText(
-                                    (app.categories != null &&
-                                            app.categories!.isNotEmpty
+                                    (app.categories != null && app.categories!.isNotEmpty
                                         ? app.categories!.join(', ')
                                         : "N.A."),
                                     style: context.textTheme.bodyText2),
@@ -118,15 +105,11 @@ class AppPage extends HookConsumerWidget {
                                     : !isLoadingDL.value
                                         ? () async {
                                             isLoadingDL.value = true;
-                                            List<String> v =
-                                                url.split('github.com');
-                                            var u =
-                                                'https://api.github.com/repos' +
-                                                    v[1];
+                                            List<String> v = url.split('github.com');
+                                            var u = 'https://api.github.com/repos' + v[1];
                                             List response;
                                             try {
-                                              response =
-                                                  (await Dio().get(u)).data;
+                                              response = (await Dio().get(u)).data;
                                             } catch (e) {
                                               isLoadingDL.value = false;
                                               return;
@@ -134,13 +117,10 @@ class AppPage extends HookConsumerWidget {
                                             if (response.isNotEmpty) {
                                               await showDialog(
                                                 context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        DownloadDialog(
+                                                builder: (BuildContext context) => DownloadDialog(
                                                   response,
                                                   appIcon(50),
-                                                  (checkmap) => downloadApp(
-                                                      checkmap, ref),
+                                                  (checkmap) => downloadApp(checkmap, ref),
                                                 ),
                                               );
                                             } else {
@@ -149,10 +129,8 @@ class AppPage extends HookConsumerWidget {
                                             isLoadingDL.value = false;
                                           }
                                         : null,
-                                child: const Text("Download",
-                                    style: TextStyle(color: Colors.white)),
-                                style: ElevatedButton.styleFrom(
-                                    primary: context.theme.primaryColor),
+                                child: const Text("Download", style: TextStyle(color: Colors.white)),
+                                style: ElevatedButton.styleFrom(primary: context.theme.primaryColor),
                               ),
                             )
                         ],
@@ -168,16 +146,14 @@ class AppPage extends HookConsumerWidget {
               child: Container(
                 constraints: const BoxConstraints(maxWidth: 1200),
                 child: Column(children: [
-                  if (app.screenshotsUrl != null &&
-                      app.screenshotsUrl!.isNotEmpty)
+                  if (app.screenshotsUrl != null && app.screenshotsUrl!.isNotEmpty)
                     CarouselSlider.builder(
                       carouselController: _controller,
                       itemCount: app.screenshotsUrl!.length,
                       itemBuilder: (context, index, i) {
-                        String screenUrl =
-                            app.screenshotsUrl![index].startsWith('http')
-                                ? app.screenshotsUrl![index]
-                                : prefixUrl + app.screenshotsUrl![index];
+                        String screenUrl = app.screenshotsUrl![index].startsWith('http')
+                            ? app.screenshotsUrl![index]
+                            : prefixUrl + app.screenshotsUrl![index];
                         return Container(
                           height: 400,
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -186,12 +162,9 @@ class AppPage extends HookConsumerWidget {
                                   ? SvgPicture.network(screenUrl)
                                   : CachedNetworkImage(
                                       imageUrl: screenUrl,
-                                      placeholder: (c, b) => Center(
-                                          child: SpinKitRipple(
-                                              color: context
-                                                  .textTheme.bodyText1!.color)),
-                                      errorWidget: (c, w, i) =>
-                                          brokenImageWidget,
+                                      placeholder: (c, b) =>
+                                          Center(child: SpinKitRipple(color: context.textTheme.bodyText1!.color)),
+                                      errorWidget: (c, w, i) => brokenImageWidget,
                                     )
                               : Container(),
                         );
@@ -204,8 +177,7 @@ class AppPage extends HookConsumerWidget {
                           reverse: false,
                           autoPlay: true,
                           autoPlayInterval: const Duration(seconds: 3),
-                          autoPlayAnimationDuration:
-                              const Duration(milliseconds: 800),
+                          autoPlayAnimationDuration: const Duration(milliseconds: 800),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
                           scrollDirection: Axis.horizontal,
@@ -214,31 +186,22 @@ class AppPage extends HookConsumerWidget {
                           }),
                     ),
                   const SizedBox(height: 5),
-                  if (app.screenshotsUrl != null &&
-                      app.screenshotsUrl!.isNotEmpty)
+                  if (app.screenshotsUrl != null && app.screenshotsUrl!.isNotEmpty)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:
-                          List.generate(app.screenshotsUrl!.length, (index) {
+                      children: List.generate(app.screenshotsUrl!.length, (index) {
                         return GestureDetector(
                           onTap: () => _controller.animateToPage(index),
                           child: Container(
                             width: 10.0,
                             height: 10.0,
                             padding: const EdgeInsets.all(4),
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 2.0),
+                            margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: _current.value == index
-                                  ? (context.isDark
-                                          ? Colors.white
-                                          : Colors.black)
-                                      .withOpacity(0.9)
-                                  : (context.isDark
-                                          ? Colors.white
-                                          : Colors.black)
-                                      .withOpacity(0.4),
+                                  ? (context.isDark ? Colors.white : Colors.black).withOpacity(0.9)
+                                  : (context.isDark ? Colors.white : Colors.black).withOpacity(0.4),
                             ),
                           ),
                         );
@@ -246,12 +209,10 @@ class AppPage extends HookConsumerWidget {
                     ),
                   const SizedBox(height: 20),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                     child: SelectableText.rich(HTML.toTextSpan(
                         context,
-                        (app.description != null &&
-                                app.description!.toString().trim().isNotEmpty)
+                        (app.description != null && app.description!.toString().trim().isNotEmpty)
                             ? app.description!
                             : "No Description Found",
                         defaultTextStyle: context.textTheme.bodyText1!)),
@@ -265,10 +226,7 @@ class AppPage extends HookConsumerWidget {
                     context,
                     primaryT: "Authors",
                     secondaryT: app.authors != null
-                        ? app.authors!
-                            .map((e) =>
-                                '<a href="${e['url']}" >${e['name']}</a>')
-                            .join(', ')
+                        ? app.authors!.map((e) => '<a href="${e['url']}" >${e['name']}</a>').join(', ')
                         : "N.A.",
                   ),
                 ]),
@@ -286,9 +244,7 @@ class DownloadDialog extends StatefulHookWidget {
   final Widget appIcon;
   final void Function(Map<String, String>)? onEndPressed;
 
-  const DownloadDialog(this.response, this.appIcon, this.onEndPressed,
-      {Key? key})
-      : super(key: key);
+  const DownloadDialog(this.response, this.appIcon, this.onEndPressed, {Key? key}) : super(key: key);
 
   @override
   _DownloadDialogState createState() => _DownloadDialogState();
@@ -308,11 +264,9 @@ class _DownloadDialogState extends State<DownloadDialog> {
       items: (index) {
         var releaseItems = downloadItems[index].items;
         return List.generate(releaseItems.length, (idx) {
-          var checkedValue =
-              useState(checkmap.value.containsKey(releaseItems[idx].url));
+          var checkedValue = useState(checkmap.value.containsKey(releaseItems[idx].url));
           checkmap.addListener(() {
-            checkedValue.value =
-                checkmap.value.containsKey(releaseItems[idx].url);
+            checkedValue.value = checkmap.value.containsKey(releaseItems[idx].url);
           });
           return CheckboxListTile(
             title: Text(releaseItems[idx].name),
@@ -320,11 +274,9 @@ class _DownloadDialogState extends State<DownloadDialog> {
             value: checkedValue.value,
             onChanged: (newValue) {
               if (checkmap.value.containsKey(releaseItems[idx].url)) {
-                checkmap.value
-                    .removeWhere((key, value) => key == releaseItems[idx].url);
+                checkmap.value.removeWhere((key, value) => key == releaseItems[idx].url);
               } else {
-                checkmap.value.putIfAbsent(
-                    releaseItems[idx].url, () => releaseItems[idx].name);
+                checkmap.value.putIfAbsent(releaseItems[idx].url, () => releaseItems[idx].name);
               }
               // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
               checkmap.notifyListeners();

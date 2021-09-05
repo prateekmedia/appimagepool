@@ -11,10 +11,9 @@ import '../utils/utils.dart';
 
 import '../models/models.dart';
 
-final downloadPathProvider =
-    StateNotifierProvider<DownloadPathNotifier, String>((ref) {
-  return DownloadPathNotifier(MyPrefs().prefs.getString('path') ??
-      xdg.configHome.path.replaceAll('.config', 'Applications/'));
+final downloadPathProvider = StateNotifierProvider<DownloadPathNotifier, String>((ref) {
+  return DownloadPathNotifier(
+      MyPrefs().prefs.getString('path') ?? xdg.configHome.path.replaceAll('.config', 'Applications/'));
 });
 
 class DownloadPathNotifier extends StateNotifier<String> {
@@ -26,8 +25,7 @@ class DownloadPathNotifier extends StateNotifier<String> {
   }
 }
 
-final isDownloadingProvider =
-    StateNotifierProvider<DownloadingStatusNotifier, int>((ref) {
+final isDownloadingProvider = StateNotifierProvider<DownloadingStatusNotifier, int>((ref) {
   return DownloadingStatusNotifier(0);
 });
 
@@ -38,8 +36,7 @@ class DownloadingStatusNotifier extends StateNotifier<int> {
   void decrement() => state--;
 }
 
-final downloadListProvider =
-    StateNotifierProvider<DownloadNotifier, List<QueryApp>>((ref) {
+final downloadListProvider = StateNotifierProvider<DownloadNotifier, List<QueryApp>>((ref) {
   return DownloadNotifier(<QueryApp>[], ref);
 });
 
@@ -73,11 +70,9 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
       ),
     );
     ref.read(downloadListProvider.notifier).refresh();
-    await Dio().download(url, location + name,
-        onReceiveProgress: (recieved, total) {
+    await Dio().download(url, location + name, onReceiveProgress: (recieved, total) {
       var item = state[state.indexWhere(
-        (element) =>
-            (element.name == name) && (element.downloadLocation == location),
+        (element) => (element.name == name) && (element.downloadLocation == location),
       )];
       item.actualBytes = recieved;
       item.totalBytes = total;

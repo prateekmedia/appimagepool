@@ -22,15 +22,12 @@ extension Iterables<E> on Iterable<E> {
       return map;
     }
 
-    return fold(
-        <K, List<E>>{}, (Map<K, List<E>> map, E element) => mape(element, map));
+    return fold(<K, List<E>>{}, (Map<K, List<E>> map, E element) => mape(element, map));
   }
 }
 
 extension UrlLauncher on String {
-  launchIt() async => await canLaunch(this)
-      ? await launch(this)
-      : throw 'Could not launch $this';
+  launchIt() async => await canLaunch(this) ? await launch(this) : throw 'Could not launch $this';
 }
 
 extension GetHumanizedFileSizeExtension on int {
@@ -42,18 +39,17 @@ extension GetHumanizedFileSizeExtension on int {
   }
 }
 
-extension ColorTint on Color {
+extension ColorExts on Color {
   Color darken([int percent = 10]) {
     assert(1 <= percent && percent <= 100);
     var f = 1 - percent / 100;
-    return Color.fromARGB(
-        alpha, (red * f).round(), (green * f).round(), (blue * f).round());
+    return Color.fromARGB(alpha, (red * f).round(), (green * f).round(), (blue * f).round());
   }
 
   Color brighten([int percent = 10]) {
     assert(1 <= percent && percent <= 100);
     var p = percent / 100;
-    return Color.fromARGB(alpha, red + ((255 - red) * p).round(),
-        green + ((255 - green) * p).round(), blue + ((255 - blue) * p).round());
+    return Color.fromARGB(
+        alpha, red + ((255 - red) * p).round(), green + ((255 - green) * p).round(), blue + ((255 - blue) * p).round());
   }
 }

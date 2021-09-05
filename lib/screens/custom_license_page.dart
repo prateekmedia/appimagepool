@@ -36,30 +36,21 @@ class CustomLicensePage extends HookWidget {
             future: LicenseRegistry.licenses.toList(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Center(
-                    child: SpinKitThreeBounce(
-                        color: context.textTheme.bodyText1!.color));
+                return Center(child: SpinKitThreeBounce(color: context.textTheme.bodyText1!.color));
               } else {
                 List<Package> packages = [];
                 for (var element in snapshot.data!) {
-                  if (packages.firstWhereOrNull(
-                          (e) => e.name == element.packages.first) ==
-                      null) {
+                  if (packages.firstWhereOrNull((e) => e.name == element.packages.first) == null) {
                     if (element.paragraphs.toList().length > 1) {
-                      packages
-                          .add(Package(name: element.packages.first, count: 1));
+                      packages.add(Package(name: element.packages.first, count: 1));
                     }
                   } else {
-                    packages
-                        .firstWhereOrNull(
-                            (e) => e.name == element.packages.first)!
-                        .count += 1;
+                    packages.firstWhereOrNull((e) => e.name == element.packages.first)!.count += 1;
                   }
                 }
 
                 return GtkTwoPane(
-                  showPane2:
-                      !(context.width < mobileWidth && _selected.value == null),
+                  showPane2: !(context.width < mobileWidth && _selected.value == null),
                   onClosePane2Popup: _clearSelected,
                   fullPane2Builder: (pane2Name, pane2) => PoolApp(
                     title: pane2Name,
@@ -68,19 +59,15 @@ class CustomLicensePage extends HookWidget {
                     body: pane2,
                   ),
                   panelWidth: 265,
-                  pane2Name: _selected.value != null
-                      ? packages[_selected.value!].name
-                      : null,
+                  pane2Name: _selected.value != null ? packages[_selected.value!].name : null,
                   pane1: GtkSidebar.builder(
                     controller: ScrollController(),
                     width: double.infinity,
-                    onSelected: (index) =>
-                        _selectValue(index, packages[index].name),
+                    onSelected: (index) => _selectValue(index, packages[index].name),
                     currentIndex: _selected.value,
                     itemBuilder: (context, index, isSelected) {
                       return GtkSidebarItem(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         labelWidget: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -107,9 +94,7 @@ class CustomLicensePage extends HookWidget {
                       ? LicenseInfoPage(
                           package: packages[_selected.value!],
                           paragraph: snapshot.data!
-                              .where((element) =>
-                                  element.packages.first ==
-                                  packages[_selected.value!].name)
+                              .where((element) => element.packages.first == packages[_selected.value!].name)
                               .toList(),
                         )
                       : const Center(child: Text('Select a License to view.')),
@@ -125,13 +110,11 @@ class LicenseInfoPage extends StatelessWidget {
   final Package? package;
   final List<LicenseEntry>? paragraph;
 
-  const LicenseInfoPage({Key? key, this.package, this.paragraph})
-      : super(key: key);
+  const LicenseInfoPage({Key? key, this.package, this.paragraph}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)?.settings.arguments as Map?;
-    final cParagraph =
-        paragraph ?? (arguments != null ? arguments['paragraph'] : null);
+    final cParagraph = paragraph ?? (arguments != null ? arguments['paragraph'] : null);
     return Scaffold(
       body: ListView(
         children: List.generate(
@@ -144,8 +127,7 @@ class LicenseInfoPage extends StatelessWidget {
                   context,
                   colorType: GtkColorType.headerBarBackgroundBottom,
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),
                 alignment: Alignment.centerLeft,
                 child: Text(currentPara[0].text),
               ),

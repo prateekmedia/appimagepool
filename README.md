@@ -7,11 +7,13 @@
 <p align="center"><b>
 Simple AppImageHub Client</b></p>
 
-<p align="center"><img width=400 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/home.jpg" alt="Screenshot 1"/> <img width=400  src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/app.jpg" alt="Screenshot 2"/> <img width=400 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/search.jpg" alt="Screenshot 3"/>  <img  width=400 src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/category.jpg" alt="Screenshot 4"/></p>
+|<img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/home.jpg" alt="Screenshot 1"/>|<img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/app.jpg" alt="Screenshot 2"/>|
+|------|------|
+  |<img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/search.jpg" alt="Screenshot 3"/>|<img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/screenshot/category.jpg" alt="Screenshot 4"/>|
 
 ---
 
-## Top Features
+## Main Features
 - FLOSS and non profit app
 - Simple categories
 - Download from github directly, no extra-server involved
@@ -23,17 +25,11 @@ Simple AppImageHub Client</b></p>
 
 
 ### Download Links  
+| Flatpak | AppImage |
+|---------|----------|
+| <a><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> |
 
-<table>
-  <tr>
-    <td>AppImage</td>
-  </tr>
-  <tr>
-    <td>
-      <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a>
-    </td>
-  </tr>
-</table>
+
 
 ---
 

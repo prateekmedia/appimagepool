@@ -5,15 +5,13 @@ class DownloadItem {
   final List<ReleaseItem> items;
   final String version;
 
-  DownloadItem(
-      {required this.items, required this.date, required this.version});
+  DownloadItem({required this.items, required this.date, required this.version});
 
   static List<DownloadItem> fromItems(List items) => items
       .map(
         (e) => DownloadItem(
           items: (e['assets'] as List)
-              .where((element) =>
-                  element['name'].toLowerCase().endsWith('.appimage'))
+              .where((element) => element['name'].toLowerCase().endsWith('.appimage'))
               .map((e) => ReleaseItem.fromMap(e))
               .toList(),
           date: DateTime.parse(e['created_at']),

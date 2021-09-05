@@ -26,9 +26,7 @@ Widget prefsDialog(BuildContext context) {
 }
 
 class PrefsWidget extends HookConsumerWidget {
-  const PrefsWidget({
-    Key? key,
-  }) : super(key: key);
+  const PrefsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
@@ -98,8 +96,7 @@ class PrefsWidget extends HookConsumerWidget {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(5),
@@ -110,11 +107,8 @@ class PrefsWidget extends HookConsumerWidget {
                     children: [
                       const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
                       const SizedBox(width: 6),
-                      SelectableText(path ==
-                              xdg.configHome.path
-                                  .replaceAll('.config', 'Applications/')
-                          ? 'Applications'
-                          : path),
+                      SelectableText(
+                          path == xdg.configHome.path.replaceAll('.config', 'Applications/') ? 'Applications' : path),
                     ],
                   ),
                 ),
@@ -130,17 +124,14 @@ class PrefsWidget extends HookConsumerWidget {
               onPressed: !isBrowserActive.value
                   ? () async {
                       isBrowserActive.value = true;
-                      var dirPath = await FilePicker.platform.getDirectoryPath(
-                          dialogTitle: 'Choose Download Folder');
+                      var dirPath = await FilePicker.platform.getDirectoryPath(dialogTitle: 'Choose Download Folder');
                       isBrowserActive.value = false;
-                      ref.watch(downloadPathProvider.notifier).update =
-                          dirPath ?? path;
+                      ref.watch(downloadPathProvider.notifier).update = dirPath ?? path;
                     }
                   : null,
               child: Text(
                 'Browse...',
-                style: TextStyle(
-                    color: context.isDark ? Colors.white : Colors.black),
+                style: TextStyle(color: context.isDark ? Colors.white : Colors.black),
               ),
             ),
           ],

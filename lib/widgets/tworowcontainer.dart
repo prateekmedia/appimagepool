@@ -14,15 +14,13 @@ Widget twoRowContainer(
       children: [
         Text(
           primaryT,
-          style: context.textTheme.headline6!
-              .copyWith(fontWeight: FontWeight.w600),
+          style: context.textTheme.headline6!.copyWith(fontWeight: FontWeight.w600),
         ),
         SelectableText.rich(HTML.toTextSpan(
           context,
           secondaryT,
           linksCallback: (link) => link.toString().launchIt(),
-          defaultTextStyle: context.textTheme.bodyText1!
-              .copyWith(fontWeight: FontWeight.w500),
+          defaultTextStyle: context.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w500),
         )),
       ],
     ),

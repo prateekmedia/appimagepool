@@ -11,9 +11,7 @@ import '../models/models.dart';
 import '../providers/providers.dart';
 
 class DownloadButton extends HookConsumerWidget {
-  const DownloadButton({
-    Key? key,
-  }) : super(key: key);
+  const DownloadButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
@@ -28,9 +26,7 @@ class DownloadButton extends HookConsumerWidget {
           child: GtkPopupMenu(
             popupWidth: 400,
             icon: AdwaitaIcon(
-              downloading > 0
-                  ? AdwaitaIcons.folder_download
-                  : AdwaitaIcons.emblem_default,
+              downloading > 0 ? AdwaitaIcons.folder_download : AdwaitaIcons.emblem_default,
               size: 17,
             ),
             body: Consumer(
@@ -72,30 +68,22 @@ class DownloadButton extends HookConsumerWidget {
                           ),
                           trailing: IconButton(
                             onPressed: () {
-                              if (i.cancelToken.isCancelled ||
-                                  (i.actualBytes == i.totalBytes &&
-                                      i.actualBytes != 0)) {
+                              if (i.cancelToken.isCancelled || (i.actualBytes == i.totalBytes && i.actualBytes != 0)) {
                                 removeItem();
-                              } else if (i.actualBytes != i.totalBytes ||
-                                  i.actualBytes == 0) {
+                              } else if (i.actualBytes != i.totalBytes || i.actualBytes == 0) {
                                 i.cancelToken.cancel("cancelled");
-                                ref
-                                    .watch(downloadListProvider.notifier)
-                                    .refresh();
+                                ref.watch(downloadListProvider.notifier).refresh();
                               }
                             },
                             icon: AdwaitaIcon(i.cancelToken.isCancelled
                                 ? AdwaitaIcons.list_remove
-                                : (i.actualBytes != i.totalBytes ||
-                                        i.actualBytes == 0)
+                                : (i.actualBytes != i.totalBytes || i.actualBytes == 0)
                                     ? AdwaitaIcons.window_close
                                     : AdwaitaIcons.user_trash),
                           ),
-                          onTap: (i.actualBytes == i.totalBytes &&
-                                  i.totalBytes != 0)
+                          onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
                               ? () {
-                                  var location =
-                                      ref.watch(downloadPathProvider);
+                                  var location = ref.watch(downloadPathProvider);
 
                                   var shell = Shell().cd(location);
                                   shell.run('./' + i.name);
@@ -118,8 +106,6 @@ class DownloadButton extends HookConsumerWidget {
 
 downloadApp(Map<String, String> checkmap, WidgetRef ref) {
   for (var item in checkmap.entries) {
-    ref
-        .watch(downloadListProvider.notifier)
-        .addDownload(url: item.key, name: item.value);
+    ref.watch(downloadListProvider.notifier).addDownload(url: item.key, name: item.value);
   }
 }

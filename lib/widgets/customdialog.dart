@@ -31,16 +31,14 @@ class CustomDialogBox extends HookConsumerWidget {
     List<Widget> currentItem = items(selectedIndex.value);
 
     return Dialog(
-      shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(padding)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(padding)),
       elevation: 0,
       backgroundColor: Colors.transparent,
       child: Stack(
         children: [
           Container(
             constraints: const BoxConstraints(maxWidth: 700),
-            padding: const EdgeInsets.only(
-                left: padding, top: padding, right: padding, bottom: padding),
+            padding: const EdgeInsets.only(left: padding, top: padding, right: padding, bottom: padding),
             margin: const EdgeInsets.only(top: avatarRadius),
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -48,9 +46,7 @@ class CustomDialogBox extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(padding),
                 boxShadow: [
                   BoxShadow(
-                      color: context.isDark
-                          ? Colors.grey.shade900
-                          : Colors.grey.shade500,
+                      color: context.isDark ? Colors.grey.shade900 : Colors.grey.shade500,
                       offset: const Offset(0, 10),
                       spreadRadius: 2,
                       blurRadius: 20),
@@ -85,8 +81,7 @@ class CustomDialogBox extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(entry.value.version),
-                          Text(DateFormat('MMM dd yyyy')
-                              .format(entry.value.date)),
+                          Text(DateFormat('MMM dd yyyy').format(entry.value.date)),
                         ],
                       ),
                       value: entry.key,
@@ -94,8 +89,7 @@ class CustomDialogBox extends HookConsumerWidget {
                   }).toList(),
                 ),
                 Text(
-                  DateFormat('MMMM dd yyyy H:mm')
-                      .format(downloadItems[selectedIndex.value].date),
+                  DateFormat('MMMM dd yyyy H:mm').format(downloadItems[selectedIndex.value].date),
                 ),
                 const SizedBox(height: 15),
                 if (currentItem.isNotEmpty)
@@ -118,9 +112,7 @@ class CustomDialogBox extends HookConsumerWidget {
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
               radius: avatarRadius,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(avatarRadius),
-                  child: img),
+              child: ClipRRect(borderRadius: BorderRadius.circular(avatarRadius), child: img),
             ),
           ),
         ],

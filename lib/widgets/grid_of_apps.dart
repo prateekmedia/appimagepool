@@ -47,17 +47,14 @@ class _GridOfAppsState extends State<GridOfApps> {
                             onExit: (_) => isHovering.value = false,
                             onHover: (_) => isHovering.value = true,
                             child: GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (ctx) => AppPage(app: app))),
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AppPage(app: app))),
                               child: Container(
                                 padding: const EdgeInsets.all(6),
                                 margin: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: value
-                                      ? Colors.grey.withOpacity(0.2)
-                                      : null,
+                                  color: value ? Colors.grey.withOpacity(0.2) : null,
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,12 +72,9 @@ class _GridOfAppsState extends State<GridOfApps> {
                                                   imageUrl: app.iconUrl!,
                                                   fit: BoxFit.cover,
                                                   placeholder: (c, b) => Center(
-                                                    child: SpinKitRipple(
-                                                        color: context.textTheme
-                                                            .bodyText1!.color),
+                                                    child: SpinKitRipple(color: context.textTheme.bodyText1!.color),
                                                   ),
-                                                  errorWidget: (c, w, i) =>
-                                                      brokenImageWidget,
+                                                  errorWidget: (c, w, i) => brokenImageWidget,
                                                 )
                                               : SvgPicture.network(app.iconUrl!)
                                           : brokenImageWidget,
@@ -89,39 +83,27 @@ class _GridOfAppsState extends State<GridOfApps> {
                                     Flexible(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8),
+                                            padding: const EdgeInsets.symmetric(vertical: 8),
                                             child: Text(
                                               app.name,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: context
-                                                  .textTheme.bodyText1!
-                                                  .copyWith(
-                                                      color: context.isDark
-                                                          ? Colors.white
-                                                          : Colors.grey[900]),
+                                              style: context.textTheme.bodyText1!
+                                                  .copyWith(color: context.isDark ? Colors.white : Colors.grey[900]),
                                             ),
                                           ),
                                           if (app.description != null)
                                             Text(
                                               app.description!
                                                   .replaceAll('\n', '')
-                                                  .replaceAll(
-                                                      RegExp(r"<[^>]*>"),
-                                                      'replace'),
+                                                  .replaceAll(RegExp(r"<[^>]*>"), 'replace'),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: context
-                                                  .textTheme.bodyText1!
-                                                  .copyWith(
-                                                      color: context.isDark
-                                                          ? Colors.white
-                                                          : Colors.grey[900]),
+                                              style: context.textTheme.bodyText1!
+                                                  .copyWith(color: context.isDark ? Colors.white : Colors.grey[900]),
                                             ),
                                         ],
                                       ),
@@ -164,16 +146,14 @@ class _GridOfAppsState extends State<GridOfApps> {
                           onExit: (_) => isHovering.value = false,
                           onHover: (_) => isHovering.value = true,
                           child: GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (ctx) => AppPage(app: app))),
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AppPage(app: app))),
                             child: Container(
                               padding: const EdgeInsets.all(6),
                               margin: const EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color:
-                                    value ? Colors.grey.withOpacity(0.2) : null,
+                                color: value ? Colors.grey.withOpacity(0.2) : null,
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -183,42 +163,30 @@ class _GridOfAppsState extends State<GridOfApps> {
                                     child: Center(
                                       child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
+                                            borderRadius: BorderRadius.circular(20),
                                           ),
                                           child: app.iconUrl != null
                                               ? (!app.iconUrl!.endsWith('.svg'))
                                                   ? CachedNetworkImage(
                                                       imageUrl: app.iconUrl!,
                                                       fit: BoxFit.cover,
-                                                      placeholder: (c, b) =>
-                                                          Center(
-                                                        child: SpinKitRipple(
-                                                            color: context
-                                                                .textTheme
-                                                                .bodyText1!
-                                                                .color),
+                                                      placeholder: (c, b) => Center(
+                                                        child: SpinKitRipple(color: context.textTheme.bodyText1!.color),
                                                       ),
-                                                      errorWidget: (c, w, i) =>
-                                                          brokenImageWidget,
+                                                      errorWidget: (c, w, i) => brokenImageWidget,
                                                     )
-                                                  : SvgPicture.network(
-                                                      app.iconUrl!)
+                                                  : SvgPicture.network(app.iconUrl!)
                                               : brokenImageWidget),
                                     ),
                                   ),
                                   Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8),
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
                                     child: Text(
                                       app.name,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: context.textTheme.bodyText1!
-                                          .copyWith(
-                                              color: context.isDark
-                                                  ? Colors.white
-                                                  : Colors.grey[900]),
+                                          .copyWith(color: context.isDark ? Colors.white : Colors.grey[900]),
                                     ),
                                   ),
                                 ],
