@@ -4,31 +4,38 @@ import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:process_run/shell.dart';
 import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/providers/providers.dart';
 
-class InstalledView extends HookConsumerWidget {
-  const InstalledView({
-    Key? key,
-  }) : super(key: key);
+class InstalledView extends ConsumerStatefulWidget {
+  final ValueNotifier<String> searchedTerm;
+
+  const InstalledView({Key? key, required this.searchedTerm}) : super(key: key);
 
   @override
-  Widget build(context, ref) {
+  ConsumerState<InstalledView> createState() => _InstalledViewState();
+}
+
+class _InstalledViewState extends ConsumerState<InstalledView> {
+  @override
+  Widget build(context) {
     final downloadPath = ref.watch(downloadPathProvider);
-    final listInstalled = useState<List<FileSystemEntity>>(
-        Directory(downloadPath).listSync().where((element) => element.path.endsWith('.AppImage')).toList());
-    return listInstalled.value.isNotEmpty
+    final listInstalled = Directory(downloadPath)
+        .listSync()
+        .where((element) => element.path.endsWith('.AppImage'))
+        .where((element) => path.basename(element.path).toLowerCase().contains(widget.searchedTerm.value))
+        .toList();
+    return listInstalled.isNotEmpty
         ? ListView.builder(
             itemBuilder: (ctx, index) {
-              final i = listInstalled.value[index];
+              final i = listInstalled[index];
 
               void removeItem() async {
                 File(i.path).deleteSync();
-                listInstalled.value.removeAt(index);
-                listInstalled.value = listInstalled.value;
+                listInstalled.removeAt(index);
+                setState(() {});
               }
 
               return ListTile(
@@ -50,7 +57,7 @@ class InstalledView extends HookConsumerWidget {
                 },
               );
             },
-            itemCount: listInstalled.value.length,
+            itemCount: listInstalled.length,
           )
         : Center(child: Text('No AppImage found in ' + downloadPath));
   }

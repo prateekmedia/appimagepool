@@ -9,13 +9,16 @@ import 'package:appimagepool/providers/providers.dart';
 import 'package:process_run/shell.dart';
 
 class DownloadsView extends HookConsumerWidget {
-  const DownloadsView({
-    Key? key,
-  }) : super(key: key);
+  final ValueNotifier<String> searchedTerm;
+
+  const DownloadsView({Key? key, required this.searchedTerm}) : super(key: key);
 
   @override
   Widget build(context, ref) {
-    final listDownloads = ref.watch(downloadListProvider);
+    final listDownloads = ref
+        .watch(downloadListProvider)
+        .where((element) => element.name.toLowerCase().contains(searchedTerm.value))
+        .toList();
     return listDownloads.isNotEmpty
         ? ListView.builder(
             itemBuilder: (ctx, index) {
@@ -30,10 +33,21 @@ class DownloadsView extends HookConsumerWidget {
               }
 
               return ListTile(
-                title: Text(
-                  i.name,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textTheme.bodyText1,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      i.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.bodyText1,
+                    ),
+                    const SizedBox(height: 3),
+                    LinearProgressIndicator(
+                      value: i.actualBytes / i.totalBytes,
+                      minHeight: 10,
+                    ),
+                    const SizedBox(height: 3),
+                  ],
                 ),
                 focusColor: Colors.transparent,
                 hoverColor: Colors.transparent,
