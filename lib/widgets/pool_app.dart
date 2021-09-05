@@ -9,6 +9,7 @@ import '../providers/providers.dart';
 
 class PoolApp extends HookConsumerWidget {
   final String? title;
+  final Widget? center;
   final List<Widget> leading;
   final List<Widget> trailing;
   final bool showBackButton;
@@ -18,6 +19,7 @@ class PoolApp extends HookConsumerWidget {
   const PoolApp({
     Key? key,
     this.title,
+    this.center,
     required this.body,
     this.leading = const [],
     this.trailing = const [],
@@ -56,7 +58,7 @@ class PoolApp extends HookConsumerWidget {
                   title!,
                   style: context.textTheme.headline6!.copyWith(fontSize: 17),
                 )
-              : const SizedBox(),
+              : center ?? const SizedBox(),
           trailling: Row(children: trailing),
           themeType: ref.watch(themeTypeProvider),
         ),

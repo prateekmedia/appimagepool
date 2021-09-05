@@ -36,7 +36,7 @@ class DownloadButton extends HookConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(listDownloads.length, (index) {
                     var i = listDownloads[index];
-                    removeItem() async {
+                    void removeItem() async {
                       if (!i.cancelToken.isCancelled) {
                         File(i.downloadLocation + i.name).deleteSync();
                       }
