@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -133,6 +134,18 @@ class PrefsWidget extends HookConsumerWidget {
                 'Browse...',
                 style: TextStyle(color: context.isDark ? Colors.white : Colors.black),
               ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 13),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text('Force dark theme'),
+            CupertinoSwitch(
+              value: false,
+              onChanged: (value) {},
             ),
           ],
         ),

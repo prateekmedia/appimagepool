@@ -141,9 +141,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final navrailIndex = useState<int>(0);
     final searchedTerm = useState<String>("");
     final _currentViewIndex = useState<int>(0);
     final toggleSearch = useState<bool>(false);
+    final isSidebarActive = useState<bool>(true);
     final _controller = PageController();
 
     void switchSearchBar([bool? value]) {
@@ -154,6 +156,9 @@ class _HomePageState extends State<HomePage> {
 
     return Consumer(
       builder: (ctx, ref, _) => Scaffold(
+        drawer: context.width < mobileWidth
+            ? Drawer(child: buildSidebar(context, isSidebarActive, navrailIndex, true))
+            : null,
         body: RawKeyboardListener(
           focusNode: FocusNode(),
           onKey: (event) {
@@ -204,16 +209,6 @@ class _HomePageState extends State<HomePage> {
             ],
             trailing: !toggleSearch.value
                 ? [
-                    if (_currentViewIndex.value == 0)
-                      GtkHeaderButton(
-                        icon: AdwaitaIcon(
-                          ref.watch(viewTypeProvider) == 0 ? AdwaitaIcons.view_grid : AdwaitaIcons.view_list_bullet,
-                          size: 17,
-                        ),
-                        onPressed: (categories != null || featured != null)
-                            ? ref.watch(viewTypeProvider.notifier).update
-                            : null,
-                      ),
                     GtkPopupMenu(
                       body: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -270,16 +265,65 @@ class _HomePageState extends State<HomePage> {
               controller: _controller,
               onPageChanged: (index) => _currentViewIndex.value = index,
               children: [
-                BrowseView(
-                  context: context,
-                  toggleSearch: toggleSearch,
-                  searchedTerm: searchedTerm,
-                  switchSearchBar: switchSearchBar,
-                  getData: getData,
-                  isConnected: _isConnected,
-                  featured: featured,
-                  categories: categories,
-                  allItems: allItems,
+                Row(
+                  children: [
+                    if (context.width >= mobileWidth)
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 200),
+                        child: buildSidebar(context, isSidebarActive, navrailIndex),
+                      ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Builder(builder: (context) {
+                                  return GtkHeaderButton(
+                                    isActive: isSidebarActive.value,
+                                    icon: const AdwaitaIcon(AdwaitaIcons.sidebar_toggle_left),
+                                    onPressed: () {
+                                      if (context.width < mobileWidth) {
+                                        Scaffold.of(context).openDrawer();
+                                      } else {
+                                        isSidebarActive.value = !isSidebarActive.value;
+                                      }
+                                    },
+                                  );
+                                }),
+                                buildDropdown(
+                                  context,
+                                  label: "View type",
+                                  index: ref.watch(viewTypeProvider),
+                                  onChanged: (value) => ref.read(viewTypeProvider.notifier).update(),
+                                  items: [
+                                    const DropdownMenuItem(value: 0, child: Text('Grid')),
+                                    const DropdownMenuItem(value: 1, child: Text('List')),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: BrowseView(
+                              context: context,
+                              toggleSearch: toggleSearch,
+                              navrailIndex: navrailIndex,
+                              searchedTerm: searchedTerm,
+                              switchSearchBar: switchSearchBar,
+                              getData: getData,
+                              isConnected: _isConnected,
+                              featured: featured,
+                              categories: categories,
+                              allItems: allItems,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 InstalledView(searchedTerm: searchedTerm),
                 DownloadsView(searchedTerm: searchedTerm),
@@ -287,10 +331,71 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        bottomNavigationBar: context.width < mobileWidth
+        bottomNavigationBar: context.width < mobileWidth && searchedTerm.value.isEmpty
             ? buildViewSwitcher(_currentViewIndex, _controller, ref, ViewSwitcherStyle.mobile)
             : null,
       ),
+    );
+  }
+
+  GtkSidebar buildSidebar(BuildContext context, ValueNotifier<bool> isSidebarActive, ValueNotifier<int> navrailIndex,
+      [bool isSidebar = false]) {
+    return GtkSidebar(
+      width: isSidebarActive.value ? 265 : 0,
+      padding: EdgeInsets.zero,
+      currentIndex: navrailIndex.value,
+      onSelected: (index) {
+        navrailIndex.value = index;
+        if (isSidebar) {
+          context.back();
+        }
+      },
+      children: [
+        GtkSidebarItem(
+          label: "Explore",
+          leading: const AdwaitaIcon(AdwaitaIcons.explore2, size: 17),
+        ),
+        for (var category in categories!.entries.toList().asMap().entries)
+          GtkSidebarItem(
+            label: category.value.key,
+            leading: AdwaitaIcon(
+              categoryIcons.containsKey(category.value.key)
+                  ? categoryIcons[category.value.key]!
+                  : AdwaitaIcons.question,
+              size: 19,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Row buildDropdown(
+    BuildContext context, {
+    required String label,
+    required int index,
+    required Function(int? value)? onChanged,
+    required List<DropdownMenuItem<int>> items,
+  }) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 15)),
+        const SizedBox(width: 10),
+        Container(
+          height: 35,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+              color: getAdaptiveGtkColor(context, colorType: GtkColorType.headerBarBackgroundTop),
+              borderRadius: BorderRadius.circular(10)),
+          child: DropdownButton<int>(
+            value: index,
+            onChanged: onChanged,
+            items: items,
+            icon: const Icon(Icons.arrow_drop_down),
+            underline: const SizedBox(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -303,9 +408,10 @@ class _HomePageState extends State<HomePage> {
       onViewChanged: (index) {
         _controller.jumpToPage(index);
       },
+      height: 50,
       tabs: [
         const ViewSwitcherData(title: "Browse", icon: Icons.web),
-        const ViewSwitcherData(title: "Installed", icon: Icons.list_alt),
+        const ViewSwitcherData(title: "Installed", icon: Icons.view_list),
         ViewSwitcherData(
           title: "Downloads${currentlyDownloading > 0 ? ' ($currentlyDownloading)' : ''}",
           icon: Icons.download,
