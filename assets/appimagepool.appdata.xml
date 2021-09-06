@@ -29,14 +29,15 @@
 	</description>
 	<screenshots>
 		<screenshot>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/main/assets/screenshot/home.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/main/assets/screenshot/category.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/main/assets/screenshot/app.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/main/assets/screenshot/search.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.4.0/assets/screenshot/home.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.4.0/assets/screenshot/category.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.4.0/assets/screenshot/app.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.4.0/assets/screenshot/search.jpg?raw=true</image>
 		</screenshot>
 	</screenshots>
 	<launchable type="desktop-id">appimagepool.desktop</launchable>
 	<releases>
+		<release version="2.4.0" date="2021-09-06"/>
 		<release version="2.3.1" date="2021-09-05"/>
 		<release version="2.3.0" date="2021-09-03"/>
 	</releases>

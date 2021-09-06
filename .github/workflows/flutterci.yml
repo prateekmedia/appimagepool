@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - "README.md"
       - "docs/**"
+      - "assets/screenshot/**"
   workflow_dispatch:
   release:
     types: created

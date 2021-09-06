@@ -1,7 +1,7 @@
 name: appimagepool
 description: A simple, modern AppImageHub Client made for linux using flutter.
 
-version: 2.3.1
+version: 2.4.9
 publish_to: none
 
 environment:
