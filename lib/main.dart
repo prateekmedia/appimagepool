@@ -355,7 +355,7 @@ class _HomePageState extends State<HomePage> {
           label: "Explore",
           leading: const AdwaitaIcon(AdwaitaIcons.explore2, size: 17),
         ),
-        for (var category in categories!.entries.toList().asMap().entries)
+        for (var category in (categories ?? {}).entries.toList().asMap().entries)
           GtkSidebarItem(
             label: category.value.key,
             leading: AdwaitaIcon(
