@@ -45,11 +45,19 @@ class MyApp extends WindowState {
   @override
   Widget build(BuildContext context) {
     final gTheme = GnomeTheme();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: gTheme.data(context).copyWith(primaryColor: Colors.blue[600]),
-      home: const HomePage(),
-    );
+    return Consumer(builder: (ctx, ref, _) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: (ref.watch(forceDarkThemeProvider)
+                ? ThemeData(
+                    brightness: Brightness.dark,
+                    canvasColor: getGtkColor(isDark: true, colorType: GtkColorType.canvas),
+                  )
+                : gTheme.data(context))
+            .copyWith(primaryColor: Colors.blue[600]),
+        home: const HomePage(),
+      );
+    });
   }
 }
 

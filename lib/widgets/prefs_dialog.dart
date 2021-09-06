@@ -144,8 +144,10 @@ class PrefsWidget extends HookConsumerWidget {
           children: [
             const Text('Force dark theme'),
             CupertinoSwitch(
-              value: false,
-              onChanged: (value) {},
+              value: ref.watch(forceDarkThemeProvider),
+              onChanged: (value) {
+                ref.read(forceDarkThemeProvider.notifier).toggle();
+              },
             ),
           ],
         ),
