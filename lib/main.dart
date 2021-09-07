@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
     final _controller = PageController();
 
     void switchSearchBar([bool? value]) {
-      if (categories == null && featured == null) return;
+      if (categories == null && _currentViewIndex.value == 0) return;
       searchedTerm.value = '';
       toggleSearch.value = value ?? !toggleSearch.value;
     }

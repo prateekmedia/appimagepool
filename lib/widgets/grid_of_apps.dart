@@ -97,7 +97,7 @@ class _GridOfAppsState extends State<GridOfApps> {
                                           ),
                                           if (app.description != null)
                                             Text(
-                                              app.description!.replaceAll('\n', '').replaceAll(RegExp(r"<[^>]*>"), ''),
+                                              app.description!.replaceAll('\n', ' ').replaceAll(RegExp(r"<[^>]*>"), ''),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: context.textTheme.bodyText1!
