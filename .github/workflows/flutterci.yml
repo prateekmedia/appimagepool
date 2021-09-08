@@ -19,13 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: haya14busa/action-cond@v1
-        id: newref
-        with:
-          cond:  github.event_name == 'release'
-          if_true: ${{github.ref}}
-          if_false: ${{github.ref}}-nightly
-
       - name: Setup flutter
         uses: subosito/flutter-action@master
         with:
@@ -54,6 +47,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./appimagepool-x86_64*
           file_glob: true
-          tag: ${{ steps.newref.outputs.value }}
-          body: Always up to date
+          tag: ${{ github.ref }}${{ github.event_name == 'release' && '' || '-nightly' }}
+          body: ${{ github.event_name == 'release' && '' || 'Always up to date' }}
           overwrite: true
