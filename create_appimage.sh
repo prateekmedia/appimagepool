@@ -22,19 +22,9 @@ for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;
 install -Dm644  assets/appimagepool.svg AppDir/appimagepool.svg
 install -Dm644 AppDir/appimagepool.svg AppDir/usr/share/icons/hicolor/128x128/apps/appimagepool.svg
 
-# Either copy .desktop file content from file or with echo command
-# cp assets/appimagepool.desktop AppDir/appimagepool.desktop
+# Copy .desktop file content from file
 
-echo '[Desktop Entry]
-Version=1.0
-Type=Application
-Name=AppImage Pool
-Icon=appimagepool
-Exec=appimagepool %u
-StartupWMClass=appimagepool
-Categories=Utility;
-Keywords=AppImage;Store;AppImageHub;Flutter;Gtk;' > AppDir/appimagepool.desktop
-
+install -Dm644  assets/appimagepool.desktop AppDir/appimagepool.desktop
 install -Dm644 AppDir/appimagepool.desktop AppDir/usr/share/applications/appimagepool.desktop
 
 # Add appdata to appimage

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=AppImage Pool
+Icon=appimagepool
+Exec=appimagepool %u
+StartupWMClass=appimagepool
+Categories=Utility;
+Keywords=AppImage;Store;AppImageHub;Flutter;Gtk;
