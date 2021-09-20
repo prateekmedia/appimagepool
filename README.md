@@ -7,11 +7,25 @@
 <p align="center"><b>
 Simple AppImageHub Client</b></p>
 
-| <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/home.jpg" alt="Screenshot 1"/>   | <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/app.jpg" alt="Screenshot 2"/>      |
-| ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/search.jpg" alt="Screenshot 3"/> | <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/category.jpg" alt="Screenshot 4"/> |
+<table>
+    <tr>
+        <td colspan='3'>
+            <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/home.jpg" alt="Screenshot 1"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/app.jpg" alt="Screenshot 2"/>
+        </td>
+        <td>
+            <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/search.jpg" alt="Screenshot 3"/>
+        </td>
+        <td>
+            <img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/screenshot/category.jpg" alt="Screenshot 4"/>
+        </td>
+    </tr>
 
----
+</table>
 
 ## Main Features
 
