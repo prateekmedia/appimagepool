@@ -36,10 +36,12 @@ jobs:
 
       - name: Build Tarball
         run: |
-          cp -fr build/linux/x64/release/bundle linux/usr/bin
-          for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;
-          mkdir -p AppDir/
-          cp -r linux/usr AppDir/
+          install -Dm744 target/release/appimagepool linux/usr/bin/appimagepool
+          cp -aR target/release/data/ linux/usr/bin/data/
+          cp -aR target/release/lib/ linux/usr/bin/lib/
+          cd linux/usr/bin/lib/;for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;cd ../../../../;
+          mkdir AppDir
+          cp -r linux/usr AppDir
           ln -sr AppDir/usr/bin/appimagepool AppDir/appimagepool
           tar czf appimagepool-x86_64.tar.gz -C AppDir/ .
 
