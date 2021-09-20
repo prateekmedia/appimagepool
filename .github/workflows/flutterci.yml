@@ -11,7 +11,8 @@ on:
       - "assets/screenshot/**"
   workflow_dispatch:
   release:
-    types: created
+    types:
+      - created
 
 jobs:
   build-linux:
@@ -33,11 +34,26 @@ jobs:
       - name: Build Flutter app
         run: cargo build --release
 
-      - name: Build AppImage
-        run: ./create_appimage.sh
+      - name: Build Tarball
+        run: |
+          cp -fr build/linux/x64/release/bundle linux/usr/bin
+          for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;
+          mkdir -p AppDir/
+          cp -r linux/usr AppDir/
+          ln -sr AppDir/usr/bin/appimagepool AppDir/appimagepool
+          tar czf appimagepool-x86_64.tar.gz -C AppDir/ .
 
-      - name: Compress AppDir
-        run: tar czf appimagepool-x86_64.tar.gz -C AppDir/ . 
+      - name: Build AppImage
+        run: |
+          echo '#!/bin/sh
+          cd "$(dirname "$0")"
+          exec ./appimagepool' > AppDir/AppRun
+          chmod +x AppDir/AppRun
+          ln -sr AppDir/usr/share/icons/hicolor/128x128/apps/appimagepool.svg AppDir/appimagepool.svg
+          cp AppDir/usr/share/applications/appimagepool.desktop AppDir/appimagepool.desktop
+          curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir/ appimagepool-x86_64.AppImage
 
       - name: App tar sha256 sum
         run: sha256sum appimagepool-x86_64.tar.gz
