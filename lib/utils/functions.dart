@@ -12,6 +12,7 @@ makeProgramExecutable({required String location, required String program}) async
     'chmod +x $program',
     [],
     workingDirectory: location,
+    runInShell: true,
   ))
       .exitCode;
 }
@@ -24,6 +25,7 @@ runProgram({required String location, required String program}) async {
     ,
     [],
     workingDirectory: location,
+    runInShell: true,
   ))
       .exitCode;
 }
