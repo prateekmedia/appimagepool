@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'widgets.dart';
-import '../utils/utils.dart';
-import '../screens/screens.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/screens/screens.dart';
+import 'package:appimagepool/widgets/widgets.dart';
 
 Widget aboutDialog(BuildContext context) {
   Future<PackageInfo> _initPackageInfo() async {

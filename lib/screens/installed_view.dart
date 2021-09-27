@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
-import 'package:process_run/shell.dart';
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,10 +50,10 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                   onPressed: removeItem,
                   icon: const AdwaitaIcon(AdwaitaIcons.user_trash),
                 ),
-                onTap: () {
-                  var shell = Shell().cd(path.dirname(i.path));
-                  shell.run('./' + path.basename(i.path));
-                },
+                onTap: () => runProgram(
+                  location: path.dirname(i.path),
+                  program: path.basename(i.path),
+                ),
               );
             },
             itemCount: listInstalled.length,

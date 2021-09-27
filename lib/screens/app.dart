@@ -9,9 +9,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../utils/utils.dart';
-import '../models/models.dart';
-import '../widgets/widgets.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/models/models.dart';
+import 'package:appimagepool/widgets/widgets.dart';
 
 class AppPage extends HookConsumerWidget {
   AppPage({Key? key, required this.app}) : super(key: key);

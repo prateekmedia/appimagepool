@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
-import '../utils/utils.dart';
+import 'package:appimagepool/utils/utils.dart';
 
 final themeTypeProvider = StateNotifierProvider<ThemeTypeNotifier, ThemeType>((ref) {
   return ThemeTypeNotifier(

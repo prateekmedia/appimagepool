@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
-import 'package:process_run/shell.dart';
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../utils/utils.dart';
-import '../models/models.dart';
-import '../providers/providers.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/models/models.dart';
+import 'package:appimagepool/providers/providers.dart';
 
 class DownloadButton extends HookConsumerWidget {
   const DownloadButton({Key? key}) : super(key: key);
@@ -82,12 +81,10 @@ class DownloadButton extends HookConsumerWidget {
                                     : AdwaitaIcons.user_trash),
                           ),
                           onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
-                              ? () {
-                                  var location = ref.watch(downloadPathProvider);
-
-                                  var shell = Shell().cd(location);
-                                  shell.run('./' + i.name);
-                                }
+                              ? () => runProgram(
+                                    location: ref.watch(downloadPathProvider),
+                                    program: i.name,
+                                  )
                               : () {},
                         ),
                       ),

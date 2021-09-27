@@ -5,8 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gtk/gtk.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../utils/utils.dart';
-import '../widgets/widgets.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/widgets/widgets.dart';
 
 class Package {
   String name;

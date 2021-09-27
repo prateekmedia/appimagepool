@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets.dart';
-import '../utils/utils.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/widgets/widgets.dart';
 
 Widget appimageAboutDialog(BuildContext context) {
   return RoundedDialog(children: [

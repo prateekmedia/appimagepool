@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:gtk/gtk.dart';
+import 'package:flutter/material.dart';
+import 'package:nativeshell/nativeshell.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:nativeshell/nativeshell.dart';
-import '../utils/utils.dart';
+
+import 'package:appimagepool/utils/utils.dart';
 
 class RoundedDialog extends HookConsumerWidget {
   final List<Widget> children;

@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:process_run/shell.dart';
 
 class DownloadsView extends HookConsumerWidget {
   final ValueNotifier<String> searchedTerm;
@@ -77,10 +76,10 @@ class DownloadsView extends HookConsumerWidget {
                 ),
                 onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
                     ? () {
-                        var location = ref.watch(downloadPathProvider);
-
-                        var shell = Shell().cd(location);
-                        shell.run('./' + i.name);
+                        runProgram(
+                          location: ref.watch(downloadPathProvider),
+                          program: i.name,
+                        );
                       }
                     : () {},
               );

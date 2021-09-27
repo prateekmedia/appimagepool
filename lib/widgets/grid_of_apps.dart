@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../utils/utils.dart';
-import '../models/models.dart';
-import '../providers/providers.dart';
-import '../screens/screens.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/models/models.dart';
+import 'package:appimagepool/screens/screens.dart';
+import 'package:appimagepool/providers/providers.dart';
 
 class GridOfApps extends StatefulWidget {
   final List itemList;

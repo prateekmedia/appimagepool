@@ -4,8 +4,8 @@ import 'package:nativeshell/nativeshell.dart';
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../utils/utils.dart';
-import '../providers/providers.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/providers/providers.dart';
 
 class PoolApp extends HookConsumerWidget {
   final String? title;

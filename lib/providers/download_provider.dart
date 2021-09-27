@@ -1,15 +1,14 @@
 import 'dart:io';
 
-import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-import 'package:process_run/shell.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
-import '../utils/utils.dart';
+import 'package:desktop_notifications/desktop_notifications.dart';
 
-import '../models/models.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/models/models.dart';
 
 final downloadPathProvider = StateNotifierProvider<DownloadPathNotifier, String>((ref) {
   return DownloadPathNotifier(
@@ -89,8 +88,10 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
         );
         await client.close();
 
-        var shell = Shell().cd(location);
-        shell.run('chmod +x ' + name);
+        makeProgramExecutable(
+          location: location,
+          program: name,
+        );
       }
     });
   }

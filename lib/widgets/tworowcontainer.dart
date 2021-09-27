@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_html_css/simple_html_css.dart';
-import '../utils/utils.dart';
+
+import 'package:appimagepool/utils/utils.dart';
 
 Widget twoRowContainer(
   BuildContext context, {

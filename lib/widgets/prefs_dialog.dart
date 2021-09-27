@@ -9,9 +9,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
-import './widgets.dart';
-import '../utils/utils.dart';
-import '../providers/providers.dart';
+import 'widgets.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/providers/providers.dart';
 
 Widget prefsDialog(BuildContext context) {
   return const RoundedDialog(
