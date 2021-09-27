@@ -27,7 +27,7 @@ jobs:
       - uses: haya14busa/action-cond@v1
         id: newref
         with:
-          cond: github.event.release.created
+          cond: ${{github.event_name == 'release'}}
           if_true: ${{github.ref}}
           if_false: ${{github.ref}}-nightly
 
