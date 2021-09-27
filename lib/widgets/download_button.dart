@@ -59,7 +59,7 @@ class DownloadButton extends HookConsumerWidget {
                           subtitle: Text(
                             i.cancelToken.isCancelled
                                 ? "Cancelled"
-                                : i.actualBytes == 0
+                                : i.totalBytes == 0
                                     ? 'Starting Download'
                                     : i.actualBytes == i.totalBytes
                                         ? "Download finished"

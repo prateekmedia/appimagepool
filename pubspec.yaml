@@ -24,7 +24,6 @@ dependencies:
   nativeshell: ^0.1.9
   package_info_plus: ^1.0.5
   path_provider: ^2.0.2
-  process_run: ^0.12.1
   shared_preferences: ^2.0.6
   simple_html_css: ^3.0.1
   sticky_headers: ^0.2.0

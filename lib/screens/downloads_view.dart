@@ -42,7 +42,7 @@ class DownloadsView extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 3),
                     LinearProgressIndicator(
-                      value: i.actualBytes / i.totalBytes,
+                      value: i.totalBytes != 0 ? i.actualBytes / i.totalBytes : 0,
                       minHeight: 10,
                     ),
                     const SizedBox(height: 3),
@@ -75,12 +75,10 @@ class DownloadsView extends HookConsumerWidget {
                           : AdwaitaIcons.user_trash),
                 ),
                 onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
-                    ? () {
-                        runProgram(
+                    ? () => runProgram(
                           location: ref.watch(downloadPathProvider),
                           program: i.name,
-                        );
-                      }
+                        )
                     : () {},
               );
             },

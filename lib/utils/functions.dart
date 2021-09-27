@@ -1,4 +1,4 @@
-import 'package:process_run/shell_run.dart';
+import 'dart:io';
 
 bool doesContain(String any, List<String> val) {
   for (var item in val) {
@@ -7,12 +7,23 @@ bool doesContain(String any, List<String> val) {
   return false;
 }
 
-makeProgramExecutable({required String location, required String program}) {
-  Shell().run('chmod +x ${location + program}');
+makeProgramExecutable({required String location, required String program}) async {
+  return (await Process.run(
+    'chmod +x $program',
+    [],
+    workingDirectory: location,
+  ))
+      .exitCode;
 }
 
-runProgram({required String location, required String program}) {
-  Shell().run('type flatpak-spawn && '
-      'flatpak-spawn --host ${location + program} ||' // Execute with flatpak if app is contanerized
-      '${location + program}'); // Else execute normally
+runProgram({required String location, required String program}) async {
+  return (await Process.run(
+    'type flatpak-spawn && '
+    'flatpak-spawn --host ./$program ||' // Execute with flatpak if app is contanerized
+    './$program' // Else execute normally
+    ,
+    [],
+    workingDirectory: location,
+  ))
+      .exitCode;
 }
