@@ -29,7 +29,7 @@ runProgram({required String location, required String program}) async {
 
   if (result == 0) {
     // Execute with flatpak if app is contanerized
-    var _result = (await Process.run(
+    return (await Process.run(
       'flatpak-spawn',
       [
         '--host',
@@ -39,37 +39,6 @@ runProgram({required String location, required String program}) async {
       runInShell: true,
     ))
         .exitCode;
-    if (_result == 0) {
-      print("First strategy worked");
-      return result;
-    } else {
-      var __result = (await Process.run(
-        'flatpak-spawn',
-        [
-          '--host',
-          location + (location.endsWith('/') ? '' : '/') + './$program',
-        ],
-        runInShell: true,
-      ))
-          .exitCode;
-      if (__result == 0) {
-        print("Second strategy worked");
-        return __result;
-      } else {
-        print('Final Strategy');
-        return (await Process.run(
-          'flatpak-spawn',
-          [
-            '--host',
-            'sh',
-            '-c',
-            location + (location.endsWith('/') ? '' : '/') + './$program',
-          ],
-          runInShell: true,
-        ))
-            .exitCode;
-      }
-    }
   } else {
     // Else execute normally
     return (await Process.run(
