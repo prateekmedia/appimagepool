@@ -21,12 +21,8 @@ runProgram({required String location, required String program}) async {
   makeProgramExecutable(location: location, program: program);
 
   var result = (await Process.run(
-    'type'
-    'flatpak-spawn --host ./$program ||' // Execute with flatpak if app is contanerized
-    './$program' // Else execute normally
-    ,
+    'type',
     ['flatpak-spawn'],
-    workingDirectory: location,
     runInShell: true,
   ))
       .exitCode;
