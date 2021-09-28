@@ -1,9 +1,11 @@
 import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gtk/gtk.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CarouselArrow extends StatelessWidget {
+class CarouselArrow extends ConsumerWidget {
   const CarouselArrow({
     Key? key,
     required this.icon,
@@ -14,7 +16,7 @@ class CarouselArrow extends StatelessWidget {
   final String icon;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context, ref) {
     return SizedBox(
       width: 44,
       height: 44,
@@ -22,6 +24,7 @@ class CarouselArrow extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: getAdaptiveGtkColor(
             context,
+            gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
             colorType: GtkColorType.headerButtonBackgroundBottom,
           ).withOpacity(0.70),
           shape: const CircleBorder(),

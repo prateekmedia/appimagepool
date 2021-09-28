@@ -121,6 +121,7 @@ class PrefsWidget extends HookConsumerWidget {
               style: ElevatedButton.styleFrom(
                 primary: getAdaptiveGtkColor(
                   context,
+                  gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                   colorType: GtkColorType.headerBarBackgroundTop,
                 ),
               ),

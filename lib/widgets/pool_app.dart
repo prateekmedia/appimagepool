@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/providers/providers.dart';
+import 'package:window_decorations/window_decorations.dart';
 
 class PoolApp extends HookConsumerWidget {
   final String? title;
@@ -33,7 +34,13 @@ class PoolApp extends HookConsumerWidget {
       children: [
         GtkHeaderBar.bitsdojo(
           titlebarSpace: 0,
+          gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
           appWindow: appWindow,
+          rawDecoratedWindowButton: (name, type, onPressed) => RawDecoratedWindowButton(
+            name: name,
+            type: type ?? ThemeType.auto,
+            onPressed: onPressed,
+          ),
           showMinimize: context.width >= mobileWidth,
           showMaximize: context.width >= mobileWidth,
           leading: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -43,6 +50,7 @@ class PoolApp extends HookConsumerWidget {
                 child: Material(
                   type: MaterialType.transparency,
                   child: GtkHeaderButton(
+                    gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                     icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
                     onPressed: () {
                       if (onBackPressed != null) onBackPressed!();
@@ -59,7 +67,7 @@ class PoolApp extends HookConsumerWidget {
                   style: context.textTheme.headline6!.copyWith(fontSize: 17),
                 )
               : center ?? const SizedBox(),
-          trailling: Row(mainAxisSize: MainAxisSize.min, children: trailing),
+          trailing: Row(mainAxisSize: MainAxisSize.min, children: trailing),
           themeType: ref.watch(themeTypeProvider),
         ),
         Expanded(child: body),

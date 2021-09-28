@@ -5,6 +5,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:appimagepool/providers/providers.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:window_decorations/window_decorations.dart';
 
 class RoundedDialog extends HookConsumerWidget {
   final List<Widget> children;
@@ -30,6 +31,12 @@ class RoundedDialog extends HookConsumerWidget {
           child: Column(
             children: [
               GtkHeaderBar(
+                gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
+                rawDecoratedWindowButton: (name, type, onPressed) => RawDecoratedWindowButton(
+                  name: name,
+                  type: type ?? ThemeType.auto,
+                  onPressed: onPressed,
+                ),
                 onHeaderDrag: appWindow.startDragging,
                 onDoubleTap: null,
                 themeType: ref.watch(themeTypeProvider),

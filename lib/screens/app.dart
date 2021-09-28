@@ -1,3 +1,4 @@
+import 'package:appimagepool/providers/providers.dart';
 import 'package:dio/dio.dart';
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,7 @@ class AppPage extends HookConsumerWidget {
             Container(
               color: getAdaptiveGtkColor(
                 context,
+                gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                 colorType: GtkColorType.headerBarBackgroundTop,
               ),
               child: Center(

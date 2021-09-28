@@ -34,17 +34,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gTheme = GnomeTheme();
     return Consumer(builder: (ctx, ref, _) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: (ref.watch(forceDarkThemeProvider)
-                ? ThemeData(
-                    brightness: Brightness.dark,
-                    canvasColor: getGtkColor(isDark: true, colorType: GtkColorType.canvas),
-                  )
-                : gTheme.data(context))
-            .copyWith(primaryColor: Colors.blue[600]),
+        theme: ref.watch(gnomeThemeProvider.notifier).theme.themeData.copyWith(primaryColor: Colors.blue[600]),
         home: const HomePage(),
       );
     });
@@ -155,7 +148,7 @@ class _HomePageState extends State<HomePage> {
     return Consumer(
       builder: (ctx, ref, _) => Scaffold(
         drawer: context.width < mobileWidth
-            ? Drawer(child: buildSidebar(context, isSidebarActive, navrailIndex, true))
+            ? Drawer(child: buildSidebar(context, ref, isSidebarActive, navrailIndex, true))
             : null,
         body: RawKeyboardListener(
           focusNode: FocusNode(),
@@ -168,7 +161,11 @@ class _HomePageState extends State<HomePage> {
             center: toggleSearch.value
                 ? Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                    color: getAdaptiveGtkColor(context, colorType: GtkColorType.headerBarBackgroundBottom),
+                    color: getAdaptiveGtkColor(
+                      context,
+                      gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
+                      colorType: GtkColorType.headerBarBackgroundBottom,
+                    ),
                     constraints: BoxConstraints.loose(const Size(500, 50)),
                     child: RawKeyboardListener(
                       child: TextField(
@@ -198,6 +195,7 @@ class _HomePageState extends State<HomePage> {
                     : null,
             leading: [
               GtkHeaderButton(
+                gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                 icon: AdwaitaIcon(
                   !toggleSearch.value ? AdwaitaIcons.system_search : AdwaitaIcons.go_previous,
                   size: 17,
@@ -208,6 +206,7 @@ class _HomePageState extends State<HomePage> {
             trailing: !toggleSearch.value
                 ? [
                     GtkPopupMenu(
+                      gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                       body: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -268,7 +267,7 @@ class _HomePageState extends State<HomePage> {
                     if (context.width >= mobileWidth)
                       AnimatedSize(
                         duration: const Duration(milliseconds: 200),
-                        child: buildSidebar(context, isSidebarActive, navrailIndex),
+                        child: buildSidebar(context, ref, isSidebarActive, navrailIndex),
                       ),
                     Expanded(
                       child: Column(
@@ -280,6 +279,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Builder(builder: (context) {
                                   return GtkHeaderButton(
+                                    gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                                     isActive: isSidebarActive.value,
                                     icon: const AdwaitaIcon(AdwaitaIcons.sidebar_toggle_left),
                                     onPressed: () {
@@ -293,6 +293,7 @@ class _HomePageState extends State<HomePage> {
                                 }),
                                 buildDropdown(
                                   context,
+                                  ref,
                                   label: "View type",
                                   index: ref.watch(viewTypeProvider),
                                   onChanged: (value) => ref.read(viewTypeProvider.notifier).update(),
@@ -336,9 +337,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  GtkSidebar buildSidebar(BuildContext context, ValueNotifier<bool> isSidebarActive, ValueNotifier<int> navrailIndex,
+  GtkSidebar buildSidebar(
+      BuildContext context, WidgetRef ref, ValueNotifier<bool> isSidebarActive, ValueNotifier<int> navrailIndex,
       [bool isSidebar = false]) {
     return GtkSidebar(
+      gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
       width: isSidebarActive.value ? 265 : 0,
       padding: EdgeInsets.zero,
       currentIndex: navrailIndex.value,
@@ -350,11 +353,13 @@ class _HomePageState extends State<HomePage> {
       },
       children: [
         GtkSidebarItem(
+          gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
           label: "Explore",
           leading: const AdwaitaIcon(AdwaitaIcons.explore2, size: 17),
         ),
         for (var category in (categories ?? {}).entries.toList().asMap().entries)
           GtkSidebarItem(
+            gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
             label: category.value.key,
             leading: AdwaitaIcon(
               categoryIcons.containsKey(category.value.key)
@@ -368,7 +373,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Row buildDropdown(
-    BuildContext context, {
+    BuildContext context,
+    WidgetRef ref, {
     required String label,
     required int index,
     required Function(int? value)? onChanged,
@@ -383,7 +389,9 @@ class _HomePageState extends State<HomePage> {
           height: 35,
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-              color: getAdaptiveGtkColor(context, colorType: GtkColorType.headerBarBackgroundTop),
+              color: getAdaptiveGtkColor(context,
+                  gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
+                  colorType: GtkColorType.headerBarBackgroundTop),
               borderRadius: BorderRadius.circular(10)),
           child: DropdownButton<int>(
             value: index,
@@ -402,6 +410,7 @@ class _HomePageState extends State<HomePage> {
     var currentlyDownloading =
         ref.watch(downloadListProvider).where((element) => element.actualBytes != element.totalBytes).length;
     return GtkViewSwitcher(
+      gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
       currentIndex: _currentViewIndex.value,
       onViewChanged: (index) {
         _controller.jumpToPage(index);

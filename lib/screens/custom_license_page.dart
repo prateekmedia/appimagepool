@@ -1,8 +1,10 @@
+import 'package:appimagepool/providers/providers.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gtk/gtk.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:appimagepool/utils/utils.dart';
@@ -15,10 +17,10 @@ class Package {
   Package({required this.name, required this.count});
 }
 
-class CustomLicensePage extends HookWidget {
+class CustomLicensePage extends HookConsumerWidget {
   const CustomLicensePage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(context, ref) {
     final _selected = useState<int?>(null);
     final appBarName = useState<String?>(null);
 
@@ -61,12 +63,14 @@ class CustomLicensePage extends HookWidget {
                   panelWidth: 265,
                   pane2Name: _selected.value != null ? packages[_selected.value!].name : null,
                   pane1: GtkSidebar.builder(
+                    gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                     controller: ScrollController(),
                     width: double.infinity,
                     onSelected: (index) => _selectValue(index, packages[index].name),
                     currentIndex: _selected.value,
                     itemBuilder: (context, index, isSelected) {
                       return GtkSidebarItem(
+                        gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         labelWidget: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,13 +110,13 @@ class CustomLicensePage extends HookWidget {
   }
 }
 
-class LicenseInfoPage extends StatelessWidget {
+class LicenseInfoPage extends ConsumerWidget {
   final Package? package;
   final List<LicenseEntry>? paragraph;
 
   const LicenseInfoPage({Key? key, this.package, this.paragraph}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(context, ref) {
     final arguments = ModalRoute.of(context)?.settings.arguments as Map?;
     final cParagraph = paragraph ?? (arguments != null ? arguments['paragraph'] : null);
     return Scaffold(
@@ -125,6 +129,7 @@ class LicenseInfoPage extends StatelessWidget {
               header: Container(
                 color: getAdaptiveGtkColor(
                   context,
+                  gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                   colorType: GtkColorType.headerBarBackgroundBottom,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),

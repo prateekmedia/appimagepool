@@ -31,7 +31,7 @@ Widget aboutDialog(BuildContext context) {
                           image: DecorationImage(
                             fit: BoxFit.contain,
                             image: CachedNetworkImageProvider(
-                              'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.png',
+                              'https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/appimagepool.png',
                             ),
                           ),
                         ),
