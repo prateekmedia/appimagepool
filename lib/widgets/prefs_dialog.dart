@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:gtk/gtk.dart';
+import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:file_picker/file_picker.dart';
@@ -7,7 +10,6 @@ import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
-import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 import 'widgets.dart';
 import 'package:appimagepool/utils/utils.dart';
@@ -109,7 +111,7 @@ class PrefsWidget extends HookConsumerWidget {
                       const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
                       const SizedBox(width: 6),
                       SelectableText(
-                          path == xdg.configHome.path.replaceAll('.config', 'Applications/') ? 'Applications' : path),
+                          path == p.join(Platform.environment['HOME']!, 'Applications') + '/' ? 'Applications' : path),
                     ],
                   ),
                 ),

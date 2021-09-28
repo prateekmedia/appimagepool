@@ -38,16 +38,13 @@ jobs:
         run: flutter config --enable-linux-desktop
 
       - name: Build Flutter app
-        run: cargo build --release
+        run: flutter build linux
 
       - name: Build Tarball
         run: |
-          install -Dm744 target/release/appimagepool linux/usr/bin/appimagepool
-          cp -aR target/release/data/ linux/usr/bin/data/
-          cp -aR target/release/lib/ linux/usr/bin/lib/
-          cd linux/usr/bin/lib/;for f in $(find -type l);do cp --remove-destination $(readlink $f) $f;done;cd ../../../../;
+          cp -fr build/linux/x64/release/bundle linux/packaging/usr/bin
           mkdir AppDir
-          cp -r linux/usr AppDir
+          cp -r linux/packaging/usr AppDir
           ln -sr AppDir/usr/bin/appimagepool AppDir/appimagepool
           tar czf appimagepool-x86_64.tar.gz -C AppDir/ .
 
@@ -66,11 +63,13 @@ jobs:
       - name: App tar sha256 sum
         run: sha256sum appimagepool-x86_64.tar.gz
 
-      - uses: svenstaro/upload-release-action@master
+      - uses: svenstaro/upload-release-action@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./appimagepool-x86_64*
           file_glob: true
-          tag: ${{ steps.newref.outputs.value }}
-          body: ""
+          prerelease: ${{ github.event_name != 'release' }}
+          release_name: ${{ github.event_name == 'release' && github.event.release.name || 'Development Build' }}
+          tag: ${{ github.event_name == 'release' && github.event.release.tag_name || 'continuous' }}
           overwrite: true
+          

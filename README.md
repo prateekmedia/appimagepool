@@ -40,9 +40,9 @@ Simple AppImageHub Client</b></p>
 
 ### Download Links
 
-| Flatpak                                                                                                          | AppImage                                                                                                                                                                                                                        |
-| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> |
+| Flatpak | AppImage | Nightly AppImage |
+|    -    |    -     |        -         |
+| <a><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/continuous/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> |
 
 ---
 

@@ -10,6 +10,7 @@
 .svn/
 .comments
 .flatpak-builder*
+generated_plugin_registrant.*
 
 **hid**
 **.AppImage

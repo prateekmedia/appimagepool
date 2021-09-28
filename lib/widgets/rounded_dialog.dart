@@ -1,7 +1,7 @@
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
-import 'package:nativeshell/nativeshell.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:appimagepool/providers/providers.dart';
 
 import 'package:appimagepool/utils/utils.dart';
@@ -30,7 +30,7 @@ class RoundedDialog extends HookConsumerWidget {
           child: Column(
             children: [
               GtkHeaderBar(
-                onHeaderDrag: Window.of(context).performDrag,
+                onHeaderDrag: appWindow.startDragging,
                 onDoubleTap: null,
                 themeType: ref.watch(themeTypeProvider),
                 onClose: context.back,

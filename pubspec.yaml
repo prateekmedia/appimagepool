@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   adwaita_icons: ^0.2.0
+  bitsdojo_window: ^0.1.1+1
   cached_network_image: ^3.1.0
   carousel_slider: ^4.0.0
   desktop_notifications: ^0.6.0
@@ -21,7 +22,6 @@ dependencies:
   gtk: ^0.8.5
   hooks_riverpod: ^1.0.0-dev.7
   intl: ^0.17.0
-  nativeshell: ^0.1.9
   package_info_plus: ^1.0.5
   path_provider: ^2.0.2
   shared_preferences: ^2.0.6

@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:nativeshell/nativeshell.dart';
 import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 import 'utils/utils.dart';
 import 'screens/screens.dart';
@@ -20,27 +20,17 @@ import 'providers/providers.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MyPrefs().init();
-  runApp(
-    ProviderScope(child: WindowWidget(
-      onCreateState: (initData) {
-        WindowState? state;
-        state ??= MyApp();
-        return state;
-      },
-    )),
-  );
+  runApp(const ProviderScope(child: MyApp()));
+
+  doWhenWindowReady(() {
+    appWindow.alignment = Alignment.center;
+    appWindow.title = "Pool";
+    appWindow.show();
+  });
 }
 
-class MyApp extends WindowState {
-  @override
-  WindowSizingMode get windowSizingMode => WindowSizingMode.manual;
-
-  @override
-  Future<void> initializeWindow(Size contentSize) async {
-    window.setStyle(WindowStyle(frame: WindowFrame.noTitle));
-    window.setTitle('Pool');
-    return super.initializeWindow(const Size(1280, 720));
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

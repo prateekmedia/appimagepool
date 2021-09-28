@@ -1,7 +1,7 @@
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
-import 'package:nativeshell/nativeshell.dart';
 import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
@@ -31,9 +31,9 @@ class PoolApp extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     return Column(
       children: [
-        GtkHeaderBar.nativeshell(
+        GtkHeaderBar.bitsdojo(
           titlebarSpace: 0,
-          window: Window.of(context),
+          appWindow: appWindow,
           showMinimize: context.width >= mobileWidth,
           showMaximize: context.width >= mobileWidth,
           leading: Row(mainAxisSize: MainAxisSize.min, children: [

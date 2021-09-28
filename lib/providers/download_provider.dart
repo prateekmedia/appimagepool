@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xdg_directories/xdg_directories.dart' as xdg;
+import 'package:path/path.dart' as path;
 import 'package:desktop_notifications/desktop_notifications.dart';
 
 import 'package:appimagepool/utils/utils.dart';
@@ -12,7 +12,7 @@ import 'package:appimagepool/models/models.dart';
 
 final downloadPathProvider = StateNotifierProvider<DownloadPathNotifier, String>((ref) {
   return DownloadPathNotifier(
-      MyPrefs().prefs.getString('path') ?? xdg.configHome.path.replaceAll('.config', 'Applications/'));
+      MyPrefs().prefs.getString('path') ?? path.join(Platform.environment['HOME']!, 'Applications') + '/');
 });
 
 class DownloadPathNotifier extends StateNotifier<String> {
