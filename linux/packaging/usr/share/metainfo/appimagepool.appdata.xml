@@ -23,20 +23,18 @@
 			<li>Version History and multi download support</li>
 			<li>Fast downloader</li>
 		</ul>
-		<p>
-			<b>Note</b> : Some features are not implemented yet.
-		</p>
 	</description>
 	<screenshots>
 		<screenshot>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.6.6/assets/screenshot/home.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.6.6/assets/screenshot/category.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.6.6/assets/screenshot/app.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.6.6/assets/screenshot/search.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.9.0/assets/screenshot/home.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.9.0/assets/screenshot/category.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.9.0/assets/screenshot/app.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/2.9.0/assets/screenshot/search.jpg?raw=true</image>
 		</screenshot>
 	</screenshots>
 	<launchable type="desktop-id">appimagepool.desktop</launchable>
 	<releases>
+		<release version="2.9.0" date="2021-09-28"/>
 		<release version="2.6.6" date="2021-09-27"/>
 		<release version="2.6.0" date="2021-09-27"/>
 		<release version="2.5.0" date="2021-09-20"/>

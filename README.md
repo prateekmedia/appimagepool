@@ -36,8 +36,6 @@ Simple AppImageHub Client</b></p>
 - Version History and multi dowload support
 - Fast downloader
 
-**Note** : Some features are not implemented yet.
-
 ### Download Links
 
 | Flatpak | AppImage | Nightly AppImage |
