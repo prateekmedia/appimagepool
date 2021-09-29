@@ -40,7 +40,7 @@ Simple AppImageHub Client</b></p>
 
 | Flatpak | AppImage | Nightly AppImage |
 |    -    |    -     |        -         |
-| <a><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/continuous/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> |
+| <a href='https://flathub.org/apps/details/io.github.prateekmedia.appimagepool'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/continuous/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> |
 
 ---
 
@@ -58,5 +58,5 @@ Simple AppImageHub Client</b></p>
 flutter pub get; flutter config --enable-linux-desktop
 
 # For Direct Testing
-cargo run
+flutter run -v -d linux
 ```
