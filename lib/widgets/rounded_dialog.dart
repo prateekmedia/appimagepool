@@ -32,11 +32,7 @@ class RoundedDialog extends HookConsumerWidget {
             children: [
               GtkHeaderBar(
                 gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
-                rawDecoratedWindowButton: (name, type, onPressed) => RawDecoratedWindowButton(
-                  name: name,
-                  type: type ?? ThemeType.auto,
-                  onPressed: onPressed,
-                ),
+                windowDecor: windowDecor,
                 onHeaderDrag: appWindow.startDragging,
                 onDoubleTap: null,
                 themeType: ref.watch(themeTypeProvider),

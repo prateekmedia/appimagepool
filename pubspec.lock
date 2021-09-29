@@ -274,7 +274,7 @@ packages:
       name: gtk
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0"
+    version: "0.9.8+1"
   hooks_riverpod:
     dependency: "direct main"
     description:
@@ -713,7 +713,7 @@ packages:
       name: window_decorations
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0"
+    version: "0.9.5"
   xdg_directories:
     dependency: transitive
     description:

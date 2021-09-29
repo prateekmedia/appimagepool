@@ -13,21 +13,22 @@ extension Context on BuildContext {
   back() => Navigator.of(this).pop();
 }
 
-extension Iterables<E> on Iterable<E> {
-  Map<K, List<E>> groupBy<K>(K Function(E) keyFunction) {
-    Map<K, List<E>> mape(element, map) {
-      for (var el in (keyFunction(element) as List)) {
-        map.putIfAbsent(el, () => <E>[]).add(element);
-      }
-      return map;
-    }
-
-    return fold(<K, List<E>>{}, (Map<K, List<E>> map, E element) => mape(element, map));
+extension CategoryIterable<E> on Iterable<E> {
+  Map<K, List<E>> groupBy<K>(List<K> Function(E) keyFunction) {
+    return fold(
+      {},
+      (Map<K, List<E>> map, E element) {
+        for (var el in keyFunction(element)) {
+          map.putIfAbsent(el, () => <E>[]).add(element);
+        }
+        return map;
+      },
+    );
   }
 }
 
 extension UrlLauncher on String {
-  launchIt() async => await canLaunch(this) ? await launch(this) : throw 'Could not launch $this';
+  launchIt() async => await launch(this);
 }
 
 extension GetHumanizedFileSizeExtension on int {

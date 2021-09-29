@@ -36,11 +36,7 @@ class PoolApp extends HookConsumerWidget {
           titlebarSpace: 0,
           gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
           appWindow: appWindow,
-          rawDecoratedWindowButton: (name, type, onPressed) => RawDecoratedWindowButton(
-            name: name,
-            type: type ?? ThemeType.auto,
-            onPressed: onPressed,
-          ),
+          windowDecor: windowDecor,
           showMinimize: context.width >= mobileWidth,
           showMaximize: context.width >= mobileWidth,
           leading: Row(mainAxisSize: MainAxisSize.min, children: [

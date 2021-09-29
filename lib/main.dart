@@ -29,18 +29,19 @@ void main() async {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer(builder: (ctx, ref, _) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ref.watch(gnomeThemeProvider.notifier).theme.themeData.copyWith(primaryColor: Colors.blue[600]),
-        home: const HomePage(),
-      );
-    });
+  Widget build(context, ref) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: (ref.watch(forceDarkThemeProvider)
+              ? ref.read(gnomeThemeProvider.notifier).theme.adwaita(true)
+              : ref.watch(gnomeThemeProvider.notifier).getTheme())
+          .copyWith(primaryColor: Colors.blue[600]),
+      home: const HomePage(),
+    );
   }
 }
 
@@ -354,6 +355,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         GtkSidebarItem(
           gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
+          selectedColor: context.theme.primaryColor,
           label: "Explore",
           leading: const AdwaitaIcon(AdwaitaIcons.explore2, size: 17),
         ),
