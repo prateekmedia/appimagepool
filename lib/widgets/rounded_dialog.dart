@@ -1,4 +1,3 @@
-import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
@@ -30,13 +29,19 @@ class RoundedDialog extends HookConsumerWidget {
           width: width,
           child: Column(
             children: [
-              GtkHeaderBar(
-                gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
-                windowDecor: windowDecor,
-                onHeaderDrag: appWindow.startDragging,
-                onDoubleTap: null,
-                themeType: ref.watch(themeTypeProvider),
-                onClose: context.back,
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onDoubleTap: appWindow.maximizeOrRestore,
+                onPanStart: (v) => appWindow.startDragging(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    DecoratedCloseButton(
+                      onPressed: context.back,
+                      type: ref.watch(themeTypeProvider),
+                    ),
+                  ],
+                ),
               ),
               ...children,
             ],

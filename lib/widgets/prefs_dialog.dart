@@ -119,11 +119,7 @@ class PrefsWidget extends HookConsumerWidget {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: getAdaptiveGtkColor(
-                  context,
-                  gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
-                  colorType: GtkColorType.headerBarBackgroundTop,
-                ),
+                primary: GnomeTheme.of(context).sidebars,
               ),
               onPressed: !isBrowserActive.value
                   ? () async {
@@ -148,6 +144,7 @@ class PrefsWidget extends HookConsumerWidget {
             const Text('Force dark theme'),
             CupertinoSwitch(
               value: ref.watch(forceDarkThemeProvider),
+              activeColor: context.theme.primaryColor,
               onChanged: (value) {
                 ref.read(forceDarkThemeProvider.notifier).toggle();
               },

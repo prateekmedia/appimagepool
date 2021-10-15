@@ -34,7 +34,6 @@ class PoolApp extends HookConsumerWidget {
       children: [
         GtkHeaderBar.bitsdojo(
           titlebarSpace: 0,
-          gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
           appWindow: appWindow,
           windowDecor: windowDecor,
           showMinimize: context.width >= mobileWidth,
@@ -46,7 +45,6 @@ class PoolApp extends HookConsumerWidget {
                 child: Material(
                   type: MaterialType.transparency,
                   child: GtkHeaderButton(
-                    gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                     icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
                     onPressed: () {
                       if (onBackPressed != null) onBackPressed!();

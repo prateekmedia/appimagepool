@@ -1,5 +1,4 @@
 import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gtk/gtk.dart';
@@ -22,11 +21,7 @@ class CarouselArrow extends ConsumerWidget {
       height: 44,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: getAdaptiveGtkColor(
-            context,
-            gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
-            colorType: GtkColorType.headerButtonBackgroundBottom,
-          ).withOpacity(0.70),
+          primary: GnomeTheme.of(context).sidebars.withOpacity(0.70),
           shape: const CircleBorder(),
         ),
         child: AdwaitaIcon(icon, color: context.textTheme.bodyText1!.color, size: 30),

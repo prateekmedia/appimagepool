@@ -23,7 +23,6 @@ class DownloadButton extends HookConsumerWidget {
         child: Material(
           type: MaterialType.transparency,
           child: GtkPopupMenu(
-            gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
             popupWidth: 400,
             icon: AdwaitaIcon(
               downloading > 0 ? AdwaitaIcons.folder_download : AdwaitaIcons.emblem_default,

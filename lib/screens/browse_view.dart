@@ -45,7 +45,8 @@ class BrowseView extends StatefulHookWidget {
   State<BrowseView> createState() => _BrowseViewState();
 }
 
-class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMixin {
+class _BrowseViewState extends State<BrowseView>
+    with AutomaticKeepAliveClientMixin {
   final _controller = CarouselController();
 
   @override
@@ -55,11 +56,19 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
     final carouselIndex = useState<int>(0);
     var itemsNew = widget.allItems != null && widget.navrailIndex.value == 0
         ? widget.allItems!
-            .where((element) => element['name'].toLowerCase().contains(widget.searchedTerm.value.toLowerCase(), 0))
+            .where((element) => element['name']
+                .toLowerCase()
+                .contains(widget.searchedTerm.value.toLowerCase(), 0))
             .toList()
-        : widget.allItems != null && widget.navrailIndex.value > 0 && widget.categories != null
-            ? (widget.categories!.entries.toList()[widget.navrailIndex.value - 1].value as List)
-                .where((element) => element['name'].toLowerCase().contains(widget.searchedTerm.value.toLowerCase(), 0))
+        : widget.allItems != null &&
+                widget.navrailIndex.value > 0 &&
+                widget.categories != null
+            ? (widget.categories!.entries
+                    .toList()[widget.navrailIndex.value - 1]
+                    .value as List)
+                .where((element) => element['name']
+                    .toLowerCase()
+                    .contains(widget.searchedTerm.value.toLowerCase(), 0))
                 .toList()
             : [];
     return !widget.isConnected
@@ -70,9 +79,11 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
               const SizedBox(height: 20),
               Text("Can't connect", style: context.textTheme.headline5),
               const SizedBox(height: 12),
-              Text("You need an internet connection to use $appName.", style: context.textTheme.headline6),
+              Text("You need an internet connection to use $appName.",
+                  style: context.textTheme.headline6),
               const SizedBox(height: 20),
-              ElevatedButton(onPressed: widget.getData, child: const Text('Retry')),
+              ElevatedButton(
+                  onPressed: widget.getData, child: const Text('Retry')),
             ],
           )
         : widget.categories == null && widget.featured == null
@@ -81,21 +92,25 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                 children: [
                   SpinKitThreeBounce(color: context.textTheme.bodyText1!.color),
                   const SizedBox(height: 20),
-                  Text("Fetching Softwares", style: context.textTheme.headline5),
+                  Text("Fetching Softwares",
+                      style: context.textTheme.headline5),
                 ],
               )
-            : widget.searchedTerm.value.trim().isEmpty && widget.navrailIndex.value == 0
+            : widget.searchedTerm.value.trim().isEmpty &&
+                    widget.navrailIndex.value == 0
                 ? SingleChildScrollView(
                     controller: ScrollController(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 4),
                           child: Text(
                             "Featured Apps",
-                            style:
-                                context.textTheme.headline6!.copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
+                            style: context.textTheme.headline6!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.2),
                           ),
                         ),
                         MouseRegion(
@@ -106,28 +121,41 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                               CarouselSlider.builder(
                                 itemCount: widget.featured!.length,
                                 itemBuilder: (context, index, i) {
-                                  App featuredApp = App.fromItem(widget.featured!.values.toList()[index]);
+                                  App featuredApp = App.fromItem(
+                                      widget.featured!.values.toList()[index]);
                                   return ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: GestureDetector(
-                                      onTap: () => Navigator.of(context)
-                                          .push(MaterialPageRoute(builder: (ctx) => AppPage(app: featuredApp))),
+                                      onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (ctx) =>
+                                                  AppPage(app: featuredApp))),
                                       child: Stack(
                                         children: [
-                                          if (featuredApp.screenshotsUrl != null)
+                                          if (featuredApp.screenshotsUrl !=
+                                              null)
                                             Container(
-                                                constraints: const BoxConstraints.expand(),
+                                                constraints:
+                                                    const BoxConstraints
+                                                        .expand(),
                                                 child: CachedNetworkImage(
-                                                  imageUrl: featuredApp.screenshotsUrl![0].startsWith('http')
-                                                      ? (featuredApp.screenshotsUrl!)[0]
-                                                      : prefixUrl + featuredApp.screenshotsUrl![0],
+                                                  imageUrl: featuredApp
+                                                          .screenshotsUrl![0]
+                                                          .startsWith('http')
+                                                      ? (featuredApp
+                                                          .screenshotsUrl!)[0]
+                                                      : prefixUrl +
+                                                          featuredApp
+                                                              .screenshotsUrl![0],
                                                   fit: BoxFit.cover,
                                                 )),
                                           Center(
                                             child: Container(
                                               color: context.isDark
-                                                  ? Colors.grey.shade900.withOpacity(0.5)
-                                                  : Colors.grey.shade300.withOpacity(0.5),
+                                                  ? Colors.grey.shade900
+                                                      .withOpacity(0.5)
+                                                  : Colors.grey.shade300
+                                                      .withOpacity(0.5),
                                               height: 400,
                                               child: ClipRect(
                                                 child: BackdropFilter(
@@ -136,30 +164,51 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                                                     sigmaY: 10,
                                                   ),
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       SizedBox(
                                                         width: 100,
-                                                        child: featuredApp.iconUrl != null
-                                                            ? featuredApp.iconUrl!.endsWith('.svg')
-                                                                ? SvgPicture.network(
-                                                                    featuredApp.iconUrl!,
+                                                        child: featuredApp
+                                                                    .iconUrl !=
+                                                                null
+                                                            ? featuredApp
+                                                                    .iconUrl!
+                                                                    .endsWith(
+                                                                        '.svg')
+                                                                ? SvgPicture
+                                                                    .network(
+                                                                    featuredApp
+                                                                        .iconUrl!,
                                                                   )
                                                                 : CachedNetworkImage(
-                                                                    imageUrl: featuredApp.iconUrl!,
-                                                                    fit: BoxFit.cover,
-                                                                    placeholder: (c, u) => const Center(
-                                                                      child: CircularProgressIndicator(),
+                                                                    imageUrl:
+                                                                        featuredApp
+                                                                            .iconUrl!,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    placeholder:
+                                                                        (c, u) =>
+                                                                            const Center(
+                                                                      child:
+                                                                          CircularProgressIndicator(),
                                                                     ),
-                                                                    errorWidget: (c, w, i) => brokenImageWidget,
+                                                                    errorWidget: (c,
+                                                                            w,
+                                                                            i) =>
+                                                                        brokenImageWidget,
                                                                   )
                                                             : brokenImageWidget,
                                                       ),
                                                       Flexible(
                                                         child: Text(
                                                           featuredApp.name,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: context.textTheme.headline3,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: context
+                                                              .textTheme
+                                                              .headline3,
                                                         ),
                                                       )
                                                     ],
@@ -181,12 +230,15 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                                     enableInfiniteScroll: true,
                                     reverse: false,
                                     autoPlay: true,
-                                    autoPlayInterval: const Duration(seconds: 3),
-                                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                                    autoPlayInterval:
+                                        const Duration(seconds: 3),
+                                    autoPlayAnimationDuration:
+                                        const Duration(milliseconds: 800),
                                     autoPlayCurve: Curves.fastOutSlowIn,
                                     enlargeCenterPage: true,
                                     scrollDirection: Axis.horizontal,
-                                    onPageChanged: (idx, rsn) => carouselIndex.value = idx),
+                                    onPageChanged: (idx, rsn) =>
+                                        carouselIndex.value = idx),
                               ),
                               if (showCarouselArrows.value) ...[
                                 Align(
@@ -195,7 +247,8 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                                     height: 400,
                                     child: CarouselArrow(
                                       icon: AdwaitaIcons.go_previous,
-                                      onPressed: () => _controller.previousPage(),
+                                      onPressed: () =>
+                                          _controller.previousPage(),
                                     ),
                                   ),
                                 ),
@@ -216,19 +269,27 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                         const SizedBox(height: 5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(widget.featured!.length, (index) {
+                          children:
+                              List.generate(widget.featured!.length, (index) {
                             return GestureDetector(
                               onTap: () => _controller.animateToPage(index),
                               child: Container(
                                 width: 10.0,
                                 height: 10.0,
                                 padding: const EdgeInsets.all(4),
-                                margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 2.0),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: carouselIndex.value == index
-                                      ? (context.isDark ? Colors.white : Colors.black).withOpacity(0.9)
-                                      : (context.isDark ? Colors.white : Colors.black).withOpacity(0.4),
+                                      ? (context.isDark
+                                              ? Colors.white
+                                              : Colors.black)
+                                          .withOpacity(0.9)
+                                      : (context.isDark
+                                              ? Colors.white
+                                              : Colors.black)
+                                          .withOpacity(0.4),
                                 ),
                               ),
                             );
@@ -240,28 +301,42 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                             child: Container(
                               constraints: BoxConstraints(
                                   maxWidth: math.min(
-                                      1200, context.width >= mobileWidth ? context.width - 300 : context.width)),
+                                      1200,
+                                      context.width >= mobileWidth
+                                          ? context.width - 300
+                                          : context.width)),
                               child: Column(children: [
-                                for (var category in widget.categories!.entries.toList()) ...[
+                                for (var category
+                                    in widget.categories!.entries.toList()) ...[
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 4),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           category.key,
                                           style: context.textTheme.headline6!
-                                              .copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 1.2),
                                         ),
                                         OutlinedButton.icon(
                                           style: OutlinedButton.styleFrom(
-                                            primary: context.isDark ? Colors.grey[200] : Colors.grey[800],
+                                            primary: context.isDark
+                                                ? Colors.grey[200]
+                                                : Colors.grey[800],
                                           ),
                                           onPressed: () {
-                                            widget.navrailIndex.value =
-                                                widget.categories!.keys.toList().indexOf(category.key) + 1;
+                                            widget.navrailIndex.value = widget
+                                                    .categories!.keys
+                                                    .toList()
+                                                    .indexOf(category.key) +
+                                                1;
                                           },
-                                          label: const Icon(Icons.chevron_right, size: 14),
+                                          label: const Icon(Icons.chevron_right,
+                                              size: 14),
                                           icon: const Text("See all"),
                                         )
                                       ],
@@ -281,10 +356,17 @@ class _BrowseViewState extends State<BrowseView> with AutomaticKeepAliveClientMi
                     alignment: Alignment.topCenter,
                     child: Container(
                       constraints: BoxConstraints(
-                          maxWidth: math.min(1400, context.width >= mobileWidth ? context.width - 300 : context.width)),
+                          maxWidth: math.min(
+                              1400,
+                              context.width >= mobileWidth
+                                  ? context.width - 300
+                                  : context.width)),
                       child: GridOfApps(
-                          itemList: widget.searchedTerm.value.isEmpty && widget.categories != null
-                              ? widget.categories!.entries.toList()[widget.navrailIndex.value - 1].value
+                          itemList: widget.searchedTerm.value.isEmpty &&
+                                  widget.categories != null
+                              ? widget.categories!.entries
+                                  .toList()[widget.navrailIndex.value - 1]
+                                  .value
                               : itemsNew),
                     ),
                   );

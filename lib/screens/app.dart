@@ -1,4 +1,3 @@
-import 'package:appimagepool/providers/providers.dart';
 import 'package:dio/dio.dart';
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
@@ -62,11 +61,7 @@ class AppPage extends HookConsumerWidget {
         body: ListView(
           children: [
             Container(
-              color: getAdaptiveGtkColor(
-                context,
-                gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
-                colorType: GtkColorType.headerBarBackgroundTop,
-              ),
+              color: GnomeTheme.of(context).sidebars,
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),

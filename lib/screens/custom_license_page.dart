@@ -1,4 +1,3 @@
-import 'package:appimagepool/providers/providers.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -63,32 +62,32 @@ class CustomLicensePage extends HookConsumerWidget {
                   panelWidth: 265,
                   pane2Name: _selected.value != null ? packages[_selected.value!].name : null,
                   pane1: GtkSidebar.builder(
-                    gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                     controller: ScrollController(),
                     width: double.infinity,
                     onSelected: (index) => _selectValue(index, packages[index].name),
                     currentIndex: _selected.value,
                     itemBuilder: (context, index, isSelected) {
                       return GtkSidebarItem(
-                        gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        labelWidget: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              packages[index].name,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.bodyText1!.copyWith(
-                                color: isSelected ? Colors.white : null,
+                        labelWidget: Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                packages[index].name,
+                                overflow: TextOverflow.ellipsis,
+                                style: context.textTheme.bodyText1!.copyWith(
+                                  color: isSelected ? Colors.white : null,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${packages[index].count} License${packages[index].count > 1 ? "s" : ""}',
-                              style: context.textTheme.bodyText2!.copyWith(
-                                color: isSelected ? Colors.white : null,
+                              Text(
+                                '${packages[index].count} License${packages[index].count > 1 ? "s" : ""}',
+                                style: context.textTheme.bodyText2!.copyWith(
+                                  color: isSelected ? Colors.white : null,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -127,11 +126,7 @@ class LicenseInfoPage extends ConsumerWidget {
             var currentPara = cParagraph![index].paragraphs.toList();
             return StickyHeader(
               header: Container(
-                color: getAdaptiveGtkColor(
-                  context,
-                  gnomeTheme: ref.watch(gnomeThemeProvider.notifier).theme,
-                  colorType: GtkColorType.headerBarBackgroundBottom,
-                ),
+                color: GnomeTheme.of(context).sidebars,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),
                 alignment: Alignment.centerLeft,
                 child: Text(currentPara[0].text),

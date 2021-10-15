@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
+import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
@@ -16,10 +17,16 @@ class DownloadsView extends HookConsumerWidget {
   Widget build(context, ref) {
     final listDownloads = ref
         .watch(downloadListProvider)
-        .where((element) => element.name.toLowerCase().contains(searchedTerm.value))
+        .where((element) =>
+            element.name.toLowerCase().contains(searchedTerm.value))
         .toList();
     return listDownloads.isNotEmpty
-        ? ListView.builder(
+        ? SingleChildScrollView(
+            child: Center(
+                child: GtkContainer(
+                    child: ListView.builder(
+            primary: false,
+            shrinkWrap: true,
             itemBuilder: (ctx, index) {
               final i = listDownloads[index];
 
@@ -42,7 +49,8 @@ class DownloadsView extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 3),
                     LinearProgressIndicator(
-                      value: i.totalBytes != 0 ? i.actualBytes / i.totalBytes : 0,
+                      value:
+                          i.totalBytes != 0 ? i.actualBytes / i.totalBytes : 0,
                       minHeight: 10,
                     ),
                     const SizedBox(height: 3),
@@ -61,9 +69,11 @@ class DownloadsView extends HookConsumerWidget {
                 ),
                 trailing: IconButton(
                   onPressed: () {
-                    if (i.cancelToken.isCancelled || (i.actualBytes == i.totalBytes && i.actualBytes != 0)) {
+                    if (i.cancelToken.isCancelled ||
+                        (i.actualBytes == i.totalBytes && i.actualBytes != 0)) {
                       removeItem();
-                    } else if (i.actualBytes != i.totalBytes || i.actualBytes == 0) {
+                    } else if (i.actualBytes != i.totalBytes ||
+                        i.actualBytes == 0) {
                       i.cancelToken.cancel("cancelled");
                       ref.watch(downloadListProvider.notifier).refresh();
                     }
@@ -83,7 +93,7 @@ class DownloadsView extends HookConsumerWidget {
               );
             },
             itemCount: listDownloads.length,
-          )
+          ))))
         : const Center(child: Text('No Downloads found'));
   }
 }
