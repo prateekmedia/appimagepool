@@ -1,11 +1,11 @@
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
-import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/providers/providers.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:window_decorations/window_decorations.dart';
 
 class PoolApp extends HookConsumerWidget {
@@ -45,7 +45,7 @@ class PoolApp extends HookConsumerWidget {
                 child: Material(
                   type: MaterialType.transparency,
                   child: GtkHeaderButton(
-                    icon: const AdwaitaIcon(AdwaitaIcons.go_previous),
+                    icon: const Icon(LucideIcons.chevronLeft, size: 17),
                     onPressed: () {
                       if (onBackPressed != null) onBackPressed!();
                       context.back();

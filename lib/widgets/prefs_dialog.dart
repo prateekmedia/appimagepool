@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:gtk/gtk.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_decorations/window_decorations.dart';
@@ -71,8 +71,8 @@ class PrefsWidget extends HookConsumerWidget {
                   ref.read(themeTypeProvider.notifier).set(value!);
                 },
                 underline: const SizedBox(),
-                icon: const AdwaitaIcon(
-                  AdwaitaIcons.go_down,
+                icon: const Icon(
+                  LucideIcons.chevronsUpDown,
                   size: 16,
                 ),
                 itemHeight: 48,
@@ -108,7 +108,7 @@ class PrefsWidget extends HookConsumerWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      const AdwaitaIcon(AdwaitaIcons.folder, size: 18),
+                      const Icon(LucideIcons.folder, size: 18),
                       const SizedBox(width: 6),
                       SelectableText(
                           path == p.join(Platform.environment['HOME']!, 'Applications') + '/' ? 'Applications' : path),

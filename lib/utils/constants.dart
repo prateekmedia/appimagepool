@@ -1,4 +1,4 @@
-import 'package:adwaita_icons/adwaita_icons.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
 
@@ -18,19 +18,19 @@ TextStyle linkStyle(BuildContext context, [bool showUnderline = true]) => TextSt
     );
 
 const mobileWidth = 800;
+Widget brokenImageWidget = const Icon(LucideIcons.helpCircle);
 
-Widget brokenImageWidget = const AdwaitaIcon(AdwaitaIcons.question);
-const Map<String, String> categoryIcons = {
-  'Video': AdwaitaIcons.video_x_generic,
-  'Audio': AdwaitaIcons.audio_headphones,
-  'Science': AdwaitaIcons.applications_science,
-  'System': AdwaitaIcons.applications_system,
-  'Utility': AdwaitaIcons.applications_utilities,
-  'Network': AdwaitaIcons.network_cellular,
-  'Development': AdwaitaIcons.applications_engineering,
-  'Education': AdwaitaIcons.note,
-  'Graphics': AdwaitaIcons.applications_graphics,
-  'Office': AdwaitaIcons.x_office_document,
-  'Game': AdwaitaIcons.applications_games,
-  'Finance': AdwaitaIcons.money,
+const Map<String, IconData> categoryIcons = {
+  'Video': LucideIcons.video,
+  'Audio': LucideIcons.headphones,
+  'Science': LucideIcons.flaskConical,
+  'System': LucideIcons.monitor,
+  'Utility': LucideIcons.gauge,
+  'Network': LucideIcons.barChart,
+  'Development': LucideIcons.code2,
+  'Education': LucideIcons.graduationCap,
+  'Graphics': LucideIcons.album,
+  'Office': LucideIcons.printer,
+  'Game': LucideIcons.gamepad2,
+  'Finance': LucideIcons.currency,
 };

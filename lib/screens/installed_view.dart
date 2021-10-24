@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:gtk/gtk.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
-import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
@@ -25,10 +25,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
     final listInstalled = Directory(downloadPath)
         .listSync()
         .where((element) => element.path.endsWith('.AppImage'))
-        .where((element) => path
-            .basename(element.path)
-            .toLowerCase()
-            .contains(widget.searchedTerm.value))
+        .where((element) => path.basename(element.path).toLowerCase().contains(widget.searchedTerm.value))
         .toList();
     return listInstalled.isNotEmpty
         ? SingleChildScrollView(
@@ -57,7 +54,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                       subtitle: Text(i.statSync().size.getFileSize()),
                       trailing: IconButton(
                         onPressed: removeItem,
-                        icon: const AdwaitaIcon(AdwaitaIcons.user_trash),
+                        icon: const Icon(LucideIcons.trash),
                       ),
                       onTap: () => runProgram(
                         location: path.dirname(i.path),

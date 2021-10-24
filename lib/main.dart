@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 import 'utils/utils.dart';
@@ -193,9 +193,9 @@ class _HomePageState extends State<HomePage> {
                     : null,
             leading: [
               GtkHeaderButton(
-                icon: AdwaitaIcon(
-                  !toggleSearch.value ? AdwaitaIcons.system_search : AdwaitaIcons.go_previous,
-                  size: 17,
+                icon: Icon(
+                  !toggleSearch.value ? LucideIcons.search : LucideIcons.chevronLeft,
+                  size: 16,
                 ),
                 onPressed: switchSearchBar,
               ),
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> {
                                 Builder(builder: (context) {
                                   return GtkHeaderButton(
                                     isActive: isSidebarActive.value,
-                                    icon: const AdwaitaIcon(AdwaitaIcons.sidebar_toggle_left),
+                                    icon: const Icon(LucideIcons.sidebar, size: 17),
                                     onPressed: () {
                                       if (context.width < mobileWidth) {
                                         Scaffold.of(context).openDrawer();
@@ -348,15 +348,15 @@ class _HomePageState extends State<HomePage> {
       children: [
         GtkSidebarItem(
           label: "Explore",
-          leading: const AdwaitaIcon(AdwaitaIcons.explore2, size: 17),
+          leading: const Icon(LucideIcons.trendingUp, size: 17),
         ),
         for (var category in (categories ?? {}).entries.toList().asMap().entries)
           GtkSidebarItem(
             label: category.value.key,
-            leading: AdwaitaIcon(
+            leading: Icon(
               categoryIcons.containsKey(category.value.key)
                   ? categoryIcons[category.value.key]!
-                  : AdwaitaIcons.question,
+                  : LucideIcons.helpCircle,
               size: 19,
             ),
           ),
@@ -385,7 +385,10 @@ class _HomePageState extends State<HomePage> {
             value: index,
             onChanged: onChanged,
             items: items,
-            icon: const Icon(Icons.arrow_drop_down),
+            icon: const Icon(
+              LucideIcons.chevronsUpDown,
+              size: 16,
+            ),
             underline: const SizedBox(),
           ),
         ),

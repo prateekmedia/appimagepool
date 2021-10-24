@@ -2,19 +2,19 @@ import 'dart:io';
 
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
-import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/providers/providers.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class DownloadButton extends HookConsumerWidget {
   const DownloadButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    var downloading = ref.watch(isDownloadingProvider);
+    int downloading = ref.watch(isDownloadingProvider);
     List<QueryApp> listDownloads = ref.watch(downloadListProvider);
     return Hero(
       tag: 'download_menu',
@@ -24,8 +24,8 @@ class DownloadButton extends HookConsumerWidget {
           type: MaterialType.transparency,
           child: GtkPopupMenu(
             popupWidth: 400,
-            icon: AdwaitaIcon(
-              downloading > 0 ? AdwaitaIcons.folder_download : AdwaitaIcons.emblem_default,
+            icon: Icon(
+              downloading > 0 ? LucideIcons.download : LucideIcons.check,
               size: 17,
             ),
             body: Consumer(
@@ -74,11 +74,11 @@ class DownloadButton extends HookConsumerWidget {
                                 ref.watch(downloadListProvider.notifier).refresh();
                               }
                             },
-                            icon: AdwaitaIcon(i.cancelToken.isCancelled
-                                ? AdwaitaIcons.list_remove
+                            icon: Icon(i.cancelToken.isCancelled
+                                ? LucideIcons.xCircle
                                 : (i.actualBytes != i.totalBytes || i.actualBytes == 0)
-                                    ? AdwaitaIcons.window_close
-                                    : AdwaitaIcons.user_trash),
+                                    ? LucideIcons.x
+                                    : LucideIcons.trash),
                           ),
                           onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
                               ? () => runProgram(

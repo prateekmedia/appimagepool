@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:gtk/gtk.dart';
 import 'package:flutter/material.dart';
-import 'package:adwaita_icons/adwaita_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/providers/providers.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class DownloadsView extends HookConsumerWidget {
   final ValueNotifier<String> searchedTerm;
@@ -17,8 +17,7 @@ class DownloadsView extends HookConsumerWidget {
   Widget build(context, ref) {
     final listDownloads = ref
         .watch(downloadListProvider)
-        .where((element) =>
-            element.name.toLowerCase().contains(searchedTerm.value))
+        .where((element) => element.name.toLowerCase().contains(searchedTerm.value))
         .toList();
     return listDownloads.isNotEmpty
         ? SingleChildScrollView(
@@ -49,8 +48,7 @@ class DownloadsView extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 3),
                     LinearProgressIndicator(
-                      value:
-                          i.totalBytes != 0 ? i.actualBytes / i.totalBytes : 0,
+                      value: i.totalBytes != 0 ? i.actualBytes / i.totalBytes : 0,
                       minHeight: 10,
                     ),
                     const SizedBox(height: 3),
@@ -69,20 +67,18 @@ class DownloadsView extends HookConsumerWidget {
                 ),
                 trailing: IconButton(
                   onPressed: () {
-                    if (i.cancelToken.isCancelled ||
-                        (i.actualBytes == i.totalBytes && i.actualBytes != 0)) {
+                    if (i.cancelToken.isCancelled || (i.actualBytes == i.totalBytes && i.actualBytes != 0)) {
                       removeItem();
-                    } else if (i.actualBytes != i.totalBytes ||
-                        i.actualBytes == 0) {
+                    } else if (i.actualBytes != i.totalBytes || i.actualBytes == 0) {
                       i.cancelToken.cancel("cancelled");
                       ref.watch(downloadListProvider.notifier).refresh();
                     }
                   },
-                  icon: AdwaitaIcon(i.cancelToken.isCancelled
-                      ? AdwaitaIcons.list_remove
+                  icon: Icon(i.cancelToken.isCancelled
+                      ? LucideIcons.slash
                       : (i.actualBytes != i.totalBytes || i.actualBytes == 0)
-                          ? AdwaitaIcons.window_close
-                          : AdwaitaIcons.user_trash),
+                          ? LucideIcons.x
+                          : LucideIcons.trash),
                 ),
                 onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
                     ? () => runProgram(

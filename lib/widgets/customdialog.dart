@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/models/models.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class CustomDialogBox extends HookConsumerWidget {
   final Widget img, endText;
@@ -58,6 +59,10 @@ class CustomDialogBox extends HookConsumerWidget {
                   isExpanded: true,
                   value: selectedIndex.value,
                   underline: Container(),
+                  icon: const Icon(
+                    LucideIcons.chevronsUpDown,
+                    size: 16,
+                  ),
                   onChanged: (val) {
                     selectedIndex.value = val!;
                     if (onVersionChange != null) onVersionChange!(val);

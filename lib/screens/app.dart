@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -42,9 +41,7 @@ class AppPage extends HookConsumerWidget {
                 imageUrl: app.iconUrl!,
                 fit: BoxFit.cover,
                 width: size,
-                placeholder: (c, b) => Center(
-                  child: SpinKitRipple(color: context.textTheme.bodyText1!.color),
-                ),
+                placeholder: (c, b) => const SizedBox(),
                 errorWidget: (c, w, i) => brokenImageWidget,
               )
             : SvgPicture.network(app.iconUrl!, width: size)
@@ -159,8 +156,7 @@ class AppPage extends HookConsumerWidget {
                                   ? SvgPicture.network(screenUrl)
                                   : CachedNetworkImage(
                                       imageUrl: screenUrl,
-                                      placeholder: (c, b) =>
-                                          Center(child: SpinKitRipple(color: context.textTheme.bodyText1!.color)),
+                                      placeholder: (c, b) => const SizedBox(),
                                       errorWidget: (c, w, i) => brokenImageWidget,
                                     )
                               : Container(),

@@ -1,8 +1,8 @@
-import 'package:adwaita_icons/adwaita_icons.dart';
-import 'package:appimagepool/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gtk/gtk.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:appimagepool/utils/extensions.dart';
 
 class CarouselArrow extends ConsumerWidget {
   const CarouselArrow({
@@ -12,20 +12,20 @@ class CarouselArrow extends ConsumerWidget {
   }) : super(key: key);
 
   final VoidCallback onPressed;
-  final String icon;
+  final IconData icon;
 
   @override
   Widget build(context, ref) {
-    return SizedBox(
-      width: 44,
-      height: 44,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: GnomeTheme.of(context).sidebars.withOpacity(0.70),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 44,
+        height: 44,
+        decoration: ShapeDecoration(
           shape: const CircleBorder(),
+          color: GnomeTheme.of(context).sidebars.withOpacity(0.70),
         ),
-        child: AdwaitaIcon(icon, color: context.textTheme.bodyText1!.color, size: 30),
-        onPressed: onPressed,
+        child: Center(child: Icon(icon, color: context.textTheme.bodyText1!.color, size: 30)),
       ),
     );
   }

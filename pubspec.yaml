@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  adwaita_icons: ^0.2.0
   bitsdojo_window: ^0.1.1+1
   cached_network_image: ^3.1.0
   carousel_slider: ^4.0.0
@@ -19,9 +18,10 @@ dependencies:
   file_picker: ^4.1.2
   flutter_spinkit: ^5.1.0
   flutter_svg: ^0.23.0+1
-  gtk: ^1.0.0-rc.4
+  gtk: ^1.0.0-rc.5
   hooks_riverpod: ^1.0.0-dev.7
   intl: ^0.17.0
+  lucide_icons: ^0.16.13
   package_info_plus: ^1.0.6
   path_provider: ^2.0.5
   shared_preferences: ^2.0.8
