@@ -52,7 +52,7 @@ class PrefsWidget extends HookConsumerWidget {
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: context.theme.canvasColor,
+                color: Theme.of(context).bgColor,
                 border: Border.all(color: Colors.grey),
               ),
               child: DropdownButton<ThemeType>(
@@ -118,9 +118,7 @@ class PrefsWidget extends HookConsumerWidget {
               ),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: GnomeTheme.of(context).sidebars,
-              ),
+              style: ElevatedButton.styleFrom(primary: Theme.of(context).sidebars),
               onPressed: !isBrowserActive.value
                   ? () async {
                       isBrowserActive.value = true;
@@ -143,10 +141,10 @@ class PrefsWidget extends HookConsumerWidget {
           children: [
             const Text('Force dark theme'),
             CupertinoSwitch(
-              value: ref.watch(forceDarkThemeProvider),
+              value: context.isDark,
               activeColor: context.theme.primaryColor,
               onChanged: (value) {
-                ref.read(forceDarkThemeProvider.notifier).toggle();
+                ref.read(forceDarkThemeProvider.notifier).toggle(context.brightness);
               },
             ),
           ],

@@ -58,7 +58,7 @@ class AppPage extends HookConsumerWidget {
         body: ListView(
           children: [
             Container(
-              color: GnomeTheme.of(context).sidebars,
+              color: Theme.of(context).sidebars,
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),

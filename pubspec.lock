@@ -253,7 +253,7 @@ packages:
       name: gtk
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0-rc.5"
+    version: "1.0.0-rc.9"
   hooks_riverpod:
     dependency: "direct main"
     description:

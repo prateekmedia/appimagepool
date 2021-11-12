@@ -126,7 +126,7 @@ class LicenseInfoPage extends ConsumerWidget {
             var currentPara = cParagraph![index].paragraphs.toList();
             return StickyHeader(
               header: Container(
-                color: GnomeTheme.of(context).sidebars,
+                color: Theme.of(context).sidebars,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),
                 alignment: Alignment.centerLeft,
                 child: Text(currentPara[0].text),

@@ -34,22 +34,19 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    return GnomeTheme(
-        isDark: ref.watch(forceDarkThemeProvider),
-        builder: (context) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: GnomeTheme.of(context).themeData,
-            home: const HomePage(),
-          );
-        });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      darkTheme: adwaitaDark,
+      theme: adwaitaLight,
+      themeMode: ref.watch(forceDarkThemeProvider),
+      home: const HomePage(),
+    );
   }
 }
 
 class HomePage extends StatefulHookWidget {
-  // bool _isConnected = true;
-
   const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -163,7 +160,7 @@ class _HomePageState extends State<HomePage> {
             center: toggleSearch.value
                 ? Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                    color: GnomeTheme.of(context).sidebars,
+                    color: Theme.of(context).sidebars,
                     constraints: BoxConstraints.loose(const Size(500, 50)),
                     child: RawKeyboardListener(
                       child: TextField(
@@ -380,7 +377,7 @@ class _HomePageState extends State<HomePage> {
         Container(
           height: 35,
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(color: GnomeTheme.of(context).sidebars, borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(color: Theme.of(context).sidebars, borderRadius: BorderRadius.circular(10)),
           child: DropdownButton<int>(
             value: index,
             onChanged: onChanged,
