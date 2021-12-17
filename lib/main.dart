@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:gtk/gtk.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:adwaita/adwaita.dart' as adwaita;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,8 +37,8 @@ class MyApp extends ConsumerWidget {
   Widget build(context, ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      darkTheme: adwaitaDark,
-      theme: adwaitaLight,
+      darkTheme: adwaita.darkTheme,
+      theme: adwaita.lightTheme,
       themeMode: ref.watch(forceDarkThemeProvider),
       home: const HomePage(),
     );
@@ -106,7 +107,8 @@ class _HomePageState extends State<HomePage> {
   void getData() async {
     setState(() => _isConnected = true);
     try {
-      allItems = (await Dio().get("https://appimage.github.io/feed.json")).data['items'];
+      allItems = (await Dio().get("https://appimage.github.io/feed.json"))
+          .data['items'];
       featured = json.decode((await Dio().get(
               "https://gist.githubusercontent.com/prateekmedia/44c1ea7f7a627d284b9e50d47aa7200f/raw/gistfile1.txt"))
           .data);
@@ -147,39 +149,47 @@ class _HomePageState extends State<HomePage> {
     return Consumer(
       builder: (ctx, ref, _) => Scaffold(
         drawer: context.width < mobileWidth
-            ? Drawer(child: buildSidebar(context, ref, isSidebarActive, navrailIndex, true))
+            ? Drawer(
+                child: buildSidebar(
+                    context, ref, isSidebarActive, navrailIndex, true))
             : null,
         body: RawKeyboardListener(
           focusNode: FocusNode(),
           onKey: (event) {
-            if (event.runtimeType == RawKeyDownEvent && event.isControlPressed && event.logicalKey.keyId == 102) {
+            if (event.runtimeType == RawKeyDownEvent &&
+                event.isControlPressed &&
+                event.logicalKey.keyId == 102) {
               switchSearchBar();
             }
           },
           child: PoolApp(
             center: toggleSearch.value
                 ? Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                    color: Theme.of(context).sidebars,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    color: Theme.of(context).appBarTheme.backgroundColor,
                     constraints: BoxConstraints.loose(const Size(500, 50)),
                     child: RawKeyboardListener(
                       child: TextField(
                         textAlignVertical: TextAlignVertical.center,
                         autofocus: true,
                         onChanged: (query) => searchedTerm.value = query,
-                        style: context.textTheme.bodyText1!.copyWith(fontSize: 14),
+                        style:
+                            context.textTheme.bodyText1!.copyWith(fontSize: 14),
                         decoration: InputDecoration(
                           fillColor: context.theme.canvasColor,
                           contentPadding: const EdgeInsets.only(top: 8),
                           isCollapsed: true,
                           filled: true,
                           prefixIcon: const Icon(Icons.search, size: 18),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6)),
                         ),
                       ),
                       focusNode: FocusNode(),
                       onKey: (event) {
-                        if (event.runtimeType == RawKeyDownEvent && event.logicalKey.keyId == 4294967323) {
+                        if (event.runtimeType == RawKeyDownEvent &&
+                            event.logicalKey.keyId == 4294967323) {
                           switchSearchBar(false);
                         }
                       },
@@ -189,9 +199,11 @@ class _HomePageState extends State<HomePage> {
                     ? buildViewSwitcher(_currentViewIndex, _controller, ref)
                     : null,
             leading: [
-              GtkHeaderButton(
+              AdwHeaderButton(
                 icon: Icon(
-                  !toggleSearch.value ? LucideIcons.search : LucideIcons.chevronLeft,
+                  !toggleSearch.value
+                      ? LucideIcons.search
+                      : LucideIcons.chevronLeft,
                   size: 16,
                 ),
                 onPressed: switchSearchBar,
@@ -199,7 +211,7 @@ class _HomePageState extends State<HomePage> {
             ],
             trailing: !toggleSearch.value
                 ? [
-                    GtkPopupMenu(
+                    AdwPopupMenu(
                       body: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -260,7 +272,8 @@ class _HomePageState extends State<HomePage> {
                     if (context.width >= mobileWidth)
                       AnimatedSize(
                         duration: const Duration(milliseconds: 200),
-                        child: buildSidebar(context, ref, isSidebarActive, navrailIndex),
+                        child: buildSidebar(
+                            context, ref, isSidebarActive, navrailIndex),
                       ),
                     Expanded(
                       child: Column(
@@ -271,14 +284,16 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Builder(builder: (context) {
-                                  return GtkHeaderButton(
+                                  return AdwHeaderButton(
                                     isActive: isSidebarActive.value,
-                                    icon: const Icon(LucideIcons.sidebar, size: 17),
+                                    icon: const Icon(LucideIcons.sidebar,
+                                        size: 17),
                                     onPressed: () {
                                       if (context.width < mobileWidth) {
                                         Scaffold.of(context).openDrawer();
                                       } else {
-                                        isSidebarActive.value = !isSidebarActive.value;
+                                        isSidebarActive.value =
+                                            !isSidebarActive.value;
                                       }
                                     },
                                   );
@@ -288,10 +303,14 @@ class _HomePageState extends State<HomePage> {
                                   ref,
                                   label: "View type",
                                   index: ref.watch(viewTypeProvider),
-                                  onChanged: (value) => ref.read(viewTypeProvider.notifier).update(),
+                                  onChanged: (value) => ref
+                                      .read(viewTypeProvider.notifier)
+                                      .update(),
                                   items: [
-                                    const DropdownMenuItem(value: 0, child: Text('Grid')),
-                                    const DropdownMenuItem(value: 1, child: Text('List')),
+                                    const DropdownMenuItem(
+                                        value: 0, child: Text('Grid')),
+                                    const DropdownMenuItem(
+                                        value: 1, child: Text('List')),
                                   ],
                                 ),
                               ],
@@ -322,17 +341,19 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        bottomNavigationBar: context.width < mobileWidth && searchedTerm.value.isEmpty
-            ? buildViewSwitcher(_currentViewIndex, _controller, ref, ViewSwitcherStyle.mobile)
+        bottomNavigationBar: context.width < mobileWidth &&
+                searchedTerm.value.isEmpty
+            ? buildViewSwitcher(
+                _currentViewIndex, _controller, ref, ViewSwitcherStyle.mobile)
             : null,
       ),
     );
   }
 
-  GtkSidebar buildSidebar(
-      BuildContext context, WidgetRef ref, ValueNotifier<bool> isSidebarActive, ValueNotifier<int> navrailIndex,
+  AdwSidebar buildSidebar(BuildContext context, WidgetRef ref,
+      ValueNotifier<bool> isSidebarActive, ValueNotifier<int> navrailIndex,
       [bool isSidebar = false]) {
-    return GtkSidebar(
+    return AdwSidebar(
       width: isSidebarActive.value ? 265 : 0,
       padding: EdgeInsets.zero,
       currentIndex: navrailIndex.value,
@@ -343,12 +364,13 @@ class _HomePageState extends State<HomePage> {
         }
       },
       children: [
-        GtkSidebarItem(
+        AdwSidebarItem(
           label: "Explore",
           leading: const Icon(LucideIcons.trendingUp, size: 17),
         ),
-        for (var category in (categories ?? {}).entries.toList().asMap().entries)
-          GtkSidebarItem(
+        for (var category
+            in (categories ?? {}).entries.toList().asMap().entries)
+          AdwSidebarItem(
             label: category.value.key,
             leading: Icon(
               categoryIcons.containsKey(category.value.key)
@@ -377,7 +399,9 @@ class _HomePageState extends State<HomePage> {
         Container(
           height: 35,
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(color: Theme.of(context).sidebars, borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(
+              color: Theme.of(context).appBarTheme.backgroundColor,
+              borderRadius: BorderRadius.circular(10)),
           child: DropdownButton<int>(
             value: index,
             onChanged: onChanged,
@@ -393,11 +417,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  GtkViewSwitcher buildViewSwitcher(ValueNotifier<int> _currentViewIndex, PageController _controller, WidgetRef ref,
+  AdwViewSwitcher buildViewSwitcher(ValueNotifier<int> _currentViewIndex,
+      PageController _controller, WidgetRef ref,
       [ViewSwitcherStyle viewSwitcherStyle = ViewSwitcherStyle.desktop]) {
-    var currentlyDownloading =
-        ref.watch(downloadListProvider).where((element) => element.actualBytes != element.totalBytes).length;
-    return GtkViewSwitcher(
+    var currentlyDownloading = ref
+        .watch(downloadListProvider)
+        .where((element) => element.actualBytes != element.totalBytes)
+        .length;
+    return AdwViewSwitcher(
       currentIndex: _currentViewIndex.value,
       onViewChanged: (index) {
         _controller.jumpToPage(index);
@@ -407,7 +434,8 @@ class _HomePageState extends State<HomePage> {
         const ViewSwitcherData(title: "Browse", icon: Icons.web),
         const ViewSwitcherData(title: "Installed", icon: Icons.view_list),
         ViewSwitcherData(
-          title: "Downloads${currentlyDownloading > 0 ? ' ($currentlyDownloading)' : ''}",
+          title:
+              "Downloads${currentlyDownloading > 0 ? ' ($currentlyDownloading)' : ''}",
           icon: Icons.download,
         ),
       ],

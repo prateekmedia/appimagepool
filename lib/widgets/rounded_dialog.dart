@@ -21,6 +21,7 @@ class RoundedDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Dialog(
+      backgroundColor: context.theme.canvasColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12.0),

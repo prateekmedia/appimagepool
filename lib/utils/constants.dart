@@ -4,7 +4,8 @@ import 'utils.dart';
 
 const String appName = "AppImage Pool";
 
-const String prefixUrl = "https://raw.githubusercontent.com/AppImage/appimage.github.io/master/database/";
+const String prefixUrl =
+    "https://raw.githubusercontent.com/AppImage/appimage.github.io/master/database/";
 
 const String github = "https://github.com/";
 
@@ -12,7 +13,8 @@ const String projectUrl = "https://github.com/prateekmedia/appimagepool";
 
 const String appimageWebsite = "https://appimage.org/";
 
-TextStyle linkStyle(BuildContext context, [bool showUnderline = true]) => TextStyle(
+TextStyle linkStyle(BuildContext context, [bool showUnderline = true]) =>
+    TextStyle(
       color: context.isDark ? Colors.lightBlue[400] : Colors.blue,
       decoration: showUnderline ? TextDecoration.underline : null,
     );

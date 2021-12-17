@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:gtk/gtk.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,78 +17,89 @@ class DownloadsView extends HookConsumerWidget {
   Widget build(context, ref) {
     final listDownloads = ref
         .watch(downloadListProvider)
-        .where((element) => element.name.toLowerCase().contains(searchedTerm.value))
+        .where((element) =>
+            element.name.toLowerCase().contains(searchedTerm.value))
         .toList();
     return listDownloads.isNotEmpty
         ? SingleChildScrollView(
             child: Center(
-                child: GtkContainer(
-                    child: ListView.builder(
-            primary: false,
-            shrinkWrap: true,
-            itemBuilder: (ctx, index) {
-              final i = listDownloads[index];
+                child: AdwClamp(
+                    child: AdwPreferencesGroup(
+            children: [
+              ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemBuilder: (ctx, index) {
+                  final i = listDownloads[index];
 
-              void removeItem() async {
-                if (!i.cancelToken.isCancelled) {
-                  File(i.downloadLocation + i.name).deleteSync();
-                }
-                listDownloads.removeAt(index);
-                ref.watch(downloadListProvider.notifier).refresh();
-              }
-
-              return ListTile(
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      i.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.textTheme.bodyText1,
-                    ),
-                    const SizedBox(height: 3),
-                    LinearProgressIndicator(
-                      value: i.totalBytes != 0 ? i.actualBytes / i.totalBytes : 0,
-                      minHeight: 10,
-                    ),
-                    const SizedBox(height: 3),
-                  ],
-                ),
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                subtitle: Text(
-                  i.cancelToken.isCancelled
-                      ? "Cancelled"
-                      : i.actualBytes == 0
-                          ? 'Starting Download'
-                          : i.actualBytes == i.totalBytes
-                              ? "Download finished"
-                              : "${i.actualBytes.getFileSize()}/${i.totalBytes.getFileSize()}",
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    if (i.cancelToken.isCancelled || (i.actualBytes == i.totalBytes && i.actualBytes != 0)) {
-                      removeItem();
-                    } else if (i.actualBytes != i.totalBytes || i.actualBytes == 0) {
-                      i.cancelToken.cancel("cancelled");
-                      ref.watch(downloadListProvider.notifier).refresh();
+                  void removeItem() async {
+                    if (!i.cancelToken.isCancelled) {
+                      File(i.downloadLocation + i.name).deleteSync();
                     }
-                  },
-                  icon: Icon(i.cancelToken.isCancelled
-                      ? LucideIcons.slash
-                      : (i.actualBytes != i.totalBytes || i.actualBytes == 0)
-                          ? LucideIcons.x
-                          : LucideIcons.trash),
-                ),
-                onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
-                    ? () => runProgram(
-                          location: ref.watch(downloadPathProvider),
-                          program: i.name,
-                        )
-                    : () {},
-              );
-            },
-            itemCount: listDownloads.length,
+                    listDownloads.removeAt(index);
+                    ref.watch(downloadListProvider.notifier).refresh();
+                  }
+
+                  return ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          i.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.textTheme.bodyText1,
+                        ),
+                        const SizedBox(height: 3),
+                        LinearProgressIndicator(
+                          value: i.totalBytes != 0
+                              ? i.actualBytes / i.totalBytes
+                              : 0,
+                          minHeight: 10,
+                        ),
+                        const SizedBox(height: 3),
+                      ],
+                    ),
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    subtitle: Text(
+                      i.cancelToken.isCancelled
+                          ? "Cancelled"
+                          : i.actualBytes == 0
+                              ? 'Starting Download'
+                              : i.actualBytes == i.totalBytes
+                                  ? "Download finished"
+                                  : "${i.actualBytes.getFileSize()}/${i.totalBytes.getFileSize()}",
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {
+                        if (i.cancelToken.isCancelled ||
+                            (i.actualBytes == i.totalBytes &&
+                                i.actualBytes != 0)) {
+                          removeItem();
+                        } else if (i.actualBytes != i.totalBytes ||
+                            i.actualBytes == 0) {
+                          i.cancelToken.cancel("cancelled");
+                          ref.watch(downloadListProvider.notifier).refresh();
+                        }
+                      },
+                      icon: Icon(i.cancelToken.isCancelled
+                          ? LucideIcons.slash
+                          : (i.actualBytes != i.totalBytes ||
+                                  i.actualBytes == 0)
+                              ? LucideIcons.x
+                              : LucideIcons.trash),
+                    ),
+                    onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
+                        ? () => runProgram(
+                              location: ref.watch(downloadPathProvider),
+                              program: i.name,
+                            )
+                        : () {},
+                  );
+                },
+                itemCount: listDownloads.length,
+              ),
+            ],
           ))))
         : const Center(child: Text('No Downloads found'));
   }

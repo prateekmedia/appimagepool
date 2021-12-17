@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:gtk/gtk.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -22,7 +22,7 @@ class DownloadButton extends HookConsumerWidget {
         visible: listDownloads.isNotEmpty,
         child: Material(
           type: MaterialType.transparency,
-          child: GtkPopupMenu(
+          child: AdwPopupMenu(
             popupWidth: 400,
             icon: Icon(
               downloading > 0 ? LucideIcons.download : LucideIcons.check,
@@ -67,20 +67,27 @@ class DownloadButton extends HookConsumerWidget {
                           ),
                           trailing: IconButton(
                             onPressed: () {
-                              if (i.cancelToken.isCancelled || (i.actualBytes == i.totalBytes && i.actualBytes != 0)) {
+                              if (i.cancelToken.isCancelled ||
+                                  (i.actualBytes == i.totalBytes &&
+                                      i.actualBytes != 0)) {
                                 removeItem();
-                              } else if (i.actualBytes != i.totalBytes || i.actualBytes == 0) {
+                              } else if (i.actualBytes != i.totalBytes ||
+                                  i.actualBytes == 0) {
                                 i.cancelToken.cancel("cancelled");
-                                ref.watch(downloadListProvider.notifier).refresh();
+                                ref
+                                    .watch(downloadListProvider.notifier)
+                                    .refresh();
                               }
                             },
                             icon: Icon(i.cancelToken.isCancelled
                                 ? LucideIcons.xCircle
-                                : (i.actualBytes != i.totalBytes || i.actualBytes == 0)
+                                : (i.actualBytes != i.totalBytes ||
+                                        i.actualBytes == 0)
                                     ? LucideIcons.x
                                     : LucideIcons.trash),
                           ),
-                          onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
+                          onTap: (i.actualBytes == i.totalBytes &&
+                                  i.totalBytes != 0)
                               ? () => runProgram(
                                     location: ref.watch(downloadPathProvider),
                                     program: i.name,
@@ -103,6 +110,8 @@ class DownloadButton extends HookConsumerWidget {
 
 downloadApp(Map<String, String> checkmap, WidgetRef ref) {
   for (var item in checkmap.entries) {
-    ref.watch(downloadListProvider.notifier).addDownload(url: item.key, name: item.value);
+    ref
+        .watch(downloadListProvider.notifier)
+        .addDownload(url: item.key, name: item.value);
   }
 }

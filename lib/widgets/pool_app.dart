@@ -1,4 +1,4 @@
-import 'package:gtk/gtk.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -32,19 +32,19 @@ class PoolApp extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     return Column(
       children: [
-        GtkHeaderBar.bitsdojo(
+        AdwHeaderBar.bitsdojo(
           titlebarSpace: 0,
           appWindow: appWindow,
           windowDecor: windowDecor,
           showMinimize: context.width >= mobileWidth,
           showMaximize: context.width >= mobileWidth,
-          leading: Row(mainAxisSize: MainAxisSize.min, children: [
+          start: Row(mainAxisSize: MainAxisSize.min, children: [
             if (showBackButton)
               Hero(
                 tag: 'back-button',
                 child: Material(
                   type: MaterialType.transparency,
-                  child: GtkHeaderButton(
+                  child: AdwHeaderButton(
                     icon: const Icon(LucideIcons.chevronLeft, size: 17),
                     onPressed: () {
                       if (onBackPressed != null) onBackPressed!();
@@ -55,13 +55,13 @@ class PoolApp extends HookConsumerWidget {
               ),
             ...leading,
           ]),
-          center: (title != null && title!.isNotEmpty)
+          title: (title != null && title!.isNotEmpty)
               ? Text(
                   title!,
                   style: context.textTheme.headline6!.copyWith(fontSize: 17),
                 )
               : center ?? const SizedBox(),
-          trailing: Row(mainAxisSize: MainAxisSize.min, children: trailing),
+          end: Row(mainAxisSize: MainAxisSize.min, children: trailing),
           themeType: ref.watch(themeTypeProvider),
         ),
         Expanded(child: body),

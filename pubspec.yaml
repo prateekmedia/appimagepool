@@ -1,7 +1,7 @@
 name: appimagepool
 description: A simple, modern AppImageHub Client made for linux using flutter.
 
-version: 4.4.0
+version: 4.6.0
 publish_to: none
 
 environment:
@@ -10,17 +10,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  adwaita: ^0.0.3
   bitsdojo_window: ^0.1.1+1
   cached_network_image: ^3.1.0
   carousel_slider: ^4.0.0
   desktop_notifications: ^0.6.1
   dio: ^4.0.0
-  file_picker: ^4.1.2
+  file_picker: ^4.2.8
   flutter_spinkit: ^5.1.0
-  flutter_svg: ^0.23.0+1
-  gtk: ^1.0.0-rc.9
+  flutter_svg: ^1.0.0
   hooks_riverpod: ^1.0.0-dev.7
   intl: ^0.17.0
+  libadwaita: ^1.0.0-rc.1
   lucide_icons: ^0.16.13
   package_info_plus: ^1.0.6
   path_provider: ^2.0.5
@@ -28,10 +29,7 @@ dependencies:
   simple_html_css: ^3.0.1
   sticky_headers: ^0.2.0
   url_launcher: ^6.0.12
-  window_decorations: ^0.9.8
-
-dependency_overrides:
-  flutter_svg: ^0.23.0+1
+  window_decorations: ^1.0.0
 
 dev_dependencies:
   flutter_test:

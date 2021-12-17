@@ -42,7 +42,8 @@ Widget aboutDialog(BuildContext context) {
                         padding: const EdgeInsets.symmetric(vertical: 2),
                         child: SelectableText(
                           appName,
-                          style: context.textTheme.headline5!.copyWith(letterSpacing: 1),
+                          style: context.textTheme.headline5!
+                              .copyWith(letterSpacing: 1),
                         ),
                       ),
                       SelectableText(
@@ -52,7 +53,8 @@ Widget aboutDialog(BuildContext context) {
                       const SizedBox(height: 20),
                       SelectableText(
                         "Simplifying the way you browse, install and update your appimages. \n\nPowered by Flutter.",
-                        style: context.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                        style: context.textTheme.bodyText1!
+                            .copyWith(fontWeight: FontWeight.w600),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),
@@ -62,7 +64,8 @@ Widget aboutDialog(BuildContext context) {
                             TextSpan(
                               text: 'View Source Code',
                               style: linkStyle(context),
-                              recognizer: TapGestureRecognizer()..onTap = projectUrl.launchIt,
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = projectUrl.launchIt,
                             ),
                             const WidgetSpan(
                               child: SizedBox(
@@ -78,8 +81,9 @@ Widget aboutDialog(BuildContext context) {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   context.back();
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (ctx) => const CustomLicensePage()));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          const CustomLicensePage()));
                                 },
                             ),
                           ],

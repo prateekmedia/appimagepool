@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:appimagepool/utils/utils.dart';
 
-final forceDarkThemeProvider = StateNotifierProvider<ForceDarkThemeNotifier, ThemeMode>((ref) {
+final forceDarkThemeProvider =
+    StateNotifierProvider<ForceDarkThemeNotifier, ThemeMode>((ref) {
   return ForceDarkThemeNotifier(
-    ThemeMode.values.firstWhere((ele) => ele.index == (MyPrefs().prefs.getInt('forceDark') ?? 2)),
+    ThemeMode.values.firstWhere(
+        (ele) => ele.index == (MyPrefs().prefs.getInt('forceDark') ?? 2)),
   );
 });
 

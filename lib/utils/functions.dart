@@ -7,7 +7,8 @@ bool doesContain(String any, List<String> val) {
   return false;
 }
 
-makeProgramExecutable({required String location, required String program}) async {
+makeProgramExecutable(
+    {required String location, required String program}) async {
   return (await Process.run(
     'chmod',
     ['+x', program],

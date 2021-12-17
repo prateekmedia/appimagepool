@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:gtk/gtk.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class PrefsWidget extends HookConsumerWidget {
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: Theme.of(context).bgColor,
+                color: Theme.of(context).backgroundColor,
                 border: Border.all(color: Colors.grey),
               ),
               child: DropdownButton<ThemeType>(
@@ -99,7 +98,8 @@ class PrefsWidget extends HookConsumerWidget {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(5),
@@ -110,26 +110,33 @@ class PrefsWidget extends HookConsumerWidget {
                     children: [
                       const Icon(LucideIcons.folder, size: 18),
                       const SizedBox(width: 6),
-                      SelectableText(
-                          path == p.join(Platform.environment['HOME']!, 'Applications') + '/' ? 'Applications' : path),
+                      SelectableText(path ==
+                              p.join(Platform.environment['HOME']!,
+                                      'Applications') +
+                                  '/'
+                          ? 'Applications'
+                          : path),
                     ],
                   ),
                 ),
               ),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Theme.of(context).sidebars),
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).appBarTheme.backgroundColor),
               onPressed: !isBrowserActive.value
                   ? () async {
                       isBrowserActive.value = true;
-                      var dirPath = await FilePicker.platform.getDirectoryPath(dialogTitle: 'Choose Download Folder');
+                      ref.watch(downloadPathProvider.notifier).update =
+                          await FilePicker.platform.getDirectoryPath(
+                              dialogTitle: 'Choose Download Folder');
                       isBrowserActive.value = false;
-                      ref.watch(downloadPathProvider.notifier).update = dirPath ?? path;
                     }
                   : null,
               child: Text(
                 'Browse...',
-                style: TextStyle(color: context.isDark ? Colors.white : Colors.black),
+                style: TextStyle(
+                    color: context.isDark ? Colors.white : Colors.black),
               ),
             ),
           ],
@@ -144,7 +151,9 @@ class PrefsWidget extends HookConsumerWidget {
               value: context.isDark,
               activeColor: context.theme.primaryColor,
               onChanged: (value) {
-                ref.read(forceDarkThemeProvider.notifier).toggle(context.brightness);
+                ref
+                    .read(forceDarkThemeProvider.notifier)
+                    .toggle(context.brightness);
               },
             ),
           ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gtk/gtk.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/extensions.dart';
@@ -23,9 +22,12 @@ class CarouselArrow extends ConsumerWidget {
         height: 44,
         decoration: ShapeDecoration(
           shape: const CircleBorder(),
-          color: Theme.of(context).sidebars.withOpacity(0.70),
+          color:
+              Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.70),
         ),
-        child: Center(child: Icon(icon, color: context.textTheme.bodyText1!.color, size: 30)),
+        child: Center(
+            child: Icon(icon,
+                color: context.textTheme.bodyText1!.color, size: 30)),
       ),
     );
   }
