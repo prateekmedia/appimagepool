@@ -1,10 +1,10 @@
 export 'about_dialog.dart';
 export 'pool_app.dart';
 export 'carousel_arrow.dart';
-export 'customdialog.dart';
+export 'custom_dialog.dart';
 export 'appimage_about_dialog.dart';
 export 'download_button.dart';
 export 'grid_of_apps.dart';
 export 'prefs_dialog.dart';
 export 'rounded_dialog.dart';
-export 'tworowcontainer.dart';
+export 'two_row_container.dart';
