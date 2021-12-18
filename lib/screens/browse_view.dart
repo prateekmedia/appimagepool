@@ -4,15 +4,16 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:appimagepool/screens/screens.dart';
-import 'package:appimagepool/widgets/widgets.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/models/models.dart';
+import 'package:appimagepool/screens/screens.dart';
+import 'package:appimagepool/widgets/widgets.dart';
 
 class BrowseView extends StatefulHookWidget {
   final BuildContext context;
@@ -76,13 +77,16 @@ class _BrowseViewState extends State<BrowseView>
             children: [
               const Icon(LucideIcons.wifiOff, size: 45),
               const SizedBox(height: 20),
-              Text("Can't connect", style: context.textTheme.headline5),
+              Text(AppLocalizations.of(context)!.cantConnect,
+                  style: context.textTheme.headline5),
               const SizedBox(height: 12),
-              Text("You need an internet connection to use $appName.",
+              Text(
+                  "${AppLocalizations.of(context)!.youNeedInternetConnectionToUse} $appName.",
                   style: context.textTheme.headline6),
               const SizedBox(height: 20),
               ElevatedButton(
-                  onPressed: widget.getData, child: const Text('Retry')),
+                  onPressed: widget.getData,
+                  child: Text(AppLocalizations.of(context)!.retry)),
             ],
           )
         : widget.categories == null && widget.featured == null
@@ -91,7 +95,7 @@ class _BrowseViewState extends State<BrowseView>
                 children: [
                   SpinKitThreeBounce(color: context.textTheme.bodyText1!.color),
                   const SizedBox(height: 20),
-                  Text("Fetching Softwares",
+                  Text(AppLocalizations.of(context)!.fetchingSoftwares,
                       style: context.textTheme.headline5),
                 ],
               )
@@ -106,7 +110,7 @@ class _BrowseViewState extends State<BrowseView>
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 4),
                           child: Text(
-                            "Featured Apps",
+                            AppLocalizations.of(context)!.featuredApps,
                             style: context.textTheme.headline6!.copyWith(
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1.2),
@@ -202,7 +206,10 @@ class _BrowseViewState extends State<BrowseView>
                                                       ),
                                                       Flexible(
                                                         child: Text(
-                                                          featuredApp.name,
+                                                          featuredApp.name ??
+                                                              AppLocalizations.of(
+                                                                      context)!
+                                                                  .notAvailable,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: context
@@ -336,7 +343,9 @@ class _BrowseViewState extends State<BrowseView>
                                           },
                                           label: const Icon(Icons.chevron_right,
                                               size: 14),
-                                          icon: const Text("See all"),
+                                          icon: Text(
+                                              AppLocalizations.of(context)!
+                                                  .seeAll),
                                         )
                                       ],
                                     ),

@@ -8,6 +8,7 @@ import 'package:path/path.dart' as path;
 import 'package:desktop_notifications/desktop_notifications.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/models/models.dart';
 
 final downloadPathProvider =
@@ -27,30 +28,34 @@ class DownloadPathNotifier extends StateNotifier<String> {
   }
 }
 
-final isDownloadingProvider =
-    StateNotifierProvider<DownloadingStatusNotifier, int>((ref) {
-  return DownloadingStatusNotifier(0);
+final downloadProvider =
+    ChangeNotifierProvider<DownloadingStatusNotifier>((ref) {
+  return DownloadingStatusNotifier(ref);
 });
 
-class DownloadingStatusNotifier extends StateNotifier<int> {
-  DownloadingStatusNotifier(state) : super(state);
+class DownloadingStatusNotifier extends ChangeNotifier {
+  final ChangeNotifierProviderRef ref;
+  DownloadingStatusNotifier(this.ref);
+  refresh() => notifyListeners();
 
-  void increment() => state++;
-  void decrement() => state--;
-}
+  int downloadCount = 0;
 
-final downloadListProvider =
-    StateNotifierProvider<DownloadNotifier, List<QueryApp>>((ref) {
-  return DownloadNotifier(<QueryApp>[], ref);
-});
+  void increment() {
+    downloadCount++;
+    refresh();
+  }
 
-class DownloadNotifier extends StateNotifier<List<QueryApp>> {
-  final StateNotifierProviderRef ref;
-  DownloadNotifier(state, this.ref) : super(state);
+  void decrement() {
+    downloadCount--;
+    refresh();
+  }
 
-  refresh() => state = state;
+  List<QueryApp> downloadList = [];
 
-  addDownload({required String url, required String name}) async {
+  addDownload(
+      {required String url,
+      required String name,
+      required BuildContext context}) async {
     var location = ref.watch(downloadPathProvider);
     if (!Directory(location).existsSync()) {
       try {
@@ -60,9 +65,9 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
         return;
       }
     }
-    ref.watch(isDownloadingProvider.notifier).increment();
+    increment();
     final CancelToken cancelToken = CancelToken();
-    state.insert(
+    downloadList.insert(
       0,
       QueryApp(
         name: name,
@@ -73,23 +78,24 @@ class DownloadNotifier extends StateNotifier<List<QueryApp>> {
         totalBytes: 0,
       ),
     );
-    ref.read(downloadListProvider.notifier).refresh();
+    refresh();
     await Dio().download(url, location + name,
         onReceiveProgress: (recieved, total) {
-      var item = state[state.indexWhere(
+      var item = downloadList[downloadList.indexWhere(
         (element) =>
             (element.name == name) && (element.downloadLocation == location),
       )];
       item.actualBytes = recieved;
       item.totalBytes = total;
-      ref.read(downloadListProvider.notifier).refresh();
+      refresh();
     }, cancelToken: cancelToken).whenComplete(() async {
-      ref.read(isDownloadingProvider.notifier).decrement();
+      decrement();
       if (!cancelToken.isCancelled) {
         var client = NotificationsClient();
         await client.notify(
-          "Download Complete!",
-          body: name + " has been downloaded succesfully.",
+          AppLocalizations.of(context)!.downloadCompleted,
+          body:
+              "$name ${AppLocalizations.of(context)!.hasBeenDownloadedSuccessfully}",
           appName: "AppImage Pool",
           appIcon: "success",
         );

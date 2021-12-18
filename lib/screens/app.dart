@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +9,7 @@ import 'package:simple_html_css/simple_html_css.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 
@@ -89,13 +91,17 @@ class AppPage extends HookConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SelectableText(app.name,
+                                SelectableText(
+                                    app.name ??
+                                        AppLocalizations.of(context)!
+                                            .notAvailable,
                                     style: context.textTheme.headline6),
                                 SelectableText(
                                     (app.categories != null &&
                                             app.categories!.isNotEmpty
                                         ? app.categories!.join(', ')
-                                        : "N.A."),
+                                        : AppLocalizations.of(context)!
+                                            .notAvailable),
                                     style: context.textTheme.bodyText2),
                               ],
                             ),
@@ -132,7 +138,7 @@ class AppPage extends HookConsumerWidget {
                                                   response,
                                                   appIcon(50),
                                                   (checkmap) => downloadApp(
-                                                      checkmap, ref),
+                                                      context, checkmap, ref),
                                                 ),
                                               );
                                             } else {
@@ -141,8 +147,10 @@ class AppPage extends HookConsumerWidget {
                                             isLoadingDL.value = false;
                                           }
                                         : null,
-                                child: const Text("Download",
-                                    style: TextStyle(color: Colors.white)),
+                                child: Text(
+                                    AppLocalizations.of(context)!.download,
+                                    style:
+                                        const TextStyle(color: Colors.white)),
                                 style: ElevatedButton.styleFrom(
                                     primary: context.theme.primaryColor),
                               ),
@@ -242,23 +250,24 @@ class AppPage extends HookConsumerWidget {
                         (app.description != null &&
                                 app.description!.toString().trim().isNotEmpty)
                             ? app.description!
-                            : "No Description Found",
+                            : AppLocalizations.of(context)!.noDescriptionFound,
                         defaultTextStyle: context.textTheme.bodyText1!)),
                   ),
                   twoRowContainer(
                     context,
-                    primaryT: "License",
-                    secondaryT: app.license ?? "N.A.",
+                    primaryT: AppLocalizations.of(context)!.license,
+                    secondaryT: app.license ??
+                        AppLocalizations.of(context)!.notAvailable,
                   ),
                   twoRowContainer(
                     context,
-                    primaryT: "Authors",
+                    primaryT: AppLocalizations.of(context)!.authors,
                     secondaryT: app.authors != null
                         ? app.authors!
                             .map((e) =>
                                 '<a href="${e['url']}" >${e['name']}</a>')
                             .join(', ')
-                        : "N.A.",
+                        : AppLocalizations.of(context)!.notAvailable,
                   ),
                 ]),
               ),
@@ -321,7 +330,7 @@ class _DownloadDialogState extends State<DownloadDialog> {
           );
         });
       },
-      endText: TextButton(
+      endText: AdwTextButton(
           onPressed: () async {
             if (widget.onEndPressed != null && checkmap.value.isNotEmpty) {
               widget.onEndPressed!(checkmap.value);
@@ -329,7 +338,9 @@ class _DownloadDialogState extends State<DownloadDialog> {
             Navigator.of(context).pop();
           },
           child: Text(
-            checkmap.value.isNotEmpty ? "Download" : "Close",
+            checkmap.value.isNotEmpty
+                ? AppLocalizations.of(context)!.download
+                : AppLocalizations.of(context)!.close,
             style: const TextStyle(fontSize: 18),
           )),
       img: widget.appIcon,

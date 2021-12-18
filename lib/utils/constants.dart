@@ -1,5 +1,6 @@
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:appimagepool/translations.dart';
 import 'utils.dart';
 
 const String appName = "AppImage Pool";
@@ -36,3 +37,21 @@ const Map<String, IconData> categoryIcons = {
   'Game': LucideIcons.gamepad2,
   'Finance': LucideIcons.currency,
 };
+
+String categoryName(BuildContext context, String name) =>
+    {
+      'Video': AppLocalizations.of(context)!.video,
+      'Audio': AppLocalizations.of(context)!.audio,
+      'Science': AppLocalizations.of(context)!.science,
+      'System': AppLocalizations.of(context)!.system,
+      'Utility': AppLocalizations.of(context)!.utility,
+      'Network': AppLocalizations.of(context)!.network,
+      'Development': AppLocalizations.of(context)!.development,
+      'Education': AppLocalizations.of(context)!.education,
+      'Graphics': AppLocalizations.of(context)!.graphics,
+      'Office': AppLocalizations.of(context)!.office,
+      'Game': AppLocalizations.of(context)!.game,
+      'Finance': AppLocalizations.of(context)!.finance,
+      'Others': AppLocalizations.of(context)!.others,
+    }[name] ??
+    name;

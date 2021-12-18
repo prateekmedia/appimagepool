@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 
 Widget appimageAboutDialog(BuildContext context) {
@@ -19,15 +20,15 @@ Widget appimageAboutDialog(BuildContext context) {
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 6.0),
               child: SelectableText(
-                "AppImages",
+                "AppImage",
                 style: context.textTheme.headline5!.copyWith(letterSpacing: 1),
               ),
             ),
-            SelectableText("EASY TRUSTED FAST",
+            SelectableText(AppLocalizations.of(context)!.appimageSlogan,
                 style: context.textTheme.bodyText2!.copyWith(letterSpacing: 2)),
             const SizedBox(height: 10),
             SelectableText(
-              "Linux apps that run anywhere",
+              AppLocalizations.of(context)!.appimageDescription,
               style: context.textTheme.bodyText1!
                   .copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
@@ -37,7 +38,7 @@ Widget appimageAboutDialog(BuildContext context) {
               message: appimageWebsite,
               child: RichText(
                 text: TextSpan(
-                  text: 'Know More',
+                  text: AppLocalizations.of(context)!.knowMore,
                   style: linkStyle(context),
                   recognizer: TapGestureRecognizer()
                     ..onTap = appimageWebsite.launchIt,

@@ -6,7 +6,7 @@ final forceDarkThemeProvider =
     StateNotifierProvider<ForceDarkThemeNotifier, ThemeMode>((ref) {
   return ForceDarkThemeNotifier(
     ThemeMode.values.firstWhere(
-        (ele) => ele.index == (MyPrefs().prefs.getInt('forceDark') ?? 2)),
+        (ele) => ele.index == (MyPrefs().prefs.getInt('forceDark') ?? 0)),
   );
 });
 
@@ -16,5 +16,10 @@ class ForceDarkThemeNotifier extends StateNotifier<ThemeMode> {
   toggle(Brightness brightness) {
     state = brightness == Brightness.dark ? ThemeMode.light : ThemeMode.dark;
     MyPrefs().prefs.setInt('forceDark', state.index);
+  }
+
+  reset() {
+    state = ThemeMode.system;
+    MyPrefs().prefs.remove('forceDark');
   }
 }

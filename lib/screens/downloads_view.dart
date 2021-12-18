@@ -1,12 +1,13 @@
 import 'dart:io';
 
-import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class DownloadsView extends HookConsumerWidget {
   final ValueNotifier<String> searchedTerm;
@@ -16,7 +17,8 @@ class DownloadsView extends HookConsumerWidget {
   @override
   Widget build(context, ref) {
     final listDownloads = ref
-        .watch(downloadListProvider)
+        .watch(downloadProvider)
+        .downloadList
         .where((element) =>
             element.name.toLowerCase().contains(searchedTerm.value))
         .toList();
@@ -37,7 +39,7 @@ class DownloadsView extends HookConsumerWidget {
                       File(i.downloadLocation + i.name).deleteSync();
                     }
                     listDownloads.removeAt(index);
-                    ref.watch(downloadListProvider.notifier).refresh();
+                    ref.watch(downloadProvider).refresh();
                   }
 
                   return ListTile(
@@ -63,11 +65,12 @@ class DownloadsView extends HookConsumerWidget {
                     hoverColor: Colors.transparent,
                     subtitle: Text(
                       i.cancelToken.isCancelled
-                          ? "Cancelled"
+                          ? AppLocalizations.of(context)!.cancelled
                           : i.actualBytes == 0
-                              ? 'Starting Download'
+                              ? AppLocalizations.of(context)!.startingDownload
                               : i.actualBytes == i.totalBytes
-                                  ? "Download finished"
+                                  ? AppLocalizations.of(context)!
+                                      .downloadCompleted
                                   : "${i.actualBytes.getFileSize()}/${i.totalBytes.getFileSize()}",
                     ),
                     trailing: IconButton(
@@ -79,7 +82,7 @@ class DownloadsView extends HookConsumerWidget {
                         } else if (i.actualBytes != i.totalBytes ||
                             i.actualBytes == 0) {
                           i.cancelToken.cancel("cancelled");
-                          ref.watch(downloadListProvider.notifier).refresh();
+                          ref.read(downloadProvider).refresh();
                         }
                       },
                       icon: Icon(i.cancelToken.isCancelled

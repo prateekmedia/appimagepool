@@ -36,8 +36,6 @@ class PoolApp extends HookConsumerWidget {
           titlebarSpace: 0,
           appWindow: appWindow,
           windowDecor: windowDecor,
-          showMinimize: context.width >= mobileWidth,
-          showMaximize: context.width >= mobileWidth,
           start: Row(mainAxisSize: MainAxisSize.min, children: [
             if (showBackButton)
               Hero(

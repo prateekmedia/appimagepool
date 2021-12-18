@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/screens/screens.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 
@@ -31,7 +32,7 @@ Widget aboutDialog(BuildContext context) {
                           image: DecorationImage(
                             fit: BoxFit.contain,
                             image: CachedNetworkImageProvider(
-                              'https://raw.githubusercontent.com/prateekmedia/appimagepool/dev/assets/appimagepool.png',
+                              'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.png',
                             ),
                           ),
                         ),
@@ -52,7 +53,7 @@ Widget aboutDialog(BuildContext context) {
                       ),
                       const SizedBox(height: 20),
                       SelectableText(
-                        "Simplifying the way you browse, install and update your appimages. \n\nPowered by Flutter.",
+                        "${AppLocalizations.of(context)!.appDescription}\n\n${AppLocalizations.of(context)!.poweredByFlutter}",
                         style: context.textTheme.bodyText1!
                             .copyWith(fontWeight: FontWeight.w600),
                         textAlign: TextAlign.center,
@@ -62,7 +63,8 @@ Widget aboutDialog(BuildContext context) {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'View Source Code',
+                              text:
+                                  AppLocalizations.of(context)!.viewSourceCode,
                               style: linkStyle(context),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = projectUrl.launchIt,
@@ -76,7 +78,7 @@ Widget aboutDialog(BuildContext context) {
                               ),
                             ),
                             TextSpan(
-                              text: 'View Licenses',
+                              text: AppLocalizations.of(context)!.viewLicenses,
                               style: linkStyle(context, false),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {

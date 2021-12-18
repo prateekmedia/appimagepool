@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/screens/screens.dart';
 import 'package:appimagepool/providers/providers.dart';
@@ -23,9 +24,9 @@ class _GridOfAppsState extends State<GridOfApps> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       return widget.itemList.isEmpty
-          ? const Center(
+          ? Center(
               child: Text(
-                "No Results Found,\nTry changing search terms.",
+                AppLocalizations.of(context)!.noSearchResult,
                 textAlign: TextAlign.center,
               ),
             )
@@ -97,7 +98,10 @@ class _GridOfAppsState extends State<GridOfApps> {
                                                     const EdgeInsets.symmetric(
                                                         vertical: 8),
                                                 child: Text(
-                                                  app.name,
+                                                  app.name ??
+                                                      AppLocalizations.of(
+                                                              context)!
+                                                          .notAvailable,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
@@ -212,7 +216,9 @@ class _GridOfAppsState extends State<GridOfApps> {
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 8),
                                     child: Text(
-                                      app.name,
+                                      app.name ??
+                                          AppLocalizations.of(context)!
+                                              .notAvailable,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: context.textTheme.bodyText1!

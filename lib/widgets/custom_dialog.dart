@@ -1,12 +1,13 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/models/models.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class CustomDialogBox extends HookConsumerWidget {
   final Widget img, endText;
@@ -111,7 +112,9 @@ class CustomDialogBox extends HookConsumerWidget {
                     ),
                   )
                 else
-                  const Text("No AppImage Found in this Release"),
+                  Text(
+                    AppLocalizations.of(context)!.noAppImageInThisRelease,
+                  ),
                 const SizedBox(height: 22),
                 endText,
               ],

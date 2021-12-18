@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:adwaita/adwaita.dart' as adwaita;
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +14,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 
-import 'utils/utils.dart';
-import 'screens/screens.dart';
-import 'widgets/widgets.dart';
-import 'providers/providers.dart';
+import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/screens/screens.dart';
+import 'package:appimagepool/widgets/widgets.dart';
+import 'package:appimagepool/providers/providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +40,13 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       darkTheme: adwaita.darkTheme,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        AppLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: adwaita.lightTheme,
       themeMode: ref.watch(forceDarkThemeProvider),
       home: const HomePage(),
@@ -124,11 +133,15 @@ class _HomePageState extends State<HomePage> {
   Map? categories;
   List? allItems;
   Map? featured;
+  late FlapController _flapController;
 
   @override
   void initState() {
     getData();
     super.initState();
+    _flapController = FlapController();
+
+    _flapController.addListener(() => setState(() {}));
   }
 
   @override
@@ -137,7 +150,6 @@ class _HomePageState extends State<HomePage> {
     final searchedTerm = useState<String>("");
     final _currentViewIndex = useState<int>(0);
     final toggleSearch = useState<bool>(false);
-    final isSidebarActive = useState<bool>(true);
     final _controller = PageController();
 
     void switchSearchBar([bool? value]) {
@@ -147,193 +159,178 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Consumer(
-      builder: (ctx, ref, _) => Scaffold(
-        drawer: context.width < mobileWidth
-            ? Drawer(
-                child: buildSidebar(
-                    context, ref, isSidebarActive, navrailIndex, true))
-            : null,
-        body: RawKeyboardListener(
-          focusNode: FocusNode(),
-          onKey: (event) {
-            if (event.runtimeType == RawKeyDownEvent &&
-                event.isControlPressed &&
-                event.logicalKey.keyId == 102) {
-              switchSearchBar();
-            }
-          },
-          child: PoolApp(
-            center: toggleSearch.value
-                ? Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                    color: Theme.of(context).appBarTheme.backgroundColor,
-                    constraints: BoxConstraints.loose(const Size(500, 50)),
-                    child: RawKeyboardListener(
-                      child: TextField(
-                        textAlignVertical: TextAlignVertical.center,
-                        autofocus: true,
-                        onChanged: (query) => searchedTerm.value = query,
-                        style:
-                            context.textTheme.bodyText1!.copyWith(fontSize: 14),
-                        decoration: InputDecoration(
-                          fillColor: context.theme.canvasColor,
-                          contentPadding: const EdgeInsets.only(top: 8),
-                          isCollapsed: true,
-                          filled: true,
-                          prefixIcon: const Icon(Icons.search, size: 18),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6)),
-                        ),
-                      ),
-                      focusNode: FocusNode(),
-                      onKey: (event) {
-                        if (event.runtimeType == RawKeyDownEvent &&
-                            event.logicalKey.keyId == 4294967323) {
-                          switchSearchBar(false);
-                        }
-                      },
+      builder: (ctx, ref, _) => PoolApp(
+        center: toggleSearch.value
+            ? Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                color: Theme.of(context).appBarTheme.backgroundColor,
+                constraints: BoxConstraints.loose(const Size(500, 50)),
+                child: RawKeyboardListener(
+                  child: TextField(
+                    textAlignVertical: TextAlignVertical.center,
+                    autofocus: true,
+                    onChanged: (query) => searchedTerm.value = query,
+                    style: context.textTheme.bodyText1!.copyWith(fontSize: 14),
+                    decoration: InputDecoration(
+                      fillColor: context.theme.canvasColor,
+                      contentPadding: const EdgeInsets.only(top: 8),
+                      isCollapsed: true,
+                      filled: true,
+                      prefixIcon: const Icon(Icons.search, size: 18),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6)),
                     ),
-                  )
-                : context.width >= mobileWidth
-                    ? buildViewSwitcher(_currentViewIndex, _controller, ref)
-                    : null,
-            leading: [
-              AdwHeaderButton(
-                icon: Icon(
-                  !toggleSearch.value
-                      ? LucideIcons.search
-                      : LucideIcons.chevronLeft,
-                  size: 16,
+                  ),
+                  focusNode: FocusNode(),
+                  onKey: (event) {
+                    if (event.runtimeType == RawKeyDownEvent &&
+                        event.logicalKey.keyId == 4294967323) {
+                      switchSearchBar(false);
+                    }
+                  },
                 ),
-                onPressed: switchSearchBar,
-              ),
-            ],
-            trailing: !toggleSearch.value
-                ? [
-                    AdwPopupMenu(
-                      body: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              "Preferences",
-                              style: context.textTheme.bodyText1,
-                            ),
-                            onTap: () {
-                              context.back();
-                              showDialog(
-                                context: context,
-                                builder: (ctx) => prefsDialog(ctx),
-                              );
-                            },
-                          ),
-                          const Divider(height: 1),
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              "About Appimages",
-                              style: context.textTheme.bodyText1,
-                            ),
-                            onTap: () {
-                              context.back();
-                              showDialog(
-                                context: context,
-                                builder: (ctx) => appimageAboutDialog(ctx),
-                              );
-                            },
-                          ),
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              "About the App",
-                              style: context.textTheme.bodyText1,
-                            ),
-                            onTap: () {
-                              context.back();
-                              showDialog(
-                                context: context,
-                                builder: (ctx) => aboutDialog(ctx),
-                              );
-                            },
-                          ),
-                        ],
+              )
+            : context.width >= mobileWidth
+                ? buildViewSwitcher(_currentViewIndex, _controller, ref)
+                : null,
+        leading: [
+          AdwHeaderButton(
+            icon: Icon(
+              !toggleSearch.value
+                  ? LucideIcons.search
+                  : LucideIcons.chevronLeft,
+              size: 16,
+            ),
+            onPressed: switchSearchBar,
+          ),
+        ],
+        trailing: !toggleSearch.value
+            ? [
+                AdwPopupMenu(
+                  body: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          AppLocalizations.of(context)!.preferences,
+                          style: context.textTheme.bodyText1,
+                        ),
+                        onTap: () {
+                          context.back();
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => prefsDialog(ctx),
+                          );
+                        },
                       ),
-                    ),
-                  ]
-                : [],
-            body: PageView(
+                      const Divider(height: 1),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          AppLocalizations.of(context)!.aboutAppImage,
+                          style: context.textTheme.bodyText1,
+                        ),
+                        onTap: () {
+                          context.back();
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => appimageAboutDialog(ctx),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          AppLocalizations.of(context)!.aboutApp,
+                          style: context.textTheme.bodyText1,
+                        ),
+                        onTap: () {
+                          context.back();
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => aboutDialog(ctx),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+            : [],
+        body: AdwScaffold(
+          flapController: _flapController,
+          drawer: Drawer(child: buildSidebar(context, ref, navrailIndex, true)),
+          body: RawKeyboardListener(
+            focusNode: FocusNode(),
+            onKey: (event) {
+              if (event.runtimeType == RawKeyDownEvent &&
+                  event.isControlPressed &&
+                  event.logicalKey.keyId == 102) {
+                switchSearchBar();
+              }
+            },
+            child: PageView(
               controller: _controller,
               onPageChanged: (index) => _currentViewIndex.value = index,
               children: [
-                Row(
-                  children: [
-                    if (context.width >= mobileWidth)
-                      AnimatedSize(
-                        duration: const Duration(milliseconds: 200),
-                        child: buildSidebar(
-                            context, ref, isSidebarActive, navrailIndex),
-                      ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Builder(builder: (context) {
-                                  return AdwHeaderButton(
-                                    isActive: isSidebarActive.value,
-                                    icon: const Icon(LucideIcons.sidebar,
-                                        size: 17),
-                                    onPressed: () {
-                                      if (context.width < mobileWidth) {
-                                        Scaffold.of(context).openDrawer();
-                                      } else {
-                                        isSidebarActive.value =
-                                            !isSidebarActive.value;
-                                      }
-                                    },
-                                  );
-                                }),
-                                buildDropdown(
-                                  context,
-                                  ref,
-                                  label: "View type",
-                                  index: ref.watch(viewTypeProvider),
-                                  onChanged: (value) => ref
-                                      .read(viewTypeProvider.notifier)
-                                      .update(),
-                                  items: [
-                                    const DropdownMenuItem(
-                                        value: 0, child: Text('Grid')),
-                                    const DropdownMenuItem(
-                                        value: 1, child: Text('List')),
-                                  ],
-                                ),
+                AdwFlap(
+                  flapController: _flapController,
+                  flap: buildSidebar(context, ref, navrailIndex),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Builder(builder: (context) {
+                              return AdwHeaderButton(
+                                isActive: _flapController.isOpen,
+                                icon: const Icon(LucideIcons.sidebar, size: 17),
+                                onPressed: _flapController.toggle,
+                              );
+                            }),
+                            buildDropdown(
+                              context,
+                              ref,
+                              label: AppLocalizations.of(context)!.viewType,
+                              index: ref.watch(viewTypeProvider),
+                              onChanged: (value) =>
+                                  ref.read(viewTypeProvider.notifier).update(),
+                              items: [
+                                DropdownMenuItem(
+                                    value: 0,
+                                    child: Text(
+                                      AppLocalizations.of(context)!.grid,
+                                    )),
+                                DropdownMenuItem(
+                                    value: 1,
+                                    child: Text(
+                                      AppLocalizations.of(context)!.list,
+                                    )),
                               ],
                             ),
-                          ),
-                          Expanded(
-                            child: BrowseView(
-                              context: context,
-                              toggleSearch: toggleSearch,
-                              navrailIndex: navrailIndex,
-                              searchedTerm: searchedTerm,
-                              switchSearchBar: switchSearchBar,
-                              getData: getData,
-                              isConnected: _isConnected,
-                              featured: featured,
-                              categories: categories,
-                              allItems: allItems,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: BrowseView(
+                          context: context,
+                          toggleSearch: toggleSearch,
+                          navrailIndex: navrailIndex,
+                          searchedTerm: searchedTerm,
+                          switchSearchBar: switchSearchBar,
+                          getData: getData,
+                          isConnected: _isConnected,
+                          featured: featured,
+                          categories: categories,
+                          allItems: allItems,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 InstalledView(searchedTerm: searchedTerm),
                 DownloadsView(searchedTerm: searchedTerm),
@@ -341,37 +338,35 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        bottomNavigationBar: context.width < mobileWidth &&
-                searchedTerm.value.isEmpty
-            ? buildViewSwitcher(
-                _currentViewIndex, _controller, ref, ViewSwitcherStyle.mobile)
-            : null,
+        // bottomNavigationBar: context.width < mobileWidth &&
+        //         searchedTerm.value.isEmpty
+        //     ? buildViewSwitcher(
+        //         _currentViewIndex, _controller, ref, ViewSwitcherStyle.mobile)
+        //     : null,
       ),
     );
   }
 
-  AdwSidebar buildSidebar(BuildContext context, WidgetRef ref,
-      ValueNotifier<bool> isSidebarActive, ValueNotifier<int> navrailIndex,
+  AdwSidebar buildSidebar(
+      BuildContext context, WidgetRef ref, ValueNotifier<int> navrailIndex,
       [bool isSidebar = false]) {
     return AdwSidebar(
-      width: isSidebarActive.value ? 265 : 0,
-      padding: EdgeInsets.zero,
       currentIndex: navrailIndex.value,
       onSelected: (index) {
         navrailIndex.value = index;
         if (isSidebar) {
-          context.back();
+          _flapController.toggle();
         }
       },
       children: [
         AdwSidebarItem(
-          label: "Explore",
+          label: AppLocalizations.of(context)!.explore,
           leading: const Icon(LucideIcons.trendingUp, size: 17),
         ),
         for (var category
             in (categories ?? {}).entries.toList().asMap().entries)
           AdwSidebarItem(
-            label: category.value.key,
+            label: categoryName(context, category.value.key),
             leading: Icon(
               categoryIcons.containsKey(category.value.key)
                   ? categoryIcons[category.value.key]!
@@ -421,7 +416,8 @@ class _HomePageState extends State<HomePage> {
       PageController _controller, WidgetRef ref,
       [ViewSwitcherStyle viewSwitcherStyle = ViewSwitcherStyle.desktop]) {
     var currentlyDownloading = ref
-        .watch(downloadListProvider)
+        .watch(downloadProvider)
+        .downloadList
         .where((element) => element.actualBytes != element.totalBytes)
         .length;
     return AdwViewSwitcher(
@@ -431,11 +427,17 @@ class _HomePageState extends State<HomePage> {
       },
       height: 50,
       tabs: [
-        const ViewSwitcherData(title: "Browse", icon: Icons.web),
-        const ViewSwitcherData(title: "Installed", icon: Icons.view_list),
         ViewSwitcherData(
-          title:
-              "Downloads${currentlyDownloading > 0 ? ' ($currentlyDownloading)' : ''}",
+          title: AppLocalizations.of(context)!.browse,
+          icon: Icons.web,
+        ),
+        ViewSwitcherData(
+          title: AppLocalizations.of(context)!.installed,
+          icon: Icons.view_list,
+        ),
+        ViewSwitcherData(
+          title: AppLocalizations.of(context)!.downloads +
+              (currentlyDownloading > 0 ? ' ($currentlyDownloading)' : ''),
           icon: Icons.download,
         ),
       ],

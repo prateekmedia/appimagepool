@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:window_decorations/window_decorations.dart';
 
 import 'widgets.dart';
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
 
 Widget prefsDialog(BuildContext context) {
@@ -40,11 +42,9 @@ class PrefsWidget extends HookConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              "Theme type",
-              style: TextStyle(
-                fontSize: 15,
-              ),
+            Text(
+              AppLocalizations.of(context)!.themeType,
+              style: const TextStyle(fontSize: 15),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -94,7 +94,7 @@ class PrefsWidget extends HookConsumerWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Download Path'),
+            Text(AppLocalizations.of(context)!.downloadPath),
             Expanded(
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -121,20 +121,19 @@ class PrefsWidget extends HookConsumerWidget {
                 ),
               ),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).appBarTheme.backgroundColor),
+            AdwTextButton(
               onPressed: !isBrowserActive.value
                   ? () async {
                       isBrowserActive.value = true;
                       ref.watch(downloadPathProvider.notifier).update =
                           await FilePicker.platform.getDirectoryPath(
-                              dialogTitle: 'Choose Download Folder');
+                              dialogTitle: AppLocalizations.of(context)!
+                                  .chooseDownloadFolder);
                       isBrowserActive.value = false;
                     }
                   : null,
               child: Text(
-                'Browse...',
+                AppLocalizations.of(context)!.browseFolder,
                 style: TextStyle(
                     color: context.isDark ? Colors.white : Colors.black),
               ),
@@ -146,7 +145,7 @@ class PrefsWidget extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Force dark theme'),
+            Text(AppLocalizations.of(context)!.forceDarkTheme),
             CupertinoSwitch(
               value: context.isDark,
               activeColor: context.theme.primaryColor,

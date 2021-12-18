@@ -1,7 +1,7 @@
 import 'package:appimagepool/utils/utils.dart';
 
 class App {
-  final String name;
+  final String? name;
   final String? description;
   final String? iconUrl;
   final List? screenshotsUrl;
@@ -23,7 +23,7 @@ class App {
 
   static App fromItem(item) {
     return App(
-      name: item['name'].replaceAll('_', ' ').replaceAll('-', ' ') ?? "N.A.",
+      name: item['name'].replaceAll('_', ' ').replaceAll('-', ' '),
       description: item['description'],
       iconUrl: item['icons'] != null
           ? item['icons'][0].startsWith('http')

@@ -209,6 +209,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -299,10 +304,12 @@ packages:
   libadwaita:
     dependency: "direct main"
     description:
-      name: libadwaita
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0-rc.1"
+      path: "."
+      ref: HEAD
+      resolved-ref: "36dc27251df323b4cd39255ba98c2fdb0d1f4658"
+      url: "https://github.com/gtk-flutter/libadwaita.git"
+    source: git
+    version: "1.0.0-rc.2"
   lints:
     dependency: transitive
     description:
@@ -324,6 +331,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.11"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   meta:
     dependency: transitive
     description:
@@ -643,7 +657,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.8"
   typed_data:
     dependency: transitive
     description:

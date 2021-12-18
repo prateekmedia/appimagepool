@@ -1,21 +1,22 @@
 import 'dart:io';
 
-import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter/material.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/models/models.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class DownloadButton extends HookConsumerWidget {
   const DownloadButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    int downloading = ref.watch(isDownloadingProvider);
-    List<QueryApp> listDownloads = ref.watch(downloadListProvider);
+    int downloading = ref.watch(downloadProvider).downloadCount;
+    List<QueryApp> listDownloads = ref.watch(downloadProvider).downloadList;
     return Hero(
       tag: 'download_menu',
       child: Visibility(
@@ -30,7 +31,8 @@ class DownloadButton extends HookConsumerWidget {
             ),
             body: Consumer(
               builder: (ctx, ref, child) {
-                List<QueryApp> listDownloads = ref.watch(downloadListProvider);
+                List<QueryApp> listDownloads =
+                    ref.watch(downloadProvider).downloadList;
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(listDownloads.length, (index) {
@@ -42,7 +44,7 @@ class DownloadButton extends HookConsumerWidget {
                       if (listDownloads.length == 1) context.back();
                       await Future.delayed(const Duration(milliseconds: 155));
                       listDownloads.removeAt(index);
-                      ref.watch(downloadListProvider.notifier).refresh();
+                      ref.watch(downloadProvider).refresh();
                     }
 
                     return PopupMenuItem<String>(
@@ -58,11 +60,13 @@ class DownloadButton extends HookConsumerWidget {
                           hoverColor: Colors.transparent,
                           subtitle: Text(
                             i.cancelToken.isCancelled
-                                ? "Cancelled"
+                                ? AppLocalizations.of(context)!.cancelled
                                 : i.totalBytes == 0
-                                    ? 'Starting Download'
+                                    ? AppLocalizations.of(context)!
+                                        .startingDownload
                                     : i.actualBytes == i.totalBytes
-                                        ? "Download finished"
+                                        ? AppLocalizations.of(context)!
+                                            .downloadCompleted
                                         : "${i.actualBytes.getFileSize()}/${i.totalBytes.getFileSize()}",
                           ),
                           trailing: IconButton(
@@ -74,9 +78,7 @@ class DownloadButton extends HookConsumerWidget {
                               } else if (i.actualBytes != i.totalBytes ||
                                   i.actualBytes == 0) {
                                 i.cancelToken.cancel("cancelled");
-                                ref
-                                    .watch(downloadListProvider.notifier)
-                                    .refresh();
+                                ref.watch(downloadProvider).refresh();
                               }
                             },
                             icon: Icon(i.cancelToken.isCancelled
@@ -108,10 +110,10 @@ class DownloadButton extends HookConsumerWidget {
   }
 }
 
-downloadApp(Map<String, String> checkmap, WidgetRef ref) {
+downloadApp(BuildContext context, Map<String, String> checkmap, WidgetRef ref) {
   for (var item in checkmap.entries) {
     ref
-        .watch(downloadListProvider.notifier)
-        .addDownload(url: item.key, name: item.value);
+        .watch(downloadProvider)
+        .addDownload(context: context, url: item.key, name: item.value);
   }
 }

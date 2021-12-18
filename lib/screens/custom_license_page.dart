@@ -1,12 +1,14 @@
-import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:libadwaita/libadwaita.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:collection/collection.dart' show IterableExtension;
+
 import 'package:appimagepool/utils/utils.dart';
+import 'package:appimagepool/translations.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 
 class Package {
@@ -20,7 +22,7 @@ class CustomLicensePage extends HookConsumerWidget {
   const CustomLicensePage({Key? key}) : super(key: key);
   @override
   Widget build(context, ref) {
-    final _selected = useState<int?>(null);
+    final _selected = useState<int?>(0);
     final appBarName = useState<String?>(null);
 
     void _selectValue(int? val, String appbarN) {
@@ -31,7 +33,7 @@ class CustomLicensePage extends HookConsumerWidget {
     void _clearSelected() => _selected.value = null;
     return Scaffold(
       body: PoolApp(
-        title: appBarName.value ?? "Licenses",
+        title: appBarName.value ?? AppLocalizations.of(context)!.licenses,
         showBackButton: true,
         body: FutureBuilder<List<LicenseEntry>>(
             future: LicenseRegistry.licenses.toList(),
@@ -64,11 +66,12 @@ class CustomLicensePage extends HookConsumerWidget {
                   fullContentBuilder: (pane2Idx, pane2) => PoolApp(
                     title: pane2Idx != null ? packages[pane2Idx].name : '',
                     showBackButton: true,
-                    onBackPressed: () => _selectValue(null, "Licenses"),
+                    onBackPressed: () => _selectValue(
+                        null, AppLocalizations.of(context)!.licenses),
                     body: pane2,
                   ),
                   sidebarWidth: 265,
-                  contentIndex: _selected.value!,
+                  contentIndex: _selected.value,
                   sidebar: AdwSidebar.builder(
                     controller: ScrollController(),
                     width: double.infinity,
@@ -86,15 +89,15 @@ class CustomLicensePage extends HookConsumerWidget {
                               Text(
                                 packages[index].name,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.bodyText1!.copyWith(
-                                  color: isSelected ? Colors.white : null,
-                                ),
+                                style: context.textTheme.bodyText1!,
                               ),
                               Text(
-                                '${packages[index].count} License${packages[index].count > 1 ? "s" : ""}',
-                                style: context.textTheme.bodyText2!.copyWith(
-                                  color: isSelected ? Colors.white : null,
-                                ),
+                                '${packages[index].count} ' +
+                                    (packages[index].count > 1
+                                        ? AppLocalizations.of(context)!.licenses
+                                        : AppLocalizations.of(context)!
+                                            .license),
+                                style: context.textTheme.bodyText2!,
                               ),
                             ],
                           ),
@@ -112,7 +115,9 @@ class CustomLicensePage extends HookConsumerWidget {
                                   packages[_selected.value!].name)
                               .toList(),
                         )
-                      : const Center(child: Text('Select a License to view.')),
+                      : Center(
+                          child: Text(
+                              AppLocalizations.of(context)!.selectLicense)),
                 );
               }
             }),
