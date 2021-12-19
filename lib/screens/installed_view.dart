@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
 
 class InstalledView extends ConsumerStatefulWidget {

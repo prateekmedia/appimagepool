@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 
 Widget appimageAboutDialog(BuildContext context) {

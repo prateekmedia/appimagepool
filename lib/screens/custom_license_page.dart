@@ -8,7 +8,7 @@ import 'package:sticky_headers/sticky_headers.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 
 class Package {

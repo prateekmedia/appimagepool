@@ -9,7 +9,7 @@ import 'package:simple_html_css/simple_html_css.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/models/models.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 

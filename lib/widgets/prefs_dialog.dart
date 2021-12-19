@@ -13,7 +13,7 @@ import 'package:window_decorations/window_decorations.dart';
 
 import 'widgets.dart';
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
 
 Widget prefsDialog(BuildContext context) {

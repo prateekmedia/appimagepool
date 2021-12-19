@@ -6,7 +6,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
 
 class DownloadsView extends HookConsumerWidget {

@@ -8,7 +8,7 @@ import 'package:path/path.dart' as path;
 import 'package:desktop_notifications/desktop_notifications.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/models/models.dart';
 
 final downloadPathProvider =

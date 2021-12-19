@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/models/models.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
 
 class DownloadButton extends HookConsumerWidget {

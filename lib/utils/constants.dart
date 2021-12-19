@@ -1,6 +1,6 @@
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:appimagepool/translations.dart';
+import 'package:appimagepool/translations/translations.dart';
 import 'utils.dart';
 
 const String appName = "AppImage Pool";
