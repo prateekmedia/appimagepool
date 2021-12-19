@@ -306,7 +306,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "36dc27251df323b4cd39255ba98c2fdb0d1f4658"
+      resolved-ref: "00d2e444f9e3d405341d2a3e8c542ceb868604ce"
       url: "https://github.com/gtk-flutter/libadwaita.git"
     source: git
     version: "1.0.0-rc.2"
@@ -601,7 +601,7 @@ packages:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1+1"
+    version: "2.1.0"
   stack_trace:
     dependency: transitive
     description:
@@ -764,5 +764,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: ">=2.14.0 <3.0.0"
+  dart: ">=2.15.0 <3.0.0"
   flutter: ">=2.5.0"

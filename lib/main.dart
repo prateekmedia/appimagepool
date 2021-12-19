@@ -337,12 +337,12 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+          bottomNavigationBar: context.width < mobileWidth &&
+                  searchedTerm.value.isEmpty
+              ? buildViewSwitcher(
+                  _currentViewIndex, _controller, ref, ViewSwitcherStyle.mobile)
+              : null,
         ),
-        // bottomNavigationBar: context.width < mobileWidth &&
-        //         searchedTerm.value.isEmpty
-        //     ? buildViewSwitcher(
-        //         _currentViewIndex, _controller, ref, ViewSwitcherStyle.mobile)
-        //     : null,
       ),
     );
   }
