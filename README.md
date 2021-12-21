@@ -43,17 +43,21 @@ Simple AppImageHub Client</b></p>
 | <a href='https://flathub.org/apps/details/io.github.prateekmedia.appimagepool'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/latest/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> | <a href='https://github.com/prateekmedia/appimagepool/releases/continuous/'><img width='130' alt='Download AppImage' src='https://github.com/srevinsaju/get-appimage/raw/master/static/badges/get-appimage-branding-dark.png'/></a> |
 
 ---
+### Installation
 
-### Contribute translations
+## Flatpak
 
-- Simply copy the content of `app_en.arb` located in `lib/translations` to your language like `app_hi.arb`
-- Now Modify the values of every key for example:
-`"preferences": "सेटिंग्स"`
-- Now make a Pull Request or simply create an issue and upload your translations there.
+- Install
+```flatpak install flathub io.github.prateekmedia.appimagepool```
 
-## Supporters
+- Run
+```flatpak run io.github.prateekmedia.appimagepool```
 
-[![Stargazers repo roster for @prateekmedia/appimagepool](https://reporoster.com/stars/prateekmedia/appimagepool)](https://github.com/prateekmedia/appimagepool/stargazers)
+## Appimage
+
+- Run
+```chmod a+x appimagepool(version no.).AppImage```
+Or Right Click to go to Permissions and allow to run as a program and Execute (Open the file again).
 
 ### Build from source
 
@@ -67,3 +71,15 @@ flutter pub get; flutter config --enable-linux-desktop
 # For Direct Testing
 flutter run -v -d linux
 ```
+
+### Contribute translations
+
+- Simply copy the content of `app_en.arb` located in `lib/translations` to your language like `app_hi.arb`
+- Now Modify the values of every key for example:
+`"preferences": "सेटिंग्स"`
+- Now make a Pull Request or simply create an issue and upload your translations there.
+
+## Supporters
+
+[![Stargazers repo roster for @prateekmedia/appimagepool](https://reporoster.com/stars/prateekmedia/appimagepool)](https://github.com/prateekmedia/appimagepool/stargazers)
+
