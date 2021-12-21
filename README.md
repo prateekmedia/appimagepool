@@ -33,7 +33,7 @@ Simple AppImageHub Client</b></p>
 - Simple categories
 - Download from github directly, no extra-server involved
 - Upgrade and Downgrade appimages easily
-- Version History and multi dowload support
+- Version History and multi download support
 - Fast downloader
 
 ### Download Links
