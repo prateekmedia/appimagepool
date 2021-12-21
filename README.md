@@ -33,7 +33,7 @@ Simple AppImageHub Client</b></p>
 - Simple categories
 - Download from github directly, no extra-server involved
 - Upgrade and Downgrade appimages easily
-- Version History and multi dowload support
+- Version History and multi download support
 - Fast downloader
 
 ### Download Links
@@ -58,8 +58,7 @@ Simple AppImageHub Client</b></p>
 ### Appimage
 
 - Run
-
-```chmod a+x appimagepool(version no.).AppImage```
+```chmod a+x appimagepool-86x64.AppImage```
 
 Or Right Click to go to Permissions and allow to run as a program and Execute (Open the file again).
 
