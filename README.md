@@ -58,7 +58,7 @@ Simple AppImageHub Client</b></p>
 ### Appimage
 
 - Run
-```chmod a+x appimagepool-86x64.AppImage```
+```chmod a+x appimagepool-x86_64.AppImage.AppImage```
 
 Or Right Click to go to Permissions and allow to run as a program and Execute (Open the file again).
 
