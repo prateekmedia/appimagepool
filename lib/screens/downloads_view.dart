@@ -94,6 +94,7 @@ class DownloadsView extends HookConsumerWidget {
                     ),
                     onTap: (i.actualBytes == i.totalBytes && i.totalBytes != 0)
                         ? () => runProgram(
+                              ref,
                               location: ref.watch(downloadPathProvider),
                               program: i.name,
                             )

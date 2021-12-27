@@ -305,9 +305,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "00d2e444f9e3d405341d2a3e8c542ceb868604ce"
-      url: "https://github.com/gtk-flutter/libadwaita.git"
+      ref: view_switcher_improvements
+      resolved-ref: "619fd524e819e0c8797a8d3680a50c2e1224035b"
+      url: "https://github.com/simrat39/libadwaita.git"
     source: git
     version: "1.0.0-rc.2"
   lints:

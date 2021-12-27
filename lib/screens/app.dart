@@ -253,16 +253,14 @@ class AppPage extends HookConsumerWidget {
                             : AppLocalizations.of(context)!.noDescriptionFound,
                         defaultTextStyle: context.textTheme.bodyText1!)),
                   ),
-                  twoRowContainer(
-                    context,
-                    primaryT: AppLocalizations.of(context)!.license,
-                    secondaryT: app.license ??
+                  ApTile(
+                    title: AppLocalizations.of(context)!.license,
+                    trailing: app.license ??
                         AppLocalizations.of(context)!.notAvailable,
                   ),
-                  twoRowContainer(
-                    context,
-                    primaryT: AppLocalizations.of(context)!.authors,
-                    secondaryT: app.authors != null
+                  ApTile(
+                    title: AppLocalizations.of(context)!.authors,
+                    trailing: app.authors != null
                         ? app.authors!
                             .map((e) =>
                                 '<a href="${e['url']}" >${e['name']}</a>')

@@ -12,4 +12,9 @@ class ViewTypeNotifier extends StateNotifier<int> {
     state = state == 1 ? 0 : state + 1;
     MyPrefs().prefs.setInt('viewType', state);
   }
+
+  reset() {
+    state = 0;
+    MyPrefs().prefs.remove('viewType');
+  }
 }

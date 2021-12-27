@@ -19,4 +19,9 @@ class ThemeTypeNotifier extends StateNotifier<ThemeType> {
     state = value;
     MyPrefs().prefs.setInt('themeType', state.index);
   }
+
+  reset() {
+    state = ThemeType.auto;
+    MyPrefs().prefs.remove('themeType');
+  }
 }

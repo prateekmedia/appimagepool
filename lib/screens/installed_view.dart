@@ -63,6 +63,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                           icon: const Icon(LucideIcons.trash),
                         ),
                         onTap: () => runProgram(
+                          ref,
                           location: path.dirname(i.path),
                           program: path.basename(i.path),
                         ),
