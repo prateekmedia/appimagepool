@@ -112,7 +112,7 @@ class AppPage extends HookConsumerWidget {
                               message: url,
                               child: ElevatedButton(
                                 onPressed: !url.contains('github.com', 0)
-                                    ? url.launchIt()
+                                    ? () => url.launchIt()
                                     : !isLoadingDL.value
                                         ? () async {
                                             isLoadingDL.value = true;
