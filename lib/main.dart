@@ -8,8 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/providers/providers.dart';
+import 'package:appimagepool/translations/translations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

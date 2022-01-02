@@ -17,7 +17,7 @@ class DownloadItem {
               .map((e) => ReleaseItem.fromMap(e))
               .toList(),
           date: DateTime.parse(e['created_at']),
-          version: e['name'],
+          version: e['name'] ?? e['tag_name'] ?? "",
         ),
       )
       .toList();
