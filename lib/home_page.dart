@@ -300,12 +300,11 @@ class _HomePageState extends State<HomePage> {
           ),
           bottomNavigationBar:
               context.width < mobileWidth && searchedTerm.value.isEmpty
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        buildViewSwitcher(_currentViewIndex, _controller, ref,
-                            ViewSwitcherStyle.mobile),
-                      ],
+                  ? buildViewSwitcher(
+                      _currentViewIndex,
+                      _controller,
+                      ref,
+                      ViewSwitcherStyle.mobile,
                     )
                   : null,
         ),

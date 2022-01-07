@@ -1,4 +1,4 @@
-import 'package:adwaita/adwaita.dart' as adwaita;
+import 'package:adwaita/adwaita.dart';
 import 'package:appimagepool/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -30,15 +30,15 @@ class MyApp extends ConsumerWidget {
   Widget build(context, ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      darkTheme: adwaita.darkTheme,
+      supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         AppLocalizations.delegate,
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: adwaita.lightTheme,
+      theme: AdwaitaThemeData.light(),
+      darkTheme: AdwaitaThemeData.dark(),
       themeMode: ref.watch(forceDarkThemeProvider),
       home: const HomePage(),
     );
