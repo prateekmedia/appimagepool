@@ -108,52 +108,46 @@ class AppPage extends HookConsumerWidget {
                           ),
                           const SizedBox(width: 10),
                           if (app.url != null && url.isNotEmpty)
-                            Tooltip(
-                              message: url,
-                              child: ElevatedButton(
-                                onPressed: !url.contains('github.com', 0)
-                                    ? () => url.launchIt()
-                                    : !isLoadingDL.value
-                                        ? () async {
-                                            isLoadingDL.value = true;
-                                            List<String> v =
-                                                url.split('github.com');
-                                            var u =
-                                                'https://api.github.com/repos' +
-                                                    v[1];
-                                            List response;
-                                            try {
-                                              response =
-                                                  (await Dio().get(u)).data;
-                                            } catch (e) {
-                                              isLoadingDL.value = false;
-                                              return;
-                                            }
-                                            if (response.isNotEmpty) {
-                                              await showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        DownloadDialog(
-                                                  response,
-                                                  appIcon(50),
-                                                  (checkmap) => downloadApp(
-                                                      context, checkmap, ref),
-                                                ),
-                                              );
-                                            } else {
-                                              url.launchIt();
-                                            }
+                            AdwButton(
+                              textStyle:
+                                  const TextStyle(fontWeight: FontWeight.w500),
+                              onPressed: !url.contains('github.com', 0)
+                                  ? () => url.launchIt()
+                                  : !isLoadingDL.value
+                                      ? () async {
+                                          isLoadingDL.value = true;
+                                          List<String> v =
+                                              url.split('github.com');
+                                          var u =
+                                              'https://api.github.com/repos' +
+                                                  v[1];
+                                          List response;
+                                          try {
+                                            response =
+                                                (await Dio().get(u)).data;
+                                          } catch (e) {
                                             isLoadingDL.value = false;
+                                            return;
                                           }
-                                        : null,
-                                child: Text(
-                                    AppLocalizations.of(context)!.download,
-                                    style:
-                                        const TextStyle(color: Colors.white)),
-                                style: ElevatedButton.styleFrom(
-                                    primary: context.theme.primaryColor),
-                              ),
+                                          if (response.isNotEmpty) {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  DownloadDialog(
+                                                response,
+                                                appIcon(50),
+                                                (checkmap) => downloadApp(
+                                                    context, checkmap, ref),
+                                              ),
+                                            );
+                                          } else {
+                                            url.launchIt();
+                                          }
+                                          isLoadingDL.value = false;
+                                        }
+                                      : null,
+                              child:
+                                  Text(AppLocalizations.of(context)!.download),
                             )
                         ],
                       ),
@@ -328,7 +322,7 @@ class _DownloadDialogState extends State<DownloadDialog> {
           );
         });
       },
-      endText: AdwTextButton(
+      endText: AdwButton.flat(
           onPressed: () async {
             if (widget.onEndPressed != null && checkmap.value.isNotEmpty) {
               widget.onEndPressed!(checkmap.value);

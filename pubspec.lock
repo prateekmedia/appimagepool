@@ -175,7 +175,7 @@ packages:
       name: file_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.3.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -227,7 +227,7 @@ packages:
       name: flutter_riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.0-dev.0"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -265,7 +265,7 @@ packages:
       name: hooks_riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.0-dev.0"
   html_unescape:
     dependency: transitive
     description:
@@ -304,11 +304,9 @@ packages:
   libadwaita:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b593bb6519a4bf2b38743c34aabd96c49953e00b
-      url: "https://github.com/gtk-flutter/libadwaita.git"
-    source: git
+      name: libadwaita
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.0.0-rc.2"
   lints:
     dependency: transitive
@@ -505,7 +503,7 @@ packages:
       name: riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.0-dev.0"
   rxdart:
     dependency: transitive
     description:

@@ -300,11 +300,19 @@ class _HomePageState extends State<HomePage> {
           ),
           bottomNavigationBar:
               context.width < mobileWidth && searchedTerm.value.isEmpty
-                  ? buildViewSwitcher(
-                      _currentViewIndex,
-                      _controller,
-                      ref,
-                      ViewSwitcherStyle.mobile,
+                  ? SizedBox(
+                      height: 51,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          buildViewSwitcher(
+                            _currentViewIndex,
+                            _controller,
+                            ref,
+                            ViewSwitcherStyle.mobile,
+                          ),
+                        ],
+                      ),
                     )
                   : null,
         ),
@@ -390,7 +398,6 @@ class _HomePageState extends State<HomePage> {
       onViewChanged: (index) {
         _controller.jumpToPage(index);
       },
-      height: 50,
       tabs: [
         ViewSwitcherData(
           title: AppLocalizations.of(context)!.browse,

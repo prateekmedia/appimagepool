@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/extensions.dart';
+import 'package:libadwaita/libadwaita.dart';
 
 class CarouselArrow extends ConsumerWidget {
   const CarouselArrow({
@@ -15,19 +16,18 @@ class CarouselArrow extends ConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: ShapeDecoration(
-          shape: const CircleBorder(),
-          color:
-              Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.70),
+    return SizedBox(
+      height: 44,
+      width: 44,
+      child: AdwButton.circular(
+        onPressed: onPressed,
+        backgroundColorBuilder: (_, __) =>
+            Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.70),
+        child: Icon(
+          icon,
+          color: context.textTheme.bodyText1!.color,
+          size: 30,
         ),
-        child: Center(
-            child: Icon(icon,
-                color: context.textTheme.bodyText1!.color, size: 30)),
       ),
     );
   }

@@ -18,14 +18,12 @@ dependencies:
   dio: ^4.0.0
   flutter_localizations: 
     sdk: flutter
-  file_picker: ^4.2.8
+  file_picker: ^4.3.1
   flutter_spinkit: ^5.1.0
   flutter_svg: ^1.0.0
-  hooks_riverpod: ^1.0.0-dev.7
+  hooks_riverpod: ^2.0.0-dev.0
   intl: ^0.17.0
-  libadwaita:
-    git:
-      url: https://github.com/gtk-flutter/libadwaita.git
+  libadwaita: 1.0.0-rc.2
   lucide_icons: ^0.16.13
   package_info_plus: ^1.0.6
   path_provider: ^2.0.5

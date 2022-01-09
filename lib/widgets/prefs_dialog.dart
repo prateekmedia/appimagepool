@@ -113,7 +113,7 @@ class PrefsDialog extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                  AdwTextButton(
+                  AdwButton.flat(
                     onPressed: !isBrowserActive.value
                         ? () async {
                             isBrowserActive.value = true;
@@ -157,7 +157,7 @@ class PrefsDialog extends HookConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  AdwTextButton(
+                  AdwButton.flat(
                     onPressed: () {
                       ref.read(forceDarkThemeProvider.notifier).reset();
                       ref.read(portableAppImageProvider.notifier).reset();

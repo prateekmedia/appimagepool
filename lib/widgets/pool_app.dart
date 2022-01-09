@@ -36,7 +36,7 @@ class PoolApp extends HookConsumerWidget {
           titlebarSpace: 0,
           appWindow: appWindow,
           windowDecor: windowDecor,
-          start: Row(mainAxisSize: MainAxisSize.min, children: [
+          start: [
             if (showBackButton)
               Hero(
                 tag: 'back-button',
@@ -52,14 +52,14 @@ class PoolApp extends HookConsumerWidget {
                 ),
               ),
             ...leading,
-          ]),
+          ],
           title: (title != null && title!.isNotEmpty)
               ? Text(
                   title!,
                   style: context.textTheme.headline6!.copyWith(fontSize: 17),
                 )
               : center ?? const SizedBox(),
-          end: Row(mainAxisSize: MainAxisSize.min, children: trailing),
+          end: trailing,
           themeType: ref.watch(themeTypeProvider),
         ),
         Expanded(child: body),
