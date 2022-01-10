@@ -109,8 +109,10 @@ class AppPage extends HookConsumerWidget {
                           const SizedBox(width: 10),
                           if (app.url != null && url.isNotEmpty)
                             AdwButton(
-                              textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                              opaque: true,
+                              backgroundColor:
+                                  AdwAvatarColors.blue.backgroundColor,
+                              textStyle: const TextStyle(color: Colors.white),
                               onPressed: !url.contains('github.com', 0)
                                   ? () => url.launchIt()
                                   : !isLoadingDL.value
@@ -322,7 +324,7 @@ class _DownloadDialogState extends State<DownloadDialog> {
           );
         });
       },
-      endText: AdwButton.flat(
+      endText: AdwButton(
           onPressed: () async {
             if (widget.onEndPressed != null && checkmap.value.isNotEmpty) {
               widget.onEndPressed!(checkmap.value);

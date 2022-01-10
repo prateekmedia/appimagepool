@@ -83,8 +83,8 @@ class CustomLicensePage extends HookConsumerWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 8),
                         labelWidget: Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 packages[index].name,
@@ -92,11 +92,7 @@ class CustomLicensePage extends HookConsumerWidget {
                                 style: context.textTheme.bodyText1!,
                               ),
                               Text(
-                                '${packages[index].count} ' +
-                                    (packages[index].count > 1
-                                        ? AppLocalizations.of(context)!.licenses
-                                        : AppLocalizations.of(context)!
-                                            .license),
+                                packages[index].count.toString(),
                                 style: context.textTheme.bodyText2!,
                               ),
                             ],

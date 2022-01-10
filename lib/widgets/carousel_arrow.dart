@@ -21,7 +21,7 @@ class CarouselArrow extends ConsumerWidget {
       width: 44,
       child: AdwButton.circular(
         onPressed: onPressed,
-        backgroundColorBuilder: (_, __) =>
+        backgroundColor:
             Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.70),
         child: Icon(
           icon,

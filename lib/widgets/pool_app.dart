@@ -54,10 +54,7 @@ class PoolApp extends HookConsumerWidget {
             ...leading,
           ],
           title: (title != null && title!.isNotEmpty)
-              ? Text(
-                  title!,
-                  style: context.textTheme.headline6!.copyWith(fontSize: 17),
-                )
+              ? Text(title!)
               : center ?? const SizedBox(),
           end: trailing,
           themeType: ref.watch(themeTypeProvider),

@@ -23,7 +23,9 @@ dependencies:
   flutter_svg: ^1.0.0
   hooks_riverpod: ^2.0.0-dev.0
   intl: ^0.17.0
-  libadwaita: 1.0.0-rc.2
+  libadwaita:
+    git:
+      url: https://github.com/gtk-flutter/libadwaita.git
   lucide_icons: ^0.16.13
   package_info_plus: ^1.0.6
   path_provider: ^2.0.5
