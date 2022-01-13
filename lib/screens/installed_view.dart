@@ -4,6 +4,7 @@ import 'package:libadwaita/libadwaita.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
@@ -20,6 +21,22 @@ class InstalledView extends ConsumerStatefulWidget {
 }
 
 class _InstalledViewState extends ConsumerState<InstalledView> {
+  late List _content = [];
+
+  updateContent() {
+    _content = Directory(applicationsDir)
+        .listSync(recursive: false)
+        .map((event) => path.basenameWithoutExtension(event.path))
+        .toList();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    updateContent();
+  }
+
   @override
   Widget build(context) {
     final downloadPath = ref.watch(downloadPathProvider);
@@ -42,11 +59,80 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                     listInstalled.length,
                     (index) {
                       final i = listInstalled[index];
+                      int integratedIndex = _content.isNotEmpty
+                          ? _content
+                              .indexOf(path.basenameWithoutExtension(i.path))
+                          : -1;
+
+                      bool isIntegrated = integratedIndex >= 0;
 
                       void removeItem() async {
                         File(i.path).deleteSync();
                         listInstalled.removeAt(index);
                         setState(() {});
+                      }
+
+                      void integrateOrRemove() async {
+                        if (isIntegrated) {
+                          File(applicationsDir +
+                                  _content[integratedIndex] +
+                                  ".desktop")
+                              .deleteSync();
+                        } else {
+                          String tempDir =
+                              (await getTemporaryDirectory()).path +
+                                  "/appimagepool_" +
+                                  path.basenameWithoutExtension(i.path);
+                          Directory dir = Directory(tempDir);
+                          await dir.create();
+
+                          //Extract AppImage's Content
+                          await Process.run(
+                            i.path,
+                            ["--appimage-extract"],
+                            workingDirectory: tempDir,
+                          );
+                          var squashDir = tempDir + "/squashfs-root";
+
+                          // Copy desktop file
+                          try {
+                            var desktopFile = Directory(squashDir)
+                                .listSync()
+                                .firstWhere((element) =>
+                                    path.extension(element.path) == ".desktop");
+                            await desktopFile.moveFile(applicationsDir +
+                                path.basenameWithoutExtension(i.path) +
+                                ".desktop");
+                            // Update desktop file
+                            debugPrint((await Process.run(
+                              "sed",
+                              [
+                                "s:\\(Exec=\\)\\(.*\\):\\1${i.path}:g",
+                                path.basenameWithoutExtension(i.path) +
+                                    ".desktop",
+                                "-i",
+                              ],
+                              workingDirectory: applicationsDir,
+                            ))
+                                .stderr);
+                          } catch (_) {
+                            debugPrint("Desktop file not found!");
+                          }
+
+                          // Copy Icons
+                          var iconsDir =
+                              Directory(squashDir + "/usr/share/icons");
+                          if (iconsDir.existsSync()) {
+                            (await Process.run(
+                              "cp",
+                              ["-r", "./usr/share/icons", localShareDir],
+                              workingDirectory: squashDir,
+                            ));
+                          }
+
+                          Directory(tempDir).delete(recursive: true);
+                          updateContent();
+                        }
                       }
 
                       return ListTile(
@@ -58,9 +144,24 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                         focusColor: Colors.transparent,
                         hoverColor: Colors.transparent,
                         subtitle: Text(i.statSync().size.getFileSize()),
-                        trailing: IconButton(
-                          onPressed: removeItem,
-                          icon: const Icon(LucideIcons.trash),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              tooltip: isIntegrated
+                                  ? AppLocalizations.of(context)!.disintegrate
+                                  : AppLocalizations.of(context)!.integrate,
+                              onPressed: integrateOrRemove,
+                              icon: Icon(isIntegrated
+                                  ? LucideIcons.x
+                                  : LucideIcons.check),
+                            ),
+                            const SizedBox(width: 4),
+                            IconButton(
+                              onPressed: removeItem,
+                              icon: const Icon(LucideIcons.trash),
+                            ),
+                          ],
                         ),
                         onTap: () => runProgram(
                           ref,

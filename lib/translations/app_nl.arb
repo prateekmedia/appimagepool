@@ -56,5 +56,7 @@
     "office": "Kantoor",
     "game": "Games",
     "finance": "Boekhouding",
-    "others": "Overig"
+    "others": "Overig",
+	"integrate": "Integrate",
+	"disintegrate": "Disintegrate"
 }

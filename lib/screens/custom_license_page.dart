@@ -86,10 +86,12 @@ class CustomLicensePage extends HookConsumerWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                packages[index].name,
-                                overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.bodyText1!,
+                              Flexible(
+                                child: Text(
+                                  packages[index].name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.bodyText1!,
+                                ),
                               ),
                               Text(
                                 packages[index].count.toString(),

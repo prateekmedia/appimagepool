@@ -56,5 +56,7 @@
     "office": "Office",
     "game": "Game",
     "finance": "Finance",
-    "others": "Others"
+    "others": "Others",
+	"integrate": "Integrate",
+	"disintegrate": "Disintegrate"
 }

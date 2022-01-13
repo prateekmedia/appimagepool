@@ -56,5 +56,7 @@
     "office": "Офис",
     "game": "Игры",
     "finance": "Финансы",
-    "others": "Остальное"
+    "others": "Остальное",
+	"integrate": "Integrate",
+	"disintegrate": "Disintegrate"
 }

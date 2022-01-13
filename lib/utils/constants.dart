@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:appimagepool/translations/translations.dart';
 import 'utils.dart';
+
+String localShareDir = (Platform.environment["HOME"] ?? "") + "/.local/share";
+
+String applicationsDir = localShareDir + "/applications/";
 
 const String appName = "AppImage Pool";
 

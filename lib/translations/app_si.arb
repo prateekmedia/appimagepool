@@ -56,5 +56,7 @@
     "office": "කාර්යාල",
     "game": "ක්‍රීඩා",
     "finance": "මූල්‍යමය",
-    "others": "වෙනත්"
+    "others": "වෙනත්",
+	"integrate": "Integrate",
+	"disintegrate": "Disintegrate"
 }

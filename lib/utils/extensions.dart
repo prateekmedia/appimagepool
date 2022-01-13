@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -81,5 +82,21 @@ extension ColorExts on Color {
       inverseColor += colors.reversed.toList()[index];
     });
     return Color(int.parse(inverseColor.toString(), radix: 16));
+  }
+}
+
+extension FileMoveExt on FileSystemEntity {
+  File get toFile => File(path);
+
+  Future moveFile(String newPath) async {
+    try {
+      // prefer using rename as it is probably faster
+      return await toFile.rename(newPath);
+    } on FileSystemException catch (_) {
+      // if rename fails, copy the source file and then delete it
+      final newFile = await toFile.copy(newPath);
+      await delete();
+      return newFile;
+    }
   }
 }

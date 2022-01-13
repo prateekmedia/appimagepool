@@ -56,5 +56,7 @@
     "office": "办公室",
     "game": "游戏",
     "finance": "金融",
-    "others": "其他"
+    "others": "其他",
+	"integrate": "Integrate",
+	"disintegrate": "Disintegrate"
 }
