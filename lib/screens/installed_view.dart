@@ -92,24 +92,37 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                             ["--appimage-extract"],
                             workingDirectory: tempDir,
                           );
-                          var squashDir = tempDir + "/squashfs-root";
+                          String squashDir = tempDir + "/squashfs-root";
 
+                          String desktopfilename =
+                              path.basenameWithoutExtension(i.path) +
+                                  ".desktop";
                           // Copy desktop file
                           try {
                             var desktopFile = Directory(squashDir)
                                 .listSync()
                                 .firstWhere((element) =>
                                     path.extension(element.path) == ".desktop");
-                            await desktopFile.moveFile(applicationsDir +
-                                path.basenameWithoutExtension(i.path) +
-                                ".desktop");
+                            await desktopFile
+                                .moveFile(applicationsDir + desktopfilename);
+                            String grepOut = (await Process.run(
+                              "grep",
+                              [
+                                "Exec=",
+                                desktopfilename,
+                              ],
+                              runInShell: true,
+                              workingDirectory: applicationsDir,
+                            ))
+                                .stdout;
+                            var execPath =
+                                grepOut.split("=")[1].split(' ')[0].trim();
                             // Update desktop file
                             debugPrint((await Process.run(
                               "sed",
                               [
-                                "s:\\(Exec=\\)\\(.*\\):\\1${i.path}:g",
-                                path.basenameWithoutExtension(i.path) +
-                                    ".desktop",
+                                "s:Exec=$execPath:Exec=${i.path}:g",
+                                desktopfilename,
                                 "-i",
                               ],
                               workingDirectory: applicationsDir,
