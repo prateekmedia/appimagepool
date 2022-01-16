@@ -83,8 +83,16 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                               (await getTemporaryDirectory()).path +
                                   "/appimagepool_" +
                                   path.basenameWithoutExtension(i.path);
+
+                          // Create Temporary Directory
                           Directory dir = Directory(tempDir);
                           await dir.create();
+
+                          // Create AppImage executable first
+                          makeProgramExecutable(
+                            location: path.dirname(i.path),
+                            program: path.basename(i.path),
+                          );
 
                           //Extract AppImage's Content
                           await Process.run(
