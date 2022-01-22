@@ -5,7 +5,7 @@
     "appimageDescription": "Aplicaciones Linux que funcionan en cualquier distribución",
     "knowMore": "Saber más",
     "aboutApp": "Acerca de la App",
-    "appDescription": "Simplifying the way you browse, install and update your appimages.",
+    "appDescription": "Simplificando la forma de navegar, instala y actualiza sus Appimages.",
     "poweredByFlutter": "Desarrollado por Flutter.",
     "viewSourceCode": "Ver código fuente",
     "viewLicenses": "Ver licencias",
@@ -57,6 +57,6 @@
     "game": "Juego",
     "finance": "Finanzas",
     "others": "Otros",
-	"integrate": "Integrate",
-	"disintegrate": "Disintegrate"
+	"integrate": "Integrar",
+	"disintegrate": "Desintegrar"
 }
