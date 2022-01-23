@@ -39,9 +39,9 @@
     "themeType": "Тип темы",
     "downloadPath": "Путь для скачивания",
     "forceDarkTheme": "Глубокая тёмная тема",
-    "portableHome": "Portable Home",
-    "portableConfig": "Portable Config",
-    "restoreDefaults": "Restore Defaults",
+    "portableHome": "Портабельная домашняя",
+    "portableConfig": "Портабельная конфигурация",
+    "restoreDefaults": "Восстановить настройки по умолчанию",
     "browseFolder": "Просмотреть...",
     "chooseDownloadFolder": "Выберите папку для скачивания",
     "video": "Видео",
@@ -57,6 +57,6 @@
     "game": "Игры",
     "finance": "Финансы",
     "others": "Остальное",
-	"integrate": "Integrate",
-	"disintegrate": "Disintegrate"
+    "integrate": "Интегрировать",
+    "disintegrate": "Дизинтегрировать"
 }
