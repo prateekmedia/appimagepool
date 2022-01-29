@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -86,7 +87,7 @@ class AppPage extends HookConsumerWidget {
                                   child: appIcon()),
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          const Gap(10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,12 +107,11 @@ class AppPage extends HookConsumerWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          const Gap(10),
                           if (app.url != null && url.isNotEmpty)
                             AdwButton(
                               opaque: true,
-                              backgroundColor:
-                                  AdwAvatarColors.blue.backgroundColor,
+                              backgroundColor: AdwColors.blue.backgroundColor,
                               textStyle: const TextStyle(color: Colors.white),
                               onPressed: !url.contains('github.com', 0)
                                   ? () => url.launchIt()
@@ -153,13 +153,13 @@ class AppPage extends HookConsumerWidget {
                             )
                         ],
                       ),
-                      const SizedBox(height: 25),
+                      const Gap(25),
                     ],
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const Gap(20),
             Center(
               child: Container(
                 constraints: const BoxConstraints(maxWidth: 1200),
@@ -206,7 +206,7 @@ class AppPage extends HookConsumerWidget {
                             _current.value = idx;
                           }),
                     ),
-                  const SizedBox(height: 5),
+                  const Gap(5),
                   if (app.screenshotsUrl != null &&
                       app.screenshotsUrl!.isNotEmpty)
                     Row(
@@ -237,7 +237,7 @@ class AppPage extends HookConsumerWidget {
                         );
                       }).toList(),
                     ),
-                  const SizedBox(height: 20),
+                  const Gap(20),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 60, vertical: 10),

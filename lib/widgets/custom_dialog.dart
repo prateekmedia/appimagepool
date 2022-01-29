@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -103,7 +104,7 @@ class CustomDialogBox extends HookConsumerWidget {
                   DateFormat('MMMM dd yyyy H:mm')
                       .format(downloadItems[selectedIndex.value].date),
                 ),
-                const SizedBox(height: 15),
+                const Gap(15),
                 if (currentItem.isNotEmpty)
                   Flexible(
                     child: ListView(
@@ -115,7 +116,7 @@ class CustomDialogBox extends HookConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.noAppImageInThisRelease,
                   ),
-                const SizedBox(height: 22),
+                const Gap(22),
                 endText,
               ],
             ),

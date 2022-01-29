@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -51,14 +52,14 @@ Widget aboutDialog(BuildContext context) {
                         "V ${snapshot.data!.version}",
                         style: context.textTheme.bodyText2,
                       ),
-                      const SizedBox(height: 20),
+                      const Gap(20),
                       SelectableText(
                         "${AppLocalizations.of(context)!.appDescription}\n\n${AppLocalizations.of(context)!.poweredByFlutter}",
                         style: context.textTheme.bodyText1!
                             .copyWith(fontWeight: FontWeight.w600),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 10),
+                      const Gap(10),
                       RichText(
                         text: TextSpan(
                           children: [

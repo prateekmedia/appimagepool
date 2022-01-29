@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,14 +52,14 @@ class DownloadsView extends HookConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                           style: context.textTheme.bodyText1,
                         ),
-                        const SizedBox(height: 3),
+                        const Gap(3),
                         LinearProgressIndicator(
                           value: i.totalBytes != 0
                               ? i.actualBytes / i.totalBytes
                               : 0,
                           minHeight: 10,
                         ),
-                        const SizedBox(height: 3),
+                        const Gap(3),
                       ],
                     ),
                     focusColor: Colors.transparent,

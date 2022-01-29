@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/translations/translations.dart';
 import 'package:appimagepool/widgets/widgets.dart';
+import 'package:gap/gap.dart';
 
 Widget appimageAboutDialog(BuildContext context) {
   return RoundedDialog(children: [
@@ -26,14 +27,14 @@ Widget appimageAboutDialog(BuildContext context) {
             ),
             SelectableText(AppLocalizations.of(context)!.appimageSlogan,
                 style: context.textTheme.bodyText2!.copyWith(letterSpacing: 2)),
-            const SizedBox(height: 10),
+            const Gap(10),
             SelectableText(
               AppLocalizations.of(context)!.appimageDescription,
               style: context.textTheme.bodyText1!
                   .copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            const Gap(10),
             Tooltip(
               message: appimageWebsite,
               child: RichText(

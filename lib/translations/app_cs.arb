@@ -36,7 +36,6 @@
     "cancelled": "Zrušeno",
     "noAppImageInThisRelease": "Nenalezen žádný AppImage balíček pro toto vydání",
     "noSearchResult": "Nenalezeny žádné výsledky,\nZzkuste změnit vyhledávané pojmy.",
-    "themeType": "Typ motivu vzhledu",
     "downloadPath": "Popis umístění pro stahování",
     "forceDarkTheme": "Vynutit tmavý motiv vzhledu",
     "portableHome": "Domovská složka pro přenosné",

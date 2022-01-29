@@ -4,9 +4,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:appimagepool/providers/providers.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:window_decorations/window_decorations.dart';
 
 class PoolApp extends HookConsumerWidget {
   final String? title;
@@ -35,7 +33,6 @@ class PoolApp extends HookConsumerWidget {
         AdwHeaderBar.bitsdojo(
           titlebarSpace: 0,
           appWindow: appWindow,
-          windowDecor: windowDecor,
           start: [
             if (showBackButton)
               Hero(
@@ -57,7 +54,6 @@ class PoolApp extends HookConsumerWidget {
               ? Text(title!)
               : center ?? const SizedBox(),
           end: trailing,
-          themeType: ref.watch(themeTypeProvider),
         ),
         Expanded(child: body),
       ],

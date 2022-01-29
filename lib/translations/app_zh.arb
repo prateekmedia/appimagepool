@@ -36,7 +36,6 @@
     "cancelled": "已取消",
     "noAppImageInThisRelease": "找不到Appimage版本",
     "noSearchResult": "找不到搜索项,\n清尝试更改搜索词",
-    "themeType": "图形样式",
     "downloadPath": "下载文件夹",
     "forceDarkTheme": "强制选黑暗图形样式",
     "portableHome": "便携主文件夹",

@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
-
 import 'package:appimagepool/utils/utils.dart';
+import 'package:flutter/widgets.dart';
+import 'package:libadwaita/libadwaita.dart';
 
 class ApSwitchTile extends StatelessWidget {
   const ApSwitchTile({
@@ -16,17 +16,20 @@ class ApSwitchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(title),
-        CupertinoSwitch(
-          value: value,
-          activeColor: context.theme.primaryColor,
-          onChanged: onChanged,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(title),
+          AdwSwitch(
+            value: value,
+            activeColor: context.theme.primaryColor,
+            onChanged: onChanged,
+          ),
+        ],
+      ),
     );
   }
 }

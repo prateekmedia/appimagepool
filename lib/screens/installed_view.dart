@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:gap/gap.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:path/path.dart' as path;
@@ -177,7 +178,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                                   ? LucideIcons.x
                                   : LucideIcons.check),
                             ),
-                            const SizedBox(width: 4),
+                            const Gap(4),
                             IconButton(
                               onPressed: removeItem,
                               icon: const Icon(LucideIcons.trash),

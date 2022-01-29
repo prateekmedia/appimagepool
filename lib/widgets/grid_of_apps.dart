@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,7 +87,7 @@ class _GridOfAppsState extends State<GridOfApps> {
                                                       app.iconUrl!)
                                               : brokenImageWidget,
                                         ),
-                                        const SizedBox(width: 10),
+                                        const Gap(10),
                                         Flexible(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,

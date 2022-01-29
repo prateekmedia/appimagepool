@@ -175,7 +175,7 @@ packages:
       name: file_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.1"
+    version: "4.3.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -241,7 +241,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -252,6 +252,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  gap:
+    dependency: "direct main"
+    description:
+      name: gap
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   gsettings:
     dependency: transitive
     description:
@@ -305,8 +312,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: fb0b6f15776332691ba8a8ff0479363180f04fa7
+      ref: add_window_buttons
+      resolved-ref: "0ebd3fba983dfffe741019b53876b4996f46c645"
       url: "https://github.com/gtk-flutter/libadwaita.git"
     source: git
     version: "1.0.0-rc.2"
@@ -492,6 +499,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  popover_gtk:
+    dependency: transitive
+    description:
+      name: popover_gtk
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.6+3"
   process:
     dependency: transitive
     description:
@@ -742,13 +756,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.3"
-  window_decorations:
-    dependency: "direct main"
-    description:
-      name: window_decorations
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   xdg_directories:
     dependency: transitive
     description:

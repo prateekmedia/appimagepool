@@ -36,7 +36,6 @@
     "cancelled": "Cancelada",
     "noAppImageInThisRelease": "No se ha encontrado AppImage para esta versión",
     "noSearchResult": "Sin resultados,\nprueba a cambiar las palabras de búsqueda.",
-    "themeType": "Tipo de tema",
     "downloadPath": "Ruta de descarga",
     "forceDarkTheme": "Forzar tema oscuro",
     "portableHome": "Portable Home",

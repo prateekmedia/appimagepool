@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
+import 'package:gap/gap.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -171,14 +172,18 @@ class _HomePageState extends State<HomePage> {
                 AdwPopupMenu(
                   body: Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ListTile(
-                        dense: true,
-                        title: Text(
+                      AdwButton.flat(
+                        padding: AdwButton.defaultButtonPadding.copyWith(
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Text(
                           AppLocalizations.of(context)!.preferences,
                           style: context.textTheme.bodyText1,
                         ),
-                        onTap: () {
+                        onPressed: () {
                           context.back();
                           showDialog(
                             context: context,
@@ -186,14 +191,17 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                       ),
-                      const Divider(height: 1),
-                      ListTile(
-                        dense: true,
-                        title: Text(
+                      const Divider(),
+                      AdwButton.flat(
+                        padding: AdwButton.defaultButtonPadding.copyWith(
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Text(
                           AppLocalizations.of(context)!.aboutAppImage,
                           style: context.textTheme.bodyText1,
                         ),
-                        onTap: () {
+                        onPressed: () {
                           context.back();
                           showDialog(
                             context: context,
@@ -201,13 +209,16 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                       ),
-                      ListTile(
-                        dense: true,
-                        title: Text(
+                      AdwButton.flat(
+                        padding: AdwButton.defaultButtonPadding.copyWith(
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Text(
                           AppLocalizations.of(context)!.aboutApp,
                           style: context.textTheme.bodyText1,
                         ),
-                        onTap: () {
+                        onPressed: () {
                           context.back();
                           showDialog(
                             context: context,
@@ -237,6 +248,7 @@ class _HomePageState extends State<HomePage> {
               onPageChanged: (index) => _currentViewIndex.value = index,
               children: [
                 AdwFlap(
+                  flapWidth: 220,
                   flapController: _flapController,
                   flap: buildSidebar(context, ref, navrailIndex),
                   child: Column(
@@ -331,6 +343,7 @@ class _HomePageState extends State<HomePage> {
           _flapController.toggle();
         }
       },
+      width: 220,
       children: [
         AdwSidebarItem(
           label: AppLocalizations.of(context)!.explore,
@@ -363,7 +376,7 @@ class _HomePageState extends State<HomePage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(label, style: const TextStyle(fontSize: 15)),
-        const SizedBox(width: 10),
+        const Gap(10),
         Container(
           height: 35,
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -408,8 +421,8 @@ class _HomePageState extends State<HomePage> {
           icon: Icons.view_list,
         ),
         ViewSwitcherData(
-          title: AppLocalizations.of(context)!.downloads +
-              (currentlyDownloading > 0 ? ' ($currentlyDownloading)' : ''),
+          title: AppLocalizations.of(context)!.downloads,
+          badge: currentlyDownloading > 0 ? '($currentlyDownloading)' : null,
           icon: Icons.download,
         ),
       ],

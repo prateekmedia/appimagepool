@@ -36,7 +36,6 @@
 	"cancelled": "ملغي",
 	"noAppImageInThisRelease": "لا يوجد AppImage في هذه النسخة",
 	"noSearchResult": "لا يوجد نتيجة,\nحاول تغيير مصطلحات البحث.",
-	"themeType": "نوع السمة",
 	"downloadPath": "موقع التحميل",
 	"forceDarkTheme": "فرض الوضع الأسود",
 	"portableHome": "بيت متنقل",

@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -76,14 +77,14 @@ class _BrowseViewState extends State<BrowseView>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(LucideIcons.wifiOff, size: 45),
-              const SizedBox(height: 20),
+              const Gap(20),
               Text(AppLocalizations.of(context)!.cantConnect,
                   style: context.textTheme.headline5),
-              const SizedBox(height: 12),
+              const Gap(12),
               Text(
                   "${AppLocalizations.of(context)!.youNeedInternetConnectionToUse} $appName.",
                   style: context.textTheme.headline6),
-              const SizedBox(height: 20),
+              const Gap(20),
               ElevatedButton(
                   onPressed: widget.getData,
                   child: Text(AppLocalizations.of(context)!.retry)),
@@ -94,7 +95,7 @@ class _BrowseViewState extends State<BrowseView>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SpinKitThreeBounce(color: context.textTheme.bodyText1!.color),
-                  const SizedBox(height: 20),
+                  const Gap(20),
                   Text(AppLocalizations.of(context)!.fetchingSoftwares,
                       style: context.textTheme.headline5),
                 ],
@@ -272,7 +273,7 @@ class _BrowseViewState extends State<BrowseView>
                             ],
                           ),
                         ),
-                        const SizedBox(height: 5),
+                        const Gap(5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children:
@@ -301,7 +302,7 @@ class _BrowseViewState extends State<BrowseView>
                             );
                           }).toList(),
                         ),
-                        const SizedBox(height: 20),
+                        const Gap(20),
                         if (widget.categories != null)
                           Center(
                             child: Container(

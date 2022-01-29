@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:appimagepool/providers/providers.dart';
 
 import 'package:appimagepool/utils/utils.dart';
-import 'package:window_decorations/window_decorations.dart';
+import 'package:libadwaita/libadwaita.dart';
 
 class RoundedDialog extends HookConsumerWidget {
   final List<Widget> children;
@@ -30,19 +29,11 @@ class RoundedDialog extends HookConsumerWidget {
           width: width,
           child: Column(
             children: [
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
+              AdwHeaderBar(
                 onDoubleTap: appWindow.maximizeOrRestore,
-                onPanStart: (v) => appWindow.startDragging(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    DecoratedCloseButton(
-                      onPressed: context.back,
-                      type: ref.watch(themeTypeProvider),
-                    ),
-                  ],
-                ),
+                onHeaderDrag: appWindow.startDragging,
+                onClose: context.back,
+                isTransparent: true,
               ),
               ...children,
             ],
