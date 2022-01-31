@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:libadwaita/libadwaita.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -317,7 +318,7 @@ class _BrowseViewState extends State<BrowseView>
                                     in widget.categories!.entries.toList()) ...[
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 4),
+                                        horizontal: 20, vertical: 16),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -329,12 +330,7 @@ class _BrowseViewState extends State<BrowseView>
                                                   fontWeight: FontWeight.w600,
                                                   letterSpacing: 1.2),
                                         ),
-                                        OutlinedButton.icon(
-                                          style: OutlinedButton.styleFrom(
-                                            primary: context.isDark
-                                                ? Colors.grey[200]
-                                                : Colors.grey[800],
-                                          ),
+                                        AdwButton.flat(
                                           onPressed: () {
                                             widget.navrailIndex.value = widget
                                                     .categories!.keys
@@ -342,11 +338,17 @@ class _BrowseViewState extends State<BrowseView>
                                                     .indexOf(category.key) +
                                                 1;
                                           },
-                                          label: const Icon(Icons.chevron_right,
-                                              size: 14),
-                                          icon: Text(
-                                              AppLocalizations.of(context)!
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(AppLocalizations.of(context)!
                                                   .seeAll),
+                                              const Gap(5),
+                                              const Icon(Icons.chevron_right,
+                                                  size: 16),
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),

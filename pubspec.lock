@@ -7,7 +7,7 @@ packages:
       name: adwaita
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.5"
+    version: "0.1.0"
   args:
     dependency: transitive
     description:
@@ -313,10 +313,10 @@ packages:
     description:
       path: "."
       ref: add_window_buttons
-      resolved-ref: "0ebd3fba983dfffe741019b53876b4996f46c645"
+      resolved-ref: ab94e680cdadbea1ba62db9056a1b39d06a0e56c
       url: "https://github.com/gtk-flutter/libadwaita.git"
     source: git
-    version: "1.0.0-rc.2"
+    version: "1.0.0"
   lints:
     dependency: transitive
     description:
