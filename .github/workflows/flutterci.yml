@@ -39,7 +39,7 @@ jobs:
           mkdir AppDir
           cp -r linux/packaging/usr AppDir
           ln -sr AppDir/usr/bin/appimagepool AppDir/appimagepool
-          tar czf appimagepool-x86_64.tar.gz -C AppDir/ .
+          tar czf appimagepool-${{ github.event_name == 'release' && github.event.release.tag_name || 'continuous' }}-x86_64.tar.gz -C AppDir/ .
 
       - name: Build AppImage
         run: |
@@ -51,7 +51,7 @@ jobs:
           cp AppDir/usr/share/applications/appimagepool.desktop AppDir/appimagepool.desktop
           curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
-          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir/ appimagepool-x86_64.AppImage
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir/ appimagepool-${{ github.event_name == 'release' && github.event.release.tag_name || 'continuous' }}-x86_64.AppImage
 
       - name: App tar sha256 sum
         run: sha256sum appimagepool-x86_64.tar.gz
@@ -59,7 +59,7 @@ jobs:
       - uses: svenstaro/upload-release-action@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./appimagepool-x86_64*
+          file: ./appimagepool-*
           file_glob: true
           prerelease: ${{ github.event_name != 'release' }}
           release_name: ${{ github.event_name == 'release' && github.event.release.name || 'Development Build' }}
