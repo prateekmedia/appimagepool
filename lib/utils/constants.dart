@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appimagepool/models/models.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:appimagepool/translations/translations.dart';
@@ -19,6 +20,67 @@ const String github = "https://github.com/";
 const String projectUrl = "https://github.com/prateekmedia/appimagepool";
 
 const String appimageWebsite = "https://appimage.org/";
+
+List<CreditsModel> developers = [
+  CreditsModel(
+    name: "Prateek Sunal",
+    username: "prateekmedia",
+    description: "Lead Developer",
+  ),
+];
+
+List<CreditsModel> translators = [
+  CreditsModel(
+    name: "Heimen Stoffels",
+    username: "Vistaus",
+    description: "Dutch",
+  ),
+  CreditsModel(
+    name: "Luna",
+    username: "Rinnray",
+    description: "Swedish",
+  ),
+  CreditsModel(
+    name: "Artem",
+    username: "Sovenok-Hacker",
+    description: "Russian",
+  ),
+  CreditsModel(
+    name: "Nushan Kodikara",
+    username: "nushankodikara",
+    description: "Sinhala",
+  ),
+  CreditsModel(
+    name: "那思路(なしろ)",
+    username: "mnipritom",
+    description: "Chinese (Simplified)",
+  ),
+  CreditsModel(
+    name: "Git-Fal7",
+    username: "Git-Fal7",
+    description: "Arabic",
+  ),
+  CreditsModel(
+    name: "Mohamed Emad",
+    username: "Hulxv",
+    description: "Arabic",
+  ),
+  CreditsModel(
+    name: "p-bo",
+    username: "p-bo",
+    description: "Czech",
+  ),
+  CreditsModel(
+    name: "José Vidal",
+    username: "josevidalrt",
+    description: "Spanish",
+  ),
+  CreditsModel(
+    name: "Eshagh",
+    username: "eshagh79",
+    description: "Persian",
+  ),
+];
 
 TextStyle linkStyle(BuildContext context, [bool showUnderline = true]) =>
     TextStyle(

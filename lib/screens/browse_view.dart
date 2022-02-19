@@ -80,13 +80,13 @@ class _BrowseViewState extends State<BrowseView>
               const Icon(LucideIcons.wifiOff, size: 45),
               const Gap(20),
               Text(AppLocalizations.of(context)!.cantConnect,
-                  style: context.textTheme.headline5),
+                  style: context.textTheme.headline1),
               const Gap(12),
               Text(
                   "${AppLocalizations.of(context)!.youNeedInternetConnectionToUse} $appName.",
-                  style: context.textTheme.headline6),
+                  style: context.textTheme.headline4),
               const Gap(20),
-              ElevatedButton(
+              AdwButton(
                   onPressed: widget.getData,
                   child: Text(AppLocalizations.of(context)!.retry)),
             ],
@@ -98,7 +98,7 @@ class _BrowseViewState extends State<BrowseView>
                   SpinKitThreeBounce(color: context.textTheme.bodyText1!.color),
                   const Gap(20),
                   Text(AppLocalizations.of(context)!.fetchingSoftwares,
-                      style: context.textTheme.headline5),
+                      style: context.textTheme.headline3),
                 ],
               )
             : widget.searchedTerm.value.trim().isEmpty &&
@@ -110,12 +110,10 @@ class _BrowseViewState extends State<BrowseView>
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 4),
+                              horizontal: 26, vertical: 4),
                           child: Text(
                             AppLocalizations.of(context)!.featuredApps,
-                            style: context.textTheme.headline6!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1.2),
+                            style: context.textTheme.headline4,
                           ),
                         ),
                         MouseRegion(
@@ -216,7 +214,7 @@ class _BrowseViewState extends State<BrowseView>
                                                               .ellipsis,
                                                           style: context
                                                               .textTheme
-                                                              .headline3,
+                                                              .headline1,
                                                         ),
                                                       )
                                                     ],
@@ -325,10 +323,7 @@ class _BrowseViewState extends State<BrowseView>
                                       children: [
                                         Text(
                                           category.key,
-                                          style: context.textTheme.headline6!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                  letterSpacing: 1.2),
+                                          style: context.textTheme.headline4,
                                         ),
                                         AdwButton.flat(
                                           onPressed: () {

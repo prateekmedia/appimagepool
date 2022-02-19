@@ -5,21 +5,21 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:libadwaita_bitsdojo/libadwaita_bitsdojo.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/translations/translations.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MyPrefs().init();
   runApp(const ProviderScope(child: MyApp()));
 
   doWhenWindowReady(() {
-    appWindow.alignment = Alignment.center;
-    appWindow.title = "Pool";
-    appWindow.show();
+    appWindow
+      ?..alignment = Alignment.center
+      ..title = "Pool"
+      ..show();
   });
 }
 

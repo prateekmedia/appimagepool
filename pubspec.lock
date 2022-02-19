@@ -7,7 +7,7 @@ packages:
       name: adwaita
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.5.2"
   args:
     dependency: transitive
     description:
@@ -22,26 +22,23 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
-  bitsdojo_window:
-    dependency: "direct main"
-    description:
-      name: bitsdojo_window
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.1+1"
   bitsdojo_window_linux:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: bitsdojo_window_linux
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: bitsdojo_window_linux
+      ref: HEAD
+      resolved-ref: "85e5d1481c52c950f488130d26b5b6dcc48b6d64"
+      url: "https://github.com/prateekmedia/bitsdojo_window.git"
+    source: git
     version: "0.1.1"
   bitsdojo_window_macos:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: bitsdojo_window_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: bitsdojo_window_macos
+      ref: HEAD
+      resolved-ref: "85e5d1481c52c950f488130d26b5b6dcc48b6d64"
+      url: "https://github.com/prateekmedia/bitsdojo_window.git"
+    source: git
     version: "0.1.0"
   bitsdojo_window_platform_interface:
     dependency: transitive
@@ -51,11 +48,13 @@ packages:
     source: hosted
     version: "0.1.0"
   bitsdojo_window_windows:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: bitsdojo_window_windows
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: bitsdojo_window_windows
+      ref: HEAD
+      resolved-ref: "85e5d1481c52c950f488130d26b5b6dcc48b6d64"
+      url: "https://github.com/prateekmedia/bitsdojo_window.git"
+    source: git
     version: "0.1.0"
   boolean_selector:
     dependency: transitive
@@ -133,14 +132,14 @@ packages:
       name: dbus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.6"
+    version: "0.7.1"
   desktop_notifications:
     dependency: "direct main"
     description:
       name: desktop_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1"
+    version: "0.6.3"
   dio:
     dependency: "direct main"
     description:
@@ -148,6 +147,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.4"
+  easy_autocomplete:
+    dependency: transitive
+    description:
+      name: easy_autocomplete
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.0"
   fake_async:
     dependency: transitive
     description:
@@ -265,7 +271,7 @@ packages:
       name: gsettings
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.3"
+    version: "0.2.5"
   hooks_riverpod:
     dependency: "direct main"
     description:
@@ -307,16 +313,37 @@ packages:
       name: js
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.3"
+    version: "0.6.4"
   libadwaita:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "66dc9fb5b7986808cce04c18785adc75d0f5a32f"
-      url: "https://github.com/gtk-flutter/libadwaita.git"
+      ref: next
+      resolved-ref: "8a9ea04410012bd665d7e3460f06d544c412feea"
+      url: "https://github.com/gtk-flutter/libadwaita"
     source: git
-    version: "1.0.0"
+    version: "1.2.0"
+  libadwaita_bitsdojo:
+    dependency: "direct main"
+    description:
+      name: libadwaita_bitsdojo
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
+  libadwaita_core:
+    dependency: transitive
+    description:
+      name: libadwaita_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
+  libadwaita_searchbar:
+    dependency: "direct main"
+    description:
+      name: libadwaita_searchbar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   lints:
     dependency: transitive
     description:
@@ -407,7 +434,7 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   path_drawing:
     dependency: transitive
     description:
@@ -671,7 +698,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.8"
+    version: "0.4.9"
   typed_data:
     dependency: transitive
     description:
@@ -771,5 +798,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: ">=2.15.0 <3.0.0"
+  dart: ">=2.16.0-100.0.dev <3.0.0"
   flutter: ">=2.5.0"

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
-import 'package:gap/gap.dart';
 import 'package:libadwaita/libadwaita.dart';
+import 'package:libadwaita_bitsdojo/libadwaita_bitsdojo.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,8 +16,9 @@ import 'package:appimagepool/screens/screens.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/translations/translations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class HomePage extends StatefulHookWidget {
+class HomePage extends StatefulHookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -73,7 +75,7 @@ Map getSimplifiedCategories(List value) {
   });
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   bool _isConnected = true;
   void getData() async {
     setState(() => _isConnected = true);
@@ -114,221 +116,259 @@ class _HomePageState extends State<HomePage> {
     final toggleSearch = useState<bool>(false);
     final _controller = PageController();
 
+    List<DropdownMenuItem> items = [
+      DropdownMenuItem(
+          value: 0,
+          child: Text(
+            AppLocalizations.of(context)!.grid,
+          )),
+      DropdownMenuItem(
+          value: 1,
+          child: Text(
+            AppLocalizations.of(context)!.list,
+          )),
+    ];
+
+    var currentlyDownloading = ref
+        .watch(downloadProvider)
+        .downloadList
+        .where((element) => element.actualBytes != element.totalBytes)
+        .length;
+
     void switchSearchBar([bool? value]) {
       if (categories == null && _currentViewIndex.value == 0) return;
       searchedTerm.value = '';
       toggleSearch.value = value ?? !toggleSearch.value;
     }
 
-    return Consumer(
-      builder: (ctx, ref, _) => PoolApp(
-        center: toggleSearch.value
-            ? Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                color: Theme.of(context).appBarTheme.backgroundColor,
-                constraints: BoxConstraints.loose(const Size(500, 50)),
-                child: RawKeyboardListener(
-                  child: TextField(
-                    textAlignVertical: TextAlignVertical.center,
-                    autofocus: true,
-                    onChanged: (query) => searchedTerm.value = query,
-                    style: context.textTheme.bodyText1!.copyWith(fontSize: 14),
-                    decoration: InputDecoration(
-                      fillColor: context.theme.canvasColor,
-                      contentPadding: const EdgeInsets.only(top: 8),
-                      isCollapsed: true,
-                      filled: true,
-                      prefixIcon: const Icon(Icons.search, size: 18),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6)),
-                    ),
-                  ),
-                  focusNode: FocusNode(),
-                  onKey: (event) {
-                    if (event.runtimeType == RawKeyDownEvent &&
-                        event.logicalKey.keyId == 4294967323) {
-                      switchSearchBar(false);
-                    }
-                  },
-                ),
-              )
-            : context.width >= mobileWidth
-                ? buildViewSwitcher(_currentViewIndex, _controller, ref)
-                : null,
-        leading: [
-          AdwHeaderButton(
-            icon: Icon(
-              !toggleSearch.value
-                  ? LucideIcons.search
-                  : LucideIcons.chevronLeft,
-              size: 16,
-            ),
-            onPressed: switchSearchBar,
+    return AdwScaffold(
+      actions: AdwActions().bitsdojo,
+      headerBarStyle: const HeaderBarStyle(
+        titlebarSpace: 0,
+      ),
+      start: [
+        AdwHeaderButton(
+          icon: Icon(
+            !toggleSearch.value ? LucideIcons.search : LucideIcons.chevronLeft,
+            size: 16,
           ),
-        ],
-        trailing: !toggleSearch.value
-            ? [
-                AdwPopupMenu(
-                  body: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      AdwButton.flat(
-                        padding: AdwButton.defaultButtonPadding.copyWith(
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          AppLocalizations.of(context)!.preferences,
-                          style: context.textTheme.bodyText1,
-                        ),
-                        onPressed: () {
-                          context.back();
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => const PrefsDialog(),
-                          );
-                        },
-                      ),
-                      const Divider(),
-                      AdwButton.flat(
-                        padding: AdwButton.defaultButtonPadding.copyWith(
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          AppLocalizations.of(context)!.aboutAppImage,
-                          style: context.textTheme.bodyText1,
-                        ),
-                        onPressed: () {
-                          context.back();
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => appimageAboutDialog(ctx),
-                          );
-                        },
-                      ),
-                      AdwButton.flat(
-                        padding: AdwButton.defaultButtonPadding.copyWith(
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          AppLocalizations.of(context)!.aboutApp,
-                          style: context.textTheme.bodyText1,
-                        ),
-                        onPressed: () {
-                          context.back();
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => aboutDialog(ctx),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ]
-            : [],
-        body: AdwScaffold(
-          flapController: _flapController,
-          drawer: Drawer(child: buildSidebar(context, ref, navrailIndex, true)),
-          body: RawKeyboardListener(
-            focusNode: FocusNode(),
-            onKey: (event) {
-              if (event.runtimeType == RawKeyDownEvent &&
-                  event.isControlPressed &&
-                  event.logicalKey.keyId == 102) {
-                switchSearchBar();
-              }
-            },
-            child: PageView(
-              controller: _controller,
-              onPageChanged: (index) => _currentViewIndex.value = index,
-              children: [
-                AdwFlap(
-                  flapWidth: 220,
-                  flapController: _flapController,
-                  flap: buildSidebar(context, ref, navrailIndex),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Builder(builder: (context) {
-                              return AdwHeaderButton(
-                                isActive: _flapController.isOpen,
-                                icon: const Icon(LucideIcons.sidebar, size: 17),
-                                onPressed: _flapController.toggle,
-                              );
-                            }),
-                            buildDropdown(
-                              context,
-                              ref,
-                              label: AppLocalizations.of(context)!.viewType,
-                              index: ref.watch(viewTypeProvider),
-                              onChanged: (value) =>
-                                  ref.read(viewTypeProvider.notifier).update(),
-                              items: [
-                                DropdownMenuItem(
-                                    value: 0,
-                                    child: Text(
-                                      AppLocalizations.of(context)!.grid,
-                                    )),
-                                DropdownMenuItem(
-                                    value: 1,
-                                    child: Text(
-                                      AppLocalizations.of(context)!.list,
-                                    )),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: BrowseView(
-                          context: context,
-                          toggleSearch: toggleSearch,
-                          navrailIndex: navrailIndex,
-                          searchedTerm: searchedTerm,
-                          switchSearchBar: switchSearchBar,
-                          getData: getData,
-                          isConnected: _isConnected,
-                          featured: featured,
-                          categories: categories,
-                          allItems: allItems,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                InstalledView(searchedTerm: searchedTerm),
-                DownloadsView(searchedTerm: searchedTerm),
-              ],
+          onPressed: switchSearchBar,
+        ),
+      ],
+      title: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        color: Theme.of(context).appBarTheme.backgroundColor,
+        constraints: BoxConstraints.loose(const Size(500, 50)),
+        child: RawKeyboardListener(
+          child: TextField(
+            textAlignVertical: TextAlignVertical.center,
+            autofocus: true,
+            onChanged: (query) => searchedTerm.value = query,
+            style: context.textTheme.bodyText1!.copyWith(fontSize: 14),
+            decoration: InputDecoration(
+              fillColor: context.theme.canvasColor,
+              contentPadding: const EdgeInsets.only(top: 8),
+              isCollapsed: true,
+              filled: true,
+              prefixIcon: const Icon(Icons.search, size: 18),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
             ),
           ),
-          bottomNavigationBar:
-              context.width < mobileWidth && searchedTerm.value.isEmpty
-                  ? SizedBox(
-                      height: 51,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          buildViewSwitcher(
-                            _currentViewIndex,
-                            _controller,
-                            ref,
-                            ViewSwitcherStyle.mobile,
-                          ),
-                        ],
-                      ),
-                    )
-                  : null,
+          focusNode: FocusNode(),
+          onKey: (event) {
+            if (event.runtimeType == RawKeyDownEvent &&
+                event.logicalKey.keyId == 4294967323) {
+              switchSearchBar(false);
+            }
+          },
         ),
       ),
+      end: !toggleSearch.value
+          ? [
+              AdwPopupMenu(
+                body: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    AdwButton.flat(
+                      padding: AdwButton.defaultButtonPadding.copyWith(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.preferences,
+                        style: context.textTheme.bodyText1,
+                      ),
+                      onPressed: () {
+                        context.back();
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => const PrefsDialog(),
+                        );
+                      },
+                    ),
+                    const Divider(height: 4),
+                    AdwButton.flat(
+                      padding: AdwButton.defaultButtonPadding.copyWith(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.aboutApp,
+                        style: context.textTheme.bodyText1,
+                      ),
+                      onPressed: () {
+                        context.back();
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AdwAboutWindow(
+                            actions: AdwActions(
+                              onDoubleTap: appWindow?.maximizeOrRestore,
+                              onHeaderDrag: appWindow?.startDragging,
+                              onClose: context.back,
+                            ),
+                            headerBarStyle: const HeaderBarStyle(
+                              isTransparent: true,
+                            ),
+                            appName: appName,
+                            credits: [
+                              AdwPreferencesGroup.credits(
+                                title: AppLocalizations.of(context)!.authors,
+                                children:
+                                    List.generate(developers.length, (index) {
+                                  var entry = developers[index];
+                                  return AdwActionRow(
+                                    title: entry.name,
+                                    onActivated: () => launch(entry.url),
+                                  );
+                                }),
+                              ),
+                              AdwPreferencesGroup.credits(
+                                title: "Translators",
+                                children:
+                                    List.generate(translators.length, (index) {
+                                  var entry = translators[index];
+                                  return AdwActionRow(
+                                    title: entry.name,
+                                    onActivated: () => launch(entry.url),
+                                  );
+                                }),
+                              ),
+                            ],
+                            appIcon: CachedNetworkImage(
+                              imageUrl:
+                                  'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.png',
+                              width: 70,
+                              height: 70,
+                            ),
+                            issueTrackerLink: "$projectUrl/issues",
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ]
+          : [],
+      flapController: _flapController,
+      flap: (drawer) => buildSidebar(context, ref, navrailIndex, drawer),
+      flapOptions: FlapOptions(
+        visible: _currentViewIndex.value == 0,
+      ),
+      body: RawKeyboardListener(
+        focusNode: FocusNode(),
+        onKey: (event) {
+          if (event.runtimeType == RawKeyDownEvent &&
+              event.isControlPressed &&
+              event.logicalKey.keyId == 102) {
+            switchSearchBar();
+          }
+        },
+        child: PageView(
+          controller: _controller,
+          onPageChanged: (index) {
+            _currentViewIndex.value = index;
+            if (_currentViewIndex.value != 0) {
+              _flapController.close();
+            } else {
+              _flapController.isOpen = true;
+            }
+          },
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Builder(builder: (context) {
+                        return AdwHeaderButton(
+                          isActive: _flapController.isOpen,
+                          icon: const Icon(LucideIcons.sidebar, size: 17),
+                          onPressed: _flapController.toggle,
+                        );
+                      }),
+                      Container(
+                        height: 39,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: AdwToggleButton(
+                          children: items,
+                          onPressed: (value) =>
+                              ref.read(viewTypeProvider.notifier).update(),
+                          isSelected: List.generate(items.length,
+                              (idx) => idx == ref.watch(viewTypeProvider)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: BrowseView(
+                    context: context,
+                    toggleSearch: toggleSearch,
+                    navrailIndex: navrailIndex,
+                    searchedTerm: searchedTerm,
+                    switchSearchBar: switchSearchBar,
+                    getData: getData,
+                    isConnected: _isConnected,
+                    featured: featured,
+                    categories: categories,
+                    allItems: allItems,
+                  ),
+                ),
+              ],
+            ),
+            InstalledView(searchedTerm: searchedTerm),
+            DownloadsView(searchedTerm: searchedTerm),
+          ],
+        ),
+      ),
+      viewSwitcher: searchedTerm.value.isEmpty
+          ? AdwViewSwitcher(
+              currentIndex: _currentViewIndex.value,
+              onViewChanged: _controller.jumpToPage,
+              tabs: [
+                ViewSwitcherData(
+                  title: AppLocalizations.of(context)!.browse,
+                  icon: Icons.web,
+                ),
+                ViewSwitcherData(
+                  title: AppLocalizations.of(context)!.installed,
+                  icon: Icons.view_list,
+                ),
+                ViewSwitcherData(
+                  title: AppLocalizations.of(context)!.downloads,
+                  badge: currentlyDownloading > 0
+                      ? '($currentlyDownloading)'
+                      : null,
+                  icon: Icons.download,
+                ),
+              ],
+            )
+          : null,
     );
   }
 
@@ -343,7 +383,7 @@ class _HomePageState extends State<HomePage> {
           _flapController.toggle();
         }
       },
-      width: 220,
+      width: 270,
       children: [
         AdwSidebarItem(
           label: AppLocalizations.of(context)!.explore,
@@ -361,72 +401,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
       ],
-    );
-  }
-
-  Row buildDropdown(
-    BuildContext context,
-    WidgetRef ref, {
-    required String label,
-    required int index,
-    required Function(int? value)? onChanged,
-    required List<DropdownMenuItem<int>> items,
-  }) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 15)),
-        const Gap(10),
-        Container(
-          height: 35,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-              color: Theme.of(context).appBarTheme.backgroundColor,
-              borderRadius: BorderRadius.circular(10)),
-          child: DropdownButton<int>(
-            value: index,
-            onChanged: onChanged,
-            items: items,
-            icon: const Icon(
-              LucideIcons.chevronsUpDown,
-              size: 16,
-            ),
-            underline: const SizedBox(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  AdwViewSwitcher buildViewSwitcher(ValueNotifier<int> _currentViewIndex,
-      PageController _controller, WidgetRef ref,
-      [ViewSwitcherStyle viewSwitcherStyle = ViewSwitcherStyle.desktop]) {
-    var currentlyDownloading = ref
-        .watch(downloadProvider)
-        .downloadList
-        .where((element) => element.actualBytes != element.totalBytes)
-        .length;
-    return AdwViewSwitcher(
-      currentIndex: _currentViewIndex.value,
-      onViewChanged: (index) {
-        _controller.jumpToPage(index);
-      },
-      tabs: [
-        ViewSwitcherData(
-          title: AppLocalizations.of(context)!.browse,
-          icon: Icons.web,
-        ),
-        ViewSwitcherData(
-          title: AppLocalizations.of(context)!.installed,
-          icon: Icons.view_list,
-        ),
-        ViewSwitcherData(
-          title: AppLocalizations.of(context)!.downloads,
-          badge: currentlyDownloading > 0 ? '($currentlyDownloading)' : null,
-          icon: Icons.download,
-        ),
-      ],
-      style: viewSwitcherStyle,
     );
   }
 }
