@@ -33,73 +33,62 @@ class PrefsDialog extends HookConsumerWidget {
       height: 600,
       width: 600,
       children: [
-        Flexible(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            children: [
-              AdwPreferencesGroup(
-                children: [
-                  AdwActionRow(
-                    title: AppLocalizations.of(context)!.downloadPath,
-                    subtitle: path,
-                    onActivated: browseFolder,
-                    end: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AdwButton(
-                          onPressed: browseFolder,
-                          child: Text(
-                            AppLocalizations.of(context)!.browseFolder,
-                            style: TextStyle(
-                                color: context.isDark
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  AdwSwitchRow(
-                    title: AppLocalizations.of(context)!.forceDarkTheme,
-                    value: context.isDark,
-                    onChanged: (value) {
-                      ref
-                          .read(forceDarkThemeProvider.notifier)
-                          .toggle(context.brightness);
-                    },
-                  ),
-                  AdwSwitchRow(
-                    title: AppLocalizations.of(context)!.portableHome,
-                    value: ref.watch(portableAppImageProvider).isPortableHome,
-                    onChanged: (value) => ref
-                        .read(portableAppImageProvider)
-                        .isPortableHome = value,
-                  ),
-                  AdwSwitchRow(
-                    title: AppLocalizations.of(context)!.portableConfig,
-                    value: ref.watch(portableAppImageProvider).isPortableConfig,
-                    onChanged: (value) => ref
-                        .read(portableAppImageProvider)
-                        .isPortableConfig = value,
-                  ),
-                ],
-              ),
-              const Gap(8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+        AdwPreferencesGroup(
+          children: [
+            AdwActionRow(
+              title: AppLocalizations.of(context)!.downloadPath,
+              subtitle: path,
+              onActivated: browseFolder,
+              end: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   AdwButton(
-                    onPressed: () {
-                      ref.read(forceDarkThemeProvider.notifier).reset();
-                      ref.read(portableAppImageProvider.notifier).reset();
-                      ref.read(viewTypeProvider.notifier).reset();
-                    },
-                    child: Text(AppLocalizations.of(context)!.restoreDefaults),
+                    onPressed: browseFolder,
+                    child: Text(
+                      AppLocalizations.of(context)!.browseFolder,
+                      style: TextStyle(
+                          color: context.isDark ? Colors.white : Colors.black),
+                    ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+            AdwSwitchRow(
+              title: AppLocalizations.of(context)!.forceDarkTheme,
+              value: context.isDark,
+              onChanged: (value) {
+                ref
+                    .read(forceDarkThemeProvider.notifier)
+                    .toggle(context.brightness);
+              },
+            ),
+            AdwSwitchRow(
+              title: AppLocalizations.of(context)!.portableHome,
+              value: ref.watch(portableAppImageProvider).isPortableHome,
+              onChanged: (value) =>
+                  ref.read(portableAppImageProvider).isPortableHome = value,
+            ),
+            AdwSwitchRow(
+              title: AppLocalizations.of(context)!.portableConfig,
+              value: ref.watch(portableAppImageProvider).isPortableConfig,
+              onChanged: (value) =>
+                  ref.read(portableAppImageProvider).isPortableConfig = value,
+            ),
+          ],
+        ),
+        const Gap(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            AdwButton(
+              onPressed: () {
+                ref.read(forceDarkThemeProvider.notifier).reset();
+                ref.read(portableAppImageProvider.notifier).reset();
+                ref.read(viewTypeProvider.notifier).reset();
+              },
+              child: Text(AppLocalizations.of(context)!.restoreDefaults),
+            ),
+          ],
         ),
       ],
     );

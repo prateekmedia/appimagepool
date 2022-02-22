@@ -9,12 +9,18 @@ class RoundedDialog extends HookConsumerWidget {
   final List<Widget> children;
   final double height;
   final double width;
+  final List<Widget>? start;
+  final Widget? title;
+  final List<Widget>? end;
 
   const RoundedDialog({
     Key? key,
     required this.children,
     this.height = 310,
     this.width = 310,
+    this.start,
+    this.title,
+    this.end,
   }) : super(key: key);
 
   @override
@@ -34,11 +40,20 @@ class RoundedDialog extends HookConsumerWidget {
                   onHeaderDrag: appWindow?.startDragging,
                   onClose: context.back,
                 ),
+                start: start ?? [],
+                title: title,
+                end: end ?? [],
                 style: const HeaderBarStyle(
                   isTransparent: true,
                 ),
               ),
-              ...children,
+              Flexible(
+                child: ListView(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  children: children,
+                ),
+              ),
             ],
           ),
         ),

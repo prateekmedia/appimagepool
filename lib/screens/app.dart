@@ -321,19 +321,18 @@ class _DownloadDialogState extends State<DownloadDialog> {
           );
         });
       },
-      endText: AdwButton(
-          onPressed: () async {
-            if (widget.onEndPressed != null && checkmap.value.isNotEmpty) {
-              widget.onEndPressed!(checkmap.value);
-            }
-            Navigator.of(context).pop();
-          },
-          child: Text(
-            checkmap.value.isNotEmpty
-                ? AppLocalizations.of(context)!.download
-                : AppLocalizations.of(context)!.close,
-            style: const TextStyle(fontSize: 18),
-          )),
+      endItem: widget.onEndPressed != null && checkmap.value.isNotEmpty
+          ? AdwButton(
+              onPressed: () async {
+                widget.onEndPressed!(checkmap.value);
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                AppLocalizations.of(context)!.download,
+                style: const TextStyle(fontSize: 18),
+              ),
+            )
+          : null,
       img: widget.appIcon,
     );
   }
