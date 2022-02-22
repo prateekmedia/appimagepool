@@ -318,8 +318,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: next
-      resolved-ref: "8a9ea04410012bd665d7e3460f06d544c412feea"
+      ref: main
+      resolved-ref: "0dd4328d617dc0c29a32bdba7ff56ad10ab81496"
       url: "https://github.com/gtk-flutter/libadwaita"
     source: git
     version: "1.2.0"
