@@ -186,7 +186,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
       end: !toggleSearch.value
           ? [
-              AdwPopupMenu(
+              GtkPopupMenu(
                 body: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -314,7 +314,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       Container(
                         height: 39,
                         padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: AdwToggleButton(
+                        child: GtkToggleButton(
                           children: items,
                           onPressed: (value) =>
                               ref.read(viewTypeProvider.notifier).update(),

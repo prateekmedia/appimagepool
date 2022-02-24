@@ -23,7 +23,7 @@ class DownloadButton extends HookConsumerWidget {
         visible: listDownloads.isNotEmpty,
         child: Material(
           type: MaterialType.transparency,
-          child: AdwPopupMenu(
+          child: GtkPopupMenu(
             popupWidth: 400,
             icon: Icon(
               downloading > 0 ? LucideIcons.download : LucideIcons.check,
