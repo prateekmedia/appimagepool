@@ -23,10 +23,7 @@ dependencies:
   gap: ^2.0.0
   hooks_riverpod: ^2.0.0-dev.0
   intl: ^0.17.0
-  libadwaita:
-    git:
-      url: https://github.com/gtk-flutter/libadwaita
-      ref: main
+  libadwaita: ^1.2.0-dev
   libadwaita_bitsdojo: ^0.5.3
   libadwaita_searchbar: ^0.5.0+1
   lucide_icons: ^0.16.13
