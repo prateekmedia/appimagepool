@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:libadwaita_bitsdojo/libadwaita_bitsdojo.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -256,9 +256,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 }),
                               ),
                             ],
-                            appIcon: CachedNetworkImage(
-                              imageUrl:
-                                  'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.svg',
+                            appIcon: SvgPicture.network(
+                              'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.svg',
                               width: 70,
                               height: 70,
                             ),

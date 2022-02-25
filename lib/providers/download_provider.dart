@@ -91,15 +91,17 @@ class DownloadingStatusNotifier extends ChangeNotifier {
     }, cancelToken: cancelToken).whenComplete(() async {
       decrement();
       if (!cancelToken.isCancelled) {
-        var client = NotificationsClient();
-        await client.notify(
-          AppLocalizations.of(context)!.downloadCompleted,
-          body:
-              "$name ${AppLocalizations.of(context)!.hasBeenDownloadedSuccessfully}",
-          appName: "AppImage Pool",
-          appIcon: "success",
-        );
-        await client.close();
+        if (Platform.isLinux) {
+          var client = NotificationsClient();
+          await client.notify(
+            AppLocalizations.of(context)!.downloadCompleted,
+            body:
+                "$name ${AppLocalizations.of(context)!.hasBeenDownloadedSuccessfully}",
+            appName: "AppImage Pool",
+            appIcon: "success",
+          );
+          await client.close();
+        }
 
         makeProgramExecutable(
           location: location,
