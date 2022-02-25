@@ -345,7 +345,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ],
         ),
       ),
-      viewSwitcher: searchedTerm.value.isEmpty
+      viewSwitcher: !toggleSearch.value
           ? AdwViewSwitcher(
               currentIndex: _currentViewIndex.value,
               onViewChanged: _controller.jumpToPage,
