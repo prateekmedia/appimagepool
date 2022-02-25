@@ -258,7 +258,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             ],
                             appIcon: CachedNetworkImage(
                               imageUrl:
-                                  'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.png',
+                                  'https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.svg',
                               width: 70,
                               height: 70,
                             ),

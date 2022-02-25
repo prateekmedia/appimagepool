@@ -35,6 +35,7 @@ jobs:
 
       - name: Build Tarball
         run: |
+          cp assets/appimagepool.svg linux/packaging/usr/share/icons/hicolor/128x128/apps
           cp -fr build/linux/x64/release/bundle linux/packaging/usr/bin
           mkdir AppDir
           cp -r linux/packaging/usr AppDir
@@ -47,7 +48,7 @@ jobs:
           cd "$(dirname "$0")"
           exec ./appimagepool' > AppDir/AppRun
           chmod +x AppDir/AppRun
-          ln -sr AppDir/usr/share/icons/hicolor/128x128/apps/appimagepool.png AppDir/appimagepool.png
+          ln -sr AppDir/usr/share/icons/hicolor/128x128/apps/appimagepool.svg AppDir/appimagepool.svg
           cp AppDir/usr/share/applications/appimagepool.desktop AppDir/appimagepool.desktop
           curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -o appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage

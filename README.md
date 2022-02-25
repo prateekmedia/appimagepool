@@ -1,4 +1,4 @@
-<p align="center"><a href="#appimagepool"><img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.png" height=80px alt="AppImage Pool Logo"/></a></p>
+<p align="center"><a href="#appimagepool"><img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.svg" height=80px alt="AppImage Pool Logo"/></a></p>
 <h1 align="center">AppImagePool</h1>
 <p align="center">
 <a href="https://github.com/prateekmedia/appimagepool/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
