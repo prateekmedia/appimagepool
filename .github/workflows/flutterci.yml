@@ -35,7 +35,7 @@ jobs:
 
       - name: Build Tarball
         run: |
-          cp assets/appimagepool.svg linux/packaging/usr/share/icons/hicolor/128x128/apps
+          install -D assets/appimagepool.svg linux/packaging/usr/share/icons/hicolor/128x128/apps/appimagepool.svg
           cp -fr build/linux/x64/release/bundle linux/packaging/usr/bin
           mkdir AppDir
           cp -r linux/packaging/usr AppDir
