@@ -151,8 +151,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       start: [
         AdwHeaderButton(
           icon: Icon(
-            !toggleSearch.value ? LucideIcons.search : LucideIcons.chevronLeft,
-            size: 16,
+            !toggleSearch.value ? Icons.search : LucideIcons.chevronLeft,
           ),
           onPressed: switchSearchBar,
         ),
