@@ -32,6 +32,7 @@
     "restoreDefaults": "恢复默认值",
     "browseFolder": "浏览文件夹",
     "chooseDownloadFolder": "请选下载文件夹",
+	"multimedia": "Multimedia",
     "video": "视频",
     "audio": "音频",
     "science": "科学",

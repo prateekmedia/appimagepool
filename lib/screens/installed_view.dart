@@ -25,10 +25,12 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
   late List _content = [];
 
   updateContent() {
-    _content = Directory(applicationsDir)
-        .listSync(recursive: false)
-        .map((event) => path.basenameWithoutExtension(event.path))
-        .toList();
+    _content = Directory(applicationsDir).existsSync()
+        ? Directory(applicationsDir)
+            .listSync(recursive: false)
+            .map((event) => path.basenameWithoutExtension(event.path))
+            .toList()
+        : [];
     setState(() {});
   }
 

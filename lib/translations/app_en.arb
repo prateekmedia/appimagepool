@@ -33,6 +33,7 @@
     "restoreDefaults": "Restore Defaults",
     "browseFolder": "Browse...",
     "chooseDownloadFolder": "Choose download Folder",
+	"multimedia": "Multimedia",
     "video": "Video",
     "audio": "Audio",
     "science": "Science",

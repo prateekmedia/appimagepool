@@ -31,7 +31,9 @@ Map getSimplifiedCategories(List value) {
     List newList = [];
     for (var category in categori) {
       if (category != null && category.length > 0) {
-        if (doesContain(category, ['Video'])) {
+        if (doesContain(category, ['AudioVideo'])) {
+          newList.add('Multimedia');
+        } else if (doesContain(category, ['Video'])) {
           newList.add('Video');
         } else if (doesContain(category, ['Audio', 'Music'])) {
           newList.add('Audio');

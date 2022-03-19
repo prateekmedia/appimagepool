@@ -92,6 +92,7 @@ const mobileWidth = 800;
 Widget brokenImageWidget = const Icon(LucideIcons.helpCircle);
 
 const Map<String, IconData> categoryIcons = {
+  'Multimedia': LucideIcons.film,
   'Video': LucideIcons.video,
   'Audio': LucideIcons.headphones,
   'Science': LucideIcons.flaskConical,
@@ -108,6 +109,7 @@ const Map<String, IconData> categoryIcons = {
 
 String categoryName(BuildContext context, String name) =>
     {
+      'Multimedia': AppLocalizations.of(context)!.multimedia,
       'Video': AppLocalizations.of(context)!.video,
       'Audio': AppLocalizations.of(context)!.audio,
       'Science': AppLocalizations.of(context)!.science,

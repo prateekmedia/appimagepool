@@ -33,6 +33,7 @@
     "restoreDefaults": "Восстановить настройки по умолчанию",
     "browseFolder": "Просмотреть...",
     "chooseDownloadFolder": "Выберите папку для скачивания",
+	"multimedia": "Multimedia",
     "video": "Видео",
     "audio": "Аудио",
     "science": "Наука",
