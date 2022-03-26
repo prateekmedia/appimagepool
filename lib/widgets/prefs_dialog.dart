@@ -15,17 +15,31 @@ class PrefsDialog extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final isBrowserActive = useState<bool>(false);
-    final path = ref.watch(downloadPathProvider);
+    final isBrowserActive = useState<int>(0);
+    final localPathP = ref.watch(localPathProvider);
 
-    void browseFolder() async {
-      if (!isBrowserActive.value) {
-        isBrowserActive.value = true;
-        ref.read(downloadPathProvider.notifier).update =
-            await FilePicker.platform.getDirectoryPath(
-                dialogTitle:
-                    AppLocalizations.of(context)!.chooseDownloadFolder);
-        isBrowserActive.value = false;
+    void browseFolder(int value) async {
+      if (isBrowserActive.value == 0) {
+        isBrowserActive.value = value;
+        var val = await FilePicker.platform.getDirectoryPath(
+          dialogTitle: AppLocalizations.of(context)!.chooseFolder,
+        );
+
+        if (val != null && val.isNotEmpty) {
+          switch (value) {
+            case 1:
+              ref.read(downloadPathProvider.notifier).update = val;
+              break;
+            case 2:
+              localPathP.applicationsDir = val;
+              break;
+            case 3:
+              localPathP.iconsDir = val;
+              break;
+            default:
+          }
+        }
+        isBrowserActive.value = 0;
       }
     }
 
@@ -37,13 +51,49 @@ class PrefsDialog extends HookConsumerWidget {
           children: [
             AdwActionRow(
               title: AppLocalizations.of(context)!.downloadPath,
-              subtitle: path,
-              onActivated: browseFolder,
+              subtitle: ref.watch(downloadPathProvider),
+              onActivated: () => browseFolder(0),
               end: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   AdwButton(
-                    onPressed: browseFolder,
+                    onPressed: () => browseFolder(0),
+                    child: Text(
+                      AppLocalizations.of(context)!.browseFolder,
+                      style: TextStyle(
+                          color: context.isDark ? Colors.white : Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            AdwActionRow(
+              title: "Applications Directory",
+              subtitle: localPathP.applicationsDir,
+              onActivated: () => browseFolder(1),
+              end: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AdwButton(
+                    onPressed: () => browseFolder(1),
+                    child: Text(
+                      AppLocalizations.of(context)!.browseFolder,
+                      style: TextStyle(
+                          color: context.isDark ? Colors.white : Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            AdwActionRow(
+              title: "Icons Directory",
+              subtitle: localPathP.iconsDir,
+              onActivated: () => browseFolder(2),
+              end: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AdwButton(
+                    onPressed: () => browseFolder(2),
                     child: Text(
                       AppLocalizations.of(context)!.browseFolder,
                       style: TextStyle(

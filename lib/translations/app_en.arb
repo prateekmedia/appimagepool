@@ -32,7 +32,7 @@
     "portableConfig": "Portable Config",
     "restoreDefaults": "Restore Defaults",
     "browseFolder": "Browse...",
-    "chooseDownloadFolder": "Choose download Folder",
+    "chooseFolder": "Choose Folder",
 	"multimedia": "Multimedia",
     "video": "Video",
     "audio": "Audio",

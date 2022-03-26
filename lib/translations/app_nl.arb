@@ -32,7 +32,7 @@
     "portableConfig": "Gedeelde configuratie",
     "restoreDefaults": "Standaardwaarden herstellen",
     "browseFolder": "Bladeren…",
-    "chooseDownloadFolder": "Kies een downloadmap",
+    "chooseFolder": "Kies een map",
 	"multimedia": "Multimedia",
     "video": "Video",
     "audio": "Audio",

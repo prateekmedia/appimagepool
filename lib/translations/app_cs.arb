@@ -32,7 +32,7 @@
     "portableConfig": "Nastavení pro přenosné",
     "restoreDefaults": "Vrátit na výchozí hodnoty",
     "browseFolder": "Procházet…",
-    "chooseDownloadFolder": "Zvolte složku pro stahované",
+    "chooseFolder": "Vyberte složku",
 	"multimedia": "Multimedia",
     "video": "Video",
     "audio": "Zvuk",

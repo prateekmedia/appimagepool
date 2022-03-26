@@ -32,7 +32,7 @@
     "portableConfig": "پیکربندی قابل حمل",
     "restoreDefaults": "بازگردانی پیش‌گزیده‌ها",
     "browseFolder": "مرور...",
-    "chooseDownloadFolder": "انتخاب شاخهٔ بارگیری",
+    "chooseFolder": "یک پوشه را انتخاب کنید",
 	"multimedia": "Multimedia",
     "video": "ویدیو",
     "audio": "صوتی",

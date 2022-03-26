@@ -32,7 +32,7 @@
     "portableConfig": "Portable Config",
     "restoreDefaults": "Restore Defaults",
     "browseFolder": "Bläddra...",
-    "chooseDownloadFolder": "Välj nerladdnings mapp",
+    "chooseFolder": "Välj mapp",
 	"multimedia": "Multimedia",
     "video": "Video",
     "audio": "Ljud",

@@ -32,7 +32,7 @@
     "portableConfig": "Портабельная конфигурация",
     "restoreDefaults": "Восстановить настройки по умолчанию",
     "browseFolder": "Просмотреть...",
-    "chooseDownloadFolder": "Выберите папку для скачивания",
+    "chooseFolder": "Выберите папку",
 	"multimedia": "Multimedia",
     "video": "Видео",
     "audio": "Аудио",

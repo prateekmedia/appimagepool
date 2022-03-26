@@ -41,7 +41,7 @@
 	"portableConfig": "تكوينات متنقلة",
 	"restoreDefaults": "استعادة الإعدادات الإفتراضية",
 	"browseFolder": "تصفح...",
-	"chooseDownloadFolder": "إختر ملف التحميل",
+	"chooseFolder": "اختر مجلدا",
 	"multimedia": "Multimedia",
 	"video": "مقطع الفيديو",
 	"audio": "الأصوات",

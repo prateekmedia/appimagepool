@@ -25,12 +25,13 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
   late List _content = [];
 
   updateContent() {
-    _content = Directory(applicationsDir).existsSync()
-        ? Directory(applicationsDir)
-            .listSync(recursive: false)
-            .map((event) => path.basenameWithoutExtension(event.path))
-            .toList()
-        : [];
+    _content =
+        Directory(ref.read(localPathProvider).applicationsDir).existsSync()
+            ? Directory(ref.read(localPathProvider).applicationsDir)
+                .listSync(recursive: false)
+                .map((event) => path.basenameWithoutExtension(event.path))
+                .toList()
+            : [];
     setState(() {});
   }
 
@@ -83,18 +84,20 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                             "grep",
                             [
                               "^Icon=",
-                              applicationsDir +
+                              ref.read(localPathProvider).applicationsDir +
                                   _content[integratedIndex] +
                                   ".desktop",
                             ],
                             runInShell: true,
-                            workingDirectory: applicationsDir,
+                            workingDirectory:
+                                ref.read(localPathProvider).applicationsDir,
                           ))
                               .stdout
                               .split("=")[1]
                               .trim();
-                          for (var icon in Directory(iconsDir)
-                              .listSync(recursive: true)) {
+                          for (var icon
+                              in Directory(ref.read(localPathProvider).iconsDir)
+                                  .listSync(recursive: true)) {
                             if (icon is File &&
                                 path.basenameWithoutExtension(icon.path) ==
                                     iconName) {
@@ -103,9 +106,10 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                           }
 
                           // Delete Desktop file
-                          await File(applicationsDir +
-                                  _content[integratedIndex] +
-                                  ".desktop")
+                          await File(
+                                  ref.read(localPathProvider).applicationsDir +
+                                      _content[integratedIndex] +
+                                      ".desktop")
                               .delete();
 
                           // Remove checksum from app name
@@ -164,8 +168,9 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                                 .listSync()
                                 .firstWhere((element) =>
                                     path.extension(element.path) == ".desktop");
-                            await desktopFile
-                                .moveFile(applicationsDir + desktopfilename);
+                            await desktopFile.moveFile(
+                                ref.read(localPathProvider).applicationsDir +
+                                    desktopfilename);
                             String execPath = (await Process.run(
                               "grep",
                               [
@@ -173,7 +178,8 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                                 desktopfilename,
                               ],
                               runInShell: true,
-                              workingDirectory: applicationsDir,
+                              workingDirectory:
+                                  ref.read(localPathProvider).applicationsDir,
                             ))
                                 .stdout
                                 .split("=")[1]
@@ -187,7 +193,8 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                                 desktopfilename,
                               ],
                               runInShell: true,
-                              workingDirectory: applicationsDir,
+                              workingDirectory:
+                                  ref.read(localPathProvider).applicationsDir,
                             ))
                                 .stdout
                                 .split("=")[1]
@@ -201,7 +208,8 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                                 desktopfilename,
                                 "-i",
                               ],
-                              workingDirectory: applicationsDir,
+                              workingDirectory:
+                                  ref.read(localPathProvider).applicationsDir,
                             ))
                                 .stderr);
                             debugPrint((await Process.run(
@@ -211,7 +219,8 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                                 "-i",
                                 desktopfilename,
                               ],
-                              workingDirectory: applicationsDir,
+                              workingDirectory:
+                                  ref.read(localPathProvider).applicationsDir,
                             ))
                                 .stderr);
                           } catch (_) {
