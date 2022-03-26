@@ -52,24 +52,6 @@ class PrefsDialog extends HookConsumerWidget {
             AdwActionRow(
               title: AppLocalizations.of(context)!.downloadPath,
               subtitle: ref.watch(downloadPathProvider),
-              onActivated: () => browseFolder(0),
-              end: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AdwButton(
-                    onPressed: () => browseFolder(0),
-                    child: Text(
-                      AppLocalizations.of(context)!.browseFolder,
-                      style: TextStyle(
-                          color: context.isDark ? Colors.white : Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            AdwActionRow(
-              title: "Applications Directory",
-              subtitle: localPathP.applicationsDir,
               onActivated: () => browseFolder(1),
               end: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -86,14 +68,32 @@ class PrefsDialog extends HookConsumerWidget {
               ),
             ),
             AdwActionRow(
-              title: "Icons Directory",
-              subtitle: localPathP.iconsDir,
+              title: "Applications Directory",
+              subtitle: localPathP.applicationsDir,
               onActivated: () => browseFolder(2),
               end: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   AdwButton(
                     onPressed: () => browseFolder(2),
+                    child: Text(
+                      AppLocalizations.of(context)!.browseFolder,
+                      style: TextStyle(
+                          color: context.isDark ? Colors.white : Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            AdwActionRow(
+              title: "Icons Directory",
+              subtitle: localPathP.iconsDir,
+              onActivated: () => browseFolder(3),
+              end: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AdwButton(
+                    onPressed: () => browseFolder(3),
                     child: Text(
                       AppLocalizations.of(context)!.browseFolder,
                       style: TextStyle(
