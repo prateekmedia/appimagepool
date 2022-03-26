@@ -78,23 +78,37 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
 
                       void integrateOrRemove() async {
                         if (isIntegrated) {
+                          // Delete Icons
+                          String iconName = (await Process.run(
+                            "grep",
+                            [
+                              "^Icon=",
+                              applicationsDir +
+                                  _content[integratedIndex] +
+                                  ".desktop",
+                            ],
+                            runInShell: true,
+                            workingDirectory: applicationsDir,
+                          ))
+                              .stdout
+                              .split("=")[1]
+                              .trim();
+                          for (var icon in Directory(iconsDir)
+                              .listSync(recursive: true)) {
+                            if (icon is File &&
+                                path.basenameWithoutExtension(icon.path) ==
+                                    iconName) {
+                              await icon.delete();
+                            }
+                          }
+
                           // Delete Desktop file
                           await File(applicationsDir +
                                   _content[integratedIndex] +
                                   ".desktop")
                               .delete();
 
-                          // Delete Icons
-                          for (var icon in Directory(iconsDir)
-                              .listSync(recursive: true)) {
-                            if (icon is File &&
-                                path.basenameWithoutExtension(icon.path) ==
-                                    _content[integratedIndex]) {
-                              await icon.delete();
-                            }
-                          }
-
-                          // Remove checksum from app
+                          // Remove checksum from app name
                           final basenl =
                               path.basenameWithoutExtension(i.path).split('_');
                           i.moveFile(path.dirname(i.path) +
