@@ -361,9 +361,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 ViewSwitcherData(
                   title: AppLocalizations.of(context)!.downloads,
-                  badge: currentlyDownloading > 0
-                      ? '($currentlyDownloading)'
-                      : null,
+                  badge:
+                      currentlyDownloading > 0 ? '$currentlyDownloading' : null,
                   icon: Icons.download,
                 ),
               ],
