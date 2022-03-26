@@ -155,7 +155,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                             String execPath = (await Process.run(
                               "grep",
                               [
-                                "Exec=",
+                                "^Exec=",
                                 desktopfilename,
                               ],
                               runInShell: true,
@@ -169,7 +169,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                             String iconName = (await Process.run(
                               "grep",
                               [
-                                "Icon=",
+                                "^Icon=",
                                 desktopfilename,
                               ],
                               runInShell: true,
@@ -183,11 +183,18 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                             debugPrint((await Process.run(
                               "sed",
                               [
-                                "-i",
-                                "-e",
                                 "s:Exec=$execPath:Exec=$newPath:g",
-                                "-e",
-                                "s:Icon=$iconName:Icon=aip_${iconName}_$checksum:g",
+                                desktopfilename,
+                                "-i",
+                              ],
+                              workingDirectory: applicationsDir,
+                            ))
+                                .stderr);
+                            debugPrint((await Process.run(
+                              "sed",
+                              [
+                                "s:Icon=$iconName:Icon=aip_${iconName}_$checksum:",
+                                "-i",
                                 desktopfilename,
                               ],
                               workingDirectory: applicationsDir,
@@ -232,8 +239,6 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                           overflow: TextOverflow.ellipsis,
                           style: context.textTheme.bodyText1,
                         ),
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
                         subtitle: Text(i.statSync().size.getFileSize()),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
