@@ -143,6 +143,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                           String desktopfilename = 'aip_' +
                               path.basenameWithoutExtension(newPath) +
                               ".desktop";
+
                           // Copy desktop file
                           try {
                             var desktopFile = Directory(squashDir)
@@ -151,7 +152,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                                     path.extension(element.path) == ".desktop");
                             await desktopFile
                                 .moveFile(applicationsDir + desktopfilename);
-                            String grepOut = (await Process.run(
+                            String execPath = (await Process.run(
                               "grep",
                               [
                                 "Exec=",
@@ -160,16 +161,34 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                               runInShell: true,
                               workingDirectory: applicationsDir,
                             ))
-                                .stdout;
-                            var execPath =
-                                grepOut.split("=")[1].split(' ')[0].trim();
+                                .stdout
+                                .split("=")[1]
+                                .split(' ')[0]
+                                .trim();
+
+                            String iconName = (await Process.run(
+                              "grep",
+                              [
+                                "Icon=",
+                                desktopfilename,
+                              ],
+                              runInShell: true,
+                              workingDirectory: applicationsDir,
+                            ))
+                                .stdout
+                                .split("=")[1]
+                                .trim();
+
                             // Update desktop file
                             debugPrint((await Process.run(
                               "sed",
                               [
-                                "s:Exec=$execPath:Exec=$newPath:g",
-                                desktopfilename,
                                 "-i",
+                                "-e",
+                                "s:Exec=$execPath:Exec=$newPath:g",
+                                "-e",
+                                "s:Icon=$iconName:Icon=aip_${iconName}_$checksum:g",
+                                desktopfilename,
                               ],
                               workingDirectory: applicationsDir,
                             ))
