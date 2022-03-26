@@ -82,6 +82,11 @@ List<CreditsModel> translators = [
     username: "eshagh79",
     description: "Persian",
   ),
+  CreditsModel(
+    name: "rojack",
+    username: "rojack96",
+    description: "Italian",
+  )
 ];
 
 TextStyle linkStyle(BuildContext context, [bool showUnderline = true]) =>
