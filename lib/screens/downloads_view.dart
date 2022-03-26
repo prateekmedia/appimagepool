@@ -25,6 +25,7 @@ class DownloadsView extends HookConsumerWidget {
         .toList();
     return listDownloads.isNotEmpty
         ? AdwClamp.scrollable(
+            controller: ScrollController(),
             child: AdwPreferencesGroup(
               children: [
                 ListView.builder(

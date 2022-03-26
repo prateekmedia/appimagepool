@@ -55,6 +55,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
         : [];
     return listInstalled.isNotEmpty
         ? SingleChildScrollView(
+            controller: ScrollController(),
             child: Center(
               child: AdwClamp(
                 child: AdwPreferencesGroup(
