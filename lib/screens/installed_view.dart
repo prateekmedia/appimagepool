@@ -64,8 +64,8 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                     (index) {
                       final i = listInstalled[index];
                       int integratedIndex = _content.isNotEmpty
-                          ? _content
-                              .indexOf(path.basenameWithoutExtension(i.path))
+                          ? _content.indexOf(
+                              'aip_' + path.basenameWithoutExtension(i.path))
                           : -1;
 
                       bool isIntegrated = integratedIndex >= 0;
@@ -78,10 +78,29 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
 
                       void integrateOrRemove() async {
                         if (isIntegrated) {
-                          File(applicationsDir +
+                          // Delete Desktop file
+                          await File(applicationsDir +
                                   _content[integratedIndex] +
                                   ".desktop")
-                              .deleteSync();
+                              .delete();
+
+                          // Delete Icons
+                          for (var icon in Directory(iconsDir)
+                              .listSync(recursive: true)) {
+                            if (icon is File &&
+                                path.basenameWithoutExtension(icon.path) ==
+                                    _content[integratedIndex]) {
+                              await icon.delete();
+                            }
+                          }
+
+                          // Remove checksum from app
+                          final basenl =
+                              path.basenameWithoutExtension(i.path).split('_');
+                          i.moveFile(path.dirname(i.path) +
+                              '/' +
+                              basenl.sublist(0, basenl.length - 1).join('_') +
+                              path.extension(i.path));
                         } else {
                           String tempDir =
                               (await getTemporaryDirectory()).path +
@@ -104,11 +123,26 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                             ["--appimage-extract"],
                             workingDirectory: tempDir,
                           );
+
+                          final checksum = (await Process.run(
+                            'md5sum',
+                            [i.path],
+                          ))
+                              .stdout
+                              .toString()
+                              .split(' ')[0]
+                              .trim();
+
+                          var newPath = path.withoutExtension(i.path) +
+                              '_$checksum' +
+                              path.extension(i.path);
+                          i.moveFile(newPath);
+
                           String squashDir = tempDir + "/squashfs-root";
 
-                          String desktopfilename =
-                              path.basenameWithoutExtension(i.path) +
-                                  ".desktop";
+                          String desktopfilename = 'aip_' +
+                              path.basenameWithoutExtension(newPath) +
+                              ".desktop";
                           // Copy desktop file
                           try {
                             var desktopFile = Directory(squashDir)
@@ -133,7 +167,7 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                             debugPrint((await Process.run(
                               "sed",
                               [
-                                "s:Exec=$execPath:Exec=${i.path}:g",
+                                "s:Exec=$execPath:Exec=$newPath:g",
                                 desktopfilename,
                                 "-i",
                               ],
@@ -147,7 +181,19 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                           // Copy Icons
                           var iconsDir =
                               Directory(squashDir + "/usr/share/icons");
+
                           if (iconsDir.existsSync()) {
+                            for (FileSystemEntity icon
+                                in iconsDir.listSync(recursive: true)) {
+                              if (icon is File) {
+                                icon.moveFile(path.dirname(icon.path) +
+                                    '/aip_' +
+                                    path.basenameWithoutExtension(icon.path) +
+                                    '_$checksum' +
+                                    path.extension(icon.path));
+                              }
+                            }
+
                             (await Process.run(
                               "cp",
                               ["-r", "./usr/share/icons", localShareDir],
@@ -156,8 +202,9 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                           }
 
                           Directory(tempDir).delete(recursive: true);
-                          updateContent();
                         }
+
+                        updateContent();
                       }
 
                       return ListTile(

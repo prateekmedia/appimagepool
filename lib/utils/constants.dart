@@ -10,6 +10,8 @@ String localShareDir = (Platform.environment["HOME"] ?? "") + "/.local/share";
 
 String applicationsDir = localShareDir + "/applications/";
 
+String iconsDir = localShareDir + "/icons/";
+
 const String appName = "AppImage Pool";
 
 const String prefixUrl =
