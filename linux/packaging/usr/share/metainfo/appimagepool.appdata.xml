@@ -14,22 +14,21 @@
 	<url type="homepage">https://github.com/prateekmedia/appimagepool</url>
 	<description>
 		<p>Simple AppImageHub Client</p>
-		<p>Top Features:</p>
+		<p>Main Highlights:</p>
 		<ul>
-			<li>FLOSS and non profit app</li>
-			<li>Simple categories</li>
+			<li>Simplified categories</li>
 			<li>Download from github directly, no extra-server involved</li>
-			<li>Upgrade and Downgrade appimages easily</li>
+			<li>Integrate and Disintegrate appimages easily from your system</li>
 			<li>Version History and multi download support</li>
-			<li>Fast downloader</li>
+			<li>FLOSS and non profit app</li>
 		</ul>
 	</description>
 	<screenshots>
 		<screenshot>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/4.9.0/assets/screenshot/home.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/4.9.0/assets/screenshot/category.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/4.9.0/assets/screenshot/app.jpg?raw=true</image>
-			<image type="source">https://github.com/prateekmedia/appimagepool/blob/4.9.0/assets/screenshot/search.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/5.0.0/assets/screenshot/home.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/5.0.0/assets/screenshot/category.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/5.0.0/assets/screenshot/app.jpg?raw=true</image>
+			<image type="source">https://github.com/prateekmedia/appimagepool/blob/5.0.0/assets/screenshot/search.jpg?raw=true</image>
 		</screenshot>
 	</screenshots>
 	<launchable type="desktop-id">appimagepool.desktop</launchable>
@@ -50,5 +49,5 @@
 		<release version="2.3.0" date="2021-09-03"/>
 	</releases>
 	<content_rating type="oars-1.0" />
-	<update_contact>pankajsunal123@gmail.com</update_contact>
+	<update_contact>prtksu@pm.me</update_contact>
 </component>
