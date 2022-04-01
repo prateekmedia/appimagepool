@@ -1,7 +1,7 @@
 <p align="center"><a href="#appimagepool"><img src="https://raw.githubusercontent.com/prateekmedia/appimagepool/main/assets/appimagepool.svg" height=80px alt="AppImage Pool Logo"/></a></p>
 <h1 align="center">AppImagePool</h1>
 <p align="center">
-<a href="https://github.com/prateekmedia/appimagepool/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="https://github.com/prateekmedia"><img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-prateekmedia-blueviolet"/></a>
+<a href="https://github.com/prateekmedia/appimagepool/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/prateekmedia/appimagepool?color=blueviolet"/></a> <a href="https://hosted.weblate.org/engage/appimagepool/"><img src="https://hosted.weblate.org/widgets/appimagepool/-/app/svg-badge.svg" alt="Translation status" /></a>
 </p>
 
 <p align="center"><b>
@@ -63,12 +63,9 @@ flutter run -v -d linux
 
 ### Contribute translations
 
-- Simply copy the content of `app_en.arb` located in `lib/translations` to your language like `app_hi.arb`
-- Now Modify the values of every key for example:
-`"preferences": "सेटिंग्स"`
-- Now make a Pull Request or simply create an issue and upload your translations there.
+We use [weblate](https://hosted.weblate.org/projects/appimagepool/) for translations.
 
 ## Supporters
 
-[![Stargazers repo roster for @prateekmedia/appimagepool](https://reporoster.com/stars/prateekmedia/appimagepool)](https://github.com/prateekmedia/appimagepool/stargazers)
+[![Stargazers](https://reporoster.com/stars/prateekmedia/appimagepool)](https://github.com/prateekmedia/appimagepool/stargazers)
 
