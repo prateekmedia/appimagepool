@@ -46,6 +46,6 @@
     "game": "游戏",
     "finance": "金融",
     "others": "其他",
-	"integrate": "Integrate",
-	"disintegrate": "Disintegrate"
+	"integrate": "操作系统里包括",
+	"disintegrate": "从操作系统分开"
 }
