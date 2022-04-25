@@ -38,6 +38,12 @@ class MyApp extends ConsumerWidget {
         AppLocalizations.delegate,
       ],
       theme: AdwaitaThemeData.light(),
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        if (supportedLocales.contains(deviceLocale)) {
+          return deviceLocale;
+        }
+        return const Locale('en');
+      },
       darkTheme: AdwaitaThemeData.dark(),
       themeMode: ref.watch(forceDarkThemeProvider),
       home: const HomePage(),
