@@ -1,1 +1,6 @@
-{}
+{
+  "preferences": "기본설정",
+  "@preferences": {},
+  "aboutApp": "앱 정보",
+  "@aboutApp": {}
+}
