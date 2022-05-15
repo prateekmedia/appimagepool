@@ -1,1 +1,22 @@
-{}
+{
+  "aboutApp": "Sobre o aplicativo",
+  "@aboutApp": {},
+  "grid": "Grade",
+  "@grid": {},
+  "list": "Lista",
+  "@list": {},
+  "explore": "Explorar",
+  "@explore": {},
+  "installed": "Instalado",
+  "@installed": {},
+  "download": "Baixar",
+  "@download": {},
+  "downloads": "Baixados",
+  "@downloads": {},
+  "preferences": "Preferências",
+  "@preferences": {},
+  "appDescription": "Simplificando a maneira como você navega, instala e atualiza seus APPs.",
+  "@appDescription": {},
+  "browse": "Buscar",
+  "@browse": {}
+}
