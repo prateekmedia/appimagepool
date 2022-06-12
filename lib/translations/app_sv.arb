@@ -88,5 +88,15 @@
   "seeAll": "Se alla",
   "@seeAll": {},
   "downloadPath": "Nedladdnings sökväg",
-  "@downloadPath": {}
+  "@downloadPath": {},
+  "authors": "Författare",
+  "@authors": {},
+  "youNeedInternetConnectionToUse": "Du behöver en anslutning mot internet för att använda",
+  "@youNeedInternetConnectionToUse": {},
+  "cancelled": "Avbröts",
+  "@cancelled": {},
+  "others": "Annat",
+  "@others": {},
+  "disintegrate": "Upphäv integrering",
+  "@disintegrate": {}
 }
