@@ -78,5 +78,15 @@
   "chooseFolder": "Välj mapp",
   "@chooseFolder": {},
   "restoreDefaults": "Återställ till grundinställningarna",
-  "@restoreDefaults": {}
+  "@restoreDefaults": {},
+  "list": "Lista",
+  "@list": {},
+  "appDescription": "Förenkla sättet att bläddra, installera och uppgradera dina AppImages.",
+  "@appDescription": {},
+  "installed": "Installerad",
+  "@installed": {},
+  "seeAll": "Se alla",
+  "@seeAll": {},
+  "downloadPath": "Nedladdnings sökväg",
+  "@downloadPath": {}
 }
