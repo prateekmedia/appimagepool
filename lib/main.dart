@@ -33,7 +33,6 @@ class MyApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
         AppLocalizations.delegate,
       ],
-      theme: AdwaitaThemeData.light(),
       localeResolutionCallback: (deviceLocale, supportedLocales) {
         if (supportedLocales.contains(deviceLocale)) {
           return deviceLocale;
@@ -44,6 +43,7 @@ class MyApp extends ConsumerWidget {
         child = virtualWindowFrameBuilder(context, child);
         return child;
       },
+      theme: AdwaitaThemeData.light(),
       darkTheme: AdwaitaThemeData.dark(),
       themeMode: ref.watch(forceDarkThemeProvider),
       home: const HomePage(),

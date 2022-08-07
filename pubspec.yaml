@@ -23,7 +23,7 @@ dependencies:
   gap: ^2.0.0
   hooks_riverpod: ^2.0.0-dev.9
   intl: ^0.17.0
-  libadwaita: ^1.2.1
+  libadwaita: ^1.2.5
   libadwaita_searchbar: ^0.5.0+1
   libadwaita_window_manager:
   lucide_icons: ^0.16.13

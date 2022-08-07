@@ -279,7 +279,7 @@ packages:
       name: libadwaita
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.5"
   libadwaita_core:
     dependency: transitive
     description:
