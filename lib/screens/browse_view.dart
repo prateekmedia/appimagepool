@@ -237,7 +237,7 @@ class _BrowseViewState extends State<BrowseView>
                                     reverse: false,
                                     autoPlay: true,
                                     autoPlayInterval:
-                                        const Duration(seconds: 3),
+                                        const Duration(seconds: 5),
                                     autoPlayAnimationDuration:
                                         const Duration(milliseconds: 800),
                                     autoPlayCurve: Curves.fastOutSlowIn,
