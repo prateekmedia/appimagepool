@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:libadwaita_bitsdojo/libadwaita_bitsdojo.dart';
 
 import 'package:appimagepool/utils/utils.dart';
 import 'package:libadwaita/libadwaita.dart';
+import 'package:libadwaita_window_manager/libadwaita_window_manager.dart';
 
 class RoundedDialog extends HookConsumerWidget {
   final List<Widget> children;
@@ -36,8 +36,8 @@ class RoundedDialog extends HookConsumerWidget {
             children: [
               AdwHeaderBar(
                 actions: AdwActions(
-                  onDoubleTap: appWindow?.maximizeOrRestore,
-                  onHeaderDrag: appWindow?.startDragging,
+                  onDoubleTap: AdwActions().windowManager.onDoubleTap,
+                  onHeaderDrag: AdwActions().windowManager.onHeaderDrag,
                   onClose: context.back,
                 ),
                 start: start ?? [],

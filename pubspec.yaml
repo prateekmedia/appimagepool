@@ -24,8 +24,8 @@ dependencies:
   hooks_riverpod: ^2.0.0-dev.0
   intl: ^0.17.0
   libadwaita: ^1.2.0-dev
-  libadwaita_bitsdojo: ^0.5.3
   libadwaita_searchbar: ^0.5.0+1
+  libadwaita_window_manager:
   lucide_icons: ^0.16.13
   package_info_plus: ^1.0.6
   path_provider: ^2.0.5
@@ -33,25 +33,14 @@ dependencies:
   simple_html_css: ^3.0.1
   sticky_headers: ^0.2.0
   url_launcher: ^6.0.12
+  window_manager: ^0.2.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
 
-dependency_overrides:
-  bitsdojo_window_linux:
-    git:
-      url: https://github.com/prateekmedia/bitsdojo_window.git
-      path: bitsdojo_window_linux
-  bitsdojo_window_macos:
-    git:
-      url: https://github.com/prateekmedia/bitsdojo_window.git
-      path: bitsdojo_window_macos
-  bitsdojo_window_windows:
-    git:
-      url: https://github.com/prateekmedia/bitsdojo_window.git
-      path: bitsdojo_window_windows
+# dependency_overrides:
 
 flutter:
   uses-material-design: true

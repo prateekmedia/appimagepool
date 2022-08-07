@@ -22,40 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
-  bitsdojo_window_linux:
-    dependency: "direct overridden"
-    description:
-      path: bitsdojo_window_linux
-      ref: HEAD
-      resolved-ref: "85e5d1481c52c950f488130d26b5b6dcc48b6d64"
-      url: "https://github.com/prateekmedia/bitsdojo_window.git"
-    source: git
-    version: "0.1.1"
-  bitsdojo_window_macos:
-    dependency: "direct overridden"
-    description:
-      path: bitsdojo_window_macos
-      ref: HEAD
-      resolved-ref: "85e5d1481c52c950f488130d26b5b6dcc48b6d64"
-      url: "https://github.com/prateekmedia/bitsdojo_window.git"
-    source: git
-    version: "0.1.0"
-  bitsdojo_window_platform_interface:
-    dependency: transitive
-    description:
-      name: bitsdojo_window_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
-  bitsdojo_window_windows:
-    dependency: "direct overridden"
-    description:
-      path: bitsdojo_window_windows
-      ref: HEAD
-      resolved-ref: "85e5d1481c52c950f488130d26b5b6dcc48b6d64"
-      url: "https://github.com/prateekmedia/bitsdojo_window.git"
-    source: git
-    version: "0.1.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -314,13 +280,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  libadwaita_bitsdojo:
-    dependency: "direct main"
-    description:
-      name: libadwaita_bitsdojo
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.5"
   libadwaita_core:
     dependency: transitive
     description:
@@ -335,6 +294,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.6+1"
+  libadwaita_window_manager:
+    dependency: "direct main"
+    description:
+      name: libadwaita_window_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.4+1"
   lints:
     dependency: transitive
     description:
@@ -545,6 +511,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.5"
+  screen_retriever:
+    dependency: transitive
+    description:
+      name: screen_retriever
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -774,6 +747,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.6.1"
+  window_manager:
+    dependency: "direct main"
+    description:
+      name: window_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.5"
   xdg_directories:
     dependency: transitive
     description:
@@ -789,5 +769,5 @@ packages:
     source: hosted
     version: "5.4.1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.6 <3.0.0"
   flutter: ">=3.0.0"

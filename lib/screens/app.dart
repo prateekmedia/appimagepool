@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:libadwaita_bitsdojo/libadwaita_bitsdojo.dart';
+import 'package:libadwaita_window_manager/libadwaita_window_manager.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -55,7 +55,7 @@ class AppPage extends HookConsumerWidget {
     final _current = useState<int>(0);
 
     return AdwScaffold(
-      actions: AdwActions().bitsdojo,
+      actions: AdwActions().windowManager,
       title: Text(app.name!),
       start: [
         AdwHeaderButton(

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:libadwaita/libadwaita.dart';
-import 'package:libadwaita_bitsdojo/libadwaita_bitsdojo.dart';
+import 'package:libadwaita_window_manager/libadwaita_window_manager.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -143,7 +143,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     return AdwScaffold(
-      actions: AdwActions().bitsdojo,
+      actions: AdwActions().windowManager,
       headerBarStyle: const HeaderBarStyle(
         titlebarSpace: 0,
       ),
@@ -224,8 +224,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                           context: context,
                           builder: (ctx) => AdwAboutWindow(
                             actions: AdwActions(
-                              onDoubleTap: appWindow?.maximizeOrRestore,
-                              onHeaderDrag: appWindow?.startDragging,
+                              onDoubleTap:
+                                  AdwActions().windowManager.onDoubleTap,
+                              onHeaderDrag:
+                                  AdwActions().windowManager.onHeaderDrag,
                               onClose: context.back,
                             ),
                             headerBarStyle: const HeaderBarStyle(
