@@ -1,0 +1,30 @@
+name: appimagepool
+version: '5.0.0'
+summary: appimagepool
+description: appimagepool
+grade: stable
+
+confinement: strict
+base: core18
+icon: assets/appimagepool.svg
+
+parts:
+  appimagepool:
+    plugin: flutter
+    source: https://github.com/prateekmedia/appimagepool.git
+    source-tag: 5.0.0
+    flutter-target: lib/main.dart
+
+apps:
+  appimagepool:
+    command: bin/appimagepool
+    extensions: [flutter-stable]
+    plugs:
+      - desktop
+      - desktop-legacy
+      - gsettings
+      - opengl
+      - wayland
+      - x11
+      - network
+      - home
