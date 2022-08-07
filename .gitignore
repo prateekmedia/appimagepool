@@ -34,7 +34,6 @@ com.prateekmedia*
 .pub/
 build/
 target/
-.metadata
 
 # Android related
 **/android/**/gradle-wrapper.jar
