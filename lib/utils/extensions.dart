@@ -30,7 +30,7 @@ extension CategoryIterable<E> on Iterable<E> {
 }
 
 extension UrlLauncher on String {
-  launchIt() async => await launch(this);
+  launchIt() async => await launchUrl(Uri.parse(this));
 }
 
 extension GetHumanizedFileSizeExtension on int {

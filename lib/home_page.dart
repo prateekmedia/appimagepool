@@ -16,7 +16,6 @@ import 'package:appimagepool/screens/screens.dart';
 import 'package:appimagepool/widgets/widgets.dart';
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/translations/translations.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulHookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -241,7 +240,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   var entry = developers[index];
                                   return AdwActionRow(
                                     title: entry.name,
-                                    onActivated: () => launch(entry.url),
+                                    onActivated: entry.url.launchIt,
                                   );
                                 }),
                               ),
@@ -252,7 +251,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   var entry = translators[index];
                                   return AdwActionRow(
                                     title: entry.name,
-                                    onActivated: () => launch(entry.url),
+                                    onActivated: entry.url.launchIt,
                                   );
                                 }),
                               ),
