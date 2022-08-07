@@ -15,7 +15,7 @@ class Configuration extends ConfigurationImpl {
     skipTaskbar: false,
     backgroundColor: Colors.transparent,
     titleBarStyle: TitleBarStyle.hidden,
-    title: 'PsTube',
+    title: 'AppImage Pool',
   );
 
   static Future<void> initWindowManager() async {

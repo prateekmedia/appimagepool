@@ -21,16 +21,16 @@ dependencies:
   flutter_spinkit: ^5.1.0
   flutter_svg: ^1.0.0
   gap: ^2.0.0
-  hooks_riverpod: ^2.0.0-dev.0
+  hooks_riverpod: ^2.0.0-dev.9
   intl: ^0.17.0
-  libadwaita: ^1.2.0-dev
+  libadwaita: ^1.2.1
   libadwaita_searchbar: ^0.5.0+1
   libadwaita_window_manager:
   lucide_icons: ^0.16.13
   package_info_plus: ^1.0.6
   path_provider: ^2.0.5
   shared_preferences: ^2.0.8
-  simple_html_css: ^3.0.1
+  simple_html_css: ^4.0.0
   sticky_headers: ^0.2.0
   url_launcher: ^6.0.12
   window_manager: ^0.2.5
@@ -40,7 +40,11 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^1.0.0
 
-# dependency_overrides:
+dependency_overrides:
+  window_manager:
+    git:
+      url: https://github.com/prateekmedia/window_manager
+      ref: patch-1
 
 flutter:
   uses-material-design: true

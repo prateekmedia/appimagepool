@@ -155,35 +155,37 @@ class _HomePageState extends ConsumerState<HomePage> {
           onPressed: switchSearchBar,
         ),
       ],
-      title: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-        color: Theme.of(context).appBarTheme.backgroundColor,
-        constraints: BoxConstraints.loose(const Size(500, 50)),
-        child: RawKeyboardListener(
-          child: TextField(
-            textAlignVertical: TextAlignVertical.center,
-            autofocus: true,
-            onChanged: (query) => searchedTerm.value = query,
-            style: context.textTheme.bodyText1!.copyWith(fontSize: 14),
-            decoration: InputDecoration(
-              fillColor: context.theme.canvasColor,
-              contentPadding: const EdgeInsets.only(top: 8),
-              isCollapsed: true,
-              filled: true,
-              prefixIcon: const Icon(Icons.search, size: 18),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
-            ),
-          ),
-          focusNode: FocusNode(),
-          onKey: (event) {
-            if (event.runtimeType == RawKeyDownEvent &&
-                event.logicalKey.keyId == 4294967323) {
-              switchSearchBar(false);
-            }
-          },
-        ),
-      ),
+      title: toggleSearch.value
+          ? Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              color: Theme.of(context).appBarTheme.backgroundColor,
+              constraints: BoxConstraints.loose(const Size(500, 50)),
+              child: RawKeyboardListener(
+                child: TextField(
+                  textAlignVertical: TextAlignVertical.center,
+                  autofocus: true,
+                  onChanged: (query) => searchedTerm.value = query,
+                  style: context.textTheme.bodyText1!.copyWith(fontSize: 14),
+                  decoration: InputDecoration(
+                    fillColor: context.theme.canvasColor,
+                    contentPadding: const EdgeInsets.only(top: 8),
+                    isCollapsed: true,
+                    filled: true,
+                    prefixIcon: const Icon(Icons.search, size: 18),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6)),
+                  ),
+                ),
+                focusNode: FocusNode(),
+                onKey: (event) {
+                  if (event.runtimeType == RawKeyDownEvent &&
+                      event.logicalKey.keyId == 4294967323) {
+                    switchSearchBar(false);
+                  }
+                },
+              ),
+            )
+          : null,
       end: !toggleSearch.value
           ? [
               GtkPopupMenu(

@@ -9,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/providers/providers.dart';
 import 'package:appimagepool/translations/translations.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(context, ref) {
+    final virtualWindowFrameBuilder = VirtualWindowFrameInit();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -37,6 +39,10 @@ class MyApp extends ConsumerWidget {
           return deviceLocale;
         }
         return const Locale('en');
+      },
+      builder: (_, child) {
+        child = virtualWindowFrameBuilder(context, child);
+        return child;
       },
       darkTheme: AdwaitaThemeData.dark(),
       themeMode: ref.watch(forceDarkThemeProvider),
