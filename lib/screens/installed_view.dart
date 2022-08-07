@@ -71,12 +71,6 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
 
                       bool isIntegrated = integratedIndex >= 0;
 
-                      void removeItem() async {
-                        File(i.path).deleteSync();
-                        listInstalled.removeAt(index);
-                        setState(() {});
-                      }
-
                       void integrateOrRemove() async {
                         if (isIntegrated) {
                           // Delete Icons
@@ -254,6 +248,13 @@ class _InstalledViewState extends ConsumerState<InstalledView> {
                         }
 
                         updateContent();
+                      }
+
+                      void removeItem() async {
+                        if (isIntegrated) integrateOrRemove();
+                        File(i.path).deleteSync();
+                        listInstalled.removeAt(index);
+                        setState(() {});
                       }
 
                       return ListTile(
