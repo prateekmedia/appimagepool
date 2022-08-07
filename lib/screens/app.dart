@@ -198,7 +198,7 @@ class AppPage extends HookConsumerWidget {
                         initialPage: 0,
                         enableInfiniteScroll: true,
                         reverse: false,
-                        autoPlay: true,
+                        autoPlay: app.screenshotsUrl!.length > 1,
                         autoPlayInterval: const Duration(seconds: 3),
                         autoPlayAnimationDuration:
                             const Duration(milliseconds: 800),
