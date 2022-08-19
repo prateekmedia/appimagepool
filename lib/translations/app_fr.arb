@@ -1,5 +1,5 @@
 {
-  "startingDownload": "Démarrage du téléchargement",
+  "startingDownload": "Démarrage du téléchargement…",
   "@startingDownload": {},
   "seeAll": "Tout voir",
   "@seeAll": {},
@@ -47,7 +47,7 @@
   "@installed": {},
   "close": "Fermer",
   "@close": {},
-  "fetchingSoftwares": "Récupération de logiciels",
+  "fetchingSoftwares": "Récupération de logiciels…",
   "@fetchingSoftwares": {},
   "downloads": "Téléchargements",
   "@downloads": {},
