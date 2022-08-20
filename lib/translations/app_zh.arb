@@ -47,7 +47,7 @@
   "@startingDownload": {},
   "cancelled": "已取消",
   "@cancelled": {},
-  "noAppImageInThisRelease": "找不到Appimage版本",
+  "noAppImageInThisRelease": "找不到 Appimage 版本",
   "@noAppImageInThisRelease": {},
   "noSearchResult": "找不到搜索项，\n请尝试更改搜索词。",
   "@noSearchResult": {},
