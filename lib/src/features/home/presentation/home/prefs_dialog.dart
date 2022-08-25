@@ -3,7 +3,7 @@ import 'package:appimagepool/src/features/download/data/download_provider.dart';
 import 'package:appimagepool/src/features/home/application/reset_all.dart';
 import 'package:appimagepool/src/features/home/data/local_path_provider.dart';
 import 'package:appimagepool/src/features/home/data/portable_appimage_provider.dart';
-import 'package:appimagepool/src/features/theme/theme_mode.dart';
+import 'package:appimagepool/src/features/theme/data/theme_mode.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:libadwaita/libadwaita.dart';

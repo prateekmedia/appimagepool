@@ -1,5 +1,5 @@
-import 'package:appimagepool/src/features/theme/app_theme.dart';
-import 'package:appimagepool/src/features/theme/theme_mode.dart';
+import 'package:appimagepool/src/features/theme/domain/app_theme.dart';
+import 'package:appimagepool/src/features/theme/data/theme_mode.dart';
 import 'package:appimagepool/translations/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
