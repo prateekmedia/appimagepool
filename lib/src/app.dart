@@ -13,7 +13,9 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(context, ref) {
+    final themeMode = ref.watch(themeModeProvider);
     final virtualWindowFrameBuilder = VirtualWindowFrameInit();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -35,7 +37,7 @@ class MyApp extends ConsumerWidget {
       },
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ref.watch(themeModeProvider),
+      themeMode: themeMode,
       home: const HomePage(),
     );
   }

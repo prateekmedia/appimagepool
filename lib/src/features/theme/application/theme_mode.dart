@@ -13,8 +13,8 @@ final themeModeProvider =
 class ThemeModeNotifier extends StateNotifier<ThemeMode> {
   ThemeModeNotifier(state) : super(state);
 
-  toggle(Brightness brightness) {
-    state = brightness == Brightness.dark ? ThemeMode.light : ThemeMode.dark;
+  toggle(bool isDark) {
+    state = isDark ? ThemeMode.light : ThemeMode.dark;
     MyPrefs().prefs.setInt('forceDark', state.index);
   }
 

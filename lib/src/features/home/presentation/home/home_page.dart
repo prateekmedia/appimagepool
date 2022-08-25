@@ -92,7 +92,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               "https://gist.githubusercontent.com/prateekmedia/44c1ea7f7a627d284b9e50d47aa7200f/raw/gistfile1.txt"))
           .data);
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint("$e");
       setState(() => _isConnected = false);
       return;
     }

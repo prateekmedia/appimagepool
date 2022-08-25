@@ -110,9 +110,8 @@ class PrefsDialog extends HookConsumerWidget {
             AdwSwitchRow(
               title: AppLocalizations.of(context)!.forceDarkTheme,
               value: context.isDark,
-              onChanged: (value) => ref
-                  .read(themeModeProvider.notifier)
-                  .toggle(context.brightness),
+              onChanged: (value) =>
+                  ref.read(themeModeProvider.notifier).toggle(context.isDark),
             ),
             AdwSwitchRow(
               title: AppLocalizations.of(context)!.portableHome,

@@ -62,7 +62,7 @@ class DownloadingStatusNotifier extends ChangeNotifier {
       try {
         Directory(location).createSync();
       } catch (e) {
-        debugPrint(e.toString());
+        debugPrint("$e");
         return;
       }
     }

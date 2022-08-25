@@ -97,7 +97,7 @@ class AppimageToolsRepository {
           .trim();
 
       // Update desktop file
-      debugPrint((await Process.run(
+      await Process.run(
         "sed",
         [
           "s:Exec=$execPath:Exec=$newPath:g",
@@ -105,9 +105,9 @@ class AppimageToolsRepository {
           "-i",
         ],
         workingDirectory: _localPathService.applicationsDir,
-      ))
-          .stderr);
-      debugPrint((await Process.run(
+      );
+
+      await Process.run(
         "sed",
         [
           "s:Icon=$iconName:Icon=aip_${iconName}_$checksum:",
@@ -115,10 +115,9 @@ class AppimageToolsRepository {
           desktopfilename,
         ],
         workingDirectory: _localPathService.applicationsDir,
-      ))
-          .stderr);
-    } catch (_) {
-      debugPrint("Desktop fileSystemEnFileSystemEntity not found!");
+      );
+    } catch (e) {
+      debugPrint("$e");
     }
 
     // Copy Icons
