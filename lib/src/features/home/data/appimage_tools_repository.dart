@@ -19,7 +19,8 @@ class AppimageToolsRepository {
   final LocalPathService _localPathService;
 
   Future<void> integrate(
-    String name,
+    List<String> content,
+    int index,
     FileSystemEntity file,
   ) async {
     String tempDir = (await getTemporaryDirectory()).path +
@@ -145,7 +146,8 @@ class AppimageToolsRepository {
   }
 
   Future<void> remove(
-    String name,
+    List<String> content,
+    int index,
     FileSystemEntity file,
   ) async {
     // Delete Icons
@@ -153,7 +155,7 @@ class AppimageToolsRepository {
       "grep",
       [
         "^Icon=",
-        _localPathService.applicationsDir + name + ".desktop",
+        _localPathService.applicationsDir + content[index] + ".desktop",
       ],
       runInShell: true,
       workingDirectory: _localPathService.applicationsDir,
@@ -169,7 +171,8 @@ class AppimageToolsRepository {
     }
 
     // Delete Desktop file
-    await File(_localPathService.applicationsDir + name + ".desktop").delete();
+    await File(_localPathService.applicationsDir + content[index] + ".desktop")
+        .delete();
 
     // Remove checksum from app name
     final basenl = p.basenameWithoutExtension(file.path).split('_');
@@ -184,24 +187,26 @@ class AppimageToolsRepository {
   }
 
   Future<void> integrateOrRemove({
-    required String name,
+    required List<String> content,
+    required int index,
     required FileSystemEntity file,
     bool isIntegrated = true,
   }) async {
     if (isIntegrated) {
-      await remove(name, file);
+      await remove(content, index, file);
     } else {
-      await integrate(name, file);
+      await integrate(content, index, file);
     }
   }
 
   Future<void> removeItem({
     required bool isIntegrated,
-    required String name,
+    required List<String> content,
+    required int index,
     required FileSystemEntity file,
   }) async {
     if (isIntegrated) {
-      return await remove(name, file);
+      return await remove(content, index, file);
     }
     await File(file.path).delete();
   }

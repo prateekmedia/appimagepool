@@ -19,9 +19,8 @@ class LocalPathService {
       MyPrefs().prefs.getString('iconsDir') ?? constants.iconsDir;
 
   dynamic get getDirectory {
-    return Directory(ref.read(localPathServiceProvider).applicationsDir)
-            .existsSync()
-        ? Directory(ref.read(localPathServiceProvider).applicationsDir)
+    return Directory(applicationsDir).existsSync()
+        ? Directory(applicationsDir)
             .listSync(recursive: false)
             .map((event) => path.basenameWithoutExtension(event.path))
             .toList()

@@ -29,19 +29,22 @@ class InstalledViewState extends ChangeNotifier {
     this._downloadPath,
     this._installedViewController,
   ) {
-    init();
+    refresh();
   }
 
   Future<void> integrateOrRemove({
     required FileSystemEntity file,
     required int index,
     required bool isIntegrated,
-  }) async =>
-      await _installedViewController.integrateOrRemove(
-        file: file,
-        index: index,
-        isIntegrated: isIntegrated,
-      );
+  }) async {
+    await _installedViewController.integrateOrRemove(
+      file: file,
+      index: index,
+      content: _content,
+      isIntegrated: isIntegrated,
+    );
+    refresh();
+  }
 
   Future<void> removeItem({
     required FileSystemEntity file,
@@ -51,21 +54,21 @@ class InstalledViewState extends ChangeNotifier {
     await _installedViewController.removeItem(
       file: file,
       index: index,
+      content: _content,
       isIntegrated: isIntegrated,
     );
 
     listInstalled.removeAt(index);
+    notifyListeners();
   }
 
-  bool isIntegrated(String path) {
-    int integratedIndex = _content.isNotEmpty
+  int integratedIndex(String path) {
+    return _content.isNotEmpty
         ? _content.indexOf('aip_' + p.basenameWithoutExtension(path))
         : -1;
-
-    return integratedIndex >= 0;
   }
 
-  void init() {
+  void refresh() {
     _content = _localPathService.getDirectory;
     listInstalled = Directory(_downloadPath).existsSync()
         ? Directory(_downloadPath)

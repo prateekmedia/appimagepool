@@ -17,27 +17,29 @@ class InstalledViewController {
 
   final AppimageToolsRepository _appimageToolsRepository;
 
-  List<String> content = [];
-
   Future<void> integrateOrRemove({
     required FileSystemEntity file,
+    required List<String> content,
     required int index,
     required bool isIntegrated,
   }) async =>
       await _appimageToolsRepository.integrateOrRemove(
-        name: content[index],
+        content: content,
+        index: index,
         file: file,
         isIntegrated: isIntegrated,
       );
 
   Future<void> removeItem({
     required FileSystemEntity file,
+    required List<String> content,
     required int index,
     required bool isIntegrated,
   }) async =>
       await _appimageToolsRepository.removeItem(
         isIntegrated: isIntegrated,
-        name: content[index],
+        content: content,
+        index: index,
         file: file,
       );
 }

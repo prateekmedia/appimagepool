@@ -40,7 +40,11 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^1.0.0
 
-# dependency_overrides:
+dependency_overrides:
+  libadwaita:
+    git:
+      url: https://github.com/gtk-flutter/libadwaita.git
+      ref: native-controls
 
 flutter:
   uses-material-design: true

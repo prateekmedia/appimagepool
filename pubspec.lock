@@ -276,9 +276,11 @@ packages:
   libadwaita:
     dependency: "direct main"
     description:
-      name: libadwaita
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: native-controls
+      resolved-ref: ef37e486fb3480186db787c260cdb6ebc7a46a04
+      url: "https://github.com/gtk-flutter/libadwaita.git"
+    source: git
     version: "1.2.5"
   libadwaita_core:
     dependency: transitive
