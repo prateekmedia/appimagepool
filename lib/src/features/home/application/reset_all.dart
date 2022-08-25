@@ -1,5 +1,5 @@
 import 'package:appimagepool/src/features/home/data/portable_appimage_provider.dart';
-import 'package:appimagepool/src/features/theme/data/theme_mode.dart';
+import 'package:appimagepool/src/features/theme/application/theme_mode.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'view_type.dart';
