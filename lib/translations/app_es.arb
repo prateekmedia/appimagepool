@@ -35,7 +35,7 @@
   "@close": {},
   "cantConnect": "No hay conexión",
   "@cantConnect": {},
-  "youNeedInternetConnectionToUse": "Es necesario una conexión a Internet para usar",
+  "youNeedInternetConnectionToUse": "Necesita una conexión a Internet para usar",
   "@youNeedInternetConnectionToUse": {},
   "retry": "Reintentar",
   "@retry": {},
