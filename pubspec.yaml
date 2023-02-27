@@ -14,10 +14,10 @@ dependencies:
   cached_network_image: ^3.1.0
   carousel_slider: ^4.0.0
   desktop_notifications: ^0.6.3
-  dio: ^4.0.0
+  dio: ^5.0.1
   flutter_localizations: 
     sdk: flutter
-  file_picker: ^4.3.2
+  file_picker: ^5.2.5
   flutter_spinkit: ^5.1.0
   flutter_svg: ^1.0.0
   gap: ^2.0.0
@@ -26,19 +26,20 @@ dependencies:
   libadwaita: ^1.2.5
   libadwaita_searchbar: ^0.5.0+1
   libadwaita_window_manager:
-  lucide_icons: ^0.16.13
+  lucide_icons: ^0.115.0
   package_info_plus: ^1.0.6
   path_provider: ^2.0.5
   shared_preferences: ^2.0.8
   simple_html_css: ^4.0.0
-  sticky_headers: ^0.2.0
+  sticky_headers: ^0.3.0+2
   url_launcher: ^6.0.12
-  window_manager: ^0.2.6
+  window_manager: ^0.3.1
+  file: ^6.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 dependency_overrides:
   libadwaita:
