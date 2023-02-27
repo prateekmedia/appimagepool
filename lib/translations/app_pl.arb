@@ -41,7 +41,7 @@
   "@portableConfig": {},
   "restoreDefaults": "Przywróć ustawienia domyślne",
   "@restoreDefaults": {},
-  "chooseFolder": "Wybierz Folder",
+  "chooseFolder": "Wybierz folder",
   "@chooseFolder": {},
   "multimedia": "Multimedia",
   "@multimedia": {},
@@ -96,5 +96,7 @@
   "cancelled": "Anulowano",
   "@cancelled": {},
   "forceDarkTheme": "Wymuś użycie ciemnego motywu",
-  "@forceDarkTheme": {}
+  "@forceDarkTheme": {},
+  "noAppImageInThisRelease": "Nie znaleziono AppImage w tej wersji",
+  "@noAppImageInThisRelease": {}
 }
