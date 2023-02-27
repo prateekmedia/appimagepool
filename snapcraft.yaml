@@ -1,5 +1,5 @@
 name: appimagepool
-version: '5.0.0'
+version: '5.1.0'
 summary: appimagepool
 description: appimagepool
 grade: stable
@@ -12,7 +12,7 @@ parts:
   appimagepool:
     plugin: flutter
     source: https://github.com/prateekmedia/appimagepool.git
-    source-tag: 5.0.0
+    source-tag: 5.1.0
     flutter-target: lib/main.dart
 
 apps:
