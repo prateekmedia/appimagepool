@@ -94,7 +94,7 @@ jobs:
 
           install: |
               apt-get update -q -y
-              apt-get install -q -y ninja-build libgtk-3-dev git snap
+              apt-get install -q -y ninja-build libgtk-3-dev git snapd
               snap install flutter --classic
 
           run: |
