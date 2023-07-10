@@ -67,7 +67,7 @@
   "@browseFolder": {},
   "chooseFolder": "یک پوشه را انتخاب کنید",
   "@chooseFolder": {},
-  "multimedia": "Multimedia",
+  "multimedia": "چند رسانه ای",
   "@multimedia": {},
   "video": "ویدیو",
   "@video": {},
@@ -94,5 +94,9 @@
   "finance": "مالی",
   "@finance": {},
   "others": "غیره",
-  "@others": {}
+  "@others": {},
+  "integrate": "کامل کردن",
+  "@integrate": {},
+  "disintegrate": "متلاشی شدن",
+  "@disintegrate": {}
 }
