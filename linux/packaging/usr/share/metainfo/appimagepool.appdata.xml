@@ -2,7 +2,7 @@
 <component type="desktop-application">
 	<id>appimagepool</id>
 	<name>AppImage Pool</name>
-	<summary>A simple, modern AppImageHub Client.</summary>
+	<summary>A simple, modern AppImageHub Client</summary>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-only</project_license>
 	<recommends>
