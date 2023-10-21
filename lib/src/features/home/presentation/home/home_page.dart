@@ -245,18 +245,24 @@ class _HomePageState extends ConsumerState<HomePage> {
                               AdwPreferencesGroup.creditsBuilder(
                                 title: AppLocalizations.of(context)!.authors,
                                 itemCount: developers.length,
-                                itemBuilder: (_, index) => AdwActionRow(
-                                  title: developers[index].name,
-                                  onActivated: developers[index].url.launchIt,
-                                ),
+                                itemBuilder: (_, index) {
+                                  var entry = developers[index];
+                                  return AdwActionRow(
+                                    title: entry.name,
+                                    onActivated: entry.url.launchIt,
+                                  );
+                                },
                               ),
                               AdwPreferencesGroup.creditsBuilder(
                                 title: "Translators",
                                 itemCount: translators.length,
-                                itemBuilder: (_, index) => AdwActionRow(
-                                  title: translators[index].name,
-                                  onActivated: translators[index].url.launchIt,
-                                ),
+                                itemBuilder: (_, index) {
+                                  var entry = translators[index];
+                                  return AdwActionRow(
+                                    title: entry.name,
+                                    onActivated: entry.url.launchIt,
+                                  );
+                                },
                               ),
                             ],
                             appIcon: SvgPicture.network(
