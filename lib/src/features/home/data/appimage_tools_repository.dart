@@ -150,7 +150,7 @@ class AppimageToolsRepository {
             .listSync()
             .firstWhere((element) =>
                 p.basenameWithoutExtension(element.path) == desktopBasename
-                && ['.png', '.svg', '.xpm'].contains(p.extension(element.path))
+                && ['.png', '.svg'].contains(p.extension(element.path))
             );
 
         if (icon is File) {
@@ -160,11 +160,19 @@ class AppimageToolsRepository {
             );
           }
 
-          var iconData = await decodeImageFromList(icon.readAsBytesSync());
-          int iconSize = iconData.height;
-          var iconFilename = "aip_${desktopBasename}_$checksum" + p.extension(icon.path);
+          String sizeName;
+          String iconExt = p.extension(icon.path);
+          if (iconExt == '.png') {
+            var iconData = await decodeImageFromList(icon.readAsBytesSync());
+            int iconSize = iconData.height;
+            sizeName = "${iconSize}x${iconSize}";
+          } else {
+            sizeName = "scalable";
+          }
+
+          var iconFilename = "aip_${desktopBasename}_${checksum}${iconExt}";
           icon.moveResolvedFile(
-            localShareDir + "/icons/hicolor/${iconSize}x${iconSize}/apps/${iconFilename}"
+            localShareDir + "/icons/hicolor/${sizeName}/apps/${iconFilename}"
           );
         }
       } catch (e) {
