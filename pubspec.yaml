@@ -5,7 +5,7 @@ version: 5.1.0
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -19,15 +19,15 @@ dependencies:
     sdk: flutter
   file_picker: ^5.2.5
   flutter_spinkit: ^5.1.0
-  flutter_svg: ^1.0.0
-  gap: ^2.0.0
+  flutter_svg: ^2.0.6
+  gap: ^3.0.1
   hooks_riverpod: ^2.0.0-dev.9
-  intl: ^0.17.0
-  libadwaita: ^1.2.5
+  intl: ^0.18.1
+  libadwaita: ^2.0.0
   libadwaita_searchbar: ^0.5.0+1
   libadwaita_window_manager:
   lucide_icons: ^0.115.0
-  package_info_plus: ^1.0.6
+  package_info_plus: ^4.0.0
   path_provider: ^2.0.5
   shared_preferences: ^2.0.8
   simple_html_css: ^4.0.0
@@ -40,12 +40,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
-
-dependency_overrides:
-  libadwaita:
-    git:
-      url: https://github.com/gtk-flutter/libadwaita.git
-      ref: native-controls
 
 flutter:
   uses-material-design: true
