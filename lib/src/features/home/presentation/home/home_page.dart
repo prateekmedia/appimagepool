@@ -242,27 +242,21 @@ class _HomePageState extends ConsumerState<HomePage> {
                             ),
                             appName: appName,
                             credits: [
-                              AdwPreferencesGroup.credits(
+                              AdwPreferencesGroup.creditsBuilder(
                                 title: AppLocalizations.of(context)!.authors,
-                                children:
-                                    List.generate(developers.length, (index) {
-                                  var entry = developers[index];
-                                  return AdwActionRow(
-                                    title: entry.name,
-                                    onActivated: entry.url.launchIt,
-                                  );
-                                }),
+                                itemCount: developers.length,
+                                itemBuilder: (_, index) => AdwActionRow(
+                                  title: developers[index].name,
+                                  onActivated: developers[index].url.launchIt,
+                                ),
                               ),
-                              AdwPreferencesGroup.credits(
+                              AdwPreferencesGroup.creditsBuilder(
                                 title: "Translators",
-                                children:
-                                    List.generate(translators.length, (index) {
-                                  var entry = translators[index];
-                                  return AdwActionRow(
-                                    title: entry.name,
-                                    onActivated: entry.url.launchIt,
-                                  );
-                                }),
+                                itemCount: translators.length,
+                                itemBuilder: (_, index) => AdwActionRow(
+                                  title: translators[index].name,
+                                  onActivated: translators[index].url.launchIt,
+                                ),
                               ),
                             ],
                             appIcon: SvgPicture.network(
