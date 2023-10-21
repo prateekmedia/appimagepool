@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:appimagepool/src/features/home/data/local_path_provider.dart';
 import 'package:appimagepool/src/constants/constants.dart';
@@ -62,11 +63,14 @@ class AppimageToolsRepository {
     String desktopfilename =
         'aip_' + p.basenameWithoutExtension(newPath) + ".desktop";
 
+    String? desktopBasename;
+
     // Copy desktop file
     try {
       var desktopFile = Directory(squashDir)
           .listSync()
           .firstWhere((element) => p.extension(element.path) == ".desktop");
+      desktopBasename = p.basenameWithoutExtension(desktopFile.path);
       await desktopFile
           .moveFile(_localPathService.applicationsDir + desktopfilename);
       String execPath = (await Process.run(
@@ -139,6 +143,33 @@ class AppimageToolsRepository {
         ["-r", "./usr/share/icons", localShareDir],
         workingDirectory: squashDir,
       ));
+    } else if (desktopBasename != null) {
+      // No icons in {squashDir}/usr/share/icons, search in top-level folder
+      try {
+        var icon = Directory(squashDir)
+            .listSync()
+            .firstWhere((element) =>
+                p.basenameWithoutExtension(element.path) == desktopBasename
+                && ['.png', '.svg', '.xpm'].contains(p.extension(element.path))
+            );
+
+        if (icon is File) {
+          if (!icon.resolveSymbolicLinksSync().startsWith(squashDir + "/")) {
+            throw FileSystemException(
+              'Symlink for icon points out of the AppDir boundary'
+            );
+          }
+
+          var iconData = await decodeImageFromList(icon.readAsBytesSync());
+          int iconSize = iconData.height;
+          var iconFilename = "aip_${desktopBasename}_$checksum" + p.extension(icon.path);
+          icon.moveResolvedFile(
+            localShareDir + "/icons/hicolor/${iconSize}x${iconSize}/apps/${iconFilename}"
+          );
+        }
+      } catch (e) {
+        debugPrint("$e");
+      }
     }
 
     Directory(tempDir).delete(recursive: true);
