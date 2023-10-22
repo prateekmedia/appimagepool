@@ -63,14 +63,13 @@ class AppimageToolsRepository {
     String desktopfilename =
         'aip_' + p.basenameWithoutExtension(newPath) + ".desktop";
 
-    String? desktopBasename;
+    String? iconName;
 
     // Copy desktop file
     try {
       var desktopFile = Directory(squashDir)
           .listSync()
           .firstWhere((element) => p.extension(element.path) == ".desktop");
-      desktopBasename = p.basenameWithoutExtension(desktopFile.path);
       await desktopFile
           .moveFile(_localPathService.applicationsDir + desktopfilename);
       String execPath = (await Process.run(
@@ -87,7 +86,7 @@ class AppimageToolsRepository {
           .split(' ')[0]
           .trim();
 
-      String iconName = (await Process.run(
+      iconName = (await Process.run(
         "grep",
         [
           "^Icon=",
@@ -143,13 +142,13 @@ class AppimageToolsRepository {
         ["-r", "./usr/share/icons", localShareDir],
         workingDirectory: squashDir,
       ));
-    } else if (desktopBasename != null) {
+    } else if (iconName != null) {
       // No icons in {squashDir}/usr/share/icons, search in top-level folder
       try {
         var icon = Directory(squashDir)
             .listSync()
             .firstWhere((element) =>
-                p.basenameWithoutExtension(element.path) == desktopBasename
+                p.basenameWithoutExtension(element.path) == iconName
                 && ['.png', '.svg'].contains(p.extension(element.path))
             );
 
@@ -170,7 +169,7 @@ class AppimageToolsRepository {
             sizeName = "scalable";
           }
 
-          var iconFilename = "aip_${desktopBasename}_${checksum}${iconExt}";
+          var iconFilename = "aip_${iconName}_${checksum}${iconExt}";
           icon.moveResolvedFile(
             localShareDir + "/icons/hicolor/${sizeName}/apps/${iconFilename}"
           );
