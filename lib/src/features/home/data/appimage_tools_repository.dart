@@ -150,19 +150,22 @@ class AppimageToolsRepository {
     FileSystemEntity file,
   ) async {
     // Delete Icons
-    String? iconName = (await Process.run(
-      "grep",
-      [
-        "^Icon=",
-        _localPathService.applicationsDir + content[index] + ".desktop",
-      ],
-      runInShell: true,
-      workingDirectory: _localPathService.applicationsDir,
-    ))
-        .stdout
-        .split("=")
-        .elementAtOrNull(1)
-        ?.trim();
+    String? iconName;
+    try {
+      iconName = (await Process.run(
+        "grep",
+        [
+          "^Icon=",
+          _localPathService.applicationsDir + content[index] + ".desktop",
+        ],
+        runInShell: true,
+        workingDirectory: _localPathService.applicationsDir,
+      ))
+          .stdout
+          .split("=")[1]
+          .trim();
+    } on RangeError {}
+
     for (var icon
         in Directory(_localPathService.iconsDir).listSync(recursive: true)) {
       if (p.basenameWithoutExtension(icon.path) == iconName) {
