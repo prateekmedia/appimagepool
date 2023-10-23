@@ -14,4 +14,9 @@ extension FileMoveExt on FileSystemEntity {
       return newFile;
     }
   }
+
+  Future moveResolvedFile(String newPath) async {
+    final resolvedFile = File(toFile.resolveSymbolicLinksSync());
+    return await resolvedFile.moveFile(newPath);
+  }
 }

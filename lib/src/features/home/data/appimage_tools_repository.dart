@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:appimagepool/src/features/home/data/local_path_provider.dart';
 import 'package:appimagepool/src/constants/constants.dart';
@@ -62,6 +63,8 @@ class AppimageToolsRepository {
     String desktopfilename =
         'aip_' + p.basenameWithoutExtension(newPath) + ".desktop";
 
+    String? iconName;
+
     // Copy desktop file
     try {
       var desktopFile = Directory(squashDir)
@@ -83,7 +86,7 @@ class AppimageToolsRepository {
           .split(' ')[0]
           .trim();
 
-      String iconName = (await Process.run(
+      iconName = (await Process.run(
         "grep",
         [
           "^Icon=",
@@ -139,6 +142,41 @@ class AppimageToolsRepository {
         ["-r", "./usr/share/icons", localShareDir],
         workingDirectory: squashDir,
       ));
+    } else if (iconName != null) {
+      // No icons in {squashDir}/usr/share/icons, search in top-level folder
+      try {
+        var icon = Directory(squashDir)
+            .listSync()
+            .firstWhere((element) =>
+                p.basenameWithoutExtension(element.path) == iconName
+                && ['.png', '.svg'].contains(p.extension(element.path))
+            );
+
+        if (icon is File) {
+          if (!icon.resolveSymbolicLinksSync().startsWith(squashDir + "/")) {
+            throw FileSystemException(
+              'Symlink for icon points out of the AppDir boundary'
+            );
+          }
+
+          String sizeName;
+          String iconExt = p.extension(icon.path);
+          if (iconExt == '.png') {
+            var iconData = await decodeImageFromList(icon.readAsBytesSync());
+            int iconSize = iconData.height;
+            sizeName = "${iconSize}x${iconSize}";
+          } else {
+            sizeName = "scalable";
+          }
+
+          var iconFilename = "aip_${iconName}_${checksum}${iconExt}";
+          icon.moveResolvedFile(
+            localShareDir + "/icons/hicolor/${sizeName}/apps/${iconFilename}"
+          );
+        }
+      } catch (e) {
+        debugPrint("$e");
+      }
     }
 
     Directory(tempDir).delete(recursive: true);
