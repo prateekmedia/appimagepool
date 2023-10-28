@@ -14,7 +14,7 @@ on:
     types: [created]
 
 jobs:
-  build-linux:
+  build-linux-x86_64:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -67,3 +67,72 @@ jobs:
           tag: ${{ github.event_name == 'release' && github.event.release.tag_name || 'continuous' }}
           overwrite: true
           
+  build-linux-aarch64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir artifacts
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build App
+        id: build
+        with:
+          arch: aarch64
+          distro: ubuntu22.04
+
+          # Not required, but speeds up builds
+          githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "${PWD}:/app"
+          
+          shell: /bin/sh
+
+          install: |
+              apt-get update -q -y
+              apt-get install -q -y ninja-build libgtk-3-dev git snapd
+              snap install flutter --classic
+
+          run: |
+            cd /app
+            flutter config --enable-linux-desktop
+            flutter build linux
+            cp -r /app/build/linux/arm64/release/bundle/* /app/artifacts/
+
+      - name: Build Tarball
+        run: |
+          install -D assets/appimagepool.svg linux/packaging/usr/share/icons/hicolor/128x128/apps/appimagepool.svg
+          cp -fr artifacts linux/packaging/usr/bin
+          mkdir AppDir
+          cp -r linux/packaging/usr AppDir
+          ln -sr AppDir/usr/bin/appimagepool AppDir/appimagepool
+          tar czf appimagepool-${{ github.event_name == 'release' && github.event.release.tag_name || 'continuous' }}-aarch64.tar.gz -C AppDir/ .
+
+      - name: Build AppImage
+        run: |
+          echo '#!/bin/sh
+          cd "$(dirname "$0")"
+          exec ./appimagepool' > AppDir/AppRun
+          chmod +x AppDir/AppRun
+          ln -sr AppDir/usr/share/icons/hicolor/128x128/apps/appimagepool.svg AppDir/appimagepool.svg
+          cp AppDir/usr/share/applications/appimagepool.desktop AppDir/appimagepool.desktop
+          curl -L https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage -o appimagetool-aarch64.AppImage
+          chmod +x appimagetool-aarch64.AppImage
+          ARCH=aarch64 ./appimagetool-aarch64.AppImage AppDir/ appimagepool-${{ github.event_name == 'release' && github.event.release.tag_name || 'continuous' }}-aarch64.AppImage
+
+      - name: App tar sha256 sum
+        run: sha256sum appimagepool-*-aarch64.tar.gz
+
+      - uses: svenstaro/upload-release-action@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./appimagepool-*
+          file_glob: true
+          prerelease: ${{ github.event_name != 'release' }}
+          release_name: ${{ github.event_name == 'release' && github.event.release.name || 'Development Build' }}
+          tag: ${{ github.event_name == 'release' && github.event.release.tag_name || 'continuous' }}
+          overwrite: true
