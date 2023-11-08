@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:appimagepool/src/features/download/data/download_provider.dart';
-import 'package:appimagepool/src/utils/category_utils.dart';
+import 'package:appimagepool/src/features/home/presentation/home/home_page_util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,58 +27,6 @@ class HomePage extends StatefulHookConsumerWidget {
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-Map getSimplifiedCategories(List value) {
-  return value.groupBy((m) {
-    List categori = m['categories'];
-    List newList = [];
-    for (var category in categori) {
-      if (category != null && category.length > 0) {
-        if (CategoryUtils.doesContain(category, ['AudioVideo'])) {
-          newList.add('Multimedia');
-        } else if (CategoryUtils.doesContain(category, ['Video'])) {
-          newList.add('Video');
-        } else if (CategoryUtils.doesContain(category, ['Audio', 'Music'])) {
-          newList.add('Audio');
-        } else if (CategoryUtils.doesContain(category, ['Photo'])) {
-          newList.add('Graphics');
-        } else if (CategoryUtils.doesContain(category, ['KDE'])) {
-          newList.add('Qt');
-        } else if (CategoryUtils.doesContain(category, ['GNOME'])) {
-          newList.add('GTK');
-        } else if (CategoryUtils.doesContain(category, [
-          'Application',
-          'AdventureGame',
-          'Astronomy',
-          'Chat',
-          'InstantMessag',
-          'Database',
-          'Engineering',
-          'Electronics',
-          'HamRadio',
-          'IDE',
-          'News',
-          'ProjectManagement',
-          'Settings',
-          'StrategyGame',
-          'TextEditor',
-          'TerminalEmulator',
-          'Viewer',
-          'WebDev',
-          'WordProcessor',
-          'X-Tool',
-        ])) {
-          newList.add('Others');
-        } else {
-          newList.add(category);
-        }
-      } else {
-        newList.add("Others");
-      }
-    }
-    return newList;
-  });
 }
 
 class _HomePageState extends ConsumerState<HomePage> {

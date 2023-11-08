@@ -37,6 +37,7 @@ dependencies:
   file: ^6.1.4
   flutter_hooks: ^0.20.3
   path: ^1.8.3
+  palette_generator: ^0.3.3+3
 
 dev_dependencies:
   flutter_test:

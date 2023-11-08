@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:math' as math;
 
+import 'package:appimagepool/src/features/home/presentation/home/home_page_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,6 +14,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:appimagepool/src/utils/utils.dart';
 import 'package:appimagepool/translations/translations.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 import '../../../app_info/domain/app.dart';
 import '../../../app_info/presentation/app_info.dart';
@@ -128,107 +130,121 @@ class _BrowseViewState extends State<BrowseView>
                                 itemBuilder: (context, index, i) {
                                   App featuredApp = App.fromItem(
                                       widget.featured!.values.toList()[index]);
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: GestureDetector(
-                                      onTap: () => Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (ctx) =>
-                                                  AppInfo(app: featuredApp))),
-                                      child: Stack(
-                                        children: [
-                                          if (featuredApp.screenshotsUrl !=
-                                              null)
-                                            Container(
-                                                constraints:
-                                                    const BoxConstraints
-                                                        .expand(),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: featuredApp
-                                                          .screenshotsUrl![0]
-                                                          .startsWith('http')
-                                                      ? (featuredApp
-                                                          .screenshotsUrl!)[0]
-                                                      : prefixUrl +
-                                                          featuredApp
-                                                              .screenshotsUrl![0],
-                                                  fit: BoxFit.cover,
-                                                )),
-                                          Center(
-                                            child: Container(
-                                              color: context.isDark
-                                                  ? Colors.grey.shade900
-                                                      .withOpacity(0.5)
-                                                  : Colors.grey.shade300
-                                                      .withOpacity(0.5),
-                                              height: 400,
-                                              child: ClipRect(
-                                                child: BackdropFilter(
-                                                  filter: ImageFilter.blur(
-                                                    sigmaX: 10,
-                                                    sigmaY: 10,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 100,
-                                                        child: featuredApp
-                                                                    .iconUrl !=
-                                                                null
-                                                            ? featuredApp
-                                                                    .iconUrl!
-                                                                    .endsWith(
-                                                                        '.svg')
-                                                                ? SvgPicture
-                                                                    .network(
-                                                                    featuredApp
-                                                                        .iconUrl!,
-                                                                  )
-                                                                : CachedNetworkImage(
-                                                                    imageUrl:
-                                                                        featuredApp
-                                                                            .iconUrl!,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    placeholder:
-                                                                        (c, u) =>
-                                                                            const Center(
-                                                                      child:
-                                                                          CircularProgressIndicator(),
-                                                                    ),
-                                                                    errorWidget: (c,
-                                                                            w,
-                                                                            i) =>
-                                                                        brokenImageWidget,
-                                                                  )
-                                                            : brokenImageWidget,
-                                                      ),
-                                                      Flexible(
-                                                        child: Text(
-                                                          featuredApp.name ??
-                                                              AppLocalizations.of(
-                                                                      context)!
-                                                                  .notAvailable,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: context
-                                                              .textTheme
-                                                              .displayLarge,
+                                  return FutureBuilder(
+                                      future:
+                                          PaletteGenerator.fromImageProvider(
+                                        CachedNetworkImageProvider(
+                                          getScreenshotUrl(
+                                              featuredApp.screenshotsUrl![0]),
+                                        ),
+                                      ),
+                                      builder: (context, snapshot) {
+                                        return ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: GestureDetector(
+                                            onTap: () => Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                                    builder: (ctx) => AppInfo(
+                                                        app: featuredApp))),
+                                            child: Stack(
+                                              children: [
+                                                if (featuredApp
+                                                        .screenshotsUrl !=
+                                                    null)
+                                                  Container(
+                                                      constraints:
+                                                          const BoxConstraints
+                                                              .expand(),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: getScreenshotUrl(
+                                                            featuredApp
+                                                                .screenshotsUrl![0]),
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                                Center(
+                                                  child: Container(
+                                                    color: snapshot.data
+                                                        ?.dominantColor?.color
+                                                        .withOpacity(0.4),
+                                                    height: 400,
+                                                    child: ClipRect(
+                                                      child: BackdropFilter(
+                                                        filter:
+                                                            ImageFilter.blur(
+                                                          sigmaX: 10,
+                                                          sigmaY: 10,
                                                         ),
-                                                      )
-                                                    ],
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 100,
+                                                              child: featuredApp
+                                                                          .iconUrl !=
+                                                                      null
+                                                                  ? featuredApp
+                                                                          .iconUrl!
+                                                                          .endsWith(
+                                                                              '.svg')
+                                                                      ? SvgPicture
+                                                                          .network(
+                                                                          featuredApp
+                                                                              .iconUrl!,
+                                                                        )
+                                                                      : CachedNetworkImage(
+                                                                          imageUrl:
+                                                                              featuredApp.iconUrl!,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                          placeholder: (c, u) =>
+                                                                              const Center(
+                                                                            child:
+                                                                                CircularProgressIndicator(),
+                                                                          ),
+                                                                          errorWidget: (c, w, i) =>
+                                                                              brokenImageWidget,
+                                                                        )
+                                                                  : brokenImageWidget,
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 12),
+                                                            Flexible(
+                                                                child: Text(
+                                                              featuredApp
+                                                                      .name ??
+                                                                  AppLocalizations.of(
+                                                                          context)!
+                                                                      .notAvailable,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: context
+                                                                  .textTheme
+                                                                  .displayLarge
+                                                                  ?.copyWith(
+                                                                color: ((snapshot.data?.dominantColor?.color.computeLuminance() ??
+                                                                            0) >
+                                                                        0.5)
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .white,
+                                                              ),
+                                                            ))
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                                        );
+                                      });
                                 },
                                 carouselController: _controller,
                                 options: CarouselOptions(
