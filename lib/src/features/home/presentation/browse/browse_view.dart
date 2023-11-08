@@ -164,9 +164,13 @@ class _BrowseViewState extends State<BrowseView>
                                                       )),
                                                 Center(
                                                   child: Container(
-                                                    color: snapshot.data
-                                                        ?.dominantColor?.color
-                                                        .withOpacity(0.4),
+                                                    color: snapshot
+                                                            .data
+                                                            ?.dominantColor
+                                                            ?.color
+                                                            .withOpacity(0.2) ??
+                                                        Colors.black
+                                                            .withOpacity(0.2),
                                                     height: 400,
                                                     child: ClipRect(
                                                       child: BackdropFilter(
