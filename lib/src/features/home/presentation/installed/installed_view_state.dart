@@ -64,7 +64,7 @@ class InstalledViewState extends ChangeNotifier {
 
   int integratedIndex(String path) {
     return _content.isNotEmpty
-        ? _content.indexOf('aip_' + p.basenameWithoutExtension(path))
+        ? _content.indexOf('aip_${p.basenameWithoutExtension(path)}')
         : -1;
   }
 

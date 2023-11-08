@@ -25,7 +25,7 @@ class CarouselArrow extends ConsumerWidget {
             Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.70),
         child: Icon(
           icon,
-          color: context.textTheme.bodyText1!.color,
+          color: context.textTheme.bodyLarge!.color,
           size: 30,
         ),
       ),

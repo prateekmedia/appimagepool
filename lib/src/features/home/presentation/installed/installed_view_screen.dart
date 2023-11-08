@@ -5,7 +5,7 @@ import 'package:libadwaita/libadwaita.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:appimagepool/src/utils/utils.dart';
 import 'package:appimagepool/translations/translations.dart';
@@ -43,7 +43,7 @@ class _InstalledViewState extends ConsumerState<InstalledViewScreen> {
                       title: Text(
                         path.basenameWithoutExtension(i.path),
                         overflow: TextOverflow.ellipsis,
-                        style: context.textTheme.bodyText1,
+                        style: context.textTheme.bodyLarge,
                       ),
                       subtitle: Text(i.statSync().size.getFileSize()),
                       trailing: Row(
@@ -88,8 +88,7 @@ class _InstalledViewState extends ConsumerState<InstalledViewScreen> {
             final downloadPath = ref.watch(downloadPathProvider);
             return Center(
               child: Text(
-                '${AppLocalizations.of(context)!.noAppImageInThisRelease} ' +
-                    downloadPath,
+                '${AppLocalizations.of(context)!.noAppImageInThisRelease} $downloadPath',
               ),
             );
           });

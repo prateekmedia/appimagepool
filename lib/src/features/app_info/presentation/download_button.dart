@@ -48,13 +48,14 @@ class DownloadButton extends HookConsumerWidget {
                   }
 
                   return PopupMenuItem<String>(
+                    value: i.name,
                     child: Tooltip(
                       message: i.name,
                       child: ListTile(
                         title: Text(
                           i.name,
                           overflow: TextOverflow.ellipsis,
-                          style: context.textTheme.bodyText1,
+                          style: context.textTheme.bodyLarge,
                         ),
                         focusColor: Colors.transparent,
                         hoverColor: Colors.transparent,
@@ -96,7 +97,6 @@ class DownloadButton extends HookConsumerWidget {
                             : () {},
                       ),
                     ),
-                    value: i.name,
                   );
                 },
               ).toList(),

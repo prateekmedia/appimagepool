@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 import 'package:desktop_notifications/desktop_notifications.dart';
 
@@ -15,7 +14,7 @@ import '../domain/query_app.dart';
 final downloadPathProvider =
     StateNotifierProvider<DownloadPathNotifier, String>((ref) {
   return DownloadPathNotifier(MyPrefs().prefs.getString('path') ??
-      path.join(Platform.environment['HOME']!, 'Applications') + '/');
+      '${path.join(Platform.environment['HOME']!, 'Applications')}/');
 });
 
 class DownloadPathNotifier extends StateNotifier<String> {
@@ -23,7 +22,7 @@ class DownloadPathNotifier extends StateNotifier<String> {
 
   set update(String? value) {
     if (value != null) {
-      state = value.endsWith('/') ? value : value + '/';
+      state = value.endsWith('/') ? value : '$value/';
       MyPrefs().prefs.setString('path', state);
     }
   }

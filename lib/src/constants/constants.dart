@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:appimagepool/translations/translations.dart';
 import '../utils/utils.dart';
 
-String localShareDir = (Platform.environment["HOME"] ?? "") + "/.local/share";
+String localShareDir = "${Platform.environment["HOME"] ?? ""}/.local/share";
 
-String applicationsDir = localShareDir + "/applications/";
+String applicationsDir = "$localShareDir/applications/";
 
-String iconsDir = localShareDir + "/icons/";
+String iconsDir = "$localShareDir/icons/";
 
 const String appName = "AppImage Pool";
 

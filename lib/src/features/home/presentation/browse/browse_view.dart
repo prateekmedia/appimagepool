@@ -82,11 +82,11 @@ class _BrowseViewState extends State<BrowseView>
               const Icon(LucideIcons.wifiOff, size: 45),
               const Gap(20),
               Text(AppLocalizations.of(context)!.cantConnect,
-                  style: context.textTheme.headline1),
+                  style: context.textTheme.displayLarge),
               const Gap(12),
               Text(
                   "${AppLocalizations.of(context)!.youNeedInternetConnectionToUse} $appName.",
-                  style: context.textTheme.headline4),
+                  style: context.textTheme.headlineMedium),
               const Gap(20),
               AdwButton(
                   onPressed: widget.getData,
@@ -97,10 +97,10 @@ class _BrowseViewState extends State<BrowseView>
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SpinKitThreeBounce(color: context.textTheme.bodyText1!.color),
+                  SpinKitThreeBounce(color: context.textTheme.bodyLarge!.color),
                   const Gap(20),
                   Text(AppLocalizations.of(context)!.fetchingSoftwares,
-                      style: context.textTheme.headline3),
+                      style: context.textTheme.displaySmall),
                 ],
               )
             : widget.searchedTerm.value.trim().isEmpty &&
@@ -115,7 +115,7 @@ class _BrowseViewState extends State<BrowseView>
                               horizontal: 26, vertical: 4),
                           child: Text(
                             AppLocalizations.of(context)!.featuredApps,
-                            style: context.textTheme.headline4,
+                            style: context.textTheme.headlineMedium,
                           ),
                         ),
                         MouseRegion(
@@ -216,7 +216,7 @@ class _BrowseViewState extends State<BrowseView>
                                                               .ellipsis,
                                                           style: context
                                                               .textTheme
-                                                              .headline1,
+                                                              .displayLarge,
                                                         ),
                                                       )
                                                     ],
@@ -325,7 +325,8 @@ class _BrowseViewState extends State<BrowseView>
                                       children: [
                                         Text(
                                           category.key,
-                                          style: context.textTheme.headline4,
+                                          style:
+                                              context.textTheme.headlineMedium,
                                         ),
                                         AdwButton.flat(
                                           onPressed: () {

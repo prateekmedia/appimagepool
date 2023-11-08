@@ -26,7 +26,7 @@ class ApTile extends StatelessWidget {
           context,
           trailing,
           linksCallback: (link) => link.toString().launchIt(),
-          defaultTextStyle: context.textTheme.bodyText1!
+          defaultTextStyle: context.textTheme.bodyLarge!
               .copyWith(fontWeight: FontWeight.w500),
         ),
       ),

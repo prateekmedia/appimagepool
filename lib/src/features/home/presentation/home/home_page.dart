@@ -26,7 +26,7 @@ class HomePage extends StatefulHookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
 Map getSimplifiedCategories(List value) {
@@ -118,9 +118,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final navrailIndex = useState<int>(0);
     final searchedTerm = useState<String>("");
-    final _currentViewIndex = useState<int>(0);
+    final currentViewIndex = useState<int>(0);
     final toggleSearch = useState<bool>(false);
-    final _controller = PageController();
+    final controller = PageController();
 
     List<DropdownMenuItem> items = [
       DropdownMenuItem(
@@ -142,7 +142,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         .length;
 
     void switchSearchBar([bool? value]) {
-      if (categories == null && _currentViewIndex.value == 0) return;
+      if (categories == null && currentViewIndex.value == 0) return;
       searchedTerm.value = '';
       toggleSearch.value = value ?? !toggleSearch.value;
     }
@@ -166,11 +166,18 @@ class _HomePageState extends ConsumerState<HomePage> {
               color: Theme.of(context).appBarTheme.backgroundColor,
               constraints: BoxConstraints.loose(const Size(500, 50)),
               child: RawKeyboardListener(
+                focusNode: FocusNode(),
+                onKey: (event) {
+                  if (event.runtimeType == RawKeyDownEvent &&
+                      event.logicalKey.keyId == 4294967323) {
+                    switchSearchBar(false);
+                  }
+                },
                 child: TextField(
                   textAlignVertical: TextAlignVertical.center,
                   autofocus: true,
                   onChanged: (query) => searchedTerm.value = query,
-                  style: context.textTheme.bodyText1!.copyWith(fontSize: 14),
+                  style: context.textTheme.bodyLarge!.copyWith(fontSize: 14),
                   decoration: InputDecoration(
                     fillColor: context.theme.canvasColor,
                     contentPadding: const EdgeInsets.only(top: 8),
@@ -181,13 +188,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                         borderRadius: BorderRadius.circular(6)),
                   ),
                 ),
-                focusNode: FocusNode(),
-                onKey: (event) {
-                  if (event.runtimeType == RawKeyDownEvent &&
-                      event.logicalKey.keyId == 4294967323) {
-                    switchSearchBar(false);
-                  }
-                },
               ),
             )
           : null,
@@ -205,7 +205,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.preferences,
-                        style: context.textTheme.bodyText1,
+                        style: context.textTheme.bodyLarge,
                       ),
                       onPressed: () {
                         context.back();
@@ -223,7 +223,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.aboutApp,
-                        style: context.textTheme.bodyText1,
+                        style: context.textTheme.bodyLarge,
                       ),
                       onPressed: () {
                         context.back();
@@ -283,7 +283,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       flapController: _flapController,
       flap: (drawer) => buildSidebar(context, ref, navrailIndex, drawer),
       flapOptions: FlapOptions(
-        visible: _currentViewIndex.value == 0,
+        visible: currentViewIndex.value == 0,
       ),
       body: RawKeyboardListener(
         focusNode: FocusNode(),
@@ -295,10 +295,10 @@ class _HomePageState extends ConsumerState<HomePage> {
           }
         },
         child: PageView(
-          controller: _controller,
+          controller: controller,
           onPageChanged: (index) {
-            _currentViewIndex.value = index;
-            if (_currentViewIndex.value != 0) {
+            currentViewIndex.value = index;
+            if (currentViewIndex.value != 0) {
               _flapController.close();
             } else {
               _flapController.isOpen = true;
@@ -323,11 +323,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                         height: 39,
                         padding: const EdgeInsets.symmetric(vertical: 2),
                         child: GtkToggleButton(
-                          children: items,
                           onPressed: (value) =>
                               ref.read(viewTypeProvider.notifier).update(),
                           isSelected: List.generate(items.length,
                               (idx) => idx == ref.watch(viewTypeProvider)),
+                          children: items,
                         ),
                       ),
                     ],
@@ -356,8 +356,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
       viewSwitcher: !toggleSearch.value
           ? AdwViewSwitcher(
-              currentIndex: _currentViewIndex.value,
-              onViewChanged: _controller.jumpToPage,
+              currentIndex: currentViewIndex.value,
+              onViewChanged: controller.jumpToPage,
               tabs: [
                 ViewSwitcherData(
                   title: AppLocalizations.of(context)!.browse,

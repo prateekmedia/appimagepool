@@ -75,6 +75,7 @@ class CustomDialogBox extends HookConsumerWidget {
               },
               items: downloadItems.asMap().entries.map((entry) {
                 return DropdownMenuItem<int>(
+                  value: entry.key,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -82,7 +83,6 @@ class CustomDialogBox extends HookConsumerWidget {
                       Text(DateFormat('MMM dd yyyy').format(entry.value.date)),
                     ],
                   ),
-                  value: entry.key,
                 );
               }).toList(),
             ),

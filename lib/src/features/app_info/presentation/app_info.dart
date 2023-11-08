@@ -56,7 +56,7 @@ class AppInfo extends HookConsumerWidget {
               )
             : SvgPicture.network(app.iconUrl!, width: size)
         : brokenImageWidget;
-    final _current = useState<int>(0);
+    final current = useState<int>(0);
 
     return AdwScaffold(
       actions: AdwActions().windowManager,
@@ -107,14 +107,14 @@ class AppInfo extends HookConsumerWidget {
                                   app.name ??
                                       AppLocalizations.of(context)!
                                           .notAvailable,
-                                  style: context.textTheme.headline4),
+                                  style: context.textTheme.headlineMedium),
                               SelectableText(
                                   (app.categories != null &&
                                           app.categories!.isNotEmpty
                                       ? app.categories!.join(', ')
                                       : AppLocalizations.of(context)!
                                           .notAvailable),
-                                  style: context.textTheme.bodyText2),
+                                  style: context.textTheme.bodyMedium),
                             ],
                           ),
                         ),
@@ -131,8 +131,8 @@ class AppInfo extends HookConsumerWidget {
                                         isLoadingDL.value = true;
                                         List<String> v =
                                             url.split('github.com');
-                                        var u = 'https://api.github.com/repos' +
-                                            v[1];
+                                        var u =
+                                            'https://api.github.com/repos${v[1]}';
                                         List response;
                                         try {
                                           response = (await Dio().get(u)).data;
@@ -140,7 +140,8 @@ class AppInfo extends HookConsumerWidget {
                                           isLoadingDL.value = false;
                                           return;
                                         }
-                                        if (response.isNotEmpty) {
+                                        if (response.isNotEmpty &&
+                                            context.mounted) {
                                           await showDialog(
                                             context: context,
                                             builder: (BuildContext context) =>
@@ -210,7 +211,7 @@ class AppInfo extends HookConsumerWidget {
                         enlargeCenterPage: true,
                         scrollDirection: Axis.horizontal,
                         onPageChanged: (idx, rsn) {
-                          _current.value = idx;
+                          current.value = idx;
                         }),
                   ),
                 const Gap(5),
@@ -230,7 +231,7 @@ class AppInfo extends HookConsumerWidget {
                               vertical: 10.0, horizontal: 2.0),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: _current.value == index
+                            color: current.value == index
                                 ? (context.isDark ? Colors.white : Colors.black)
                                     .withOpacity(0.9)
                                 : (context.isDark ? Colors.white : Colors.black)
@@ -250,7 +251,7 @@ class AppInfo extends HookConsumerWidget {
                               app.description!.toString().trim().isNotEmpty)
                           ? app.description!
                           : AppLocalizations.of(context)!.noDescriptionFound,
-                      defaultTextStyle: context.textTheme.bodyText1!)),
+                      defaultTextStyle: context.textTheme.bodyLarge!)),
                 ),
                 ApTile(
                   title: AppLocalizations.of(context)!.license,
@@ -284,7 +285,7 @@ class DownloadDialog extends StatefulHookWidget {
       : super(key: key);
 
   @override
-  _DownloadDialogState createState() => _DownloadDialogState();
+  State<DownloadDialog> createState() => _DownloadDialogState();
 }
 
 class _DownloadDialogState extends State<DownloadDialog> {

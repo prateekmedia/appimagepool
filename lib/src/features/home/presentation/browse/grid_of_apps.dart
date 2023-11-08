@@ -87,7 +87,7 @@ class _GridOfAppsState extends State<GridOfApps> {
                                                 .notAvailable,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: context.textTheme.bodyText1!
+                                        style: context.textTheme.bodyLarge!
                                             .copyWith(
                                                 color: context.isDark
                                                     ? Colors.white
@@ -101,7 +101,7 @@ class _GridOfAppsState extends State<GridOfApps> {
                                             .replaceAll(RegExp(r"<[^>]*>"), ''),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: context.textTheme.bodyText1!
+                                        style: context.textTheme.bodyLarge!
                                             .copyWith(
                                                 color: context.isDark
                                                     ? Colors.white
@@ -176,7 +176,7 @@ class _GridOfAppsState extends State<GridOfApps> {
                                   AppLocalizations.of(context)!.notAvailable,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: context.textTheme.bodyText1!.copyWith(
+                              style: context.textTheme.bodyLarge!.copyWith(
                                   color: context.isDark
                                       ? Colors.white
                                       : Colors.grey[900]),

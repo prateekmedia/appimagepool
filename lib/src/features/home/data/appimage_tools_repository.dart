@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:appimagepool/src/features/home/data/local_path_provider.dart';
 import 'package:appimagepool/src/constants/constants.dart';
@@ -24,9 +23,8 @@ class AppimageToolsRepository {
     int index,
     FileSystemEntity file,
   ) async {
-    String tempDir = (await getTemporaryDirectory()).path +
-        "/appimagepool_" +
-        p.basenameWithoutExtension(file.path);
+    String tempDir =
+        "${(await getTemporaryDirectory()).path}/appimagepool_${p.basenameWithoutExtension(file.path)}";
 
     // Create Temporary Directory
     Directory dir = Directory(tempDir);
@@ -55,13 +53,13 @@ class AppimageToolsRepository {
         .trim();
 
     var newPath =
-        p.withoutExtension(file.path) + '_$checksum' + p.extension(file.path);
+        '${p.withoutExtension(file.path)}_$checksum${p.extension(file.path)}';
     file.moveFile(newPath);
 
-    String squashDir = tempDir + "/squashfs-root";
+    String squashDir = "$tempDir/squashfs-root";
 
     String desktopfilename =
-        'aip_' + p.basenameWithoutExtension(newPath) + ".desktop";
+        'aip_${p.basenameWithoutExtension(newPath)}.desktop';
 
     String? iconName;
 
@@ -70,8 +68,8 @@ class AppimageToolsRepository {
       var desktopFile = Directory(squashDir)
           .listSync()
           .firstWhere((element) => p.extension(element.path) == ".desktop");
-      await desktopFile
-          .moveResolvedFile(_localPathService.applicationsDir + desktopfilename);
+      await desktopFile.moveResolvedFile(
+          _localPathService.applicationsDir + desktopfilename);
       String execPath = (await Process.run(
         "grep",
         [
@@ -124,16 +122,13 @@ class AppimageToolsRepository {
     }
 
     // Copy Icons
-    var iconsDir = Directory(squashDir + "/usr/share/icons");
+    var iconsDir = Directory("$squashDir/usr/share/icons");
 
     if (iconsDir.existsSync()) {
       for (FileSystemEntity icon in iconsDir.listSync(recursive: true)) {
         if (icon is File) {
-          icon.moveFile(p.dirname(icon.path) +
-              '/aip_' +
-              p.basenameWithoutExtension(icon.path) +
-              '_$checksum' +
-              p.extension(icon.path));
+          icon.moveFile(
+              '${p.dirname(icon.path)}/aip_${p.basenameWithoutExtension(icon.path)}_$checksum${p.extension(icon.path)}');
         }
       }
 
@@ -145,18 +140,14 @@ class AppimageToolsRepository {
     } else if (iconName != null) {
       // No icons in {squashDir}/usr/share/icons, search in top-level folder
       try {
-        var icon = Directory(squashDir)
-            .listSync()
-            .firstWhere((element) =>
-                p.basenameWithoutExtension(element.path) == iconName
-                && ['.png', '.svg'].contains(p.extension(element.path))
-            );
+        var icon = Directory(squashDir).listSync().firstWhere((element) =>
+            p.basenameWithoutExtension(element.path) == iconName &&
+            ['.png', '.svg'].contains(p.extension(element.path)));
 
         if (icon is File) {
-          if (!icon.resolveSymbolicLinksSync().startsWith(squashDir + "/")) {
-            throw FileSystemException(
-              'Symlink for icon points out of the AppDir boundary'
-            );
+          if (!icon.resolveSymbolicLinksSync().startsWith("$squashDir/")) {
+            throw const FileSystemException(
+                'Symlink for icon points out of the AppDir boundary');
           }
 
           String sizeName;
@@ -164,15 +155,14 @@ class AppimageToolsRepository {
           if (iconExt == '.png') {
             var iconData = await decodeImageFromList(icon.readAsBytesSync());
             int iconSize = iconData.height;
-            sizeName = "${iconSize}x${iconSize}";
+            sizeName = "${iconSize}x$iconSize";
           } else {
             sizeName = "scalable";
           }
 
-          var iconFilename = "aip_${iconName}_${checksum}${iconExt}";
+          var iconFilename = "aip_${iconName}_$checksum$iconExt";
           icon.moveResolvedFile(
-            localShareDir + "/icons/hicolor/${sizeName}/apps/${iconFilename}"
-          );
+              "$localShareDir/icons/hicolor/$sizeName/apps/$iconFilename");
         }
       } catch (e) {
         debugPrint("$e");
@@ -194,7 +184,7 @@ class AppimageToolsRepository {
         "grep",
         [
           "^Icon=",
-          _localPathService.applicationsDir + content[index] + ".desktop",
+          "${_localPathService.applicationsDir}${content[index]}.desktop",
         ],
         runInShell: true,
         workingDirectory: _localPathService.applicationsDir,
@@ -202,7 +192,7 @@ class AppimageToolsRepository {
           .stdout
           .split("=")[1]
           .trim();
-    } on RangeError {}
+    } on RangeError catch (_) {}
 
     for (var icon
         in Directory(_localPathService.iconsDir).listSync(recursive: true)) {
@@ -212,18 +202,15 @@ class AppimageToolsRepository {
     }
 
     // Delete Desktop file
-    await File(_localPathService.applicationsDir + content[index] + ".desktop")
+    await File("${_localPathService.applicationsDir}${content[index]}.desktop")
         .delete();
 
     // Remove checksum from app name
     final basenl = p.basenameWithoutExtension(file.path).split('_');
     file.moveFile(
-      p.dirname(file.path) +
-          '/' +
-          basenl.sublist(0, basenl.length - 1).join('_') +
-          p.extension(
-            file.path,
-          ),
+      '${p.dirname(file.path)}/${basenl.sublist(0, basenl.length - 1).join('_')}${p.extension(
+        file.path,
+      )}',
     );
   }
 

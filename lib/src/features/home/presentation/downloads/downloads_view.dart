@@ -49,7 +49,7 @@ class DownloadsView extends HookConsumerWidget {
                           Text(
                             i.name,
                             overflow: TextOverflow.ellipsis,
-                            style: context.textTheme.bodyText1,
+                            style: context.textTheme.bodyLarge,
                           ),
                           const Gap(3),
                           LinearProgressIndicator(
