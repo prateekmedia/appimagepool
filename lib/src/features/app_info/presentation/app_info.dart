@@ -1,3 +1,4 @@
+import 'package:appimagepool/src/features/home/presentation/installed/installed_view_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -13,6 +14,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:appimagepool/src/utils/utils.dart';
 import 'package:appimagepool/translations/translations.dart';
+import 'package:path/path.dart' as p;
 
 import '../../download/domain/download_item.dart';
 import '../domain/app.dart';
@@ -57,6 +59,46 @@ class AppInfo extends HookConsumerWidget {
             : SvgPicture.network(app.iconUrl!, width: size)
         : brokenImageWidget;
     final current = useState<int>(0);
+    final downloadList = ref
+        .watch(installedViewStateProvider)
+        .listInstalled
+        .where((element) => p
+            .basename(element.path)
+            .toLowerCase()
+            .contains(app.name!.toLowerCase()))
+        .toList();
+
+    Future<void> openApp() async {
+      if (!url.contains('github.com', 0)) {
+        url.launchIt();
+      } else {
+        if (!isLoadingDL.value) {
+          isLoadingDL.value = true;
+          List<String> v = url.split('github.com');
+          var u = 'https://api.github.com/repos${v[1]}';
+          List response;
+          try {
+            response = (await Dio().get(u)).data;
+          } catch (e) {
+            isLoadingDL.value = false;
+            return;
+          }
+          if (response.isNotEmpty && context.mounted) {
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) => DownloadDialog(
+                response,
+                appIcon(50),
+                (checkmap) => downloadApp(context, checkmap, ref),
+              ),
+            );
+          } else {
+            url.launchIt();
+          }
+          isLoadingDL.value = false;
+        }
+      }
+    }
 
     return AdwScaffold(
       actions: AdwActions().windowManager,
@@ -119,7 +161,42 @@ class AppInfo extends HookConsumerWidget {
                           ),
                         ),
                         const Gap(10),
-                        if (app.url != null && url.isNotEmpty)
+                        if (downloadList.isNotEmpty)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AdwButton(
+                                opaque: true,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(5),
+                                  bottomLeft: Radius.circular(5),
+                                ),
+                                backgroundColor: AdwColors.blue.backgroundColor,
+                                textStyle: const TextStyle(color: Colors.white),
+                                onPressed: () => ref
+                                    .read(programUtilsProvider)
+                                    .runProgram(
+                                      location:
+                                          p.dirname(downloadList.first.path),
+                                      program:
+                                          p.basename(downloadList.first.path),
+                                    ),
+                                child: const Text("Launch"),
+                              ),
+                              AdwButton(
+                                opaque: true,
+                                borderRadius: const BorderRadius.only(),
+                                backgroundColor: AdwColors.blue.backgroundColor,
+                                textStyle: const TextStyle(color: Colors.white),
+                                onPressed: openApp,
+                                child: const Icon(
+                                  LucideIcons.download,
+                                  size: 18,
+                                ),
+                              ),
+                            ],
+                          )
+                        else if (app.url != null && url.isNotEmpty)
                           AdwButton(
                             opaque: true,
                             backgroundColor: AdwColors.blue.backgroundColor,
