@@ -17,6 +17,9 @@ class InstalledViewController {
 
   final AppimageToolsRepository _appimageToolsRepository;
 
+  Future<FileSystemEntity?> loadAppImage() async =>
+      await _appimageToolsRepository.loadAppImage();
+
   Future<void> integrateOrRemove({
     required FileSystemEntity file,
     required List<String> content,

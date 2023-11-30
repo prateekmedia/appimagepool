@@ -98,5 +98,7 @@
   "integrate": "Integrate",
   "@integrate": {},
   "disintegrate": "Disintegrate",
-  "@disintegrate": {}
+  "@disintegrate": {},
+  "loadAppImage": "Load AppImage",
+  "@loadAppImage": {}
 }

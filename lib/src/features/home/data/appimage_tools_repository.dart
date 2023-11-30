@@ -18,6 +18,14 @@ class AppimageToolsRepository {
   AppimageToolsRepository(this._localPathService);
   final LocalPathService _localPathService;
 
+  Future<FileSystemEntity?> loadAppImage() async {
+    // final file = await _localPathService.pickAppImage();
+    // if (file != null) {
+    //   return file;
+    // }
+    return 1 as dynamic;
+  }
+
   Future<void> integrate(
     List<String> content,
     int index,

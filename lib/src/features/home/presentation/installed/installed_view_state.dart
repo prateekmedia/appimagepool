@@ -32,6 +32,14 @@ class InstalledViewState extends ChangeNotifier {
     refresh();
   }
 
+  Future<void> loadAppImage() async {
+    final file = await _installedViewController.loadAppImage();
+    if (file != null) {
+      listInstalled.add(file);
+      notifyListeners();
+    }
+  }
+
   Future<void> integrateOrRemove({
     required FileSystemEntity file,
     required int index,
