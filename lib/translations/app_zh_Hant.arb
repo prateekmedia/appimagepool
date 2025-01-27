@@ -94,5 +94,9 @@
   "graphics": "圖形",
   "@graphics": {},
   "integrate": "結合",
-  "@integrate": {}
+  "@integrate": {},
+  "portableHome": "便攜主資料夾",
+  "@portableHome": {},
+  "disintegrate": "從作業系統分開",
+  "@disintegrate": {}
 }
