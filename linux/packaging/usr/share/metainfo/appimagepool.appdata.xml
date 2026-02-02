@@ -12,6 +12,9 @@
 	</recommends>
 	<developer_name>prateekmedia</developer_name>
 	<url type="homepage">https://github.com/prateekmedia/appimagepool</url>
+	<url type="bugtracker">https://github.com/prateekmedia/appimagepool/issues</url>
+	<url type="donation">https://github.com/sponsors/prateekmedia</url>
+	<url type="vcs-browser">https://github.com/prateekmedia/appimagepool</url>
 	<description>
 		<p>Simple AppImageHub Client</p>
 		<p>Main Highlights:</p>
